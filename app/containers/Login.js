@@ -29,12 +29,16 @@ export default class Login extends Component {
       return console.warn('Unknown event url', event && event.url)
     }
 
-    const matches = event.url.match(/access_token=(.*)/)
+    console.warn(event.url)
+
+    const matches = event.url.match(/at=([^&]+)/)
     if( !matches ) {
       return console.warn('No access token provided', event && event.url)
     }
 
-    console.warn('Access Token', matches[1])
+    this.props.onLogin({
+      accessToken: matches[1]
+    })
   }
 
   login() {
@@ -43,7 +47,8 @@ export default class Login extends Component {
 
     const url = 'https://instagram.com/oauth/authorize/?client_id='+clientId+
         '&redirect_uri='+redirectUrl+
-        '&response_type=token'
+        '&response_type=code'+
+        '&state=client.ios'
     Linking.canOpenURL(url).then(supported => {
       if (!supported) {
         console.log('Can\'t handle url: ' + url)
