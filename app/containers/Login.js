@@ -42,7 +42,7 @@ export default class Login extends Component {
   }
 
   login() {
-    const redirectUrl = 'http://localhost:3000/webhooks/instagram'
+    const redirectUrl = 'https://superserious.ngrok.io/webhooks/instagram'
     const clientId    = '1c6d8f10063b4ac7b9010194c380b6fb'
 
     const url = 'https://instagram.com/oauth/authorize/?client_id='+clientId+

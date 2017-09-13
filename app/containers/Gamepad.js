@@ -26,7 +26,7 @@ export default class Gamepad extends Component {
   }
 
   componentDidMount() {
-    fetch('http://localhost:3000/recs', {
+    fetch('https://superserious.ngrok.io/recs', {
       headers: {'X-Access-Token': this.props.user.accessToken}
     }).then((response) => {
       return response.json()
@@ -68,7 +68,6 @@ export default class Gamepad extends Component {
           </View>
         :
           <View style={style.container}>
-            <Text style={{padding: 20}}>{this.state.index}</Text>
             <View style={style.tray}>
               <TouchableOpacity onPress={this.nope}>
                 <Text style={style.button}>No</Text>
@@ -78,7 +77,9 @@ export default class Gamepad extends Component {
               </TouchableOpacity>
             </View>
             <ScrollView style={[style.container]}>
-              <Image style={style.image} resizeMode="cover" source={{url: this.state.recs[this.state.index].imageUrl}} />
+              { this.state.recs[this.state.index].photos.map((p, key) => (
+                <Image key={key} style={style.image} resizeMode="cover" source={{url: p.url}} />
+              ))}
             </ScrollView>
           </View>
         }
