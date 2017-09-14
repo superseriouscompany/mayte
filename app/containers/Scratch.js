@@ -15,6 +15,26 @@ const firebase = RNFirebase.initializeApp({
 
 export default class Scratch extends Component {
   componentDidMount() {
+    console.log('chello')
+
+    firebase.messaging().requestPermissions()
+
+    firebase.messaging().getToken().then((token) => {
+      console.log('Device FCM Token: ', token)
+    })
+
+    firebase.messaging().onTokenRefresh((token) => {
+      console.log('Updated device FCM Token: ', token)
+    })
+
+    firebase.messaging().getInitialNotification().then((notification) => {
+      console.log('Notification which opened the app: ', notification)
+    })
+
+    firebase.messaging().onMessage((message) => {
+      console.log('Got message', message)
+    })
+
     firebase.database()
       .ref('posts')
       .on('value', (snapshot) => {
