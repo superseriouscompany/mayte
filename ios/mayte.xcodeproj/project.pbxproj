@@ -320,6 +320,7 @@
 		2D02E47B1E0B4A5D006451C7 /* mayte-tvOS.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "mayte-tvOS.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		2D02E4901E0B4A5D006451C7 /* mayte-tvOSTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "mayte-tvOSTests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		3F0A8A1E1F6A1FA8004544FE /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
+		3F3788291F6B280500E21A50 /* mayte.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; name = mayte.entitlements; path = mayte/mayte.entitlements; sourceTree = "<group>"; };
 		3F96AE541F6A1C820081E709 /* Firebase.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Firebase.h; sourceTree = "<group>"; };
 		3FE9CC111F6A195A005DD60C /* GoogleToolboxForMac.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = GoogleToolboxForMac.framework; sourceTree = "<group>"; };
 		3FE9CC121F6A195A005DD60C /* FirebaseCoreDiagnostics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = FirebaseCoreDiagnostics.framework; sourceTree = "<group>"; };
@@ -485,6 +486,7 @@
 		13B07FAE1A68108700A75B9A /* mayte */ = {
 			isa = PBXGroup;
 			children = (
+				3F3788291F6B280500E21A50 /* mayte.entitlements */,
 				3F0A8A1E1F6A1FA8004544FE /* GoogleService-Info.plist */,
 				008F07F21AC5B25A0029DE68 /* main.jsbundle */,
 				13B07FAF1A68108700A75B9A /* AppDelegate.h */,
@@ -724,6 +726,14 @@
 					};
 					13B07F861A680F5B00A75B9A = {
 						DevelopmentTeam = SL8THA84AW;
+						SystemCapabilities = {
+							com.apple.BackgroundModes = {
+								enabled = 1;
+							};
+							com.apple.Push = {
+								enabled = 1;
+							};
+						};
 					};
 					2D02E47A1E0B4A5D006451C7 = {
 						CreatedOnToolsVersion = 8.2.1;
@@ -1231,6 +1241,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = mayte/mayte.entitlements;
 				CURRENT_PROJECT_VERSION = 1;
 				DEAD_CODE_STRIPPING = NO;
 				DEVELOPMENT_TEAM = SL8THA84AW;
@@ -1257,6 +1268,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = mayte/mayte.entitlements;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = SL8THA84AW;
 				FRAMEWORK_SEARCH_PATHS = "$(PROJECT_DIR)";
