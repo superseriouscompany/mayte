@@ -58,10 +58,34 @@ export default class Login extends Component {
     }).catch(console.error)
   }
 
+  linkedinLogin() {
+    const redirectUrl = 'https://superserious.ngrok.io/webhooks/linkedin'
+    const clientId    = '77jqckdp1kbvtl'
+    const perms       = ['r_basicprofile', 'r_emailaddress']
+
+    const url = 'https://www.linkedin.com/uas/oauth2/authorization?client_id='+clientId+
+      '&response_type=code'+
+      '&state=client.ios'+
+      '&scope='+perms.join(' ').trim()+
+      '&redirect_uri='+redirectUrl
+
+    Linking.canOpenURL(url).then(supported => {
+      if (!supported) {
+        console.log('Can\'t handle url: ' + url)
+      } else {
+        return Linking.openURL(url)
+      }
+    }).catch(console.error)
+  }
+
   render() { return (
     <View style={style.container}>
       <TouchableOpacity onPress={this.login}>
         <Text style={style.button}>Login with Instagram</Text>
+      </TouchableOpacity>
+
+      <TouchableOpacity onPress={this.linkedinLogin}>
+        <Text style={style.button}>Login with LinkedIn</Text>
       </TouchableOpacity>
     </View>
   )}
@@ -70,7 +94,7 @@ export default class Login extends Component {
 const style = StyleSheet.create({
   container: {
     flex: 1,
-    justifyContent: 'center',
+    justifyContent: 'space-around',
     alignItems: 'center',
   },
 
