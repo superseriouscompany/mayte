@@ -1,6 +1,7 @@
 'use strict'
 
 import React, {Component} from 'react'
+import {connect} from 'react-redux'
 import {
   Linking,
   StyleSheet,
@@ -9,7 +10,7 @@ import {
   View,
 } from 'react-native'
 
-export default class Login extends Component {
+class Login extends Component {
   constructor(props) {
     super(props)
     this.login  = this.login.bind(this)
@@ -78,3 +79,5 @@ const style = StyleSheet.create({
     color: 'blue',
   },
 })
+
+export default connect()(Login)
