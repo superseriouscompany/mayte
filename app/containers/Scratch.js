@@ -2,12 +2,12 @@
 
 import React, {Component} from 'react'
 import RNFirebase from 'react-native-firebase'
+import { NativeModules, NativeEventEmitter } from 'react-native';
 import {
   Text,
   View,
 } from 'react-native'
 
-import { NativeModules, NativeEventEmitter } from 'react-native';
 
 const firebase = RNFirebase.initializeApp({
   debug: true,
