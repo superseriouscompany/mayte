@@ -7,6 +7,8 @@ import {
   View,
 } from 'react-native'
 
+import { NativeModules, NativeEventEmitter } from 'react-native';
+
 const firebase = RNFirebase.initializeApp({
   debug: true,
 })
@@ -19,19 +21,14 @@ export default class Scratch extends Component {
         console.warn('got snapshot', snapshot.val())
       })
 
-    // setTimeout(() => {
-    //   firebase.database()
-    //     .ref('posts')
-    //     .set({
-    //       title: 'My post',
-    //       content: 'Some content',
-    //     })
-    // }, 1000)
-
-    console.log(Object.keys(firebase))
-    firebase.auth().signInAnonymously().then((u) => {
-      console.warn(u.isAnonymous, u)
-    })
+    setTimeout(() => {
+      firebase.database()
+        .ref('posts')
+        .set({
+          title: 'My post',
+          content: 'Some content',
+        })
+    }, 1000)
   }
 
   render() {

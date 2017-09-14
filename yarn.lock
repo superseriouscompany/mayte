@@ -3335,9 +3335,9 @@ react-devtools-core@^2.5.0:
     shell-quote "^1.6.1"
     ws "^2.0.3"
 
-react-native-firebase@^2.2.0:
+"react-native-firebase@https://github.com/superseriouscompany/react-native-firebase":
   version "2.2.0"
-  resolved "https://registry.yarnpkg.com/react-native-firebase/-/react-native-firebase-2.2.0.tgz#2ff935db23e3b58ccc77fc62178eed484ad1eee1"
+  resolved "https://github.com/superseriouscompany/react-native-firebase#77979cf246c3bcd48256201b14fd1958c5678f61"
   dependencies:
     bows "^1.6.0"
     prop-types "^15.5.10"
