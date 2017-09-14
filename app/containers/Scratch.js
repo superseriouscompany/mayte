@@ -3,6 +3,7 @@
 import React, {Component} from 'react'
 import RNFirebase from 'react-native-firebase'
 import { NativeModules, NativeEventEmitter } from 'react-native';
+const { InAppUtils } = NativeModules
 import {
   Text,
   View,
@@ -16,6 +17,14 @@ const firebase = RNFirebase.initializeApp({
 export default class Scratch extends Component {
   componentDidMount() {
     console.log('chello')
+
+    const products = [
+      'com.mayte.dev.monthly'
+    ]
+    InAppUtils.loadProducts(products, (err, products) => {
+      if( err ) { console.error(err) }
+      console.log(products)
+    })
 
     firebase.messaging().requestPermissions()
 
