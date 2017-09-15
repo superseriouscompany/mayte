@@ -1,24 +1,14 @@
 'use strict'
 
 import React, {Component} from 'react'
-import {
-  ActivityIndicator,
-  Dimensions,
-  Text,
-  Image,
-  View,
-  StyleSheet,
-  ScrollView,
-  TouchableOpacity,
-} from 'react-native'
+import {connect}          from 'react-redux'
+import GamepadView        from '../components/GamepadView'
 
-const {width, height} = Dimensions.get('window')
-
-export default class Gamepad extends Component {
+class Gamepad extends Component {
   constructor(props) {
     super(props)
-    this.yup = this.yup.bind(this)
-    this.nope = this.nope.bind(this)
+    this.yup   = this.yup.bind(this)
+    this.nope  = this.nope.bind(this)
     this.state = {
       loading: true,
       index: 0,
@@ -27,7 +17,7 @@ export default class Gamepad extends Component {
 
   componentDidMount() {
     fetch('https://superserious.ngrok.io/recs', {
-      headers: {'X-Access-Token': this.props.user.accessToken}
+      headers: {'X-Access-Token': this.props.session.accessToken}
     }).then((response) => {
       return response.json()
     }).then((json) => {
@@ -51,72 +41,14 @@ export default class Gamepad extends Component {
   }
 
   render() {
-    const {props} = this
-    return (
-      <View style={style.container}>
-        { this.state.loading ?
-          <View style={style.centered}>
-            <ActivityIndicator />
-          </View>
-        : this.state.error ?
-          <View style={style.centered}>
-            <Text>{this.state.error}</Text>
-          </View>
-        : this.state.index >= this.state.recs.length ?
-          <View style={style.centered}>
-            <Text>No mas.</Text>
-          </View>
-        :
-          <View style={style.container}>
-            <View style={style.tray}>
-              <TouchableOpacity onPress={this.nope}>
-                <Text style={style.button}>No</Text>
-              </TouchableOpacity>
-              <TouchableOpacity onPress={this.yup}>
-                <Text style={style.button}>Yes</Text>
-              </TouchableOpacity>
-            </View>
-            <ScrollView style={[style.container]}>
-              { this.state.recs[this.state.index].photos.map((p, key) => (
-                <Image key={key} style={style.image} resizeMode="cover" source={{url: p.url}} />
-              ))}
-            </ScrollView>
-          </View>
-        }
-      </View>
-    )
+    return <GamepadView {...this.state} yup={this.yup} nope={this.nope}/>
   }
 }
 
-const style = StyleSheet.create({
-  container: {
-    flex: 1,
-  },
-
-  tray: {
-    backgroundColor: 'hotpink',
-    position: 'absolute',
-    top: height - 50,
-    height: 50,
-    zIndex: 1,
-    width: '100%',
-    flexDirection: 'row',
-    justifyContent: 'space-around',
-    alignItems: 'center',
-  },
-
-  button: {
-    color: 'white',
-  },
-
-  image: {
-    height: height,
-    width: width,
-  },
-
-  centered: {
-    flex:           1,
-    alignItems:     'center',
-    justifyContent: 'center',
+function mapStateToProps(state) {
+  return {
+    session: state.session
   }
-})
+}
+
+export default connect(mapStateToProps)(Gamepad)

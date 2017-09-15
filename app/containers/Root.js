@@ -1,11 +1,10 @@
 'use strict'
 
 import React, {Component} from 'react'
-import Login              from './Login'
-import Gamepad            from './Gamepad'
-import Scratch            from './Scratch'
-
-const useScratch = true
+import Stage            from './Stage'
+import store              from '../reducers'
+import {Provider}         from 'react-redux'
+import {View}             from 'react-native'
 
 export default class Root extends Component {
   constructor(props) {
@@ -21,11 +20,12 @@ export default class Root extends Component {
   }
 
   render() {
-    return useScratch ?
-      <Scratch />
-    : !this.state.user ?
-      <Login onLogin={this.login}/>
-    :
-      <Gamepad user={this.state.user} />
+    return (
+      <Provider store={store}>
+        <View style={{flex: 1}}>
+          <Stage />
+        </View>
+      </Provider>
+    )
   }
 }

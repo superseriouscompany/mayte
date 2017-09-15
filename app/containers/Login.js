@@ -1,15 +1,13 @@
 'use strict'
 
 import React, {Component} from 'react'
+import {connect} from 'react-redux'
+import LoginView from '../components/LoginView'
 import {
   Linking,
-  StyleSheet,
-  Text,
-  TouchableOpacity,
-  View,
 } from 'react-native'
 
-export default class Login extends Component {
+class Login extends Component {
   constructor(props) {
     super(props)
     this.login  = this.login.bind(this)
@@ -79,26 +77,19 @@ export default class Login extends Component {
   }
 
   render() { return (
-    <View style={style.container}>
-      <TouchableOpacity onPress={this.login}>
-        <Text style={style.button}>Login with Instagram</Text>
-      </TouchableOpacity>
-
-      <TouchableOpacity onPress={this.linkedinLogin}>
-        <Text style={style.button}>Login with LinkedIn</Text>
-      </TouchableOpacity>
-    </View>
+    <LoginView linkedinLogin={this.linkedinLogin} login={this.login} {...this.props} />
   )}
 }
 
-const style = StyleSheet.create({
-  container: {
-    flex: 1,
-    justifyContent: 'space-around',
-    alignItems: 'center',
-  },
+function mapStateToProps(state) {
+}
 
-  button: {
-    color: 'blue',
-  },
-})
+function mapDispatchToProps(dispatch) {
+  return {
+    onLogin: function(session) {
+      dispatch({type: 'session:create', session: session})
+    }
+  }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(Login)
