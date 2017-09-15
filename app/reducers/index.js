@@ -9,7 +9,7 @@ import {
   combineReducers,
 } from 'redux'
 
-import user from './user'
+import session from './session'
 
 const middleware = [thunk]
 if( __DEV__ ) {
@@ -17,7 +17,7 @@ if( __DEV__ ) {
 }
 
 const reducers = combineReducers({
-  user,
+  session,
 })
 
 const store = createStore(
@@ -30,7 +30,7 @@ const store = createStore(
 )
 
 const persistence = persistStore(store, {storage: AsyncStorage, whitelist: [
-  'user',
+  'session',
 ]})
 
 export default store
