@@ -5,7 +5,7 @@ import Login              from './Login'
 import Gamepad            from './Gamepad'
 import Scratch            from './Scratch'
 
-const useScratch = false
+const useScratch = true
 
 export default class Root extends Component {
   constructor(props) {
