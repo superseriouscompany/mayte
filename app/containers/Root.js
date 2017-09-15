@@ -3,9 +3,9 @@
 import React, {Component} from 'react'
 import Login              from './Login'
 import Gamepad            from './Gamepad'
-import Chat               from './Chat'
+import Scratch            from './Scratch'
 
-const stub = true
+const useScratch = true
 
 export default class Root extends Component {
   constructor(props) {
@@ -21,8 +21,8 @@ export default class Root extends Component {
   }
 
   render() {
-    return stub ?
-      <Chat />
+    return useScratch ?
+      <Scratch />
     : !this.state.user ?
       <Login onLogin={this.login}/>
     :
