@@ -5,6 +5,7 @@ import RNFirebase from 'react-native-firebase'
 import { NativeModules, NativeEventEmitter } from 'react-native'
 import { GeoLocation } from 'react-native'
 const { InAppUtils } = NativeModules
+import Wallet from 'react-native-wallet'
 import {
   Text,
   TouchableOpacity,
@@ -34,16 +35,24 @@ export default class Scratch extends Component {
   }
 
   componentDidMount() {
-    console.log('chello')
+
+    Wallet.canAddPasses((ok) => {
+      if( !ok ) { return console.error('Unable to add passes') }
+
+      Wallet.showAddPassController('https://superserious.ngrok.io/nope.pkpass').then((ok) => {
+        console.log('added pass', ok)
+      }).catch((err) => {
+        console.warn(err)
+      })
+    })
 
     navigator.geolocation.requestAuthorization()
 
     navigator.geolocation.getCurrentPosition(function yes(cool) {
-      alert('got it')
       console.log(cool)
     }, function no(err) {
-      alert('nope')
-      console.log(err)
+      alert('Couldn\'t get location')
+      console.warn(err)
     })
 
     const products = [
@@ -90,6 +99,8 @@ export default class Scratch extends Component {
         .set({
           title: 'My post',
           content: 'Some content',
+        }).catch((err) => {
+          console.warn(err)
         })
     }, 1000)
   }
