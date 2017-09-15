@@ -2,7 +2,8 @@
 
 import React, {Component} from 'react'
 import RNFirebase from 'react-native-firebase'
-import { NativeModules, NativeEventEmitter } from 'react-native';
+import { NativeModules, NativeEventEmitter } from 'react-native'
+import { GeoLocation } from 'react-native'
 const { InAppUtils } = NativeModules
 import {
   Text,
@@ -34,6 +35,16 @@ export default class Scratch extends Component {
 
   componentDidMount() {
     console.log('chello')
+
+    navigator.geolocation.requestAuthorization()
+
+    navigator.geolocation.getCurrentPosition(function yes(cool) {
+      alert('got it')
+      console.log(cool)
+    }, function no(err) {
+      alert('nope')
+      console.log(err)
+    })
 
     const products = [
       'com.mayte.dev.monthly'

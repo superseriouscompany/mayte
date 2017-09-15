@@ -45,7 +45,7 @@
 		</dict>
 	</dict>
 	<key>NSLocationWhenInUseUsageDescription</key>
-	<string></string>
+	<string>Lorem ipsum</string>
 	<key>UIBackgroundModes</key>
 	<array>
 		<string>remote-notification</string>
