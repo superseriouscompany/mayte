@@ -3335,6 +3335,10 @@ react-devtools-core@^2.5.0:
     shell-quote "^1.6.1"
     ws "^2.0.3"
 
+react-native-branch@^2.0.0:
+  version "2.0.0"
+  resolved "https://registry.yarnpkg.com/react-native-branch/-/react-native-branch-2.0.0.tgz#da3108ebc0b93fc80b8a0c5fc85c0abece03ff8d"
+
 "react-native-firebase@https://github.com/superseriouscompany/react-native-firebase":
   version "2.2.0"
   resolved "https://github.com/superseriouscompany/react-native-firebase#77979cf246c3bcd48256201b14fd1958c5678f61"
