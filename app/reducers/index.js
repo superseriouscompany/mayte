@@ -9,7 +9,9 @@ import {
   combineReducers,
 } from 'redux'
 
-import session from './session'
+import hydrated from './hydrated'
+import scene    from './scene'
+import session  from './session'
 
 const middleware = [thunk]
 if( __DEV__ ) {
@@ -17,6 +19,8 @@ if( __DEV__ ) {
 }
 
 const reducers = combineReducers({
+  hydrated,
+  scene,
   session,
 })
 

@@ -2,23 +2,37 @@
 
 import React, {Component} from 'react'
 import {connect}          from 'react-redux'
-import StageView          from '../components/StageView'
 import Login              from './Login'
 import Gamepad            from './Gamepad'
+import Settings           from './Settings'
+import Matches            from './Matches'
+
+const useScratch = false
 
 class Stage extends Component {
   render() {
     const {props} = this
 
-    return (
-      <StageView {...this.props} />
-    )
+    return !props.hydrated ?
+      null
+    : useScratch ?
+      <Scratch />
+    : !props.authenticated ?
+      <Login />
+    : props.scene == 'Settings' ?
+      <Settings />
+    : props.scene == 'Matches' ?
+      <Matches />
+    :
+      <Gamepad />
   }
 }
 
 function mapStateToProps(state) {
   return {
-    session: state.session
+    authenticated: !!state.session.accessToken,
+    hydrated:      state.hydrated,
+    scene:         state.scene.name,
   }
 }
 

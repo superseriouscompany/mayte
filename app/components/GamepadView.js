@@ -1,6 +1,7 @@
 'use strict'
 
 import React, {Component} from 'react'
+import Header from '../containers/Header'
 import {
   ActivityIndicator,
   Dimensions,
@@ -18,17 +19,19 @@ const {width, height} = Dimensions.get('window')
 export default function(props) {
   return (
     <View style={style.container}>
+      <Header />
+
       { props.loading ?
         <View style={style.centered}>
           <ActivityIndicator />
         </View>
       : props.error ?
         <View style={style.centered}>
-          <Text>{props.error}</Text>
+          <Text style={style.error}>{props.error}</Text>
         </View>
-      : props.index >= props.recs.length ?
+      : props.exhausted ?
         <View style={style.centered}>
-          <Text>No mas.</Text>
+          <Text>There's no one new around you.</Text>
         </View>
       :
         <View style={style.container}>
@@ -81,5 +84,9 @@ const style = StyleSheet.create({
     flex:           1,
     alignItems:     'center',
     justifyContent: 'center',
+  },
+
+  error: {
+    color: 'red',
   }
 })

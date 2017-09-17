@@ -3,6 +3,7 @@
 import React, {Component} from 'react'
 import {connect}          from 'react-redux'
 import GamepadView        from '../components/GamepadView'
+import api                from '../services/api'
 
 class Gamepad extends Component {
   constructor(props) {
@@ -16,18 +17,19 @@ class Gamepad extends Component {
   }
 
   componentDidMount() {
-    fetch('https://superserious.ngrok.io/recs', {
-      headers: {'X-Access-Token': this.props.session.accessToken}
-    }).then((response) => {
-      return response.json()
-    }).then((json) => {
+    api('/recs', {accessToken: this.props.session.accessToken}).then((r) => {
       this.setState({
-        recs: json.recs,
+        recs: r.recs,
         loading: false,
       })
     }).catch((err) => {
-      console.warn(err)
-      this.setState({error: err.message, loading: false})
+      if( err.statusCode === 401 ) {
+        return this.props.logout()
+      }
+      if( err.statusCode === 410 ) {
+        return this.setState({loading: false, exhausted: true})
+      }
+      this.setState({error: err.message || err, loading: false})
     })
   }
 
@@ -51,4 +53,12 @@ function mapStateToProps(state) {
   }
 }
 
-export default connect(mapStateToProps)(Gamepad)
+function mapDispatchToProps(dispatch) {
+  return {
+    logout: function() {
+      dispatch({type: 'session:destroy'})
+    }
+  }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(Gamepad)
