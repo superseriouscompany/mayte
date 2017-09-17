@@ -25,7 +25,7 @@ class Stage extends Component {
     : props.scene == 'Matches' ?
       <Matches />
     : props.scene == 'Chat' ?
-      <Chat userId={props.params.userId}/>
+      <Chat userId={props.params.userId} myId={'HJyOmP2qW'}/>
     :
       <Recs />
   }

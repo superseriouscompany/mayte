@@ -35,8 +35,8 @@ class Chat extends Component {
       const messages = r.messages.map((m) => {
         m._id = m.id,
         m.user = {
-          _id: this.props.userId,
-          name: 'Sancho Panza',
+          _id:    m.userId,
+          name:   'Sancho Panza',
           avatar: 'https://facebook.github.io/react/img/logo_og.png',
         }
         return m
