@@ -3,7 +3,7 @@
 import React, {Component} from 'react'
 import {connect}          from 'react-redux'
 import Login              from './Login'
-import Gamepad            from './Gamepad'
+import Recs               from './Recs'
 import Settings           from './Settings'
 import Matches            from './Matches'
 
@@ -24,7 +24,7 @@ class Stage extends Component {
     : props.scene == 'Matches' ?
       <Matches />
     :
-      <Gamepad />
+      <Recs />
   }
 }
 

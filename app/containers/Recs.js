@@ -2,10 +2,10 @@
 
 import React, {Component} from 'react'
 import {connect}          from 'react-redux'
-import GamepadView        from '../components/GamepadView'
+import RecsView        from '../components/RecsView'
 import api                from '../services/api'
 
-class Gamepad extends Component {
+class Recs extends Component {
   constructor(props) {
     super(props)
     this.yup   = this.yup.bind(this)
@@ -43,7 +43,7 @@ class Gamepad extends Component {
   }
 
   render() {
-    return <GamepadView {...this.state} yup={this.yup} nope={this.nope}/>
+    return <RecsView {...this.state} yup={this.yup} nope={this.nope}/>
   }
 }
 
@@ -61,4 +61,4 @@ function mapDispatchToProps(dispatch) {
   }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(Gamepad)
+export default connect(mapStateToProps, mapDispatchToProps)(Recs)

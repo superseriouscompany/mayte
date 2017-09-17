@@ -15,7 +15,7 @@ export default function(props) {
         <Text style={style.button}>Settings</Text>
       </TouchableOpacity>
 
-      <TouchableOpacity onPress={props.showGamepad}>
+      <TouchableOpacity onPress={props.showRecs}>
         <Text style={style.button}>(logo)</Text>
       </TouchableOpacity>
 

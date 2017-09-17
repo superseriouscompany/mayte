@@ -30,8 +30,8 @@ function mapDispatchToProps(dispatch) {
       dispatch({type: 'scene:change', scene: 'Matches'})
     },
 
-    showGamepad: function() {
-      dispatch({type: 'scene:change', scene: 'Gamepad'})
+    showRecs: function() {
+      dispatch({type: 'scene:change', scene: 'Recs'})
     }
   }
 }
