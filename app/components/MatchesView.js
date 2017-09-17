@@ -30,7 +30,7 @@ export default function(props) {
       :
         <View style={{flex: 1}}>
           { props.matches.map((m, key) => (
-            <Text>{JSON.stringify(m)}</Text>
+            <Text key={key}>{JSON.stringify(m)}</Text>
           ))}
         </View>
       }

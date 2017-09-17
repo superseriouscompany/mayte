@@ -29,14 +29,15 @@ export default function(props) {
 const style = StyleSheet.create({
   container: {
     paddingTop: 25,
-    paddingBottom: 5,
+    paddingBottom: 20,
     paddingRight: 5,
     paddingLeft: 5,
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
     borderBottomWidth: 1,
-    borderColor: 'hotpink',
+    borderColor: 'black',
+    backgroundColor: 'lightgrey'
   },
   button: {
     color: 'blue',

@@ -27,8 +27,6 @@ class Login extends Component {
       return console.warn('Unknown event url', event && event.url)
     }
 
-    console.warn(event.url)
-
     const matches = event.url.match(/at=([^&]+)/)
     if( !matches ) {
       return console.warn('No access token provided', event && event.url)
