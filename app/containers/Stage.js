@@ -6,6 +6,7 @@ import Login              from './Login'
 import Recs               from './Recs'
 import Settings           from './Settings'
 import Matches            from './Matches'
+import Chat               from './Chat'
 
 const useScratch = false
 
@@ -23,6 +24,8 @@ class Stage extends Component {
       <Settings />
     : props.scene == 'Matches' ?
       <Matches />
+    : props.scene == 'Chat' ?
+      <Chat userId={props.params.userId}/>
     :
       <Recs />
   }
@@ -33,6 +36,7 @@ function mapStateToProps(state) {
     authenticated: !!state.session.accessToken,
     hydrated:      state.hydrated,
     scene:         state.scene.name,
+    params:        state.scene,
   }
 }
 

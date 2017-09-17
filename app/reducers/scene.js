@@ -1,5 +1,10 @@
+// const initialState = {
+//   name: 'Login'
+// }
+
 const initialState = {
-  name: 'Login'
+  name: 'Chat',
+  userId: 'SySyz_n5W',
 }
 export default function(state=initialState, action) {
   switch(action.type) {

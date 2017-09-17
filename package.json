@@ -11,6 +11,7 @@
     "react-native": "0.48.2",
     "react-native-branch": "^2.0.0",
     "react-native-firebase": "https://github.com/superseriouscompany/react-native-firebase",
+    "react-native-gifted-chat": "^0.2.7",
     "react-native-in-app-utils": "^5.6.0",
     "react-native-wallet": "^1.0.2",
     "react-redux": "^5.0.6",
