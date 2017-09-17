@@ -1,8 +1,8 @@
 'use strict'
 
-import React, {Component} from 'react'
-import { GiftedChat }     from 'react-native-gifted-chat'
-import Header             from '../containers/Header'
+import React, {Component}     from 'react'
+import { GiftedChat, Bubble } from 'react-native-gifted-chat'
+import Header                 from '../containers/Header'
 import {
   ActivityIndicator,
   StyleSheet,
@@ -30,6 +30,26 @@ export default function(props) {
           messages={props.messages}
           onSend={(messages) => props.onSend(messages)}
           user={{_id: props.myId}}
+          renderBubble={(props) => (
+            <Bubble
+              {...props}
+              containerToNextStyle={{
+                left: {
+                  borderBottomLeftRadius: 15,
+                },
+                right: {
+                  borderBottomRightRadius: 15,
+                },
+              }}
+              containerToPreviousStyle={{
+                left: {
+                  borderTopLeftRadius: 15,
+                },
+                right: {
+                  borderTopRightRadius: 15,
+                },
+              }} />
+          )}
           />
       }
     </View>

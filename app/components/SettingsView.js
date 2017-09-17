@@ -38,12 +38,14 @@ export default function(props) {
           <Text style={style.title}>{props.user && props.user.fullName}</Text>
           <View style={style.grid}>
             { props.photos.map((p, key) => (
-              <Image key={key}
-                     source={{url: p.thumbnail.url}}
-                     style={[style.image, {
-                       width: width / 3,
-                       height: width / 3,
-                     }]} />
+              <TouchableOpacity key={key}
+                                onPress={() => p.isActive ? props.deactivate(p.instagramId) : props.activate(p.instagramId)}>
+                <Image source={{url: p.thumbnail.url}}
+                       style={[style.image, {
+                         width: width / 3,
+                         height: width / 3,
+                       }, p.isActive ? style.active : style.inactive]} />
+              </TouchableOpacity>
             ))}
           </View>
           <TouchableOpacity onPress={props.logout}>
@@ -79,5 +81,10 @@ const style = StyleSheet.create({
     color: 'blue',
     textAlign: 'center',
     padding: 10,
-  }
+  },
+  active: {
+  },
+  inactive: {
+    opacity: .25,
+  },
 })
