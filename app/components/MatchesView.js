@@ -31,7 +31,7 @@ export default function(props) {
       :
         <View style={{flex: 1}}>
           { props.matches.map((m, key) => (
-            <MatchView key={key} match={m} viewChat={() => props.viewChat(m.otherId)}></MatchView>
+            <MatchView key={key} match={m} viewChat={() => props.viewChat(m.user)}></MatchView>
           ))}
         </View>
       }

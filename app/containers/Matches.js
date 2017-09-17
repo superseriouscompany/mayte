@@ -36,8 +36,8 @@ function mapStateToProps(state) {
 
 function mapDispatchToProps(dispatch) {
   return {
-    viewChat: function(userId) {
-      dispatch({type: 'scene:change', scene: { name: 'Chat', userId: userId}})
+    viewChat: function(user) {
+      dispatch({type: 'scene:change', scene: { name: 'Chat', user: user}})
     }
   }
 }

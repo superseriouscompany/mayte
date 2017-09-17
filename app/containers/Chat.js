@@ -36,8 +36,8 @@ class Chat extends Component {
         m._id = m.id,
         m.user = {
           _id:    m.userId,
-          name:   'Sancho Panza',
-          avatar: 'https://facebook.github.io/react/img/logo_og.png',
+          name:   this.props.user.fullName.split(' ')[0],
+          avatar: this.props.user.photos[0].url,
         }
         return m
       })
@@ -57,7 +57,8 @@ class Chat extends Component {
 
 function mapStateToProps(state) {
   return {
-    userId:      state.scene.userId,
+    user:        state.scene.user,
+    userId:      state.scene.user.id,
     accessToken: state.session.accessToken,
   }
 }
