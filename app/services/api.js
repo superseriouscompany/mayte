@@ -1,6 +1,6 @@
 export const baseUrl = __DEV__ ?
   'https://superserious.ngrok.io' :
-  'https://api.mayte.com';
+  'https://superserious.ngrok.io';
 
 export default function request(path, options = {}) {
   if( path[0] != '/' ) path = `/${path}`;
