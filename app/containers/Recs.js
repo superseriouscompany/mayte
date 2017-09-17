@@ -8,8 +8,8 @@ import api                from '../services/api'
 class Recs extends Component {
   constructor(props) {
     super(props)
-    this.yup   = this.yup.bind(this)
-    this.nope  = this.nope.bind(this)
+    this.like   = this.like.bind(this)
+    this.pass  = this.pass.bind(this)
     this.state = {
       loading: true,
       index: 0,
@@ -17,7 +17,7 @@ class Recs extends Component {
   }
 
   componentDidMount() {
-    api('/recs', {accessToken: this.props.session.accessToken}).then((r) => {
+    api('/recs', {accessToken: this.props.accessToken}).then((r) => {
       this.setState({
         recs: r.recs,
         loading: false,
@@ -33,23 +33,39 @@ class Recs extends Component {
     })
   }
 
-  yup() {
-    alert('It\'s a match!')
-    this.setState({index: this.state.index + 1})
+  like(userId) {
+    api(`/ratings/${userId}/like`, {
+      method: 'POST',
+      accessToken: this.props.accessToken
+    }).then((r) => {
+      if( r.match ) { alert('It\'s a match!') }
+      this.setState({index: this.state.index + 1})
+    }).catch((err) => {
+      console.error(err)
+      alert(err.message || err)
+    })
   }
 
-  nope() {
-    this.setState({index: this.state.index + 1})
+  pass(userId) {
+    api(`/ratings/${userId}/pass`, {
+      method: 'POST',
+      accessToken: this.props.accessToken
+    }).then((r) => {
+      this.setState({index: this.state.index + 1})
+    }).catch((err) => {
+      console.error(err)
+      alert(err.message || err)
+    })
   }
 
   render() {
-    return <RecsView {...this.state} yup={this.yup} nope={this.nope}/>
+    return <RecsView {...this.state} like={this.like} pass={this.pass}/>
   }
 }
 
 function mapStateToProps(state) {
   return {
-    session: state.session
+    accessToken: state.session.accessToken
   }
 }
 

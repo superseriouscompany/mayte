@@ -29,17 +29,17 @@ export default function(props) {
         <View style={style.centered}>
           <Text style={style.error}>{props.error}</Text>
         </View>
-      : props.exhausted ?
+      : props.exhausted || props.index >= props.recs.length ?
         <View style={style.centered}>
           <Text>There's no one new around you.</Text>
         </View>
       :
         <View style={style.container}>
           <View style={style.tray}>
-            <TouchableOpacity onPress={props.nope}>
+            <TouchableOpacity onPress={() => props.pass(props.recs[props.index].id)}>
               <Text style={style.button}>No</Text>
             </TouchableOpacity>
-            <TouchableOpacity onPress={props.yup}>
+            <TouchableOpacity onPress={() => props.like(props.recs[props.index].id)}>
               <Text style={style.button}>Yes</Text>
             </TouchableOpacity>
           </View>
@@ -62,7 +62,7 @@ const style = StyleSheet.create({
   tray: {
     backgroundColor: 'hotpink',
     position: 'absolute',
-    top: height - 50,
+    bottom: 0,
     height: 50,
     zIndex: 1,
     width: '100%',

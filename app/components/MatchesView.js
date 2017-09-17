@@ -1,7 +1,8 @@
 'use strict'
 
 import React, {Component} from 'react'
-import Header from '../containers/Header'
+import Header             from '../containers/Header'
+import MatchView          from './MatchView'
 import {
   ActivityIndicator,
   StyleSheet,
@@ -30,7 +31,7 @@ export default function(props) {
       :
         <View style={{flex: 1}}>
           { props.matches.map((m, key) => (
-            <Text key={key}>{JSON.stringify(m)}</Text>
+            <MatchView key={key} match={m} viewChat={() => props.viewChat(m.otherId)}></MatchView>
           ))}
         </View>
       }
