@@ -44,7 +44,7 @@ class Settings extends Component {
   }
 
   calculateActive(activeIds, photos) {
-    return photos.map((p) => {
+    return (photos || []).map((p) => {
       p.isActive = activeIds.indexOf(p.instagramId) !== -1
       return p
     })
@@ -59,7 +59,6 @@ class Settings extends Component {
       const user = v[0]
       const activeIds = user.photos.map(p => p.instagramId)
       const photos = this.calculateActive(activeIds, v[1].photos)
-      console.log(photos)
       this.setState({ user: user, activeIds: activeIds, photos: photos, loading: false })
     }).catch((err) => {
       this.setState({ loading: false, error: err.message || err })

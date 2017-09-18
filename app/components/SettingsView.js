@@ -28,10 +28,16 @@ export default function(props) {
           <Text style={style.error}>
             {props.error}
           </Text>
+          <TouchableOpacity onPress={props.logout}>
+            <Text style={style.button}>Sign Out</Text>
+          </TouchableOpacity>
         </View>
       : !props.photos.length ?
         <View style={style.centered}>
           <Text>You have no photos available.</Text>
+          <TouchableOpacity onPress={props.logout}>
+            <Text style={style.button}>Sign Out</Text>
+          </TouchableOpacity>
         </View>
       :
         <ScrollView style={{flex: 1}}>
