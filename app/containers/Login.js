@@ -23,7 +23,8 @@ class Login extends Component {
   }
 
   handle(event) {
-    if( !event.url || !event.url.match(/mayte:\/\/ig/) ) {
+    if( !event.url ||
+        (!event.url.match(/mayte:\/\/ig/) && !event.url.match(/mayte:\/\/li/)) ) {
       return console.warn('Unknown event url', event && event.url)
     }
 
