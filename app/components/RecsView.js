@@ -43,6 +43,7 @@ export default function(props) {
               <Text style={style.button}>Yes</Text>
             </TouchableOpacity>
           </View>
+          <Text style={style.name}>{props.recs[props.index].fullName.split(' ')[0]}, {20 + Math.floor(Math.random() * 10)} ({Math.ceil(Math.random() * 5)} miles away)</Text>
           <ScrollView style={[style.container]}>
             { (props.recs[props.index].photos || []).map((p, key) => (
               <Image key={key} style={style.image} resizeMode="cover" source={{url: p.url}} />
@@ -60,7 +61,7 @@ const style = StyleSheet.create({
   },
 
   tray: {
-    backgroundColor: 'hotpink',
+    backgroundColor: '#d6d6d6',
     position: 'absolute',
     bottom: 0,
     height: 50,
@@ -88,5 +89,17 @@ const style = StyleSheet.create({
 
   error: {
     color: 'red',
+  },
+
+  name: {
+    position: 'absolute',
+    top: 0,
+    padding: 10,
+    left: 0,
+    right: 0,
+    backgroundColor: 'rgba(0,0,0,0.6)',
+    color: 'white',
+    textAlign: 'center',
+    zIndex: 1,
   }
 })
