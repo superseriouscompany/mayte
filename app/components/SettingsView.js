@@ -37,7 +37,7 @@ export default function(props) {
         <ScrollView style={{flex: 1}}>
           <Text style={style.title}>{props.user && props.user.fullName}</Text>
           <View style={style.grid}>
-            { props.photos.map((p, key) => (
+            { (props.photos || []).map((p, key) => (
               <TouchableOpacity key={key}
                                 onPress={() => p.isActive ? props.deactivate(p.instagramId) : props.activate(p.instagramId)}>
                 <Image source={{url: p.thumbnail.url}}

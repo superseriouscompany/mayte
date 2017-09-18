@@ -44,7 +44,7 @@ export default function(props) {
             </TouchableOpacity>
           </View>
           <ScrollView style={[style.container]}>
-            { props.recs[props.index].photos.map((p, key) => (
+            { (props.recs[props.index].photos || []).map((p, key) => (
               <Image key={key} style={style.image} resizeMode="cover" source={{url: p.url}} />
             ))}
           </ScrollView>
