@@ -1,8 +1,9 @@
 'use strict'
 
 import React, {Component} from 'react'
-import {connect} from 'react-redux'
-import LoginView from '../components/LoginView'
+import {connect}          from 'react-redux'
+import LoginView          from '../components/LoginView'
+import {baseUrl}          from '../services/api'
 import {
   Linking,
 } from 'react-native'
@@ -39,7 +40,7 @@ class Login extends Component {
   }
 
   login() {
-    const redirectUrl = 'https://superserious.ngrok.io/webhooks/instagram'
+    const redirectUrl = `${baseUrl}/webhooks/instagram`
     const clientId    = '1c6d8f10063b4ac7b9010194c380b6fb'
 
     const url = 'https://instagram.com/oauth/authorize/?client_id='+clientId+
@@ -56,7 +57,7 @@ class Login extends Component {
   }
 
   linkedinLogin() {
-    const redirectUrl = 'https://superserious.ngrok.io/webhooks/linkedin'
+    const redirectUrl = `${baseUrl}/webhooks/linkedin`
     const clientId    = '77jqckdp1kbvtl'
     const perms       = ['r_basicprofile', 'r_emailaddress']
 

@@ -1,6 +1,6 @@
 export const baseUrl = __DEV__ ?
   'https://superserious.ngrok.io' :
-  'https://superserious.ngrok.io';
+  'https://nwhj3zzqi6.execute-api.us-west-2.amazonaws.com/development';
 
 export default function request(path, options = {}) {
   if( path[0] != '/' ) path = `/${path}`;
