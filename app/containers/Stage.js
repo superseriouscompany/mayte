@@ -7,6 +7,7 @@ import Recs               from './Recs'
 import Settings           from './Settings'
 import Matches            from './Matches'
 import Chat               from './Chat'
+import Scratch            from './Scratch'
 
 const useScratch = false
 
