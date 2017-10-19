@@ -16,3 +16,5 @@
 ## Run Android
 
     react-native run-android
+
+Note: when running in development, this expects https://github.com/superseriouscompany/api.mayte.com to be running at https://superserious.ngrok.io
