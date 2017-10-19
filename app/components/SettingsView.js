@@ -41,7 +41,7 @@ export default function(props) {
         </View>
       :
         <ScrollView style={{flex: 1}}>
-          <Text style={style.title}>{props.user && props.user.fullName}</Text>
+          <Text style={style.title}>{props.user && props.user.fullName} ID: {props.user && props.user.id}</Text>
           <View style={style.grid}>
             { (props.photos || []).map((p, key) => (
               <TouchableOpacity key={key}
