@@ -13,6 +13,7 @@ class Recs extends Component {
     this.state = {
       loading: true,
       index: 0,
+      viewHeight: 0,
     }
   }
 
@@ -59,7 +60,10 @@ class Recs extends Component {
   }
 
   render() {
-    return <RecsView {...this.state} like={this.like} pass={this.pass}/>
+    return <RecsView {...this.state}
+                     setHeight={(h) => this.setState({viewHeight: h})}
+                     like={this.like}
+                     pass={this.pass} />
   }
 }
 

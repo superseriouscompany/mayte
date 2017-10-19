@@ -11,12 +11,15 @@ import {
   Text,
   TouchableOpacity,
   View,
+  Animated,
 } from 'react-native'
 
 const useScratch = false
 const {width, height} = Dimensions.get('window')
 
 export default function(props) {
+  const imgStyle = {width: width, height: props.viewHeight}
+
   return (
     <View style={style.container}>
       <Header />
@@ -44,9 +47,18 @@ export default function(props) {
             </TouchableOpacity>
           </View>
           <Text style={style.name}>{props.recs[props.index].fullName.split(' ')[0]}, {20 + Math.floor(Math.random() * 10)} ({Math.ceil(Math.random() * 5)} miles away)</Text>
-          <ScrollView style={[style.container]}>
+          <ScrollView style={[style.container]}
+                      onLayout={(e) => {
+                        const {height} = e.nativeEvent.layout
+                        props.setHeight(height)
+                      }}
+                      showsVerticalScrollIndicator={false}
+                      pagingEnabled>
             { (props.recs[props.index].photos || []).map((p, key) => (
-              <Image key={key} style={style.image} resizeMode="cover" source={{url: p.url}} />
+              <Image key={key}
+                     style={imgStyle}
+                     resizeMode="cover"
+                     source={{url: p.url}} />
             ))}
           </ScrollView>
         </View>
@@ -76,11 +88,6 @@ const style = StyleSheet.create({
     color: 'white',
   },
 
-  image: {
-    height: height,
-    width: width,
-  },
-
   centered: {
     flex:           1,
     alignItems:     'center',
@@ -98,7 +105,7 @@ const style = StyleSheet.create({
     left: 0,
     right: 0,
     backgroundColor: 'rgba(0,0,0,0.6)',
-    color: 'white',
+    color: 'red',
     textAlign: 'center',
     zIndex: 1,
   }
