@@ -39,9 +39,6 @@ const style = StyleSheet.create({
     borderColor: 'black',
     backgroundColor: 'lightgrey',
     opacity: 1,
-    // position: 'absolute',
-    // top: 0,
-    // width: '100%',
   },
   button: {
     color: 'blue',

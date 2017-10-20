@@ -12,7 +12,6 @@ import {
   Text,
   TouchableOpacity,
   View,
-  Animated,
 } from 'react-native'
 
 const useScratch = false
