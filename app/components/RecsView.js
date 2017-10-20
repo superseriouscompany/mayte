@@ -1,6 +1,7 @@
 'use strict'
 
 import React, {Component} from 'react'
+import LinearGradient from 'react-native-linear-gradient';
 import Header from '../containers/Header'
 import {
   ActivityIndicator,
@@ -52,9 +53,12 @@ export default function(props) {
                      source={{url: p.url}} />
             ))}
           </ScrollView>
-          <View style={style.info}>
+          <LinearGradient colors={['rgba(0,0,0,0)', 'rgba(0,0,0,0.6)']} style={style.info}>
             <Text style={style.name}>
-              {props.recs[props.index].fullName.split(' ')[0]}, {20 + Math.floor(Math.random() * 10)} ({Math.ceil(Math.random() * 5)} miles away)
+              {props.recs[props.index].fullName.split(' ')[0]}, {20 + Math.floor(Math.random() * 10)}
+            </Text>
+            <Text style={style.location}>
+              {Math.ceil(Math.random() * 5)} miles away
             </Text>
             <View style={[style.tray]}>
               <TouchableOpacity style={[style.bubble]} onPress={() => props.pass(props.recs[props.index].id)}>
@@ -68,7 +72,7 @@ export default function(props) {
                        source={require('../images/heart.png')} />
               </TouchableOpacity>
             </View>
-          </View>
+          </LinearGradient>
         </View>
       }
     </View>
@@ -133,7 +137,14 @@ const style = StyleSheet.create({
     color: 'rgba(255,255,255,1)',
     backgroundColor: 'rgba(255,255,255,0)',
     textAlign: 'center',
-    fontSize: 20,
+    fontSize: 25,
     zIndex: 1,
+  },
+
+  location: {
+    textAlign: 'center',
+    fontSize: 20,
+    backgroundColor: 'transparent',
+    color: 'rgba(255,255,255,1)',
   }
 })
