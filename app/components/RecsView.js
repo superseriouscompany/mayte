@@ -38,15 +38,6 @@ export default function(props) {
         </View>
       :
         <View style={style.container}>
-          <View style={style.tray}>
-            <TouchableOpacity onPress={() => props.pass(props.recs[props.index].id)}>
-              <Text style={style.button}>No</Text>
-            </TouchableOpacity>
-            <TouchableOpacity onPress={() => props.like(props.recs[props.index].id)}>
-              <Text style={style.button}>Yes</Text>
-            </TouchableOpacity>
-          </View>
-          <Text style={style.name}>{props.recs[props.index].fullName.split(' ')[0]}, {20 + Math.floor(Math.random() * 10)} ({Math.ceil(Math.random() * 5)} miles away)</Text>
           <ScrollView style={[style.container]}
                       onLayout={(e) => {
                         const {height} = e.nativeEvent.layout
@@ -61,6 +52,23 @@ export default function(props) {
                      source={{url: p.url}} />
             ))}
           </ScrollView>
+          <View style={style.info}>
+            <Text style={style.name}>
+              {props.recs[props.index].fullName.split(' ')[0]}, {20 + Math.floor(Math.random() * 10)} ({Math.ceil(Math.random() * 5)} miles away)
+            </Text>
+            <View style={[style.tray]}>
+              <TouchableOpacity style={[style.bubble]} onPress={() => props.pass(props.recs[props.index].id)}>
+                <Image style={style.icon}
+                       resizeMode='contain'
+                       source={require('../images/x.png')} />
+              </TouchableOpacity>
+              <TouchableOpacity style={[style.bubble]} onPress={() => props.like(props.recs[props.index].id)}>
+                <Image style={style.icon}
+                       resizeMode='contain'
+                       source={require('../images/heart.png')} />
+              </TouchableOpacity>
+            </View>
+          </View>
         </View>
       }
     </View>
@@ -72,20 +80,40 @@ const style = StyleSheet.create({
     flex: 1,
   },
 
-  tray: {
-    backgroundColor: '#d6d6d6',
+  info: {
     position: 'absolute',
-    bottom: 0,
-    height: 50,
-    zIndex: 1,
     width: '100%',
+    bottom: 0,
+  },
+
+  tray: {
+    width: '100%',
+    paddingTop: 20,
+    paddingBottom: 20,
     flexDirection: 'row',
     justifyContent: 'space-around',
     alignItems: 'center',
   },
 
+  bubble: {
+    width: width * 0.3,
+    height: width * 0.125,
+    borderRadius: width * 0.125,
+    borderWidth: 1,
+    borderColor: 'rgba(255,255,255,0.9)',
+    backgroundColor: 'rgba(255,255,255,0.2)',
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+
+  icon: {
+    height: '60%',
+    opacity: 0.8,
+  },
+
   button: {
-    color: 'white',
+    color: 'rgba(255,255,255,0.9)',
+    backgroundColor: 'rgba(255,255,255,0)',
   },
 
   centered: {
@@ -99,14 +127,13 @@ const style = StyleSheet.create({
   },
 
   name: {
-    position: 'absolute',
     top: 0,
-    padding: 10,
     left: 0,
     right: 0,
-    backgroundColor: 'rgba(0,0,0,0.6)',
-    color: 'red',
+    color: 'rgba(255,255,255,1)',
+    backgroundColor: 'rgba(255,255,255,0)',
     textAlign: 'center',
+    fontSize: 20,
     zIndex: 1,
   }
 })
