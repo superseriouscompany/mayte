@@ -71,100 +71,9 @@ class RecInfoView extends Component {
 
   render() {
     const {props, state} = this
-    const style = {
-      info: {
-        position: 'absolute',
-        top: state.topValue,
-        height: state.heightValue,
-      },
-
-      gradient: {
-        position: 'relative',
-        width: '100%',
-        height: '100%',
-      },
-
-      content: {
-        flex: 1,
-        paddingLeft: 20,
-        paddingRight: 20,
-      },
-
-      opener: {
-        position: 'absolute',
-        bottom: 0, left: -20,
-        width: width + 20,
-        height: height * 0.5,
-        backgroundColor: 'transparent',
-        zIndex: 1,
-        display: props.infoOpen ? 'none' : 'flex',
-      },
-
-      handle: {
-        textAlign: 'center',
-        backgroundColor: 'transparent',
-        color: 'rgba(255,255,255,1)',
-        fontSize: 23,
-      },
-
-      bio: {
-        textAlign: 'center',
-        backgroundColor: 'transparent',
-        color: 'rgba(255,255,255,1)',
-        fontSize: 18,
-        paddingTop: 40,
-      },
-
-      tray: {
-        width: '100%',
-        paddingTop: 40,
-        paddingBottom: 40,
-        flexDirection: 'row',
-        justifyContent: 'space-around',
-        alignItems: 'center',
-      },
-
-      bubble: {
-        width: width * 0.3,
-        height: width * 0.125,
-        borderRadius: width * 0.125,
-        borderWidth: 1,
-        borderColor: 'rgba(255,255,255,0.9)',
-        backgroundColor: 'rgba(255,255,255,0.2)',
-        justifyContent: 'center',
-        alignItems: 'center',
-        zIndex: 1,
-      },
-
-      icon: {
-        height: '60%',
-        opacity: 0.8,
-      },
-
-      button: {
-        color: 'rgba(255,255,255,0.9)',
-        backgroundColor: 'rgba(255,255,255,0)',
-      },
-
-      name: {
-        top: 0, left: 0, right: 0,
-        color: 'rgba(255,255,255,1)',
-        backgroundColor: 'transparent',
-        textAlign: 'center',
-        fontSize: 25,
-        paddingTop: 30,
-      },
-
-      location: {
-        textAlign: 'center',
-        fontSize: 20,
-        backgroundColor: 'transparent',
-        color: 'rgba(255,255,255,1)',
-      }
-    }
 
     return (
-      <Animated.View style={style.info}>
+      <Animated.View style={[{top: state.topValue, height: state.heightValue,}, style.info]}>
         <LinearGradient colors={['rgba(0,0,0,0)', 'rgba(0,0,0,0.6)']}
                         style={style.gradient}>
           <ScrollView style={style.content}
@@ -183,7 +92,12 @@ class RecInfoView extends Component {
               {props.recs[props.index].distance} miles away
             </Text>
             <View style={[style.tray]}>
-              <TouchableOpacity style={style.opener} onPress={() => props.showInfo()} />
+              {
+                !props.infoOpen ?
+                <TouchableOpacity style={style.opener} onPress={() => props.showInfo()} /> :
+                :
+                null
+              }
               <TouchableOpacity style={[style.bubble]} onPress={() => props.pass(props.recs[props.index].id)}>
                 <Image style={style.icon}
                        resizeMode='contain'
@@ -215,3 +129,91 @@ class RecInfoView extends Component {
 
 export default RecInfoView
 
+const style = {
+  info: {
+    position: 'absolute',
+  },
+
+  gradient: {
+    position: 'relative',
+    width: '100%',
+    height: '100%',
+  },
+
+  content: {
+    flex: 1,
+    paddingLeft: 20,
+    paddingRight: 20,
+  },
+
+  opener: {
+    position: 'absolute',
+    bottom: 0, left: -20,
+    width: width + 20,
+    height: height * 0.5,
+    backgroundColor: 'transparent',
+    zIndex: 1,
+  },
+
+  handle: {
+    textAlign: 'center',
+    backgroundColor: 'transparent',
+    color: 'rgba(255,255,255,1)',
+    fontSize: 23,
+  },
+
+  bio: {
+    textAlign: 'center',
+    backgroundColor: 'transparent',
+    color: 'rgba(255,255,255,1)',
+    fontSize: 18,
+    paddingTop: 40,
+  },
+
+  tray: {
+    width: '100%',
+    paddingTop: 40,
+    paddingBottom: 40,
+    flexDirection: 'row',
+    justifyContent: 'space-around',
+    alignItems: 'center',
+  },
+
+  bubble: {
+    width: width * 0.3,
+    height: width * 0.125,
+    borderRadius: width * 0.125,
+    borderWidth: 1,
+    borderColor: 'rgba(255,255,255,0.9)',
+    backgroundColor: 'rgba(255,255,255,0.2)',
+    justifyContent: 'center',
+    alignItems: 'center',
+    zIndex: 1,
+  },
+
+  icon: {
+    height: '60%',
+    opacity: 0.8,
+  },
+
+  button: {
+    color: 'rgba(255,255,255,0.9)',
+    backgroundColor: 'rgba(255,255,255,0)',
+  },
+
+  name: {
+    top: 0, left: 0, right: 0,
+    color: 'rgba(255,255,255,1)',
+    backgroundColor: 'transparent',
+    textAlign: 'center',
+    fontSize: 25,
+    paddingTop: 30,
+  },
+
+  location: {
+    textAlign: 'center',
+    fontSize: 20,
+    backgroundColor: 'transparent',
+    color: 'rgba(255,255,255,1)',
+  }
+}

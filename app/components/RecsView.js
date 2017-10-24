@@ -21,21 +21,6 @@ const {width, height} = Dimensions.get('window')
 
 export default function(props) {
   const imgStyle = {width: width, height: props.viewHeight}
-  const style = {
-    container: {
-      flex: 1,
-    },
-
-    centered: {
-      flex:           1,
-      alignItems:     'center',
-      justifyContent: 'center',
-    },
-
-    error: {
-      color: 'red',
-    },
-  }
 
   return (
     <View style={style.container}>
@@ -82,4 +67,20 @@ export default function(props) {
       }
     </View>
   )
+}
+
+const style = {
+  container: {
+    flex: 1,
+  },
+
+  centered: {
+    flex:           1,
+    alignItems:     'center',
+    justifyContent: 'center',
+  },
+
+  error: {
+    color: 'red',
+  },
 }
