@@ -94,7 +94,7 @@ class RecInfoView extends Component {
             <View style={[style.tray]}>
               {
                 !props.infoOpen ?
-                <TouchableOpacity style={style.opener} onPress={() => props.showInfo()} /> :
+                <TouchableOpacity style={style.opener} onPress={() => props.showInfo()} />
                 :
                 null
               }
