@@ -146,6 +146,13 @@ export default function(props) {
                         const {height} = e.nativeEvent.layout
                         props.setHeight(height)
                       }}
+                      onScroll={(e) => {
+                       const {contentOffset, layoutMeasurement, contentSize} = e.nativeEvent
+                       if (contentOffset.y + layoutMeasurement.height > contentSize.height) {
+                         e.preventDefault()
+                         props.showInfo()
+                       }
+                      }}
                       showsVerticalScrollIndicator={false}
                       pagingEnabled
                       data={props.recs[props.index].photos || []}
@@ -158,12 +165,20 @@ export default function(props) {
           </FlatList>
           <LinearGradient colors={['rgba(0,0,0,0)', 'rgba(0,0,0,0.6)']}
                           style={style.info.gradient}>
-            <ScrollView style={style.info.cont} scrollEnabled={props.infoOpen ? true : false}>
+            <ScrollView style={style.info.cont}
+                        scrollEventThrottle={100}
+                        onScroll={(e) => {
+                          const {y} = e.nativeEvent.contentOffset
+                          if (y < 0) {
+                            props.hideInfo()
+                          }
+                        }}
+                        scrollEnabled={props.infoOpen ? true : false}>
               <Text style={style.name}>
-                {props.recs[props.index].fullName.split(' ')[0]}, {20 + Math.floor(Math.random() * 10)}
+                {props.recs[props.index].fullName.split(' ')[0]}, {props.recs[props.index].age}
               </Text>
               <Text style={style.location}>
-                {Math.ceil(Math.random() * 5)} miles away
+                {props.recs[props.index].distance} miles away
               </Text>
               <View style={[style.tray]}>
                 <TouchableOpacity style={style.info.opener} onPress={() => props.showInfo()} />
