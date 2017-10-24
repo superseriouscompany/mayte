@@ -14,7 +14,7 @@ class Recs extends Component {
       loading: true,
       index: 0,
       viewHeight: 0,
-      infoOpen: true,
+      // infoOpen: true,
     }
   }
 
@@ -63,6 +63,8 @@ class Recs extends Component {
   render() {
     return <RecsView {...this.state}
                      setHeight={(h) => this.setState({viewHeight: h})}
+                     showInfo={() => this.setState({infoOpen: true})}
+                     hideInfo={() => this.setState({infoOpen: false})}
                      like={this.like}
                      pass={this.pass} />
   }

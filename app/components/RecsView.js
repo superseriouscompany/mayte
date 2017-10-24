@@ -11,6 +11,8 @@ import {
   StyleSheet,
   Text,
   TouchableOpacity,
+  TouchableWithoutFeedback,
+  FlatList,
   View,
 } from 'react-native'
 
@@ -29,13 +31,22 @@ export default function(props) {
         position: 'absolute',
         width: '100%',
         height: props.infoOpen ? height : 'auto',
-        top: props.infoOpen ? 0 : height - 235,
+        top: props.infoOpen ? 0 : height - height * 0.35,
       },
       cont: {
         flex: 1,
         paddingLeft: 20,
         paddingRight: 20,
       },
+      opener: {
+        position: 'absolute',
+        bottom: 0, left: -20,
+        width: width + 20,
+        height: height * 0.5,
+        backgroundColor: 'transparent',
+        zIndex: 1,
+        display: props.infoOpen ? 'none' : 'flex',
+      }
     },
 
     handle: {
@@ -71,6 +82,7 @@ export default function(props) {
       backgroundColor: 'rgba(255,255,255,0.2)',
       justifyContent: 'center',
       alignItems: 'center',
+      zIndex: 1,
     },
 
     icon: {
@@ -99,7 +111,7 @@ export default function(props) {
       backgroundColor: 'transparent',
       textAlign: 'center',
       fontSize: 25,
-      zIndex: 1,
+      // zIndex: 1,
       paddingTop: 30,
     },
 
@@ -129,22 +141,24 @@ export default function(props) {
         </View>
       :
         <View style={style.container}>
-          <ScrollView style={[style.container]}
+          <FlatList style={[style.container]}
                       onLayout={(e) => {
                         const {height} = e.nativeEvent.layout
                         props.setHeight(height)
                       }}
                       showsVerticalScrollIndicator={false}
-                      pagingEnabled>
-            { (props.recs[props.index].photos || []).map((p, key) => (
-              <Image key={key}
-                     style={imgStyle}
-                     resizeMode="cover"
-                     source={{url: p.url}} />
+                      pagingEnabled
+                      data={props.recs[props.index].photos || []}
+                      keyExtractor={(item, index) => index}
+                      renderItem={({item}) =>
+                      <Image style={imgStyle}
+                             resizeMode="cover"
+                             source={{url: item.url}} />}>
             ))}
-          </ScrollView>
-          <LinearGradient colors={['rgba(0,0,0,0)', 'rgba(0,0,0,0.6)']} style={style.info.gradient}>
-            <ScrollView style={style.info.cont}>
+          </FlatList>
+          <LinearGradient colors={['rgba(0,0,0,0)', 'rgba(0,0,0,0.6)']}
+                          style={style.info.gradient}>
+            <ScrollView style={style.info.cont} scrollEnabled={props.infoOpen ? true : false}>
               <Text style={style.name}>
                 {props.recs[props.index].fullName.split(' ')[0]}, {20 + Math.floor(Math.random() * 10)}
               </Text>
@@ -152,6 +166,7 @@ export default function(props) {
                 {Math.ceil(Math.random() * 5)} miles away
               </Text>
               <View style={[style.tray]}>
+                <TouchableOpacity style={style.info.opener} onPress={() => props.showInfo()} />
                 <TouchableOpacity style={[style.bubble]} onPress={() => props.pass(props.recs[props.index].id)}>
                   <Image style={style.icon}
                          resizeMode='contain'
