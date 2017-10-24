@@ -14,6 +14,7 @@ class Recs extends Component {
       loading: true,
       index: 0,
       viewHeight: 0,
+      infoOpen: true,
     }
   }
 
