@@ -11,7 +11,7 @@ import {
 } from 'react-native'
 
 export default function(props) {
-  console.log(props.myId)
+  console.log(props)
   return (
     <View style={style.container}>
       <Header />
@@ -29,7 +29,7 @@ export default function(props) {
         <GiftedChat
           messages={props.messages}
           onSend={(messages) => props.onSend(messages)}
-          user={{_id: props.myId}}
+          user={{_id: props.userId}}
           renderBubble={(props) => (
             <Bubble
               {...props}

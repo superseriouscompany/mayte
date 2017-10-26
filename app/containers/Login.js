@@ -33,7 +33,7 @@ class Login extends Component {
     if( !matches ) {
       return console.warn('No access token provided', event && event.url)
     }
-
+    console.log("beetch heres where this happens")
     this.props.onLogin({
       accessToken: matches[1]
     })
