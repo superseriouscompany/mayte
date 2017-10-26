@@ -13,6 +13,7 @@
     "react-native-firebase": "https://github.com/superseriouscompany/react-native-firebase",
     "react-native-gifted-chat": "^0.2.7",
     "react-native-in-app-utils": "^5.6.0",
+    "react-native-linear-gradient": "^2.3.0",
     "react-native-wallet": "^1.0.2",
     "react-redux": "^5.0.6",
     "redux": "^3.7.2",

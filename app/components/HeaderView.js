@@ -37,7 +37,8 @@ const style = StyleSheet.create({
     alignItems: 'center',
     borderBottomWidth: 1,
     borderColor: 'black',
-    backgroundColor: 'lightgrey'
+    backgroundColor: 'lightgrey',
+    opacity: 1,
   },
   button: {
     color: 'blue',

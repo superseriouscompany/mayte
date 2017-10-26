@@ -13,11 +13,19 @@ class Recs extends Component {
     this.state = {
       loading: true,
       index: 0,
+      viewHeight: 0,
+      infoOpen: false,
     }
   }
 
   componentDidMount() {
     api('/recs', {accessToken: this.props.accessToken}).then((r) => {
+      // TEMP: PLACING THIS HERE TO AVOID CHANGES ON VIEW RERENDERS //
+      r.recs.forEach(u => {
+        u.age = 20 + Math.floor(Math.random() * 10)
+        u.distance = Math.ceil(Math.random() * 5)
+      })
+      ///////////////////////////////////////////////////////////////
       this.setState({
         recs: r.recs,
         loading: false,
@@ -59,7 +67,12 @@ class Recs extends Component {
   }
 
   render() {
-    return <RecsView {...this.state} like={this.like} pass={this.pass}/>
+    return <RecsView {...this.state}
+                     setHeight={(h) => this.setState({viewHeight: h})}
+                     showInfo={() => this.setState({infoOpen: true})}
+                     hideInfo={() => this.setState({infoOpen: false})}
+                     like={this.like}
+                     pass={this.pass} />
   }
 }
 
