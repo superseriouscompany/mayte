@@ -27,10 +27,9 @@ class RecInfoView extends Component {
   }
 
   componentWillUpdate(nextProps, nextState) {
-    const {props} = this
-    if (nextProps.infoOpen && !props.infoOpen) {
+    if (nextProps.infoOpen && !this.props.infoOpen) {
       this.animateOpen()
-    } else if (!nextProps.infoOpen && props.infoOpen) {
+    } else if (!nextProps.infoOpen && this.props.infoOpen) {
       this.animateClosed()
     }
   }
@@ -150,7 +149,7 @@ const style = {
     position: 'absolute',
     bottom: 0, left: -20,
     width: width + 20,
-    height: height * 0.5,
+    height: height * 0.25,
     backgroundColor: 'transparent',
     zIndex: 1,
   },
