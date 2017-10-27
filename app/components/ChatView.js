@@ -2,6 +2,7 @@
 
 import React, {Component}     from 'react'
 import { GiftedChat, Bubble } from 'react-native-gifted-chat'
+import { BlurView }           from 'react-native-blur'
 import Header                 from '../containers/Header'
 import {
   Animated,
@@ -57,6 +58,10 @@ export default class extends Component {
 
     return (
       <Animated.View style={[{top: state.topValue}, style.container]}>
+        <BlurView style={style.blur}
+                  blurType="light"
+                  blurAmount={3}
+                  viewRef={null/* required for Android */} />
         { props.loading ?
           <View style={style.centered}>
             <ActivityIndicator />
@@ -105,6 +110,12 @@ const style = StyleSheet.create({
     width: '100%',
     height: height - headerHeight,
     backgroundColor: 'rgba(255,255,255,0.9)',
+  },
+  blur: {
+    position: 'absolute',
+    top: 0, left: 0, bottom: 0, right: 0,
+    borderWidth: 0,
+    opacity: 0.8,
   },
   centered: {
     flex:           1,
