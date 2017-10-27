@@ -119,7 +119,7 @@ class MatchInfoView extends Component {
             <Text style={style.location}>
               {props.user.distance} miles away
             </Text>
-            <View>
+            <View style={style.cv}>
               <Text style={style.handle}>Profreshional Model, Treats!</Text>
               <Text style={style.handle}>@beners</Text>
             </View>
@@ -156,6 +156,10 @@ const style = {
     paddingLeft: 20,
     paddingRight: 20,
     width: '100%',
+  },
+
+  cv: {
+    paddingTop: 30,
   },
 
   opener: {
