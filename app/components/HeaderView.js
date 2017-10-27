@@ -11,7 +11,7 @@ import {
 export default function(props) {
   return (props.scene.name === 'Match' ?
     <View style={style.container}>
-      <TouchableOpacity onPress={props.showMatches}>
+      <TouchableOpacity onPress={props.goBack}>
         <Text style={style.button}>Back</Text>
       </TouchableOpacity>
 

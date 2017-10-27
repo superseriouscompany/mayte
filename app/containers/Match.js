@@ -32,9 +32,6 @@ class Match extends Component {
   }
 
   componentDidMount() {
-
-    console.log(this.props.user)
-
     api(`/matches/${this.props.userId}/messages`, {
       accessToken: this.props.accessToken
     }).then((r) => {
@@ -54,14 +51,16 @@ class Match extends Component {
   }
 
   render() {
+    const {props, state} = this
+
     return (
       <View style={{flex: 1}}>
-        <Header />
-        <MatchView {...this.state} {...this.props}
+        <Header view={props.view} />
+        <MatchView {...state} {...props}
                    setHeight={(h) => this.setState({viewHeight: h})}
                    showInfo={() => this.setState({infoOpen: true})}
                    hideInfo={() => this.setState({infoOpen: false})} />
-        <ChatView {...this.state} {...this.props} onSend={this.onSend}/>
+        <ChatView {...state} {...props} onSend={this.onSend}/>
       </View>
     )
   }

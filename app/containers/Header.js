@@ -20,7 +20,7 @@ function mapStateToProps(state) {
   }
 }
 
-function mapDispatchToProps(dispatch) {
+function mapDispatchToProps(dispatch, ownProps) {
   return {
     showSettings: function() {
       dispatch({type: 'scene:change', scene: 'Settings' })
@@ -41,6 +41,17 @@ function mapDispatchToProps(dispatch) {
           name: 'Match',
           view: 'Profile',
         }
+      })
+    },
+
+    goBack: function(user) {
+      let destination = ownProps.view === 'Profile' ?
+                        {name: 'Match', view: 'Chat'} :
+                        'Matches'
+
+      dispatch({
+        type: 'scene:change',
+        scene: destination
       })
     }
   }
