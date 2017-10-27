@@ -6,7 +6,7 @@ import Login              from './Login'
 import Recs               from './Recs'
 import Settings           from './Settings'
 import Matches            from './Matches'
-import Chat               from './Chat'
+import Match               from './Match'
 
 const useScratch = false
 
@@ -24,8 +24,8 @@ class Stage extends Component {
       <Settings />
     : props.scene == 'Matches' ?
       <Matches />
-    : props.scene == 'Chat' ?
-      <Chat userId={props.params.userId} myId={'HJyOmP2qW'}/>
+    : props.scene == 'Match' ?
+      <Match userId={props.params.userId} myId={'HyeNFOS6W'}/>
     :
       <Recs />
   }

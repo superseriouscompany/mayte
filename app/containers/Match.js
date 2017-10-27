@@ -2,11 +2,14 @@
 
 import React, {Component} from 'react'
 import {connect}          from 'react-redux'
+import Header             from '../containers/Header'
 import ChatView           from '../components/ChatView'
+import MatchView          from '../components/MatchView'
 import api                from '../services/api'
 import { GiftedChat }     from 'react-native-gifted-chat'
+import { View }             from 'react-native'
 
-class Chat extends Component {
+class Match extends Component {
   constructor(props) {
     super(props)
     this.state  = { messages: [], loading: true }
@@ -29,6 +32,9 @@ class Chat extends Component {
   }
 
   componentDidMount() {
+
+    console.log(this.props.user)
+
     api(`/matches/${this.props.userId}/messages`, {
       accessToken: this.props.accessToken
     }).then((r) => {
@@ -49,7 +55,14 @@ class Chat extends Component {
 
   render() {
     return (
-      <ChatView {...this.state} {...this.props} onSend={this.onSend}/>
+      <View style={{flex: 1}}>
+        <Header />
+        <MatchView {...this.state} {...this.props}
+                   setHeight={(h) => this.setState({viewHeight: h})}
+                   showInfo={() => this.setState({infoOpen: true})}
+                   hideInfo={() => this.setState({infoOpen: false})} />
+        <ChatView {...this.state} {...this.props} onSend={this.onSend}/>
+      </View>
     )
   }
 }
@@ -59,6 +72,7 @@ function mapStateToProps(state) {
     user:        state.scene.user,
     userId:      state.scene.user.id,
     accessToken: state.session.accessToken,
+    view:        state.scene.view
   }
 }
 
@@ -70,4 +84,4 @@ function mapDispatchToProps(dispatch) {
   }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(Chat)
+export default connect(mapStateToProps, mapDispatchToProps)(Match)

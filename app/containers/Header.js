@@ -16,7 +16,7 @@ class Header extends Component {
 
 function mapStateToProps(state) {
   return {
-
+    scene: state.scene,
   }
 }
 
@@ -32,6 +32,16 @@ function mapDispatchToProps(dispatch) {
 
     showRecs: function() {
       dispatch({type: 'scene:change', scene: 'Recs'})
+    },
+
+    showMatch: function(user) {
+      dispatch({
+        type: 'scene:change',
+        scene: {
+          name: 'Match',
+          view: 'Profile',
+        }
+      })
     }
   }
 }

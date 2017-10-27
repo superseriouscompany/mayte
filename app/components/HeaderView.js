@@ -9,7 +9,21 @@ import {
 } from 'react-native'
 
 export default function(props) {
-  return (
+  return (props.scene.name === 'Match' ?
+    <View style={style.container}>
+      <TouchableOpacity onPress={props.showMatches}>
+        <Text style={style.button}>Back</Text>
+      </TouchableOpacity>
+
+      <TouchableOpacity onPress={props.showMatch}>
+        <Text style={style.button}>Deets</Text>
+      </TouchableOpacity>
+
+      <TouchableOpacity onPress={props.showBlock}>
+        <Text style={style.button}>Block</Text>
+      </TouchableOpacity>
+    </View>
+    :
     <View style={style.container}>
       <TouchableOpacity onPress={props.showSettings}>
         <Text style={style.button}>Settings</Text>
