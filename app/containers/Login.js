@@ -19,7 +19,7 @@ class Login extends Component {
     Linking.addEventListener('url', this.handle)
   }
 
-  handle() {
+  componentWillUnmount() {
     Linking.removeEventListener('url', this.handle)
   }
 
