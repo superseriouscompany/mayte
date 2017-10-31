@@ -1,8 +1,10 @@
 import React, {Component} from 'react'
 import LinearGradient from 'react-native-linear-gradient'
+import ProfileView from './ProfileView'
+import { width, height } from '../services/dimensions'
 import {
   Animated,
-  Dimensions,
+  StyleSheet,
   Image,
   ScrollView,
   Text,
@@ -10,8 +12,6 @@ import {
   TouchableWithoutFeedback,
   View,
 } from 'react-native'
-
-const {width, height} = Dimensions.get('window')
 
 class MatchInfoView extends Component {
   constructor(props) {
@@ -102,36 +102,7 @@ class MatchInfoView extends Component {
           :
           null
         }
-        <LinearGradient colors={['rgba(0,0,0,0)', 'rgba(0,0,0,0.6)']}
-                        style={style.gradient}>
-          <ScrollView style={style.content}
-                      scrollEventThrottle={100}
-                      onScroll={(e) => {
-                        const {y} = e.nativeEvent.contentOffset
-                        if (y < 0) {
-                          props.hideInfo()
-                        }
-                      }}
-                      scrollEnabled={props.infoOpen ? true : false}>
-            <Text style={style.name}>
-              {props.user.fullName.split(' ')[0]}, {props.user.age}
-            </Text>
-            <Text style={style.location}>
-              {props.user.distance} miles away
-            </Text>
-            <View style={style.cv}>
-              <Text style={style.handle}>Profreshional Model, Treats!</Text>
-              <Text style={style.handle}>@beners</Text>
-            </View>
-            <View>
-              <Text style={style.bio}>
-  {`She a bad bad n she allllready know
-  (ya she know it)
-  Whole bank accooount I'll blow it 💸`}
-              </Text>
-            </View>
-          </ScrollView>
-        </LinearGradient>
+        <ProfileView {...props} {...state} hideButtons={true} />
       </Animated.View>
     )
   }
@@ -139,27 +110,10 @@ class MatchInfoView extends Component {
 
 export default MatchInfoView
 
-const style = {
+const style = StyleSheet.create({
   info: {
     position: 'absolute',
     width: '100%',
-  },
-
-  gradient: {
-    position: 'relative',
-    width: '100%',
-    height: '100%',
-  },
-
-  content: {
-    flex: 1,
-    paddingLeft: 20,
-    paddingRight: 20,
-    width: '100%',
-  },
-
-  cv: {
-    paddingTop: 30,
   },
 
   opener: {
@@ -170,35 +124,4 @@ const style = {
     backgroundColor: 'transparent',
     zIndex: 1,
   },
-
-  handle: {
-    textAlign: 'center',
-    backgroundColor: 'transparent',
-    color: 'rgba(255,255,255,1)',
-    fontSize: 23,
-  },
-
-  bio: {
-    textAlign: 'center',
-    backgroundColor: 'transparent',
-    color: 'rgba(255,255,255,1)',
-    fontSize: 18,
-    paddingTop: 40,
-  },
-
-  name: {
-    top: 0, left: 0, right: 0,
-    color: 'rgba(255,255,255,1)',
-    backgroundColor: 'transparent',
-    textAlign: 'center',
-    fontSize: 25,
-    paddingTop: 30,
-  },
-
-  location: {
-    textAlign: 'center',
-    fontSize: 20,
-    backgroundColor: 'transparent',
-    color: 'rgba(255,255,255,1)',
-  }
-}
+})

@@ -3,17 +3,16 @@
 import React, {Component}     from 'react'
 import { GiftedChat, Bubble } from 'react-native-gifted-chat'
 import { BlurView }           from 'react-native-blur'
+import { width, height }      from '../services/dimensions'
 import Header                 from '../containers/Header'
 import {
   Animated,
   ActivityIndicator,
   StyleSheet,
-  Dimensions,
   Text,
   View,
 } from 'react-native'
 
-const {width, height} = Dimensions.get('window')
 const headerHeight = 63
 
 export default class extends Component {
