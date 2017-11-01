@@ -102,7 +102,12 @@ class MatchInfoView extends Component {
           :
           null
         }
-        <ProfileView {...props} {...state} hideButtons={true} />
+        <ProfileView user={props.user}
+                     topValue={state.topValue}
+                     heightValue={state.heightValue}
+                     infoOpen={props.infoOpen}
+                     hideInfo={props.hideInfo}
+                     hideButtons={true} />
       </Animated.View>
     )
   }

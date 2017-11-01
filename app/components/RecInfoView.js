@@ -79,7 +79,12 @@ class RecInfoView extends Component {
           :
           null
         }
-        <ProfileView {...props} {...state} user={props.recs[props.index]} />
+        <ProfileView user={props.recs[props.index]}
+                     like={props.like}
+                     topValue={state.topValue}
+                     heightValue={state.heightValue}
+                     infoOpen={props.infoOpen}
+                     hideInfo={props.hideInfo} />
       </Animated.View>
     )
   }

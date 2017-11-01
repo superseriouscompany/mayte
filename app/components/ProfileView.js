@@ -32,12 +32,12 @@ export default (props) => {
         {
           props.hideButtons ? null :
           <View style={[style.tray]}>
-            <TouchableOpacity style={[style.bubble]} onPress={() => props.pass(props.recs[props.index].id)}>
+            <TouchableOpacity style={[style.bubble]} onPress={() => props.pass(props.user.id)}>
               <Image style={style.icon}
                      resizeMode='contain'
                      source={require('../images/x.png')} />
             </TouchableOpacity>
-            <TouchableOpacity style={[style.bubble]} onPress={() => props.like(props.recs[props.index].id)}>
+            <TouchableOpacity style={[style.bubble]} onPress={() => props.like(props.user.id)}>
               <Image style={style.icon}
                      resizeMode='contain'
                      source={require('../images/heart.png')} />

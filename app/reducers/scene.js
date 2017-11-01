@@ -4,10 +4,20 @@ const initialState = {
 
 export default function(state=initialState, action) {
   switch(action.type) {
-    case 'scene:change': return {
-      ...state,
-      ...(typeof action.scene === 'string' ? {name: action.scene} : action.scene),
-    }
+    case 'scene:change':
+      const scene = action.scene
+
+      if (scene.animation) {
+        return {
+          ...state,
+          next: scene,
+        }
+      }
+
+      return {
+        ...state,
+        ...(typeof scene === 'string' ? {name: action.scene} : action.scene),
+      }
     default:
       return state
   }

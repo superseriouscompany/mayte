@@ -27,7 +27,13 @@ function mapDispatchToProps(dispatch, ownProps) {
     },
 
     showMatches: function() {
-      dispatch({type: 'scene:change', scene: 'Matches'})
+      dispatch({
+        type: 'scene:change',
+        scene: {
+          name: 'Matches',
+          animation: 'fadeIn',
+        }
+      })
     },
 
     showRecs: function() {

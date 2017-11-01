@@ -41,7 +41,7 @@ export default function(props) {
 
 const style = StyleSheet.create({
   container: {
-    flex: 1
+    flex: 1,
   },
   centered: {
     flex:           1,
