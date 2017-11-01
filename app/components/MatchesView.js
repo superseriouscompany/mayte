@@ -2,7 +2,7 @@
 
 import React, {Component} from 'react'
 import Header             from '../containers/Header'
-import MatchView          from './MatchView'
+import MatchPreview          from './MatchPreview'
 import {
   ActivityIndicator,
   StyleSheet,
@@ -31,7 +31,7 @@ export default function(props) {
       :
         <View style={{flex: 1}}>
           { props.matches.map((m, key) => (
-            <MatchView key={key} match={m} viewChat={() => props.viewChat(m.user)}></MatchView>
+            <MatchPreview key={key} match={m} viewChat={() => props.viewChat(m.user)} />
           ))}
         </View>
       }
@@ -41,7 +41,7 @@ export default function(props) {
 
 const style = StyleSheet.create({
   container: {
-    flex: 1
+    flex: 1,
   },
   centered: {
     flex:           1,

@@ -3,8 +3,8 @@ import LinearGradient from 'react-native-linear-gradient'
 import ProfileView from './ProfileView'
 import { width, height } from '../services/dimensions'
 import {
-  StyleSheet,
   Animated,
+  StyleSheet,
   Image,
   ScrollView,
   Text,
@@ -13,12 +13,12 @@ import {
   View,
 } from 'react-native'
 
-class RecInfoView extends Component {
+class MatchInfoView extends Component {
   constructor(props) {
     super(props)
 
     this.state = {
-      topValue: new Animated.Value(height * 0.65),
+      topValue: new Animated.Value(height),
       heightValue: new Animated.Value(height * 0.3),
     }
 
@@ -27,10 +27,16 @@ class RecInfoView extends Component {
   }
 
   componentWillUpdate(nextProps, nextState) {
+    if (nextProps.matchOpen && !this.props.matchOpen) {
+      this.animateSub()
+    } else if (!nextProps.matchOpen && this.props.matchOpen) {
+      this.animateClosed()
+    }
+
     if (nextProps.infoOpen && !this.props.infoOpen) {
       this.animateOpen()
     } else if (!nextProps.infoOpen && this.props.infoOpen) {
-      this.animateClosed()
+      this.animateSub()
     }
   }
 
@@ -51,11 +57,28 @@ class RecInfoView extends Component {
     ).start()
   }
 
-  animateClosed() {
+  animateSub() {
     Animated.timing(
       this.state.topValue,
       {
         toValue: height * 0.65,
+        duration: 333,
+      }
+    ).start()
+    Animated.timing(
+      this.state.heightValue,
+      {
+        toValue: height * 0.3,
+        duration: 333,
+      }
+    ).start()
+  }
+
+  animateClosed() {
+    Animated.timing(
+      this.state.topValue,
+      {
+        toValue: height,
         duration: 333,
       }
     ).start()
@@ -79,22 +102,23 @@ class RecInfoView extends Component {
           :
           null
         }
-        <ProfileView user={props.recs[props.index]}
-                     like={props.like}
+        <ProfileView user={props.user}
                      topValue={state.topValue}
                      heightValue={state.heightValue}
                      infoOpen={props.infoOpen}
-                     hideInfo={props.hideInfo} />
+                     hideInfo={props.hideInfo}
+                     hideButtons={true} />
       </Animated.View>
     )
   }
 }
 
-export default RecInfoView
+export default MatchInfoView
 
 const style = StyleSheet.create({
   info: {
     position: 'absolute',
+    width: '100%',
   },
 
   opener: {

@@ -6,29 +6,111 @@ import Login              from './Login'
 import Recs               from './Recs'
 import Settings           from './Settings'
 import Matches            from './Matches'
-import Chat               from './Chat'
 import store              from '../reducers'
+import Match               from './Match'
+import {
+  StyleSheet,
+  View,
+  Animated,
+} from 'react-native'
 
 const useScratch = false
 
 class Stage extends Component {
+  constructor(props) {
+    super(props)
+    this.state = {
+      fadeIn: new Animated.Value(0),
+    }
+    this.showScene = this.showScene.bind(this)
+  }
+
+  componentWillReceiveProps(nextProps) {
+    if (nextProps.nextScene && nextProps.nextScene.animation) {
+      this.animateIn(nextProps.nextScene.animation)
+    }
+  }
+
+  componentDidUpdate(prevProps, prevState) {
+    console.log(this.state.fadeIn)
+  }
+
+  showScene(scene, props) {
+    props = {
+      ...props,
+      ...this.props,
+    }
+
+    switch(scene) {
+      case 'Settings':
+        return <Settings />
+      case 'Matches':
+        return <Matches />
+      case 'Match':
+        return <Match userId={props.params.userId} myId={'HyeNFOS6W'} />
+      case 'Recs':
+        return <Recs />
+      default:
+        return <Recs />
+    }
+  }
+
+  animateIn(anim) {
+    const ogv = this.state[anim]._value
+    var params
+
+    switch (anim) {
+      case 'fadeIn':
+        params = {toValue: 1, duration: 333}
+        break
+      default:
+        params = {toValue: this.state[anim], duration: 0}
+    }
+
+    Animated.timing(
+      this.state[anim],
+      params
+    ).start(() => {
+      this.state[anim].setValue(ogv)
+      this.props.onTransition({
+        ...this.props.nextScene,
+        next: null,
+        animation: null,
+      })
+    })
+  }
+
   render() {
-    const {props} = this
+    const {props, state} = this
 
     return !props.hydrated ?
       null
     : useScratch ?
       <Scratch />
-    : !props.authenticated ?
-      <Login />
-    : props.scene == 'Settings' ?
-      <Settings />
-    : props.scene == 'Matches' ?
-      <Matches />
-    : props.scene == 'Chat' ?
-      <Chat userId={props.params.userId} myId={'HyeNFOS6W'} /* 🙃 *//>
     :
-      <Recs />
+    <View style={[style.container]}>
+      <View style={[style.container]}>
+        { this.showScene(props.scene) }
+      </View>
+      {
+        props.nextScene
+        ?
+        <View style={style.overlay}>
+          {
+            props.nextScene.animation === 'fadeIn' ?
+              <Animated.View style={[style.container, {
+                opacity: state.fadeIn,
+                backgroundColor: 'white'
+              }]}>
+                { this.showScene(props.nextScene, {...props}) }
+              </Animated.View>
+            : this.showScene(props.nextScene, {...props})
+          }
+        </View>
+        :
+        null
+      }
+    </View>
   }
 }
 
@@ -39,13 +121,29 @@ function mapStateToProps(state) {
     scene:         state.scene.name,
     params:        state.scene,
     user:          state.user,
+    nextScene:     state.scene.next,
   }
 }
 
 function mapDispatchToProps(dispatch) {
   return {
-
+    onTransition: (scene) => {
+      dispatch({type: 'scene:change', scene: scene})
+    }
   }
 }
+
+const style = StyleSheet.create({
+  container: {
+    flex: 1
+  },
+  overlay: {
+    position: 'absolute',
+    left: 0,
+    right: 0,
+    top: 0,
+    bottom: 0,
+  },
+})
 
 export default connect(mapStateToProps, mapDispatchToProps)(Stage)

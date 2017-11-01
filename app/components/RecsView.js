@@ -3,9 +3,9 @@
 import React, {Component} from 'react'
 import Header from '../containers/Header'
 import RecInfoView from './RecInfoView'
+import { width, height } from '../services/dimensions'
 import {
   ActivityIndicator,
-  Dimensions,
   Image,
   ScrollView,
   StyleSheet,
@@ -17,7 +17,6 @@ import {
 } from 'react-native'
 
 const useScratch = false
-const {width, height} = Dimensions.get('window')
 
 export default function(props) {
   const imgStyle = {width: width, height: props.viewHeight}
