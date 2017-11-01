@@ -3,7 +3,7 @@
 import React, {Component} from 'react'
 import {connect}          from 'react-redux'
 import LoginView          from '../components/LoginView'
-import {baseUrl}          from '../services/api'
+import api, {baseUrl}     from '../services/api'
 import {
   Linking,
 } from 'react-native'
@@ -34,11 +34,15 @@ class Login extends Component {
       return console.warn('No access token provided', event && event.url)
     }
 
-    this.props.onLogin({
-      accessToken: matches[1]
-    })
+    api('/users/me', {accessToken: matches[1]}).then((u) => {
+      this.props.onLogin({
+        accessToken: matches[1]
+      })
 
-    this.props.setUser({cool: 'nice'})
+      this.props.setUser(u)
+    }).catch((e) => {
+      return console.error('Error fetching current user:', e)
+    })
   }
 
   login() {
