@@ -15,7 +15,6 @@ class Chat extends Component {
 
   onSend(messages = []) {
     console.warn(messages[0])
-    console.log(this.props)
     api(`/matches/${this.props.userId}/messages`, {
       method: 'POST',
       accessToken: this.props.accessToken,
@@ -34,7 +33,6 @@ class Chat extends Component {
       accessToken: this.props.accessToken
     }).then((r) => {
       const messages = r.messages.map((m) => {
-        console.log(m)
         m._id = m.id,
         m.user = {
           _id:    m.userId,
