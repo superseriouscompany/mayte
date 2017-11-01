@@ -17,7 +17,6 @@ class Login extends Component {
 
   componentDidMount() {
     Linking.addEventListener('url', this.handle)
-    // this.props.setUser({cool: 'nice'})
   }
 
   componentWillUnmount() {
@@ -38,6 +37,8 @@ class Login extends Component {
     this.props.onLogin({
       accessToken: matches[1]
     })
+
+    this.props.setUser({cool: 'nice'})
   }
 
   login() {

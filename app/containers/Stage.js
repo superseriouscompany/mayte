@@ -37,6 +37,10 @@ class Stage extends Component {
       ...this.props,
     }
 
+    if (!props.authenticated) {
+      return <Login />
+    }
+
     switch(scene) {
       case 'Settings':
         return <Settings />
@@ -46,8 +50,6 @@ class Stage extends Component {
         return <Match userId={props.params.userId} myId={'HyeNFOS6W'} />
       case 'Recs':
         return <Recs />
-      case 'Login':
-        return <Login />
       default:
         return <Recs />
     }
