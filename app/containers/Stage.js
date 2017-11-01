@@ -31,10 +31,6 @@ class Stage extends Component {
     }
   }
 
-  componentDidUpdate(prevProps, prevState) {
-    console.log(this.state.fadeIn)
-  }
-
   showScene(scene, props) {
     props = {
       ...props,
@@ -50,6 +46,8 @@ class Stage extends Component {
         return <Match userId={props.params.userId} myId={'HyeNFOS6W'} />
       case 'Recs':
         return <Recs />
+      case 'Login':
+        return <Login />
       default:
         return <Recs />
     }

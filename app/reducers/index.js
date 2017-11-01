@@ -37,6 +37,7 @@ const store = createStore(
 
 const persistence = persistStore(store, {storage: AsyncStorage, whitelist: [
   'session',
+  'user'
 ]})
 
 export default store

@@ -17,6 +17,7 @@ class Login extends Component {
 
   componentDidMount() {
     Linking.addEventListener('url', this.handle)
+    // this.props.setUser({cool: 'nice'})
   }
 
   componentWillUnmount() {
@@ -33,7 +34,7 @@ class Login extends Component {
     if( !matches ) {
       return console.warn('No access token provided', event && event.url)
     }
-    console.log("beetch heres where this happens")
+
     this.props.onLogin({
       accessToken: matches[1]
     })
@@ -89,7 +90,11 @@ function mapDispatchToProps(dispatch) {
   return {
     onLogin: function(session) {
       dispatch({type: 'session:create', session: session})
-    }
+      dispatch({type: 'scene:change', scene: 'Recs'})
+    },
+    setUser: function(user) {
+      dispatch({type: 'user:set', user: user})
+    },
   }
 }
 
