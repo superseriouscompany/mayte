@@ -75,14 +75,13 @@ class Settings extends Component {
 
 function mapStateToProps(state) {
   return {
-    accessToken: state.session.accessToken
+    accessToken: state.user.accessToken
   }
 }
 
 function mapDispatchToProps(dispatch) {
   return {
     logout: function() {
-      dispatch({type: 'session:destroy'})
       dispatch({type: 'user:destroy'})
     }
   }

@@ -30,7 +30,7 @@ class Matches extends Component {
 
 function mapStateToProps(state) {
   return {
-    accessToken: state.session.accessToken
+    accessToken: state.user.accessToken
   }
 }
 

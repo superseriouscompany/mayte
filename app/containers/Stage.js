@@ -47,7 +47,7 @@ class Stage extends Component {
       case 'Matches':
         return <Matches />
       case 'Match':
-        return <Match userId={props.params.userId} myId={'HyeNFOS6W'} />
+        return <Match userId={props.params.userId} />
       case 'Recs':
         return <Recs />
       default:
@@ -116,7 +116,7 @@ class Stage extends Component {
 
 function mapStateToProps(state) {
   return {
-    authenticated: !!state.session.accessToken,
+    authenticated: !!state.user.accessToken,
     hydrated:      state.hydrated,
     scene:         state.scene.name,
     params:        state.scene,

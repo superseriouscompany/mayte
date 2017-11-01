@@ -35,14 +35,9 @@ class Login extends Component {
     }
 
     api('/users/me', {accessToken: matches[1]}).then((u) => {
-      this.props.onLogin({
-        accessToken: matches[1]
-      })
-
-      this.props.setUser(u)
-    }).catch((e) => {
-      return console.error('Error fetching current user:', e)
-    })
+      u.accessToken = matches[1]
+      this.props.onLogin(u)
+    }).catch(console.error)
   }
 
   login() {
@@ -93,12 +88,9 @@ function mapStateToProps(state) {
 
 function mapDispatchToProps(dispatch) {
   return {
-    onLogin: function(session) {
-      dispatch({type: 'session:create', session: session})
-      dispatch({type: 'scene:change', scene: 'Recs'})
-    },
-    setUser: function(user) {
+    onLogin: function(user) {
       dispatch({type: 'user:set', user: user})
+      dispatch({type: 'scene:change', scene: 'Recs'})
     },
   }
 }

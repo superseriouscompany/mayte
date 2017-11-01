@@ -70,7 +70,8 @@ function mapStateToProps(state) {
   return {
     user:        state.scene.user,
     userId:      state.scene.user.id,
-    accessToken: state.session.accessToken,
+    me:          state.user,
+    accessToken: state.user.accessToken,
     view:        state.scene.view
   }
 }

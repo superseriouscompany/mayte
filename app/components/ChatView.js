@@ -75,7 +75,7 @@ export default class extends Component {
           <GiftedChat
             messages={props.messages}
             onSend={(messages) => props.onSend(messages)}
-            user={{_id: props.myId}}
+            user={{_id: props.me.id}}
             renderBubble={(props) => (
               <Bubble
                 {...props}
