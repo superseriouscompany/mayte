@@ -2,9 +2,9 @@
 
 import React, {Component} from 'react'
 import Header from '../containers/Header'
+import { width, height } from '../services/dimensions'
 import {
   ActivityIndicator,
-  Dimensions,
   Image,
   ScrollView,
   StyleSheet,
@@ -12,8 +12,6 @@ import {
   TouchableOpacity,
   View,
 } from 'react-native'
-
-const {width, height} = Dimensions.get('window')
 
 export default function(props) {
   return (

@@ -1,37 +1,68 @@
 'use strict'
 
 import React, {Component} from 'react'
+import Header from '../containers/Header'
+import MatchInfoView from './MatchInfoView'
+import { width, height } from '../services/dimensions'
 import {
+  Animated,
+  ActivityIndicator,
   Image,
+  ScrollView,
   StyleSheet,
   Text,
   TouchableOpacity,
+  TouchableWithoutFeedback,
+  FlatList,
   View,
 } from 'react-native'
 
-export default function(props) {
-  const user = props.match.user
+const useScratch = false
+
+export default (props) => {
+  const imgStyle = {width: width, height: props.viewHeight}
 
   return (
-    <TouchableOpacity style={style.container} onPress={props.viewChat}>
-      <Image source={{url: user.photos[0].url}} style={style.image} />
-      <Text>{user.fullName}</Text>
-    </TouchableOpacity>
+    <View style={style.container}>
+      <FlatList style={[style.container]}
+                onLayout={(e) => {
+                  const {height} = e.nativeEvent.layout
+                  props.setHeight(height)
+                }}
+                onScroll={(e) => {
+                 const {contentOffset, layoutMeasurement, contentSize} = e.nativeEvent
+                 if (contentOffset.y + layoutMeasurement.height > contentSize.height) {
+                   e.preventDefault()
+                   props.showInfo()
+                 }
+                }}
+                showsVerticalScrollIndicator={false}
+                pagingEnabled
+                data={props.user.photos || []}
+                keyExtractor={(item, index) => index}
+                renderItem={({item}) =>
+                  <Image style={imgStyle}
+                         resizeMode="cover"
+                         source={{url: item.url}} />
+                } />
+
+      <MatchInfoView {...props} matchOpen={props.view === 'Profile'} />
+    </View>
   )
 }
 
-const style = StyleSheet.create({
+const style = {
   container: {
-    borderBottomWidth: 1,
-    padding:           10,
-    borderColor:       'lightgrey',
-    flexDirection:     'row',
-    alignItems:        'center',
+    flex: 1,
   },
-  image: {
-    borderRadius: 10,
-    width: 50,
-    height: 50,
-    marginRight: 10,
-  }
-})
+
+  centered: {
+    flex:           1,
+    alignItems:     'center',
+    justifyContent: 'center',
+  },
+
+  error: {
+    color: 'red',
+  },
+}

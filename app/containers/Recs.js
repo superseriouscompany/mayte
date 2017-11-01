@@ -47,7 +47,7 @@ class Recs extends Component {
       accessToken: this.props.accessToken
     }).then((r) => {
       if( r.match ) { alert('It\'s a match!') }
-      this.setState({index: this.state.index + 1})
+      this.setState({index: this.state.index + 1, infoOpen: false})
     }).catch((err) => {
       console.error(err)
       alert(err.message || err)
@@ -59,7 +59,7 @@ class Recs extends Component {
       method: 'POST',
       accessToken: this.props.accessToken
     }).then((r) => {
-      this.setState({index: this.state.index + 1})
+      this.setState({index: this.state.index + 1, infoOpen: false})
     }).catch((err) => {
       console.error(err)
       alert(err.message || err)
