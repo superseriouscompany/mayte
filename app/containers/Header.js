@@ -31,7 +31,6 @@ function mapDispatchToProps(dispatch, ownProps) {
         type: 'scene:change',
         scene: {
           name: 'Matches',
-          animation: 'fadeIn',
         }
       })
     },

@@ -66,7 +66,6 @@ class Stage extends Component {
         params = {toValue: this.state[anim], duration: 0}
     }
 
-
     Animated.timing(
       this.state[anim],
       params
