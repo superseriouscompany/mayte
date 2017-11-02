@@ -3,7 +3,7 @@
 import React, {Component} from 'react'
 import Header from '../containers/Header'
 import MatchInfoView from './MatchInfoView'
-import { width, height } from '../services/dimensions'
+import { width, height } from '../services/globals'
 import {
   Animated,
   ActivityIndicator,

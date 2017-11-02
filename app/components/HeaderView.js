@@ -1,6 +1,7 @@
 'use strict'
 
 import React, {Component} from 'react'
+import { headerHeight } from '../services/globals'
 import {
   StyleSheet,
   Text,
@@ -42,16 +43,21 @@ export default function(props) {
 
 const style = StyleSheet.create({
   container: {
+    position: 'absolute',
+    top: 0,
+    zIndex: 10,
+    width: '100%',
     paddingTop: 25,
     paddingBottom: 20,
     paddingRight: 5,
     paddingLeft: 5,
+    height: 65,
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
     borderBottomWidth: 1,
     borderColor: 'black',
-    backgroundColor: 'lightgrey',
+    backgroundColor: 'rgba(255,255,255,0.5)',
     opacity: 1,
   },
   button: {

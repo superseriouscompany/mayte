@@ -7,10 +7,14 @@ import Recs               from './Recs'
 import Settings           from './Settings'
 import Matches            from './Matches'
 import store              from '../reducers'
-import Match               from './Match'
+import Match              from './Match'
+import Header             from './Header'
+import { width, height }  from '../services/globals'
 import {
   StyleSheet,
   View,
+  ScrollView,
+  FlatList,
   Animated,
   TouchableWithoutFeedback,
 } from 'react-native'
@@ -36,10 +40,6 @@ class Stage extends Component {
     props = {
       ...props,
       ...this.props,
-    }
-
-    if (!props.authenticated) {
-      return <Login />
     }
 
     switch(scene) {
@@ -88,8 +88,27 @@ class Stage extends Component {
       null
     : useScratch ?
       <Scratch />
+    : !props.authenticated ?
+      <Login />
     :
       <View style={[style.container]}>
+        <Header />
+        {
+          // <FlatList style={[style.container], [style.railway]}
+          //           data={['Settings', 'Recs', 'Matches']}
+          //           showsHorizontalScrollIndicator={true}
+          //           pagingEnabled={false}
+          //           keyExtractor={(item, index) => index}
+          //           renderItem={({item}) => {
+          //             return(
+          //               <View style={{width: width, flex: 1}}>
+          //                 { this.showScene(item) }
+          //               </View>
+          //             )
+          //           }}>
+
+          // </FlatList>
+        }
         <View style={[style.container]}>
           { this.showScene(props.scene) }
         </View>
@@ -136,7 +155,11 @@ function mapDispatchToProps(dispatch) {
 
 const style = StyleSheet.create({
   container: {
-    flex: 1
+    flex: 1,
+  },
+  railway: {
+    backgroundColor: 'lightblue',
+    flexDirection: 'row',
   },
   overlay: {
     position: 'absolute',

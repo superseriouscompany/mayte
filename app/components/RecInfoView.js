@@ -1,7 +1,7 @@
 import React, {Component} from 'react'
 import LinearGradient from 'react-native-linear-gradient'
 import ProfileView from './ProfileView'
-import { width, height } from '../services/dimensions'
+import { width, height, headerHeight } from '../services/globals'
 import {
   StyleSheet,
   Animated,
@@ -12,13 +12,13 @@ import {
   TouchableWithoutFeedback,
   View,
 } from 'react-native'
-
+console.log(headerHeight)
 class RecInfoView extends Component {
   constructor(props) {
     super(props)
 
     this.state = {
-      topValue: new Animated.Value(height * 0.65),
+      topValue: new Animated.Value(height * 0.7),
       heightValue: new Animated.Value(height * 0.3),
     }
 
@@ -38,7 +38,7 @@ class RecInfoView extends Component {
     Animated.timing(
       this.state.topValue,
       {
-        toValue: 0,
+        toValue: headerHeight,
         duration: 333,
       }
     ).start()
@@ -55,7 +55,7 @@ class RecInfoView extends Component {
     Animated.timing(
       this.state.topValue,
       {
-        toValue: height * 0.65,
+        toValue: height * 0.7,
         duration: 333,
       }
     ).start()

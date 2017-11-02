@@ -1,7 +1,7 @@
 import React, {Component} from 'react'
 import LinearGradient from 'react-native-linear-gradient'
 import ProfileView from './ProfileView'
-import { width, height } from '../services/dimensions'
+import { width, height, headerHeight } from '../services/globals'
 import {
   Animated,
   StyleSheet,
@@ -44,7 +44,7 @@ class MatchInfoView extends Component {
     Animated.timing(
       this.state.topValue,
       {
-        toValue: 0,
+        toValue: headerHeight,
         duration: 333,
       }
     ).start()
@@ -61,7 +61,7 @@ class MatchInfoView extends Component {
     Animated.timing(
       this.state.topValue,
       {
-        toValue: height * 0.65,
+        toValue: height * 0.7,
         duration: 333,
       }
     ).start()
