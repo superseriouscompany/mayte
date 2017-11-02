@@ -47,7 +47,7 @@ class Stage extends Component {
       case 'Matches':
         return <Matches />
       case 'Match':
-        return <Match userId={props.params.userId} />
+        return <Match userId={props.params.userId} myId={props.user.id} />
       case 'Recs':
         return <Recs />
       default:
