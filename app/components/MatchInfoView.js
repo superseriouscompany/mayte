@@ -106,6 +106,7 @@ class MatchInfoView extends Component {
                      topValue={state.topValue}
                      heightValue={state.heightValue}
                      infoOpen={props.infoOpen}
+                     showInfo={props.showInfo}
                      hideInfo={props.hideInfo}
                      hideButtons={true} />
       </Animated.View>

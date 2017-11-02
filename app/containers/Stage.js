@@ -12,6 +12,7 @@ import {
   StyleSheet,
   View,
   Animated,
+  TouchableWithoutFeedback,
 } from 'react-native'
 
 const useScratch = false
@@ -88,29 +89,29 @@ class Stage extends Component {
     : useScratch ?
       <Scratch />
     :
-    <View style={[style.container]}>
       <View style={[style.container]}>
-        { this.showScene(props.scene) }
-      </View>
-      {
-        props.nextScene
-        ?
-        <View style={style.overlay}>
-          {
-            props.nextScene.animation === 'fadeIn' ?
-              <Animated.View style={[style.container, {
-                opacity: state.fadeIn,
-                backgroundColor: 'white'
-              }]}>
-                { this.showScene(props.nextScene, {...props}) }
-              </Animated.View>
-            : this.showScene(props.nextScene, {...props})
-          }
+        <View style={[style.container]}>
+          { this.showScene(props.scene) }
         </View>
-        :
-        null
-      }
-    </View>
+        {
+          props.nextScene
+          ?
+          <View style={style.overlay}>
+            {
+              props.nextScene.animation === 'fadeIn' ?
+                <Animated.View style={[style.container, {
+                  opacity: state.fadeIn,
+                  backgroundColor: 'white'
+                }]}>
+                  { this.showScene(props.nextScene, {...props}) }
+                </Animated.View>
+              : this.showScene(props.nextScene, {...props})
+            }
+          </View>
+          :
+          null
+        }
+      </View>
   }
 }
 
