@@ -3,7 +3,7 @@
 import React, {Component} from 'react'
 import Header from '../containers/Header'
 import MatchInfoView from './MatchInfoView'
-import { width, height } from '../services/globals'
+import { width, height, headerHeight } from '../services/globals'
 import {
   Animated,
   ActivityIndicator,
@@ -23,7 +23,7 @@ export default (props) => {
   const imgStyle = {width: width, height: props.viewHeight}
 
   return (
-    <View style={style.container}>
+    <View style={{...style.container, paddingTop: headerHeight}}>
       <FlatList style={[style.container]}
                 onLayout={(e) => {
                   const {height} = e.nativeEvent.layout

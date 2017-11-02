@@ -1,6 +1,7 @@
 'use strict'
 
 import React, {Component} from 'react'
+import LinearGradient from 'react-native-linear-gradient'
 import { headerHeight } from '../services/globals'
 import {
   StyleSheet,
@@ -55,12 +56,13 @@ const style = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
-    borderBottomWidth: 1,
-    borderColor: 'black',
     backgroundColor: 'rgba(255,255,255,0.5)',
+    borderBottomWidth: 1,
+    borderBottomColor: 'rgba(40,40,40,1)',
     opacity: 1,
   },
   button: {
     color: 'blue',
+    backgroundColor: 'transparent',
   }
 })

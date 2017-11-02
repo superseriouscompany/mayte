@@ -1,5 +1,4 @@
 import React, {Component} from 'react'
-import LinearGradient from 'react-native-linear-gradient'
 import ProfileView from './ProfileView'
 import { width, height, headerHeight } from '../services/globals'
 import {
