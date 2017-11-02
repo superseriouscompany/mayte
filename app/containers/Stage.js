@@ -6,6 +6,7 @@ import Login              from './Login'
 import Recs               from './Recs'
 import Settings           from './Settings'
 import Matches            from './Matches'
+import store              from '../reducers'
 import Match               from './Match'
 import {
   StyleSheet,
@@ -30,14 +31,14 @@ class Stage extends Component {
     }
   }
 
-  componentDidUpdate(prevProps, prevState) {
-    console.log(this.state.fadeIn)
-  }
-
   showScene(scene, props) {
     props = {
       ...props,
       ...this.props,
+    }
+
+    if (!props.authenticated) {
+      return <Login />
     }
 
     switch(scene) {
@@ -46,7 +47,7 @@ class Stage extends Component {
       case 'Matches':
         return <Matches />
       case 'Match':
-        return <Match userId={props.params.userId} myId={'HyeNFOS6W'} />
+        return <Match userId={props.params.userId} myId={props.user.id} />
       case 'Recs':
         return <Recs />
       default:
@@ -115,10 +116,11 @@ class Stage extends Component {
 
 function mapStateToProps(state) {
   return {
-    authenticated: !!state.session.accessToken,
+    authenticated: !!state.user.accessToken,
     hydrated:      state.hydrated,
     scene:         state.scene.name,
     params:        state.scene,
+    user:          state.user,
     nextScene:     state.scene.next,
   }
 }

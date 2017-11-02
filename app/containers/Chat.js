@@ -41,7 +41,8 @@ class Chat extends Component {
         }
         return m
       })
-      this.setState({messages: r.messages, loading: false})
+
+      this.setState({messages: messages, loading: false})
     }).catch((err) => {
       this.setState({error: err.message || err, loading: false})
     })
@@ -58,7 +59,7 @@ function mapStateToProps(state) {
   return {
     user:        state.scene.user,
     userId:      state.scene.user.id,
-    accessToken: state.session.accessToken,
+    accessToken: state.user.accessToken,
   }
 }
 

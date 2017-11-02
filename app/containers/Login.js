@@ -3,7 +3,7 @@
 import React, {Component} from 'react'
 import {connect}          from 'react-redux'
 import LoginView          from '../components/LoginView'
-import {baseUrl}          from '../services/api'
+import api, {baseUrl}     from '../services/api'
 import {
   Linking,
 } from 'react-native'
@@ -34,9 +34,10 @@ class Login extends Component {
       return console.warn('No access token provided', event && event.url)
     }
 
-    this.props.onLogin({
-      accessToken: matches[1]
-    })
+    api('/users/me', {accessToken: matches[1]}).then((u) => {
+      u.accessToken = matches[1]
+      this.props.onLogin(u)
+    }).catch(console.error)
   }
 
   login() {
@@ -87,9 +88,10 @@ function mapStateToProps(state) {
 
 function mapDispatchToProps(dispatch) {
   return {
-    onLogin: function(session) {
-      dispatch({type: 'session:create', session: session})
-    }
+    onLogin: function(user) {
+      dispatch({type: 'user:set', user: user})
+      dispatch({type: 'scene:change', scene: 'Recs'})
+    },
   }
 }
 
