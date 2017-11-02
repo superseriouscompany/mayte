@@ -4,7 +4,7 @@ export default function(state=initialState, action) {
     case 'user:set':
       return action.user
     case 'user:destroy':
-      return {}
+      return initialState
     default:
       return state
   }
