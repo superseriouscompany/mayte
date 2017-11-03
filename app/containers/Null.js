@@ -2,6 +2,7 @@
 
 import React, {Component} from 'react'
 import {connect}          from 'react-redux'
+
 import {
   Dimensions,
   ScrollView,
@@ -17,7 +18,7 @@ class Null extends Component {
     const {props} = this
 
     return (
-      <Wrapper style={{flex: 1}} implementation={'dumb'}>
+      <Wrapper style={{flex: 1}} implementation="react-navigation">
         <View style={[style.page, {backgroundColor: 'hotpink'}]} />
         <View style={[style.page, {backgroundColor: 'cornflowerblue'}]} />
         <View style={[style.page, {backgroundColor: 'mediumpurple'}]} />
@@ -27,17 +28,55 @@ class Null extends Component {
   }
 }
 
-function Wrapper(props) {
-  return providers[props.implementation](props)
-}
+import { TabNavigator } from 'react-navigation'
 
-var providers = {
-  dumb: function(props) {
-    return (
-      <ScrollView horizontal={true}>
-        {props.children}
-      </ScrollView>
-    )
+function Wrapper(props) {
+  switch(props.implementation) {
+    case 'dumb':
+      return (
+        <ScrollView horizontal={true}>
+          {props.children}
+        </ScrollView>
+      )
+    case 'react-navigation':
+      const TabNav = TabNavigator({
+        Home: {
+          screen: () => (
+            <View style={[style.page, {backgroundColor: 'hotpink'}]} />
+          ),
+          tabBarLabel: 'Home',
+        },
+        Profile: {
+          screen: () => (
+            <View style={[style.page, {backgroundColor: 'cornflowerblue'}]} />
+          ),
+          tabBarLabel: 'Profile',
+        },
+        Cool: {
+          screen: () => (
+            <View style={[style.page, {backgroundColor: 'mediumpurple'}]} />
+          ),
+          tabBarLabel: 'Cool',
+        },
+        Nice: {
+          screen: () => (
+            <View style={[style.page, {backgroundColor: 'palegreen'}]} />
+          ),
+          tabBarLabel: 'Nice',
+        },
+      }, {
+        animationEnabled: true,
+        swipeEnabled: true,
+        lazy: true,
+        initialRouteName: 'Home',
+        tabBarOptions: {
+          activeTintColor: 'hotpink',
+        }
+      })
+
+      return (
+        <TabNav />
+      )
   }
 }
 
