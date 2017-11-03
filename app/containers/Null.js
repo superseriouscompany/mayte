@@ -2,7 +2,6 @@
 
 import React, {Component} from 'react'
 import {connect}          from 'react-redux'
-
 import {
   Dimensions,
   ScrollView,
@@ -28,6 +27,7 @@ class Null extends Component {
   }
 }
 
+import Ionicons from 'react-native-vector-icons/Ionicons'
 import { TabNavigator } from 'react-navigation'
 
 function Wrapper(props) {
@@ -45,24 +45,44 @@ function Wrapper(props) {
             <View style={[style.page, {backgroundColor: 'hotpink'}]} />
           ),
           tabBarLabel: 'Home',
+          tabBarIcon: ({ tintColor, focused }) => (
+            <Ionicons name={focused ? 'ios-home' : 'ios-home-outline'}
+                      size={26}
+                      style={{color: tintColor}} />
+          )
         },
         Profile: {
           screen: () => (
             <View style={[style.page, {backgroundColor: 'cornflowerblue'}]} />
           ),
           tabBarLabel: 'Profile',
+          tabBarIcon: ({ tintColor, focused }) => (
+            <Ionicons name={focused ? 'ios-beer' : 'ios-beer-outline'}
+                      size={26}
+                      style={{color: tintColor}} />
+          )
         },
         Cool: {
           screen: () => (
             <View style={[style.page, {backgroundColor: 'mediumpurple'}]} />
           ),
           tabBarLabel: 'Cool',
+          tabBarIcon: ({ tintColor, focused }) => (
+            <Ionicons name={focused ? 'ios-boat' : 'ios-boat-outline'}
+                      size={26}
+                      style={{color: tintColor}} />
+          )
         },
         Nice: {
           screen: () => (
             <View style={[style.page, {backgroundColor: 'palegreen'}]} />
           ),
           tabBarLabel: 'Nice',
+          tabBarIcon: ({ tintColor, focused }) => (
+            <Ionicons name={focused ? 'ios-bitcoin' : 'ios-bowtie-outline'}
+                      size={26}
+                      style={{color: tintColor}} />
+          )
         },
       }, {
         animationEnabled: true,
