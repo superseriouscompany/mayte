@@ -3,18 +3,25 @@
 import React, {Component} from 'react'
 import {connect}          from 'react-redux'
 import {
+  Dimensions,
+  ScrollView,
   StyleSheet,
   Text,
   View,
 } from 'react-native'
+
+const {width, height} = Dimensions.get('window')
 
 class Null extends Component {
   render() {
     const {props} = this
 
     return (
-      <Wrapper implementation={'dumb'}>
-        <Text>Hello world</Text>
+      <Wrapper style={{flex: 1}} implementation={'dumb'}>
+        <View style={[style.page, {backgroundColor: 'hotpink'}]} />
+        <View style={[style.page, {backgroundColor: 'cornflowerblue'}]} />
+        <View style={[style.page, {backgroundColor: 'mediumpurple'}]} />
+        <View style={[style.page, {backgroundColor: 'palegreen'}]} />
       </Wrapper>
     )
   }
@@ -27,17 +34,18 @@ function Wrapper(props) {
 var providers = {
   dumb: function(props) {
     return (
-      <View style={{flex: 1}}>
-        { React.Children.map(props.children, child => {
-          return React.cloneElement(child, { style: {color: 'hotpink'}})
-        })}
-      </View>
+      <ScrollView horizontal={true}>
+        {props.children}
+      </ScrollView>
     )
   }
 }
 
 const style = StyleSheet.create({
-
+  page: {
+    height: height,
+    width:  width,
+  }
 })
 
 function mapStateToProps(state) {
