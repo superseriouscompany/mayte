@@ -7,7 +7,8 @@ import Recs               from './Recs'
 import Settings           from './Settings'
 import Matches            from './Matches'
 import store              from '../reducers'
-import Match               from './Match'
+import Match              from './Match'
+import Null               from './Null'
 import {
   StyleSheet,
   View,
@@ -36,6 +37,8 @@ class Stage extends Component {
       ...props,
       ...this.props,
     }
+
+    return <Null />
 
     if (!props.authenticated) {
       return <Login />
