@@ -18,6 +18,9 @@ import { TabNavigator } from 'react-navigation'
 // react-native-swiper
 import Swiper from 'react-native-swiper'
 
+//react-native-swipe-a-lot
+import SwipeALot from 'react-native-swipe-a-lot'
+
 const {width, height} = Dimensions.get('window')
 
 class Null extends Component {
@@ -25,7 +28,7 @@ class Null extends Component {
     const {props} = this
 
     return (
-      <Wrapper style={{flex: 1}} implementation="react-navigation">
+      <Wrapper style={{flex: 1}} implementation="react-native-swiper">
         <View style={[style.page, {backgroundColor: 'cornflowerblue'}]}
           tabLabel={"Dope"}
           tabIcon={({tintColor, focused}) => (
@@ -102,6 +105,20 @@ function Wrapper(props) {
         <Swiper loop={false} showsPagination={false} index={1}>
           {props.children}
         </Swiper>
+      )
+    case 'react-native-swipe-a-lot':
+      return (
+        <SwipeALot>
+          <View style={[style.page],{flex: 1, justifyContent: 'center', alignItems: 'center', backgroundColor: 'pink'}}>
+            <Text>Swipe a Lot</Text>
+          </View>
+          <View style={[style.page],{flex: 1, justifyContent: 'center', alignItems: 'center', backgroundColor: 'lightblue'}}>
+            <Text>Little in the middle</Text>
+          </View>
+          <View style={[style.page],{flex: 1, justifyContent: 'center', alignItems: 'center', backgroundColor: 'seagreen'}}>
+            <Text>But she got much back</Text>
+          </View>
+        </SwipeALot>
       )
     default:
       throw new Error('Unknown navigation wrapper implementation')
