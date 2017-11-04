@@ -10,10 +10,14 @@ import store              from '../reducers'
 import Match              from './Match'
 import Null               from './Null'
 import Header             from './Header'
+import { width, height }  from '../services/globals'
 import {
   StyleSheet,
   View,
+  ScrollView,
+  FlatList,
   Animated,
+  TouchableWithoutFeedback,
 } from 'react-native'
 
 const useScratch = false
@@ -44,7 +48,6 @@ class Stage extends Component {
     }
 
     return <Null scene={scene} />
-
 
     switch(scene) {
       case 'Settings':
@@ -92,30 +95,12 @@ class Stage extends Component {
       null
     : useScratch ?
       <Scratch />
+    : !props.authenticated ?
+      <Login />
     :
     <View style={[style.container]}>
       <Header />
-      <View style={[style.container]}>
-        { this.showScene(props.scene) }
-      </View>
-      {
-        props.nextScene
-        ?
-        <View style={style.overlay}>
-          {
-            props.nextScene.animation === 'fadeIn' ?
-              <Animated.View style={[style.container, {
-                opacity: state.fadeIn,
-                backgroundColor: 'white'
-              }]}>
-                { this.showScene(props.nextScene, {...props}) }
-              </Animated.View>
-            : this.showScene(props.nextScene, {...props})
-          }
-        </View>
-        :
-        null
-      }
+      { this.showScene(props.scene) }
     </View>
   }
 }
@@ -141,7 +126,11 @@ function mapDispatchToProps(dispatch) {
 
 const style = StyleSheet.create({
   container: {
-    flex: 1
+    flex: 1,
+  },
+  railway: {
+    backgroundColor: 'lightblue',
+    flexDirection: 'row',
   },
   overlay: {
     position: 'absolute',

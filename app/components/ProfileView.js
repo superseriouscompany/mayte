@@ -1,12 +1,13 @@
 import React, {Component} from 'react'
 import LinearGradient from 'react-native-linear-gradient'
-import { width, height } from '../services/dimensions'
+import { width, height } from '../services/globals'
 import {
   StyleSheet,
   ScrollView,
   Text,
   View,
   TouchableOpacity,
+  TouchableWithoutFeedback,
   Image,
 } from 'react-native'
 
@@ -32,7 +33,13 @@ export default (props) => {
         {
           props.hideButtons ? null :
           <View style={[style.tray]}>
-            <TouchableOpacity style={[style.bubble]} onPress={() => props.pass(props.user.id)}>
+            {
+              !props.infoOpen ?
+              <TouchableOpacity style={[style.opener]} onPress={() => props.showInfo()} />
+              :
+              null
+            }
+            <TouchableOpacity style={[style.bubble]} onPress={() => props.pass(props.user.id)} >
               <Image style={style.icon}
                      resizeMode='contain'
                      source={require('../images/x.png')} />
@@ -43,6 +50,12 @@ export default (props) => {
                      source={require('../images/heart.png')} />
             </TouchableOpacity>
           </View>
+        }
+        {
+          !props.infoOpen ?
+          <TouchableOpacity style={style.opener} onPress={() => props.showInfo()} />
+          :
+          null
         }
         <View style={style.cv}>
           <Text style={style.handle}>Profreshional Model, Treats!</Text>
@@ -73,6 +86,7 @@ const style = StyleSheet.create({
     paddingLeft: 20,
     paddingRight: 20,
     width: '100%',
+    backgroundColor: 'transparent',
   },
 
   cv: {
@@ -88,7 +102,6 @@ const style = StyleSheet.create({
 
   bio: {
     textAlign: 'center',
-    backgroundColor: 'transparent',
     color: 'rgba(255,255,255,1)',
     fontSize: 18,
     paddingTop: 40,
@@ -97,10 +110,9 @@ const style = StyleSheet.create({
   name: {
     top: 0, left: 0, right: 0,
     color: 'rgba(255,255,255,1)',
-    backgroundColor: 'transparent',
     textAlign: 'center',
     fontSize: 25,
-    paddingTop: 30,
+    paddingTop: 40,
   },
 
   location: {
@@ -117,6 +129,7 @@ const style = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-around',
     alignItems: 'center',
+    zIndex: 10,
   },
 
   bubble: {
@@ -139,5 +152,13 @@ const style = StyleSheet.create({
   button: {
     color: 'rgba(255,255,255,0.9)',
     backgroundColor: 'rgba(255,255,255,0)',
+  },
+
+  opener: {
+    position: 'absolute',
+    top: 10, left: 0,
+    width: '100%',
+    height: height * 0.25,
+    zIndex: 1,
   },
 })
