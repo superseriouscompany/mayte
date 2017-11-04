@@ -11,6 +11,10 @@ import {
   View,
 } from 'react-native'
 
+import Recs from './Recs'
+import Matches from './Matches'
+import Settings from './Settings'
+
 // react-navigation
 import Icon from 'react-native-vector-icons/Ionicons'
 import { TabNavigator } from 'react-navigation'
@@ -21,6 +25,9 @@ import Swiper from 'react-native-swiper'
 //react-native-swipe-a-lot
 import SwipeALot from 'react-native-swipe-a-lot'
 
+///react-native-page-swiper
+import PageSwiper from 'react-native-page-swiper'
+
 const {width, height} = Dimensions.get('window')
 
 class Null extends Component {
@@ -29,36 +36,9 @@ class Null extends Component {
 
     return (
       <Wrapper style={{flex: 1}} implementation="react-native-swiper">
-        <View style={[style.page, {backgroundColor: 'cornflowerblue'}]}
-          tabLabel={"Dope"}
-          tabIcon={({tintColor, focused}) => (
-            <Icon name={focused ? 'ios-home' : 'ios-home-outline'}
-                  size={26}
-                  style={{color: tintColor}} />
-          )}
-        >
-          <Text>Testing</Text>
-          <Text>Multiple <Text>Kids</Text></Text>
-        </View>
-        <View style={[style.page, {backgroundColor: 'hotpink'}]}
-          tabLabel={"Fresh"}
-          tabIcon={({tintColor, focused}) => (
-            <Icon name={focused ? 'ios-beer' : 'ios-beer-outline'}
-                  size={26}
-                  style={{color: tintColor}} />
-          )} />
-        <View style={[style.page, {backgroundColor: 'mediumpurple'}]}
-          tabIcon={({tintColor, focused}) => (
-            <Icon name={focused ? 'ios-boat' : 'ios-boat-outline'}
-                  size={26}
-                  style={{color: tintColor}} />
-          )} />
-        <View style={[style.page, {backgroundColor: 'palegreen'}]}
-          tabIcon={({tintColor, focused}) => (
-            <Icon name={focused ? 'ios-nuclear' : 'ios-bowtie-outline'}
-                  size={26}
-                  style={{color: tintColor}} />
-          )} />
+        <Settings />
+        <Recs />
+        <Matches />
       </Wrapper>
     )
   }
@@ -109,16 +89,14 @@ function Wrapper(props) {
     case 'react-native-swipe-a-lot':
       return (
         <SwipeALot>
-          <View style={[style.page],{flex: 1, justifyContent: 'center', alignItems: 'center', backgroundColor: 'pink'}}>
-            <Text>Swipe a Lot</Text>
-          </View>
-          <View style={[style.page],{flex: 1, justifyContent: 'center', alignItems: 'center', backgroundColor: 'lightblue'}}>
-            <Text>Little in the middle</Text>
-          </View>
-          <View style={[style.page],{flex: 1, justifyContent: 'center', alignItems: 'center', backgroundColor: 'seagreen'}}>
-            <Text>But she got much back</Text>
-          </View>
+          {props.children}
         </SwipeALot>
+      )
+    case 'react-native-page-swiper':
+      return(
+        <PageSwiper>
+          {props.children}
+        </PageSwiper>
       )
     default:
       throw new Error('Unknown navigation wrapper implementation')

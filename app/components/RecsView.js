@@ -23,8 +23,6 @@ export default function(props) {
 
   return (
     <View style={style.container}>
-      <Header />
-
       { props.loading ?
         <View style={style.centered}>
           <ActivityIndicator />

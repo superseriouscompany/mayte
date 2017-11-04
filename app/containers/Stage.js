@@ -9,6 +9,7 @@ import Matches            from './Matches'
 import store              from '../reducers'
 import Match              from './Match'
 import Null               from './Null'
+import Header             from './Header'
 import {
   StyleSheet,
   View,
@@ -92,6 +93,7 @@ class Stage extends Component {
       <Scratch />
     :
     <View style={[style.container]}>
+      <Header />
       <View style={[style.container]}>
         { this.showScene(props.scene) }
       </View>
