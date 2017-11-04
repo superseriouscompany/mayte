@@ -12,7 +12,7 @@ import {
   TouchableWithoutFeedback,
   View,
 } from 'react-native'
-console.log(headerHeight)
+
 class RecInfoView extends Component {
   constructor(props) {
     super(props)

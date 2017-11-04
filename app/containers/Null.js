@@ -21,7 +21,8 @@ import Icon from 'react-native-vector-icons/Ionicons'
 import { TabNavigator } from 'react-navigation'
 
 // react-native-swiper
-import Swiper from 'react-native-swiper'
+// import Swiper from 'react-native-swiper'
+import Swiper from './Swiper'
 
 //react-native-swipe-a-lot
 import SwipeALot from 'react-native-swipe-a-lot'
@@ -35,17 +36,15 @@ class Null extends Component {
   render() {
     const {props} = this
 
-    console.log(props.scene)
-
     return (
-      <Wrapper style={{flex: 1}} implementation="react-native-swiper">
+      <Wrapper style={{flex: 1}} index={props.index} implementation="react-native-swiper">
         <Settings />
         <Recs />
         <Matches />
         {
-          props.scene === "Match"
+          props.scene.name === "Match"
           ?
-          <Match />
+          <Match userId={props.params.userId} myId={props.user.id} />
           :
           null
         }
@@ -91,9 +90,10 @@ function Wrapper(props) {
         <TabNav />
       )
     case 'react-native-swiper':
+      const children = props.children.filter(c => c) // Have to filter out null?
       return (
-        <Swiper loop={false} showsPagination={false} index={1}>
-          {props.children}
+        <Swiper loop={false} showsPagination={false} index={props.index}>
+          {children}
         </Swiper>
       )
     case 'react-native-swipe-a-lot':

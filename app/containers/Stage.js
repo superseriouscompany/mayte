@@ -47,7 +47,7 @@ class Stage extends Component {
       return <Login />
     }
 
-    return <Null scene={scene} />
+    return <Null {...props} index={scene.index || 1} />
 
     switch(scene) {
       case 'Settings':
@@ -109,7 +109,7 @@ function mapStateToProps(state) {
   return {
     authenticated: !!state.user.accessToken,
     hydrated:      state.hydrated,
-    scene:         state.scene.name,
+    scene:         state.scene,
     params:        state.scene,
     user:          state.user,
     nextScene:     state.scene.next,
