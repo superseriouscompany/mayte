@@ -11,6 +11,14 @@ import {
   View,
 } from 'react-native'
 
+// react-navigation
+import Icon from 'react-native-vector-icons/Ionicons'
+import { TabNavigator } from 'react-navigation'
+
+// react-native-swiper
+import Swiper from 'react-native-swiper'
+
+
 const {width, height} = Dimensions.get('window')
 
 class Null extends Component {
@@ -18,7 +26,7 @@ class Null extends Component {
     const {props} = this
 
     return (
-      <Wrapper style={{flex: 1}} implementation="react-navigation">
+      <Wrapper style={{flex: 1}} implementation="react-native-swiper">
         <View style={[style.page, {backgroundColor: 'cornflowerblue'}]}
           tabLabel={"Dope"}
           tabIcon={({tintColor, focused}) => (
@@ -53,9 +61,6 @@ class Null extends Component {
     )
   }
 }
-
-import Icon from 'react-native-vector-icons/Ionicons'
-import { TabNavigator } from 'react-navigation'
 
 function Wrapper(props) {
   switch(props.implementation) {
@@ -92,6 +97,14 @@ function Wrapper(props) {
       return (
         <TabNav />
       )
+    case 'react-native-swiper':
+      return (
+        <Swiper loop={false} showsPagination={false}>
+          {props.children}
+        </Swiper>
+      )
+    default:
+      throw new Error('Unknown navigation wrapper implementation')
   }
 }
 
