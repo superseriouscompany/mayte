@@ -11,12 +11,24 @@ import {
   View,
 } from 'react-native'
 
+import Recs from './Recs'
+import Matches from './Matches'
+import Settings from './Settings'
+import Match from './Match'
+
 // react-navigation
 import Icon from 'react-native-vector-icons/Ionicons'
 import { TabNavigator } from 'react-navigation'
 
 // react-native-swiper
-import Swiper from 'react-native-swiper'
+// import Swiper from 'react-native-swiper'
+import Swiper from './Swiper'
+
+//react-native-swipe-a-lot
+import SwipeALot from 'react-native-swipe-a-lot'
+
+///react-native-page-swiper
+import PageSwiper from 'react-native-page-swiper'
 
 const {width, height} = Dimensions.get('window')
 
@@ -25,37 +37,17 @@ class Null extends Component {
     const {props} = this
 
     return (
-      <Wrapper style={{flex: 1}} implementation="react-navigation">
-        <View style={[style.page, {backgroundColor: 'cornflowerblue'}]}
-          tabLabel={"Dope"}
-          tabIcon={({tintColor, focused}) => (
-            <Icon name={focused ? 'ios-home' : 'ios-home-outline'}
-                  size={26}
-                  style={{color: tintColor}} />
-          )}
-        >
-          <Text>Testing</Text>
-          <Text>Multiple <Text>Kids</Text></Text>
-        </View>
-        <View style={[style.page, {backgroundColor: 'hotpink'}]}
-          tabLabel={"Fresh"}
-          tabIcon={({tintColor, focused}) => (
-            <Icon name={focused ? 'ios-beer' : 'ios-beer-outline'}
-                  size={26}
-                  style={{color: tintColor}} />
-          )} />
-        <View style={[style.page, {backgroundColor: 'mediumpurple'}]}
-          tabIcon={({tintColor, focused}) => (
-            <Icon name={focused ? 'ios-boat' : 'ios-boat-outline'}
-                  size={26}
-                  style={{color: tintColor}} />
-          )} />
-        <View style={[style.page, {backgroundColor: 'palegreen'}]}
-          tabIcon={({tintColor, focused}) => (
-            <Icon name={focused ? 'ios-nuclear' : 'ios-bowtie-outline'}
-                  size={26}
-                  style={{color: tintColor}} />
-          )} />
+      <Wrapper style={{flex: 1}} index={props.index} implementation="react-native-swiper">
+        <Settings />
+        <Recs />
+        <Matches />
+        {
+          props.scene.name === "Match"
+          ?
+          <Match userId={props.params.userId} myId={props.user.id} />
+          :
+          null
+        }
       </Wrapper>
     )
   }
@@ -98,10 +90,23 @@ function Wrapper(props) {
         <TabNav />
       )
     case 'react-native-swiper':
+      const children = props.children.filter(c => c) // Have to filter out null?
       return (
-        <Swiper loop={false} showsPagination={false} index={1}>
-          {props.children}
+        <Swiper loop={false} showsPagination={false} index={props.index}>
+          {children}
         </Swiper>
+      )
+    case 'react-native-swipe-a-lot':
+      return (
+        <SwipeALot>
+          {props.children}
+        </SwipeALot>
+      )
+    case 'react-native-page-swiper':
+      return(
+        <PageSwiper>
+          {props.children}
+        </PageSwiper>
       )
     default:
       throw new Error('Unknown navigation wrapper implementation')

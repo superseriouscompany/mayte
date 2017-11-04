@@ -2,18 +2,22 @@
 
 import React, {Component} from 'react'
 import Header             from '../containers/Header'
-import MatchPreview          from './MatchPreview'
+import MatchPreview       from './MatchPreview'
 import {
   ActivityIndicator,
   StyleSheet,
   Text,
   View,
 } from 'react-native'
+import {
+  width,
+  height,
+  headerHeight
+} from '../services/globals'
 
 export default function(props) {
   return (
     <View style={style.container}>
-      <Header />
       { props.loading  ?
         <View style={style.centered}>
           <ActivityIndicator />
@@ -42,6 +46,7 @@ export default function(props) {
 const style = StyleSheet.create({
   container: {
     flex: 1,
+    paddingTop: headerHeight,
   },
   centered: {
     flex:           1,

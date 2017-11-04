@@ -2,7 +2,7 @@
 
 import React, {Component} from 'react'
 import Header from '../containers/Header'
-import { width, height } from '../services/dimensions'
+import { width, height, headerHeight } from '../services/globals'
 import {
   ActivityIndicator,
   Image,
@@ -16,7 +16,6 @@ import {
 export default function(props) {
   return (
     <View style={style.container}>
-      <Header />
       { props.loading  ?
         <View style={style.centered}>
           <ActivityIndicator />
@@ -63,7 +62,8 @@ export default function(props) {
 
 const style = StyleSheet.create({
   container: {
-    flex: 1
+    flex: 1,
+    paddingTop: headerHeight,
   },
   centered: {
     flex:           1,

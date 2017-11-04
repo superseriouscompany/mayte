@@ -1,7 +1,7 @@
 import React, {Component} from 'react'
 import LinearGradient from 'react-native-linear-gradient'
 import ProfileView from './ProfileView'
-import { width, height } from '../services/dimensions'
+import { width, height, headerHeight } from '../services/globals'
 import {
   StyleSheet,
   Animated,
@@ -18,7 +18,7 @@ class RecInfoView extends Component {
     super(props)
 
     this.state = {
-      topValue: new Animated.Value(height * 0.65),
+      topValue: new Animated.Value(height * 0.7),
       heightValue: new Animated.Value(height * 0.3),
     }
 
@@ -38,7 +38,7 @@ class RecInfoView extends Component {
     Animated.timing(
       this.state.topValue,
       {
-        toValue: 0,
+        toValue: headerHeight,
         duration: 333,
       }
     ).start()
@@ -55,7 +55,7 @@ class RecInfoView extends Component {
     Animated.timing(
       this.state.topValue,
       {
-        toValue: height * 0.65,
+        toValue: height * 0.7,
         duration: 333,
       }
     ).start()
@@ -73,17 +73,13 @@ class RecInfoView extends Component {
 
     return (
       <Animated.View style={[{top: state.topValue, height: state.heightValue,}, style.info]}>
-        {
-          !props.infoOpen ?
-          <TouchableOpacity style={style.opener} onPress={() => props.showInfo()} />
-          :
-          null
-        }
         <ProfileView user={props.recs[props.index]}
+                     pass={props.pass}
                      like={props.like}
                      topValue={state.topValue}
                      heightValue={state.heightValue}
                      infoOpen={props.infoOpen}
+                     showInfo={props.showInfo}
                      hideInfo={props.hideInfo} />
       </Animated.View>
     )
@@ -95,14 +91,6 @@ export default RecInfoView
 const style = StyleSheet.create({
   info: {
     position: 'absolute',
-  },
-
-  opener: {
-    position: 'absolute',
-    bottom: 0, left: -20,
-    width: width + 20,
-    height: height * 0.25,
-    backgroundColor: 'transparent',
-    zIndex: 1,
+    left: -width * 0.038, // TEMP: not sure what's happening with this offset
   },
 })
