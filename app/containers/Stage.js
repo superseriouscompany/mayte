@@ -39,11 +39,12 @@ class Stage extends Component {
       ...this.props,
     }
 
-    return <Null />
-
     if (!props.authenticated) {
       return <Login />
     }
+
+    return <Null scene={scene} />
+
 
     switch(scene) {
       case 'Settings':

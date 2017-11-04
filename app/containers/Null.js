@@ -14,6 +14,7 @@ import {
 import Recs from './Recs'
 import Matches from './Matches'
 import Settings from './Settings'
+import Match from './Match'
 
 // react-navigation
 import Icon from 'react-native-vector-icons/Ionicons'
@@ -34,11 +35,20 @@ class Null extends Component {
   render() {
     const {props} = this
 
+    console.log(props.scene)
+
     return (
       <Wrapper style={{flex: 1}} implementation="react-native-swiper">
         <Settings />
         <Recs />
         <Matches />
+        {
+          props.scene === "Match"
+          ?
+          <Match />
+          :
+          null
+        }
       </Wrapper>
     )
   }
