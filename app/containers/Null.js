@@ -19,10 +19,36 @@ class Null extends Component {
 
     return (
       <Wrapper style={{flex: 1}} implementation="react-navigation">
-        <View style={[style.page, {backgroundColor: 'hotpink'}]} />
-        <View style={[style.page, {backgroundColor: 'cornflowerblue'}]} />
-        <View style={[style.page, {backgroundColor: 'mediumpurple'}]} />
-        <View style={[style.page, {backgroundColor: 'palegreen'}]} />
+        <View style={[style.page, {backgroundColor: 'cornflowerblue'}]}
+          tabLabel={"Dope"}
+          tabIcon={({tintColor, focused}) => (
+            <Icon name={focused ? 'ios-home' : 'ios-home-outline'}
+                  size={26}
+                  style={{color: tintColor}} />
+          )}
+        >
+          <Text>Testing</Text>
+          <Text>Multiple <Text>Kids</Text></Text>
+        </View>
+        <View style={[style.page, {backgroundColor: 'hotpink'}]}
+          tabLabel={"Fresh"}
+          tabIcon={({tintColor, focused}) => (
+            <Icon name={focused ? 'ios-beer' : 'ios-beer-outline'}
+                  size={26}
+                  style={{color: tintColor}} />
+          )} />
+        <View style={[style.page, {backgroundColor: 'mediumpurple'}]}
+          tabIcon={({tintColor, focused}) => (
+            <Icon name={focused ? 'ios-boat' : 'ios-boat-outline'}
+                  size={26}
+                  style={{color: tintColor}} />
+          )} />
+        <View style={[style.page, {backgroundColor: 'palegreen'}]}
+          tabIcon={({tintColor, focused}) => (
+            <Icon name={focused ? 'ios-nuclear' : 'ios-bowtie-outline'}
+                  size={26}
+                  style={{color: tintColor}} />
+          )} />
       </Wrapper>
     )
   }
@@ -40,64 +66,24 @@ function Wrapper(props) {
         </ScrollView>
       )
     case 'react-navigation':
-      const TabNav = TabNavigator({
-        Home: {
+      var scenes = {}
+
+      React.Children.forEach(props.children, (child, i) => {
+        scenes[`${child.type.displayName}${i}`] = {
           screen: () => (
-            <View style={[style.page, {backgroundColor: 'hotpink'}]} />
+            child
           ),
           navigationOptions: {
-            tabBarLabel: 'Home',
-            tabBarIcon: ({ tintColor, focused }) => (
-              <Icon name={focused ? 'ios-home' : 'ios-home-outline'}
-                        size={26}
-                        style={{color: tintColor}} />
-            )
-          }
-        },
-        Profile: {
-          screen: () => (
-            <View style={[style.page, {backgroundColor: 'cornflowerblue'}]} />
-          ),
-          navigationOptions: {
-            tabBarLabel: 'Profile',
-            tabBarIcon: ({ tintColor, focused }) => (
-              <Icon name={focused ? 'ios-beer' : 'ios-beer-outline'}
-                size={26}
-                style={{color: tintColor}} />
-            )
-          }
-        },
-        Cool: {
-          screen: () => (
-            <View style={[style.page, {backgroundColor: 'mediumpurple'}]} />
-          ),
-          navigationOptions: {
-            tabBarLabel: 'Cool',
-            tabBarIcon: ({ tintColor, focused }) => (
-              <Icon name={focused ? 'ios-boat' : 'ios-boat-outline'}
-                        size={26}
-                        style={{color: tintColor}} />
-            )
-          }
-        },
-        Nice: {
-          screen: () => (
-            <View style={[style.page, {backgroundColor: 'palegreen'}]} />
-          ),
-          navigationOptions: {
-            tabBarLabel: 'Nice',
-            tabBarIcon: ({ tintColor, focused }) => (
-              <Icon name={focused ? 'ios-nuclear' : 'ios-bowtie-outline'}
-                        size={26}
-                        style={{color: tintColor}} />
-            )
+            tabBarLabel: child.props.tabLabel,
+            tabBarIcon:  child.props.tabIcon,
           }
         }
-      }, {
+      })
+
+      const TabNav = TabNavigator(scenes, {
         animationEnabled: true,
         swipeEnabled: true,
         lazy: true,
-        initialRouteName: 'Home',
         tabBarOptions: {
           activeTintColor: 'hotpink',
         }
