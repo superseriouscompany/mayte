@@ -18,7 +18,6 @@ import { TabNavigator } from 'react-navigation'
 // react-native-swiper
 import Swiper from 'react-native-swiper'
 
-
 const {width, height} = Dimensions.get('window')
 
 class Null extends Component {
@@ -26,7 +25,7 @@ class Null extends Component {
     const {props} = this
 
     return (
-      <Wrapper style={{flex: 1}} implementation="react-native-swiper">
+      <Wrapper style={{flex: 1}} implementation="react-navigation">
         <View style={[style.page, {backgroundColor: 'cornflowerblue'}]}
           tabLabel={"Dope"}
           tabIcon={({tintColor, focused}) => (
@@ -91,7 +90,8 @@ function Wrapper(props) {
         lazy: true,
         tabBarOptions: {
           activeTintColor: 'hotpink',
-        }
+        },
+        initialRouteName: 'View1',
       })
 
       return (
@@ -99,7 +99,7 @@ function Wrapper(props) {
       )
     case 'react-native-swiper':
       return (
-        <Swiper loop={false} showsPagination={false}>
+        <Swiper loop={false} showsPagination={false} index={1}>
           {props.children}
         </Swiper>
       )
