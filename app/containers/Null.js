@@ -2,6 +2,7 @@
 
 import React, {Component} from 'react'
 import {connect}          from 'react-redux'
+import Navigation         from './Navigation'
 import {
   Dimensions,
   Image,
@@ -25,9 +26,9 @@ class Null extends Component {
     const {props} = this
 
     return (
-      <Wrapper style={{flex: 1}} implementation="react-navigation">
+      <Navigation style={{flex: 1}} initialSceneName="Home">
         <View style={[style.page, {backgroundColor: 'cornflowerblue'}]}
-          tabLabel={"Dope"}
+          tabLabel="Dope"
           tabIcon={({tintColor, focused}) => (
             <Icon name={focused ? 'ios-home' : 'ios-home-outline'}
                   size={26}
@@ -38,7 +39,8 @@ class Null extends Component {
           <Text>Multiple <Text>Kids</Text></Text>
         </View>
         <View style={[style.page, {backgroundColor: 'hotpink'}]}
-          tabLabel={"Fresh"}
+          sceneName="Home"
+          tabLabel="Fresh"
           tabIcon={({tintColor, focused}) => (
             <Icon name={focused ? 'ios-beer' : 'ios-beer-outline'}
                   size={26}
@@ -56,7 +58,7 @@ class Null extends Component {
                   size={26}
                   style={{color: tintColor}} />
           )} />
-      </Wrapper>
+      </Navigation>
     )
   }
 }
