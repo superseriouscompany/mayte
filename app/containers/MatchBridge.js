@@ -6,13 +6,6 @@ import Matches            from './Matches'
 import Match              from './Match'
 
 class MatchBridge extends Component {
-  constructor(props) {
-    super(props)
-    this.state = {
-      currentId: null
-    }
-  }
-
   render() {
     const {props} = this
 
