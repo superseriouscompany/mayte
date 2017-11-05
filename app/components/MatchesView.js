@@ -1,7 +1,6 @@
 'use strict'
 
 import React, {Component} from 'react'
-import Header             from '../containers/Header'
 import MatchPreview       from './MatchPreview'
 import {statusBarHeight}  from '../services/dimensions'
 import {

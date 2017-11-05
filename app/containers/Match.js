@@ -2,11 +2,9 @@
 
 import React, {Component} from 'react'
 import {connect}          from 'react-redux'
-import Header             from '../containers/Header'
+import MatchHeader        from '../containers/MatchHeader'
 import Chat               from '../containers/Chat'
 import MatchView          from '../components/MatchView'
-import api                from '../services/api'
-import { GiftedChat }     from 'react-native-gifted-chat'
 import { View }             from 'react-native'
 
 class Match extends Component {
@@ -19,7 +17,7 @@ class Match extends Component {
 
     return (
       <View style={{flex: 1}}>
-        <Header view={props.view} />
+        <MatchHeader />
         <MatchView {...state} {...props}
                    setHeight={(h) => this.setState({viewHeight: h})}
                    showInfo={() => this.setState({infoOpen: true})}
