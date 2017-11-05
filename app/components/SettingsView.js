@@ -1,8 +1,7 @@
 'use strict'
 
 import React, {Component} from 'react'
-import Header from '../containers/Header'
-import { width, height } from '../services/dimensions'
+import { width, height }  from '../services/dimensions'
 import {
   ActivityIndicator,
   Image,
@@ -16,7 +15,6 @@ import {
 export default function(props) {
   return (
     <View style={style.container}>
-      <Header />
       { props.loading  ?
         <View style={style.centered}>
           <ActivityIndicator />

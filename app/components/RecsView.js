@@ -1,7 +1,6 @@
 'use strict'
 
 import React, {Component} from 'react'
-import Header from '../containers/Header'
 import RecInfoView from './RecInfoView'
 import { width, height } from '../services/dimensions'
 import {
@@ -23,8 +22,6 @@ export default function(props) {
 
   return (
     <View style={style.container}>
-      <Header />
-
       { props.loading ?
         <View style={style.centered}>
           <ActivityIndicator />
