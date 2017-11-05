@@ -1,9 +1,9 @@
 'use strict'
 
-import React, {Component}                  from 'react'
-import { GiftedChat, Bubble }              from 'react-native-gifted-chat'
-import { BlurView }                        from 'react-native-blur'
-import { height, matchHeaderHeight } from '../services/dimensions'
+import React, {Component}            from 'react'
+import { GiftedChat, Bubble }        from 'react-native-gifted-chat'
+import { BlurView }                  from 'react-native-blur'
+import { screenHeight, matchHeaderHeight } from '../services/dimensions'
 import {
   Animated,
   ActivityIndicator,
@@ -43,7 +43,7 @@ export default class extends Component {
     Animated.timing(
       this.state.topValue,
       {
-        toValue: height,
+        toValue: screenHeight,
         duration: 333,
       }
     ).start()
@@ -104,7 +104,7 @@ const style = StyleSheet.create({
   container: {
     position: 'absolute',
     width: '100%',
-    height: height - matchHeaderHeight,
+    height: screenHeight - matchHeaderHeight,
     backgroundColor: 'rgba(255,255,255,0.9)',
     paddingBottom: 50,
   },

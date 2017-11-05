@@ -1,8 +1,8 @@
 'use strict'
 
 import React, {Component} from 'react'
-import MatchInfoView from './MatchInfoView'
-import { width, height } from '../services/dimensions'
+import MatchInfoView      from './MatchInfoView'
+import { screenWidth }    from '../services/dimensions'
 import {
   Animated,
   ActivityIndicator,
@@ -19,7 +19,7 @@ import {
 const useScratch = false
 
 export default (props) => {
-  const imgStyle = {width: width, height: props.viewHeight}
+  const imgStyle = {width: screenWidth, height: props.viewHeight}
 
   return (
     <View style={style.container}>

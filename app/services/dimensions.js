@@ -1,8 +1,8 @@
 import { Dimensions } from 'react-native'
 
-const { width, height } = Dimensions.get('window')
+const dimensions = Dimensions.get('window')
 
-const statusBarHeight   = 15
-const matchHeaderHeight = 63
-
-export { width, height, statusBarHeight, matchHeaderHeight }
+export const screenWidth       = dimensions.width
+export const screenHeight      = dimensions.height
+export const statusBarHeight   = 15
+export const matchHeaderHeight = 63
