@@ -2,7 +2,7 @@
 
 import React, {Component} from 'react'
 import MatchInfoView      from './MatchInfoView'
-import { screenWidth }    from '../services/dimensions'
+import { screenWidth }    from '../constants/dimensions'
 import {
   Animated,
   ActivityIndicator,

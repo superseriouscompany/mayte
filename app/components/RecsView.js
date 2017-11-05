@@ -2,7 +2,7 @@
 
 import React, {Component} from 'react'
 import RecInfoView from './RecInfoView'
-import { width, height } from '../services/dimensions'
+import { width, height } from '../constants/dimensions'
 import {
   ActivityIndicator,
   Image,

@@ -1,6 +1,6 @@
 import React, {Component} from 'react'
 import LinearGradient     from 'react-native-linear-gradient'
-import { screenWidth }    from '../services/dimensions'
+import { screenWidth }    from '../constants/dimensions'
 import {
   StyleSheet,
   ScrollView,

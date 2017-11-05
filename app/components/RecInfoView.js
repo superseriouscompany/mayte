@@ -1,7 +1,7 @@
 import React, {Component} from 'react'
 import LinearGradient from 'react-native-linear-gradient'
 import ProfileView from './ProfileView'
-import { screenWidth, screenHeight } from '../services/dimensions'
+import { screenWidth, screenHeight } from '../constants/dimensions'
 import {
   StyleSheet,
   Animated,
@@ -26,7 +26,7 @@ class RecInfoView extends Component {
     this.animateClosed = this.animateClosed.bind(this)
   }
 
-  componentWillUpdate(nextProps, nextState) {
+  componentWillReceiveProps(nextProps) {
     if (nextProps.infoOpen && !this.props.infoOpen) {
       this.animateOpen()
     } else if (!nextProps.infoOpen && this.props.infoOpen) {
@@ -35,37 +35,29 @@ class RecInfoView extends Component {
   }
 
   animateOpen() {
-    Animated.timing(
-      this.state.topValue,
-      {
+    Animated.parallel([
+      Animated.timing(this.state.topValue, {
         toValue: 0,
         duration: 333,
-      }
-    ).start()
-    Animated.timing(
-      this.state.heightValue,
-      {
+      }),
+      Animated.timing(this.state.heightValue, {
         toValue: screenHeight,
         duration: 333,
-      }
-    ).start()
+      })
+    ]).start()
   }
 
   animateClosed() {
-    Animated.timing(
-      this.state.topValue,
-      {
+    Animated.parallel([
+      Animated.timing(this.state.topValue, {
         toValue: screenHeight * 0.65,
         duration: 333,
-      }
-    ).start()
-    Animated.timing(
-      this.state.heightValue,
-      {
+      }),
+      Animated.timing(this.state.heightValue, {
         toValue: screenHeight * 0.3,
         duration: 333,
-      }
-    ).start()
+      }),
+    ]).start()
   }
 
   render() {

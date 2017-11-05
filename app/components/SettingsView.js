@@ -1,7 +1,7 @@
 'use strict'
 
 import React, {Component} from 'react'
-import { width, height }  from '../services/dimensions'
+import { width, height }  from '../constants/dimensions'
 import {
   ActivityIndicator,
   Image,

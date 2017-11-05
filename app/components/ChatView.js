@@ -3,7 +3,7 @@
 import React, {Component}            from 'react'
 import { GiftedChat, Bubble }        from 'react-native-gifted-chat'
 import { BlurView }                  from 'react-native-blur'
-import { screenHeight, matchHeaderHeight } from '../services/dimensions'
+import { screenHeight, matchHeaderHeight } from '../constants/dimensions'
 import {
   Animated,
   ActivityIndicator,

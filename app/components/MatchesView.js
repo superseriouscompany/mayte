@@ -2,7 +2,7 @@
 
 import React, {Component} from 'react'
 import MatchPreview       from './MatchPreview'
-import {statusBarHeight}  from '../services/dimensions'
+import {statusBarHeight}  from '../constants/dimensions'
 import {
   ActivityIndicator,
   StyleSheet,
