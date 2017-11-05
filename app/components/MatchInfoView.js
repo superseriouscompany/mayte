@@ -1,7 +1,12 @@
-import React, {Component} from 'react'
-import LinearGradient from 'react-native-linear-gradient'
-import ProfileView from './ProfileView'
-import { width, height } from '../services/dimensions'
+import React, {Component}            from 'react'
+import LinearGradient                from 'react-native-linear-gradient'
+import ProfileView                   from './ProfileView'
+import { screenWidth, screenHeight } from '../constants/dimensions'
+import {
+  profileOpen,
+  profileClose,
+  profileSwitch
+} from '../constants/timings'
 import {
   Animated,
   StyleSheet,
@@ -18,15 +23,16 @@ class MatchInfoView extends Component {
     super(props)
 
     this.state = {
-      topValue: new Animated.Value(height),
-      heightValue: new Animated.Value(height * 0.3),
+      topValue:    new Animated.Value(screenHeight),
+      heightValue: new Animated.Value(screenHeight * 0.3),
     }
 
-    this.animateOpen = this.animateOpen.bind(this)
+    this.animateOpen   = this.animateOpen.bind(this)
     this.animateClosed = this.animateClosed.bind(this)
+    this.animateSub    = this.animateSub.bind(this)
   }
 
-  componentWillUpdate(nextProps, nextState) {
+  componentWillReceiveProps(nextProps, nextState) {
     if (nextProps.matchOpen && !this.props.matchOpen) {
       this.animateSub()
     } else if (!nextProps.matchOpen && this.props.matchOpen) {
@@ -41,54 +47,43 @@ class MatchInfoView extends Component {
   }
 
   animateOpen() {
-    Animated.timing(
-      this.state.topValue,
-      {
+    Animated.parallel([
+      Animated.timing(this.state.topValue, {
         toValue: 0,
-        duration: 333,
-      }
-    ).start()
-    Animated.timing(
-      this.state.heightValue,
-      {
-        toValue: height,
-        duration: 333,
-      }
-    ).start()
+        duration: profileOpen,
+      }),
+
+      Animated.timing(this.state.heightValue, {
+        toValue: screenHeight,
+        duration: profileOpen,
+      })
+    ]).start()
   }
 
   animateSub() {
-    Animated.timing(
-      this.state.topValue,
-      {
-        toValue: height * 0.65,
-        duration: 333,
-      }
-    ).start()
-    Animated.timing(
-      this.state.heightValue,
-      {
-        toValue: height * 0.3,
-        duration: 333,
-      }
-    ).start()
+    Animated.parallel([
+      Animated.timing(this.state.topValue, {
+        toValue: screenHeight * 0.65,
+        duration: profileSwitch,
+      }),
+      Animated.timing(this.state.heightValue, {
+        toValue: screenHeight * 0.3,
+        duration: profileSwitch,
+      }),
+    ]).start()
   }
 
   animateClosed() {
-    Animated.timing(
-      this.state.topValue,
-      {
-        toValue: height,
-        duration: 333,
-      }
-    ).start()
-    Animated.timing(
-      this.state.heightValue,
-      {
-        toValue: height * 0.3,
-        duration: 333,
-      }
-    ).start()
+    Animated.parallel([
+      Animated.timing(this.state.topValue, {
+        toValue: screenHeight,
+        duration: profileClose,
+      }),
+      Animated.timing(this.state.heightValue, {
+        toValue: screenHeight * 0.3,
+        duration: profileClose,
+      })
+    ]).start()
   }
 
   render() {
@@ -124,8 +119,8 @@ const style = StyleSheet.create({
   opener: {
     position: 'absolute',
     bottom: 0, left: -20,
-    width: width + 20,
-    height: height * 0.25,
+    width: screenWidth + 20,
+    height: screenHeight * 0.25,
     backgroundColor: 'transparent',
     zIndex: 1,
   },

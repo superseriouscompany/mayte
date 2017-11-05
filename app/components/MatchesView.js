@@ -1,8 +1,8 @@
 'use strict'
 
 import React, {Component} from 'react'
-import Header             from '../containers/Header'
-import MatchPreview          from './MatchPreview'
+import MatchPreview       from './MatchPreview'
+import {statusBarHeight}  from '../constants/dimensions'
 import {
   ActivityIndicator,
   StyleSheet,
@@ -13,7 +13,6 @@ import {
 export default function(props) {
   return (
     <View style={style.container}>
-      <Header />
       { props.loading  ?
         <View style={style.centered}>
           <ActivityIndicator />
@@ -29,7 +28,7 @@ export default function(props) {
           <Text>You have no matches.</Text>
         </View>
       :
-        <View style={{flex: 1}}>
+        <View style={{flex: 1, paddingTop: statusBarHeight}}>
           { props.matches.map((m, key) => (
             <MatchPreview key={key} match={m} viewChat={() => props.viewChat(m.user)} />
           ))}

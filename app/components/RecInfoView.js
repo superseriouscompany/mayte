@@ -1,7 +1,7 @@
 import React, {Component} from 'react'
 import LinearGradient from 'react-native-linear-gradient'
 import ProfileView from './ProfileView'
-import { width, height } from '../services/dimensions'
+import { screenWidth, screenHeight } from '../constants/dimensions'
 import {
   StyleSheet,
   Animated,
@@ -18,15 +18,15 @@ class RecInfoView extends Component {
     super(props)
 
     this.state = {
-      topValue: new Animated.Value(height * 0.65),
-      heightValue: new Animated.Value(height * 0.3),
+      topValue: new Animated.Value(screenHeight * 0.65),
+      heightValue: new Animated.Value(screenHeight * 0.3),
     }
 
     this.animateOpen = this.animateOpen.bind(this)
     this.animateClosed = this.animateClosed.bind(this)
   }
 
-  componentWillUpdate(nextProps, nextState) {
+  componentWillReceiveProps(nextProps) {
     if (nextProps.infoOpen && !this.props.infoOpen) {
       this.animateOpen()
     } else if (!nextProps.infoOpen && this.props.infoOpen) {
@@ -35,37 +35,29 @@ class RecInfoView extends Component {
   }
 
   animateOpen() {
-    Animated.timing(
-      this.state.topValue,
-      {
+    Animated.parallel([
+      Animated.timing(this.state.topValue, {
         toValue: 0,
         duration: 333,
-      }
-    ).start()
-    Animated.timing(
-      this.state.heightValue,
-      {
-        toValue: height,
+      }),
+      Animated.timing(this.state.heightValue, {
+        toValue: screenHeight,
         duration: 333,
-      }
-    ).start()
+      })
+    ]).start()
   }
 
   animateClosed() {
-    Animated.timing(
-      this.state.topValue,
-      {
-        toValue: height * 0.65,
+    Animated.parallel([
+      Animated.timing(this.state.topValue, {
+        toValue: screenHeight * 0.65,
         duration: 333,
-      }
-    ).start()
-    Animated.timing(
-      this.state.heightValue,
-      {
-        toValue: height * 0.3,
+      }),
+      Animated.timing(this.state.heightValue, {
+        toValue: screenHeight * 0.3,
         duration: 333,
-      }
-    ).start()
+      }),
+    ]).start()
   }
 
   render() {
@@ -100,8 +92,8 @@ const style = StyleSheet.create({
   opener: {
     position: 'absolute',
     bottom: 0, left: -20,
-    width: width + 20,
-    height: height * 0.25,
+    width: screenWidth + 20,
+    height: screenHeight * 0.25,
     backgroundColor: 'transparent',
     zIndex: 1,
   },

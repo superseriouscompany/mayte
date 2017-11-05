@@ -1,6 +1,6 @@
 import React, {Component} from 'react'
-import LinearGradient from 'react-native-linear-gradient'
-import { width, height } from '../services/dimensions'
+import LinearGradient     from 'react-native-linear-gradient'
+import { screenWidth }    from '../constants/dimensions'
 import {
   StyleSheet,
   ScrollView,
@@ -120,9 +120,9 @@ const style = StyleSheet.create({
   },
 
   bubble: {
-    width: width * 0.3,
-    height: width * 0.125,
-    borderRadius: width * 0.125,
+    width: screenWidth * 0.3,
+    height: screenWidth * 0.125,
+    borderRadius: screenWidth * 0.125,
     borderWidth: 1,
     borderColor: 'rgba(255,255,255,0.9)',
     backgroundColor: 'rgba(255,255,255,0.2)',
