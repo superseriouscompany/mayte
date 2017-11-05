@@ -65,17 +65,13 @@ class RecInfoView extends Component {
 
     return (
       <Animated.View style={[{top: state.topValue, height: state.heightValue,}, style.info]}>
-        {
-          !props.infoOpen ?
-          <TouchableOpacity style={style.opener} onPress={() => props.showInfo()} />
-          :
-          null
-        }
         <ProfileView user={props.recs[props.index]}
+                     pass={props.pass}
                      like={props.like}
                      topValue={state.topValue}
                      heightValue={state.heightValue}
                      infoOpen={props.infoOpen}
+                     showInfo={props.showInfo}
                      hideInfo={props.hideInfo} />
       </Animated.View>
     )
@@ -87,14 +83,6 @@ export default RecInfoView
 const style = StyleSheet.create({
   info: {
     position: 'absolute',
-  },
-
-  opener: {
-    position: 'absolute',
-    bottom: 0, left: -20,
-    width: screenWidth + 20,
-    height: screenHeight * 0.25,
-    backgroundColor: 'transparent',
-    zIndex: 1,
+    left: -screenWidth * 0.038, // TEMP: not sure what's happening with this offset
   },
 })

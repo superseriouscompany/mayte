@@ -1,7 +1,7 @@
 'use strict'
 
 import React, {Component} from 'react'
-import { width, height }  from '../constants/dimensions'
+import { screenWidth }    from '../constants/dimensions'
 import {
   ActivityIndicator,
   Image,
@@ -44,8 +44,8 @@ export default function(props) {
                                 onPress={() => p.isActive ? props.deactivate(p.instagramId) : props.activate(p.instagramId)}>
                 <Image source={{url: p.thumbnail.url}}
                        style={[style.image, {
-                         width: width / 3,
-                         height: width / 3,
+                         width: screenWidth / 3,
+                         height: screenWidth / 3,
                        }, p.isActive ? style.active : style.inactive]} />
               </TouchableOpacity>
             ))}
@@ -61,7 +61,7 @@ export default function(props) {
 
 const style = StyleSheet.create({
   container: {
-    flex: 1
+    flex: 1,
   },
   centered: {
     flex:           1,
@@ -78,6 +78,7 @@ const style = StyleSheet.create({
   title: {
     textAlign: 'center',
     padding: 10,
+    paddingTop: 25,
   },
   button: {
     color: 'blue',

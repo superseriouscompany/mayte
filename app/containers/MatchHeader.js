@@ -21,7 +21,7 @@ function mapStateToProps(state) {
 function mapDispatchToProps(dispatch, ownProps) {
   return {
     showBlock: function() {
-      confirm('Are you sure?')
+      alert('Are you sure?')
     },
 
     showMatches: function() {

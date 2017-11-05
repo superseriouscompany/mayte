@@ -1,17 +1,20 @@
 'use strict'
 
 import React, {PureComponent} from 'react'
-import {connect}          from 'react-redux'
-import Login              from './Login'
-import Recs               from './Recs'
-import Settings           from './Settings'
-import MatchBridge        from './MatchBridge'
-import Navigation         from './Navigation'
-import Icon               from 'react-native-vector-icons/Ionicons'
+import {connect}              from 'react-redux'
+import Login                  from './Login'
+import Recs                   from './Recs'
+import Settings               from './Settings'
+import MatchBridge            from './MatchBridge'
+import Navigation             from './Navigation'
+import Icon                   from 'react-native-vector-icons/Ionicons'
 import {
   StyleSheet,
   View,
+  ScrollView,
+  FlatList,
   Animated,
+  TouchableWithoutFeedback,
 } from 'react-native'
 
 const useScratch = false
@@ -29,6 +32,8 @@ class Stage extends PureComponent {
       null
     : useScratch ?
       <Scratch />
+    : !props.authenticated ?
+      <Login />
     :
     <View style={[style.container]}>
       { this.showScene(props.scene) }
@@ -85,7 +90,11 @@ function mapDispatchToProps(dispatch) {
 
 const style = StyleSheet.create({
   container: {
-    flex: 1
+    flex: 1,
+  },
+  railway: {
+    backgroundColor: 'lightblue',
+    flexDirection: 'row',
   },
 })
 

@@ -28,7 +28,7 @@ export default function(props) {
       activeBackgroundColor:   'rgba(50,50,50,0.8)',
       inactiveBackgroundColor: 'rgba(0,0,0,0.8)',
     },
-    initialSceneName: props.initialSceneName,
+    initialRouteName: props.initialSceneName,
   })
 
   return (

@@ -1,6 +1,8 @@
 'use strict'
 
-import React, {Component} from 'react'
+import React, {Component}    from 'react'
+import LinearGradient        from 'react-native-linear-gradient'
+import { matchHeaderHeight } from '../constants/dimensions'
 import {
   StyleSheet,
   Text,
@@ -16,7 +18,7 @@ export default function(props) {
       </TouchableOpacity>
 
       <TouchableOpacity onPress={props.view === 'Profile' ? props.showChat : props.showProfile}>
-        <Text style={style.button}>Deets</Text>
+        <Text style={style.button}>{`${props.view === 'Profile' ? 'Chat' : 'Deets'}`}</Text>
       </TouchableOpacity>
 
       <TouchableOpacity onPress={props.showBlock}>
@@ -28,19 +30,25 @@ export default function(props) {
 
 const style = StyleSheet.create({
   container: {
+    position: 'absolute',
+    top: 0,
+    zIndex: 1,
+    width: '100%',
     paddingTop: 25,
     paddingBottom: 20,
     paddingRight: 5,
     paddingLeft: 5,
+    height: matchHeaderHeight,
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
+    backgroundColor: 'rgba(255,255,255,0.5)',
     borderBottomWidth: 1,
-    borderColor: 'black',
-    backgroundColor: 'lightgrey',
+    borderBottomColor: 'rgba(40,40,40,1)',
     opacity: 1,
   },
   button: {
     color: 'blue',
+    backgroundColor: 'transparent',
   }
 })

@@ -1,7 +1,11 @@
 import React, {Component}            from 'react'
 import LinearGradient                from 'react-native-linear-gradient'
 import ProfileView                   from './ProfileView'
-import { screenWidth, screenHeight } from '../constants/dimensions'
+import {
+  screenWidth,
+  screenHeight,
+  matchHeaderHeight,
+} from '../constants/dimensions'
 import {
   profileOpen,
   profileClose,
@@ -49,7 +53,7 @@ class MatchInfoView extends Component {
   animateOpen() {
     Animated.parallel([
       Animated.timing(this.state.topValue, {
-        toValue: 0,
+        toValue: matchHeaderHeight,
         duration: profileOpen,
       }),
 
@@ -101,6 +105,7 @@ class MatchInfoView extends Component {
                      topValue={state.topValue}
                      heightValue={state.heightValue}
                      infoOpen={props.infoOpen}
+                     showInfo={props.showInfo}
                      hideInfo={props.hideInfo}
                      hideButtons={true} />
       </Animated.View>

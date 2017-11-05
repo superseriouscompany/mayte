@@ -35,7 +35,7 @@ export default function(props) {
           <Text>{`There's no one new around you.`}</Text>
         </View>
       :
-        <View style={style.container}>
+        <View style={{...style.container}}>
           <FlatList style={[style.container]}
                       onLayout={(e) => {
                         const {height} = e.nativeEvent.layout
