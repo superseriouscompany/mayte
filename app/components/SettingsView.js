@@ -78,6 +78,7 @@ const style = StyleSheet.create({
   title: {
     textAlign: 'center',
     padding: 10,
+    paddingTop: 25,
   },
   button: {
     color: 'blue',

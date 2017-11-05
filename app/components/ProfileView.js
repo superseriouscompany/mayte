@@ -129,7 +129,7 @@ const style = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-around',
     alignItems: 'center',
-    zIndex: 10,
+    zIndex: 2,
   },
 
   bubble: {
