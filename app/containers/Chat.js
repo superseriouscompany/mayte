@@ -4,9 +4,14 @@ import React, {Component} from 'react'
 import {connect}          from 'react-redux'
 import ChatView           from '../components/ChatView'
 import api                from '../services/api'
+import PropTypes          from 'prop-types'
 import { GiftedChat }     from 'react-native-gifted-chat'
 
 class Chat extends Component {
+  static propTypes = {
+    user: PropTypes.object.isRequired,
+  }
+
   constructor(props) {
     super(props)
     this.state  = { messages: [], loading: true }
@@ -14,8 +19,7 @@ class Chat extends Component {
   }
 
   onSend(messages = []) {
-    console.warn(messages[0])
-    api(`/matches/${this.props.userId}/messages`, {
+    api(`/matches/${this.props.user.id}/messages`, {
       method: 'POST',
       accessToken: this.props.accessToken,
       body: { text: messages[0].text}
@@ -29,7 +33,7 @@ class Chat extends Component {
   }
 
   componentDidMount() {
-    api(`/matches/${this.props.userId}/messages`, {
+    api(`/matches/${this.props.user.id}/messages`, {
       accessToken: this.props.accessToken
     }).then((r) => {
       const messages = r.messages.map((m) => {
@@ -42,7 +46,7 @@ class Chat extends Component {
         return m
       })
 
-      this.setState({messages: messages, loading: false})
+      this.setState({messages: r.messages, loading: false})
     }).catch((err) => {
       this.setState({error: err.message || err, loading: false})
     })
@@ -57,9 +61,9 @@ class Chat extends Component {
 
 function mapStateToProps(state) {
   return {
-    user:        state.scene.user,
-    userId:      state.scene.user.id,
     accessToken: state.user.accessToken,
+    myId:        state.user.id,
+    view:        state.scene.view,
   }
 }
 

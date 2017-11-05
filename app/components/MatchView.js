@@ -1,9 +1,8 @@
 'use strict'
 
-import React, {Component} from 'react'
-import Header from '../containers/Header'
-import MatchInfoView from './MatchInfoView'
-import { width, height, headerHeight } from '../services/globals'
+import React, {Component}                 from 'react'
+import MatchInfoView                      from './MatchInfoView'
+import { screenWidth, matchHeaderHeight } from '../constants/dimensions'
 import {
   Animated,
   ActivityIndicator,
@@ -20,10 +19,10 @@ import {
 const useScratch = false
 
 export default (props) => {
-  const imgStyle = {width: width, height: props.viewHeight}
+  const imgStyle = {width: screenWidth, height: props.viewHeight}
 
   return (
-    <View style={{...style.container, paddingTop: headerHeight}}>
+    <View style={{...style.container, paddingTop: matchHeaderHeight}}>
       <FlatList style={[style.container]}
                 onLayout={(e) => {
                   const {height} = e.nativeEvent.layout

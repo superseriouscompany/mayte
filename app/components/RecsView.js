@@ -1,9 +1,8 @@
 'use strict'
 
 import React, {Component} from 'react'
-import Header from '../containers/Header'
 import RecInfoView from './RecInfoView'
-import { width, height, headerHeight } from '../services/globals'
+import { width, height } from '../constants/dimensions'
 import {
   ActivityIndicator,
   Image,
@@ -36,7 +35,7 @@ export default function(props) {
           <Text>{`There's no one new around you.`}</Text>
         </View>
       :
-        <View style={{...style.container, paddingTop: headerHeight}}>
+        <View style={{...style.container}}>
           <FlatList style={[style.container]}
                       onLayout={(e) => {
                         const {height} = e.nativeEvent.layout

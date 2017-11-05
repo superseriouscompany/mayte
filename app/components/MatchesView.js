@@ -1,19 +1,14 @@
 'use strict'
 
 import React, {Component} from 'react'
-import Header             from '../containers/Header'
 import MatchPreview       from './MatchPreview'
+import {statusBarHeight}  from '../constants/dimensions'
 import {
   ActivityIndicator,
   StyleSheet,
   Text,
   View,
 } from 'react-native'
-import {
-  width,
-  height,
-  headerHeight
-} from '../services/globals'
 
 export default function(props) {
   return (
@@ -33,7 +28,7 @@ export default function(props) {
           <Text>You have no matches.</Text>
         </View>
       :
-        <View style={{flex: 1}}>
+        <View style={{flex: 1, paddingTop: statusBarHeight}}>
           { props.matches.map((m, key) => (
             <MatchPreview key={key} match={m} viewChat={() => props.viewChat(m.user)} />
           ))}
@@ -46,7 +41,6 @@ export default function(props) {
 const style = StyleSheet.create({
   container: {
     flex: 1,
-    paddingTop: headerHeight,
   },
   centered: {
     flex:           1,
