@@ -5,9 +5,7 @@ import {connect}          from 'react-redux'
 import Login              from './Login'
 import Recs               from './Recs'
 import Settings           from './Settings'
-import Matches            from './Matches'
-import store              from '../reducers'
-import Match              from './Match'
+import MatchBridge        from './MatchBridge'
 import Navigation         from './Navigation'
 import Icon               from 'react-native-vector-icons/Ionicons'
 import {
@@ -31,6 +29,10 @@ class Stage extends Component {
     if (nextProps.nextScene && nextProps.nextScene.animation) {
       this.animateIn(nextProps.nextScene.animation)
     }
+  }
+
+  shouldComponentUpdate(props) {
+    return props.authenticated != this.props.authenticated
   }
 
   showScene(scene, props) {
@@ -59,7 +61,7 @@ class Stage extends Component {
                   size={26}
                   style={{color: tintColor}} />
           )} />
-        <Matches
+        <MatchBridge
           tabLabel="Matches"
           tabIcon={({tintColor, focused}) => (
             <Icon name={focused ? 'ios-chatbubbles' : 'ios-chatbubbles-outline'}
