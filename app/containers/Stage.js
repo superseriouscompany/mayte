@@ -8,7 +8,8 @@ import Settings           from './Settings'
 import Matches            from './Matches'
 import store              from '../reducers'
 import Match              from './Match'
-import Null               from './Null'
+import Navigation         from './Navigation'
+import Icon               from 'react-native-vector-icons/Ionicons'
 import {
   StyleSheet,
   View,
@@ -38,24 +39,35 @@ class Stage extends Component {
       ...this.props,
     }
 
-    return <Null />
-
     if (!props.authenticated) {
       return <Login />
     }
 
-    switch(scene) {
-      case 'Settings':
-        return <Settings />
-      case 'Matches':
-        return <Matches />
-      case 'Match':
-        return <Match userId={props.params.userId} myId={props.user.id} />
-      case 'Recs':
-        return <Recs />
-      default:
-        return <Recs />
-    }
+    return (
+      <Navigation initialSceneName="Recs">
+        <Settings
+          tabLabel="Profile"
+          tabIcon={({tintColor, focused}) => (
+            <Icon name={focused ? 'ios-person' : 'ios-person-outline'}
+                  size={26}
+                  style={{color: tintColor}} />
+          )} />
+        <Recs sceneName="Recs"
+          tabLabel="Home"
+          tabIcon={({tintColor, focused}) => (
+            <Icon name={focused ? 'ios-heart' : 'ios-heart-outline'}
+                  size={26}
+                  style={{color: tintColor}} />
+          )} />
+        <Matches
+          tabLabel="Matches"
+          tabIcon={({tintColor, focused}) => (
+            <Icon name={focused ? 'ios-chatbubbles' : 'ios-chatbubbles-outline'}
+                  size={26}
+                  style={{color: tintColor}} />
+          )} />
+      </Navigation>
+    )
   }
 
   animateIn(anim) {
