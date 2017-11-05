@@ -1,5 +1,12 @@
 'use strict'
 
+// this sandbox is used to test multiple implementations of swipable navigation
+//
+// it contains:
+//
+// * react-navigation (currently used): React recommended navigation solution
+// * react-native-swiper: simpler component that uses a ScrollView
+
 import React, {Component} from 'react'
 import {connect}          from 'react-redux'
 import Navigation         from './Navigation'
