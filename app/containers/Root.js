@@ -4,7 +4,7 @@ import React, {Component} from 'react'
 import Stage              from './Stage'
 import store              from '../reducers'
 import {Provider}         from 'react-redux'
-import {SafeAreaView}     from 'react-native'
+import {SafeAreaView, View}     from 'react-native'
 
 export default class Root extends Component {
   constructor(props) {
@@ -22,9 +22,9 @@ export default class Root extends Component {
   render() {
     return (
       <Provider store={store}>
-        <SafeAreaView style={{flex: 1}}>
+        <View style={{flex: 1}}>
           <Stage />
-        </SafeAreaView>
+        </View>
       </Provider>
     )
   }

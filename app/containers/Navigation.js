@@ -23,7 +23,7 @@ export default function(props) {
     swipeEnabled: true,
     lazy: true,
     tabBarOptions: {
-      activeTintColor:         'hotpink',
+      activeTintColor:         'white',
       inactiveTintColor:       'gainsboro',
       activeBackgroundColor:   'rgba(50,50,50,0.8)',
       inactiveBackgroundColor: 'rgba(0,0,0,0.8)',

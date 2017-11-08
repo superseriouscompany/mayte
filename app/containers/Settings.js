@@ -12,6 +12,8 @@ class Settings extends Component {
     this.activate     = this.activate.bind(this)
     this.deactivate   = this.deactivate.bind(this)
     this.updatePhotos = this.updatePhotos.bind(this)
+    this.updateBio    = this.updateBio.bind(this)
+    this.updateAge    = this.updateAge.bind(this)
   }
 
   activate(instagramId) {
@@ -43,6 +45,23 @@ class Settings extends Component {
     })
   }
 
+  updateBio() {
+    api('/users/me', {
+      method: 'PATCH',
+      accessToken: this.props.accessToken,
+      body: {
+        bio: 'Hey everybody look at me'
+      }
+    }).catch((err) => {
+      alert(err.message || err)
+      console.error(err)
+    })
+  }
+
+  updateAge() {
+
+  }
+
   calculateActive(activeIds, photos) {
     return (photos || []).map((p) => {
       p.isActive = activeIds.indexOf(p.instagramId) !== -1
@@ -68,7 +87,12 @@ class Settings extends Component {
 
   render() {
     return (
-      <SettingsView {...this.state} {...this.props} activate={this.activate} deactivate={this.deactivate}/>
+      <SettingsView {...this.state}
+                    {...this.props}
+                    updateBio={this.updateBio}
+                    updateAge={this.updateAge}
+                    activate={this.activate}
+                    deactivate={this.deactivate}/>
     )
   }
 }

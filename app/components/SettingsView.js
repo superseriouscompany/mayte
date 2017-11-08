@@ -10,6 +10,7 @@ import {
   Text,
   TouchableOpacity,
   View,
+  TextInput,
 } from 'react-native'
 
 export default function(props) {
@@ -31,6 +32,27 @@ export default function(props) {
       : !props.photos.length ?
         <View style={style.centered}>
           <Text>You have no photos available.</Text>
+          <View>
+            <TextInput style={[style.bio]}
+                       multiline={true}
+                       maxLength={500}
+                       defaultValue={props.user.bio || 'Sample bio text'}
+                       onChangeText={text => {
+                         // Goal is to have timeout here a la:
+                         //   cancelTimeout(this.bioTimeout)
+                         //   this.bioTimeout = setTimeout(() => props.updateBio(text), 500)
+                         props.updateBio(text)
+                       }}></TextInput>
+            <TextInput style={[style.age]}
+                       keyboardType={'numeric'}
+                       defaultValue={props.user.age || '25'}
+                       onChangeText={text => {
+                         // Goal is to have timeout here a la:
+                         //   cancelTimeout(this.ageTimeout)
+                         //   this.ageTimeout = setTimeout(() => props.updateAge(text), 500)
+                         props.updateAge(parseInt(text))
+                       }} />
+          </View>
           <TouchableOpacity onPress={props.logout}>
             <Text style={style.button}>Sign Out</Text>
           </TouchableOpacity>
@@ -49,6 +71,27 @@ export default function(props) {
                        }, p.isActive ? style.active : style.inactive]} />
               </TouchableOpacity>
             ))}
+          </View>
+          <View>
+            <TextInput style={[style.bio]}
+                       multiline={true}
+                       maxLength={500}
+                       defaultValue={props.user.bio || 'Sample bio text'}
+                       onChangeText={text => {
+                         // Goal is to have timeout here a la:
+                         //   cancelTimeout(this.bioTimeout)
+                         //   this.bioTimeout = setTimeout(() => props.updateBio(text), 500)
+                         props.updateBio(text)
+                       }}></TextInput>
+            <TextInput style={[style.age]}
+                       keyboardType={'numeric'}
+                       defaultValue={props.user.age || '25'}
+                       onChangeText={text => {
+                         // Goal is to have timeout here a la:
+                         //   cancelTimeout(this.ageTimeout)
+                         //   this.ageTimeout = setTimeout(() => props.updateAge(text), 500)
+                         props.updateAge(parseInt(text))
+                       }} />
           </View>
           <TouchableOpacity onPress={props.logout}>
             <Text style={style.button}>Sign Out</Text>
@@ -90,4 +133,17 @@ const style = StyleSheet.create({
   inactive: {
     opacity: .25,
   },
+  bio: {
+    borderWidth: 1,
+    borderColor: 'black',
+    margin: 20,
+    height: 100,
+  },
+  age: {
+    borderWidth: 1,
+    borderColor: 'black',
+    marginBottom: 20,
+    marginLeft: 20,
+    marginRight: 20,
+  }
 })
