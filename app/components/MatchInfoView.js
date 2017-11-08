@@ -29,6 +29,7 @@ class MatchInfoView extends Component {
     this.state = {
       topValue:    new Animated.Value(screenHeight),
       heightValue: new Animated.Value(screenHeight * 0.3),
+      opacity: new Animated.Value(1)
     }
 
     this.animateOpen   = this.animateOpen.bind(this)
@@ -60,6 +61,11 @@ class MatchInfoView extends Component {
       Animated.timing(this.state.heightValue, {
         toValue: screenHeight,
         duration: profileOpen,
+      }),
+
+      Animated.timing(this.state.opacity, {
+        toValue: 1,
+        duration: profileOpen,
       })
     ]).start()
   }
@@ -70,10 +76,16 @@ class MatchInfoView extends Component {
         toValue: screenHeight * 0.65,
         duration: profileSwitch,
       }),
+
       Animated.timing(this.state.heightValue, {
         toValue: screenHeight * 0.3,
         duration: profileSwitch,
       }),
+
+      Animated.timing(this.state.opacity, {
+        toValue: 1,
+        duration: profileOpen,
+      })
     ]).start()
   }
 
@@ -83,9 +95,15 @@ class MatchInfoView extends Component {
         toValue: screenHeight,
         duration: profileClose,
       }),
+
       Animated.timing(this.state.heightValue, {
         toValue: screenHeight * 0.3,
         duration: profileClose,
+      }),
+
+      Animated.timing(this.state.opacity, {
+        toValue: 0,
+        duration: profileOpen,
       })
     ]).start()
   }
@@ -94,7 +112,7 @@ class MatchInfoView extends Component {
     const {props, state} = this
 
     return (
-      <Animated.View style={[{top: state.topValue, height: state.heightValue,}, style.info]}>
+      <Animated.View style={[{top: state.topValue, height: state.heightValue, opacity: state.opacity}, style.info]}>
         {
           !props.infoOpen ?
           <TouchableOpacity style={style.opener} onPress={() => props.showInfo()} />

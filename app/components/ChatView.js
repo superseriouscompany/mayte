@@ -18,6 +18,7 @@ export default class extends Component {
 
     this.state = {
       topValue: new Animated.Value(matchHeaderHeight),
+      opacity: new Animated.Value(1)
     }
   }
 
@@ -30,30 +31,36 @@ export default class extends Component {
   }
 
   animateOpen() {
-    Animated.timing(
-      this.state.topValue,
-      {
+    Animated.parallel([
+      Animated.timing(this.state.topValue, {
         toValue: matchHeaderHeight,
         duration: 333,
-      }
-    ).start()
+      }),
+      Animated.timing(this.state.opacity, {
+        toValue: 1,
+        duration: 333,
+      })
+    ]).start()
   }
 
   animateClosed() {
-    Animated.timing(
-      this.state.topValue,
-      {
+    Animated.parallel([
+      Animated.timing(this.state.topValue, {
         toValue: screenHeight,
         duration: 333,
-      }
-    ).start()
+      }),
+      Animated.timing(this.state.opacity, {
+        toValue: 0,
+        duration: 333,
+      })
+    ]).start()
   }
 
   render() {
     const {props, state} = this
 
     return (
-      <Animated.View style={[{top: state.topValue}, style.container]}>
+      <Animated.View style={[{top: state.topValue, opacity: state.opacity}, style.container]}>
         <BlurView style={style.blur}
                   blurType="light"
                   blurAmount={3}
