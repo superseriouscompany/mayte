@@ -1,10 +1,10 @@
 'use strict'
 
 import React, {Component} from 'react'
-import Stage            from './Stage'
+import Stage              from './Stage'
 import store              from '../reducers'
 import {Provider}         from 'react-redux'
-import {View}             from 'react-native'
+import {SafeAreaView, View}     from 'react-native'
 
 export default class Root extends Component {
   constructor(props) {

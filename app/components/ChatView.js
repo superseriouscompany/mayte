@@ -4,6 +4,7 @@ import React, {Component}                  from 'react'
 import { GiftedChat, Bubble }              from 'react-native-gifted-chat'
 import { BlurView }                        from 'react-native-blur'
 import { screenHeight, matchHeaderHeight } from '../constants/dimensions'
+import { chatOpen, chatClose }             from '../constants/timings'
 import {
   Animated,
   ActivityIndicator,
@@ -18,6 +19,7 @@ export default class extends Component {
 
     this.state = {
       topValue: new Animated.Value(matchHeaderHeight),
+      opacity: new Animated.Value(1)
     }
   }
 
@@ -30,30 +32,36 @@ export default class extends Component {
   }
 
   animateOpen() {
-    Animated.timing(
-      this.state.topValue,
-      {
+    Animated.parallel([
+      Animated.timing(this.state.topValue, {
         toValue: matchHeaderHeight,
-        duration: 333,
-      }
-    ).start()
+        duration: chatOpen,
+      }),
+      Animated.timing(this.state.opacity, {
+        toValue: 1,
+        duration: chatOpen,
+      })
+    ]).start()
   }
 
   animateClosed() {
-    Animated.timing(
-      this.state.topValue,
-      {
+    Animated.parallel([
+      Animated.timing(this.state.topValue, {
         toValue: screenHeight,
-        duration: 333,
-      }
-    ).start()
+        duration: chatClose,
+      }),
+      Animated.timing(this.state.opacity, {
+        toValue: 0,
+        duration: chatClose,
+      })
+    ]).start()
   }
 
   render() {
     const {props, state} = this
 
     return (
-      <Animated.View style={[{top: state.topValue}, style.container]}>
+      <Animated.View style={[{top: state.topValue, opacity: state.opacity}, style.container]}>
         <BlurView style={style.blur}
                   blurType="light"
                   blurAmount={3}

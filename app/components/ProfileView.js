@@ -1,4 +1,5 @@
 import React, {Component}            from 'react'
+import moment                        from 'moment'
 import LinearGradient                from 'react-native-linear-gradient'
 import { screenWidth, screenHeight } from '../constants/dimensions'
 import {
@@ -25,7 +26,7 @@ export default (props) => {
                   }}
                   scrollEnabled={props.infoOpen ? true : false}>
         <Text style={style.name}>
-          {props.user.fullName.split(' ')[0]}, {props.user.age}
+          {props.user.fullName.split(' ')[0]}, {props.user.dob ? moment().diff(props.user.dob, "years") : 25}
         </Text>
         <Text style={style.location}>
           {props.user.distance} miles away
@@ -63,7 +64,7 @@ export default (props) => {
         </View>
         <View>
           <Text style={style.bio}>
-{`She a bad bad n she allllready know
+{props.user.bio || `She a bad bad n she allllready know
 (ya she know it)
 Whole bank accooount I'll blow it 💸`}
           </Text>
