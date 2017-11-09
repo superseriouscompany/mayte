@@ -10,6 +10,7 @@ import {
 } from 'redux'
 
 import hydrated from './hydrated'
+import matches  from './matches'
 import scene    from './scene'
 import user     from './user'
 
@@ -22,6 +23,7 @@ const reducers = combineReducers({
   hydrated,
   scene,
   user,
+  matches,
 })
 
 const store = createStore(

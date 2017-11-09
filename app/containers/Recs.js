@@ -46,7 +46,7 @@ class Recs extends Component {
       method: 'POST',
       accessToken: this.props.accessToken
     }).then((r) => {
-      if( r.match ) { alert('It\'s a match!') }
+      if( r.match ) { this.props.itsAMatch(); alert('It\'s a match!') }
       this.setState({index: this.state.index + 1, infoOpen: false})
     }).catch((err) => {
       console.error(err)
@@ -84,9 +84,12 @@ function mapStateToProps(state) {
 
 function mapDispatchToProps(dispatch) {
   return {
-    logout: function() {
+    logout: () => {
       dispatch({type: 'user:destroy'})
-    }
+    },
+    itsAMatch: () => {
+      dispatch({type: 'matches:invalidate'})
+    },
   }
 }
 
