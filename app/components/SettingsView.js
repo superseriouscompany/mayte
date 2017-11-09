@@ -1,6 +1,8 @@
 'use strict'
 
 import React, {Component} from 'react'
+import moment             from 'moment'
+import DatePicker         from 'react-native-datepicker'
 import { screenWidth }    from '../constants/dimensions'
 import {
   ActivityIndicator,
@@ -13,7 +15,12 @@ import {
   TextInput,
 } from 'react-native'
 
-export default function(props) {
+export default (props) => {
+  const oldest   = moment().subtract(100, 'years')
+  const youngest = moment().subtract(18, 'years')
+  const maxDob   = `${oldest.year()}-${oldest.month()}-${oldest.date()}`
+  const minDob   = `${youngest.year()}-${youngest.month()}-${youngest.date()}`
+
   return (
     <View style={style.container}>
       { props.loading  ?
@@ -81,17 +88,27 @@ export default function(props) {
                          // Goal is to have timeout here a la:
                          //   cancelTimeout(this.bioTimeout)
                          //   this.bioTimeout = setTimeout(() => props.updateBio(text), 500)
-                         props.updateBio(text)
+                         props.setBio(text)
                        }}></TextInput>
-            <TextInput style={[style.age]}
-                       keyboardType={'numeric'}
-                       defaultValue={props.user.age || '25'}
-                       onChangeText={text => {
-                         // Goal is to have timeout here a la:
-                         //   cancelTimeout(this.ageTimeout)
-                         //   this.ageTimeout = setTimeout(() => props.updateAge(text), 500)
-                         props.updateAge(parseInt(text))
-                       }} />
+            <TouchableOpacity style={[style.submitBtn, {opacity: props.updatingBio ? 0.5 : 1}]}
+                              onPress={props.updateBio}>
+              <Text>SUBMIT</Text>
+            </TouchableOpacity>
+            <DatePicker style={{width: screenWidth - 40, marginLeft: 20}}
+                        date={props.dob}
+                        mode="date"
+                        placeholder="select date"
+                        format="YYYY-MM-DD"
+                        minDate={minDob}
+                        maxDate={maxDob}
+                        showIcon={false}
+                        confirmBtnText="confirm"
+                        cancelBtnText="cancel"
+                        onDateChange={date => props.setDob(date)} />
+            <TouchableOpacity style={[style.submitBtn, {opacity: props.updatingDob ? 0.5 : 1}]}
+                              onPress={props.updateDob}>
+              <Text>SUBMIT</Text>
+            </TouchableOpacity>
           </View>
           <TouchableOpacity onPress={props.logout}>
             <Text style={style.button}>Sign Out</Text>
@@ -136,14 +153,20 @@ const style = StyleSheet.create({
   bio: {
     borderWidth: 1,
     borderColor: 'black',
-    margin: 20,
-    height: 100,
-  },
-  age: {
-    borderWidth: 1,
-    borderColor: 'black',
-    marginBottom: 20,
     marginLeft: 20,
     marginRight: 20,
+    marginTop: 20,
+    height: 100,
+  },
+  dob: {
+    borderWidth: 1,
+    borderColor: 'black',
+    marginLeft: 20,
+    marginRight: 20,
+  },
+  submitBtn: {
+    margin: 20,
+    backgroundColor: 'lightblue',
+    padding: 10,
   }
 })

@@ -8,12 +8,18 @@ import api                 from '../services/api'
 class Settings extends Component {
   constructor(props) {
     super(props)
-    this.state = { photos: [], loading: true }
+    console.log("construct", props.dob)
+    this.state = {
+      photos: [],
+      loading: true,
+      updatingBio: false,
+      updatingDob: false,
+    }
     this.activate     = this.activate.bind(this)
     this.deactivate   = this.deactivate.bind(this)
     this.updatePhotos = this.updatePhotos.bind(this)
     this.updateBio    = this.updateBio.bind(this)
-    this.updateAge    = this.updateAge.bind(this)
+    this.updateDob    = this.updateDob.bind(this)
   }
 
   activate(instagramId) {
@@ -46,20 +52,35 @@ class Settings extends Component {
   }
 
   updateBio() {
+    this.setState({updatingBio: true})
     api('/users/me', {
       method: 'PATCH',
       accessToken: this.props.accessToken,
       body: {
-        bio: 'Hey everybody look at me'
+        bio: this.state.bio
       }
-    }).catch((err) => {
+    })
+    .then(() => this.setState({updatingBio: false}))
+    .catch((err) => {
       alert(err.message || err)
       console.error(err)
     })
   }
 
-  updateAge() {
-
+  updateDob() {
+    this.setState({updatingDob: true})
+    api('/users/me', {
+      method: 'PATCH',
+      accessToken: this.props.accessToken,
+      body: {
+        dob: this.state.dob
+      }
+    })
+    .then(() => this.setState({updatingDob: false}))
+    .catch((err) => {
+      alert(err.message || err)
+      console.error(err)
+    })
   }
 
   calculateActive(activeIds, photos) {
@@ -78,7 +99,9 @@ class Settings extends Component {
       const user = v[0]
       const activeIds = user.photos.map(p => p.instagramId)
       const photos = this.calculateActive(activeIds, v[1].photos)
-      this.setState({ user: user, activeIds: activeIds, photos: photos, loading: false })
+      const bio = user.bio
+      const dob = user.dob
+      this.setState({ user: user, activeIds: activeIds, photos: photos, loading: false, bio: bio, dob: dob })
     }).catch((err) => {
       this.setState({ loading: false, error: err.message || err })
     })
@@ -89,8 +112,10 @@ class Settings extends Component {
     return (
       <SettingsView {...this.state}
                     {...this.props}
+                    setBio={text => this.setState({bio: text})}
+                    setDob={date => this.setState({dob: date})}
                     updateBio={this.updateBio}
-                    updateAge={this.updateAge}
+                    updateDob={this.updateDob}
                     activate={this.activate}
                     deactivate={this.deactivate}/>
     )
@@ -99,7 +124,7 @@ class Settings extends Component {
 
 function mapStateToProps(state) {
   return {
-    accessToken: state.user.accessToken
+    accessToken: state.user.accessToken,
   }
 }
 
