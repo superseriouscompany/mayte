@@ -8,7 +8,6 @@ import api                 from '../services/api'
 class Settings extends Component {
   constructor(props) {
     super(props)
-    console.log("construct", props.dob)
     this.state = {
       photos: [],
       loading: true,

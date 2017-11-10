@@ -8,20 +8,10 @@ import api                from '../services/api'
 class Matches extends Component {
   constructor(props) {
     super(props)
-    this.state = { loading: true }
-  }
-
-  componentDidMount() {
-    api('/matches', {accessToken: this.props.accessToken}).then((r) => {
-      this.setState({loading: false, matches: r.matches})
-    }).catch((err) => {
-      this.setState({loading: false, error: err.message || err})
-    })
   }
 
   render() {
     const {props} = this
-
     return (
       <MatchesView {...this.state} {...this.props} />
     )
@@ -30,7 +20,9 @@ class Matches extends Component {
 
 function mapStateToProps(state) {
   return {
-    accessToken: state.user.accessToken
+    matches: state.matches.data,
+    loading: state.matches.loading,
+    error: state.matches.error,
   }
 }
 
