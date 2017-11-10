@@ -2,8 +2,9 @@
 
 import React, {Component} from 'react'
 import {connect}          from 'react-redux'
-import RecsView        from '../components/RecsView'
+import RecsView           from '../components/RecsView'
 import api                from '../services/api'
+import {Image}            from 'react-native'
 
 class Recs extends Component {
   constructor(props) {
@@ -22,7 +23,7 @@ class Recs extends Component {
     api('/recs', {accessToken: this.props.accessToken}).then((r) => {
       // TEMP: PLACING THIS HERE TO AVOID CHANGES ON VIEW RERENDERS //
       r.recs.forEach(u => {
-        u.age = 20 + Math.floor(Math.random() * 10)
+        Image.prefetch(u.photos[0].url)
         u.distance = Math.ceil(Math.random() * 5)
       })
       ///////////////////////////////////////////////////////////////
