@@ -4,13 +4,13 @@ import RNFirebase         from 'react-native-firebase'
 import api                from '../services/api'
 
 const firebase = RNFirebase.initializeApp({
-  debug: true,
+  debug: __DEV__,
 })
 
 class NotificationProvider extends Component {
   constructor(props) {
     super(props)
-    this.patchToken = this.patchToken.bind(this)
+    this.saveToken = this.saveToken.bind(this)
   }
 
   componentWillReceiveProps(nextProps) {
@@ -20,16 +20,16 @@ class NotificationProvider extends Component {
 
     if (nextProps.accessToken && !this.props.accessToken) {
       firebase.messaging().getToken().then((token) => {
-        this.patchToken(token)
+        this.saveToken(token)
       })
 
       firebase.messaging().onTokenRefresh((token) => {
-        this.patchToken(token)
+        this.saveToken(token)
       })
     }
   }
 
-  patchToken(token) {
+  saveToken(token) {
     api('/users/me', {
       method: 'PATCH',
       accessToken: this.props.accessToken,
@@ -43,12 +43,7 @@ class NotificationProvider extends Component {
     })
   }
 
-  render() {
-    const {props} = this
-    return (
-      null
-    )
-  }
+  render() { return null }
 }
 
 function mapStateToProps(state) {

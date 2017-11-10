@@ -4,7 +4,7 @@ export default (state=initialState, action) => {
     case 'matches:load':
       return {...state, loading: true}
     case 'matches:load:yes':
-      return {...state, data: action.matches, loading: null, dirty: null}
+      return {...state, data: action.matches, loading: false, dirty: false}
     case 'matches:load:no':
       return {...state, loading: false, error: action.error}
     case 'matches:invalidate':

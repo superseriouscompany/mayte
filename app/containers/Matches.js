@@ -20,7 +20,6 @@ class Matches extends Component {
 
 function mapStateToProps(state) {
   return {
-    accessToken: state.user.accessToken,
     matches: state.matches.data,
     loading: state.matches.loading,
     error: state.matches.error,

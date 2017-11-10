@@ -13,12 +13,7 @@ class MatchesProvider extends Component {
     }
   }
 
-  render() {
-    const {props} = this
-    return (
-      null
-    )
-  }
+  render() { return null }
 }
 
 function mapStateToProps(state) {
