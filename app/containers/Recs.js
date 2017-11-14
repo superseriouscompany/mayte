@@ -2,9 +2,9 @@
 
 import React, {Component} from 'react'
 import {connect}          from 'react-redux'
-import RecsView           from '../components/RecsView'
+import RecView            from '../components/RecView'
 import api                from '../services/api'
-import {Image}            from 'react-native'
+import {Image, View}      from 'react-native'
 
 class Recs extends Component {
   constructor(props) {
@@ -15,12 +15,13 @@ class Recs extends Component {
       loading: true,
       index: 0,
       viewHeight: 0,
-      infoOpen: false,
+      recs: [],
     }
   }
 
   componentDidMount() {
     api('/recs', {accessToken: this.props.accessToken}).then((r) => {
+      console.log(r)
       // TEMP: PLACING THIS HERE TO AVOID CHANGES ON VIEW RERENDERS //
       r.recs.forEach(u => {
         Image.prefetch(u.photos[0].url)
@@ -68,12 +69,23 @@ class Recs extends Component {
   }
 
   render() {
-    return <RecsView {...this.state}
-                     setHeight={(h) => this.setState({viewHeight: h})}
-                     showInfo={() => this.setState({infoOpen: true})}
-                     hideInfo={() => this.setState({infoOpen: false})}
-                     like={this.like}
-                     pass={this.pass} />
+    return (
+      <View style={{flex: 1}}>
+      {
+        ([this.state.recs[0]] || this.state.recs).map((r,i,a) => {
+          console.log(a.length)
+          return <RecView {...this.state}
+                          key={i}
+                          rec={r}
+                          setHeight={(h) => this.setState({viewHeight: h})}
+                          showInfo={() => this.setState({infoOpen: true})}
+                          hideInfo={() => this.setState({infoOpen: false})}
+                          like={this.like}
+                          pass={this.pass} />
+        })
+      }
+      </View>
+    )
   }
 }
 
