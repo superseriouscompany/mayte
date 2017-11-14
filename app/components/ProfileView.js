@@ -64,9 +64,7 @@ export default (props) => {
         </View>
         <View>
           <Text style={style.bio}>
-{props.user.bio || `She a bad bad n she allllready know
-(ya she know it)
-Whole bank accooount I'll blow it 💸`}
+{props.user.bio || ``}
           </Text>
         </View>
       </ScrollView>
