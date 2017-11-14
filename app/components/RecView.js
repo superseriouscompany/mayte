@@ -2,9 +2,10 @@
 
 import React, {Component} from 'react'
 import RecInfoView from './RecInfoView'
-import { width, height } from '../constants/dimensions'
+import { screenWidth, screenHeight } from '../constants/dimensions'
 import {
   ActivityIndicator,
+  Animated,
   Image,
   ScrollView,
   StyleSheet,
@@ -20,12 +21,43 @@ const useScratch = false
 export default class RecView extends Component {
   constructor(props) {
     super(props)
-    this.imgStyle = {width: width, height: props.viewHeight}
+    this.state = {
+      infoOpen: false,
+      leftValue: new Animated.Value(0),
+      opacity: new Animated.Value(1),
+    }
   }
+
+  animateLike() {
+    Animated.parallel([
+      Animated.timing(this.state.leftValue, {
+        toValue: screenWidth,
+        duration: 333,
+      }),
+      Animated.timing(this.state.opacity, {
+        toValue: 0,
+        duration: 333,
+      })
+    ]).start()
+  }
+
+  animatePass() {
+    Animated.parallel([
+      Animated.timing(this.state.leftValue, {
+        toValue: -screenWidth,
+        duration: 333,
+      }),
+      Animated.timing(this.state.opacity, {
+        toValue: 0,
+        duration: 333,
+      })
+    ]).start()
+  }
+
   render() {
-    const {props} = this
+    const {props, state} = this
     return (
-      <View style={style.container}>
+      <Animated.View style={[{left: state.leftValue, opacity: state.opacity}, style.wrapper]}>
         { props.loading ?
           <View style={style.centered}>
             <ActivityIndicator />
@@ -43,13 +75,13 @@ export default class RecView extends Component {
             <FlatList style={[style.container]}
                       onLayout={(e) => {
                         const {height} = e.nativeEvent.layout
-                        props.setHeight(height)
+                        return props.viewHeight ? null : props.setHeight(height)
                       }}
                       onScroll={(e) => {
                         const {contentOffset, layoutMeasurement, contentSize} = e.nativeEvent
                         if (contentOffset.y + layoutMeasurement.height > contentSize.height) {
                           e.preventDefault()
-                          props.showInfo()
+                          this.setState({infoOpen: true})
                         }
                       }}
                       showsVerticalScrollIndicator={false}
@@ -57,28 +89,36 @@ export default class RecView extends Component {
                       data={props.rec.photos || []}
                       keyExtractor={(item, index) => index}
                       renderItem={({item}) =>
-                        <Image style={this.imgStyle}
+                        <Image style={{width: screenWidth, height: props.viewHeight}}
                                resizeMode="cover"
                                source={{url: item.url}} />
                       } />
 
-            <RecInfoView {...props} />
+            <RecInfoView {...props}
+                         infoOpen={state.infoOpen}
+                         like={() => {this.animateLike(); props.like()}}
+                         pass={() => {this.animatePass(); props.pass()}}
+                         showInfo={() => this.setState({infoOpen: true})}
+                         hideInfo={() => this.setState({infoOpen: false})} />
           </View>
         }
-      </View>
+      </Animated.View>
     )
   }
 }
 
 const style = StyleSheet.create({
-
-  container: {
+  wrapper: {
     flex: 1,
     position: 'absolute',
     width: '100%',
     height: '100%',
     top: 0,
-    left: 0,
+    backgroundColor: 'white',
+  },
+
+  container: {
+    flex: 1,
   },
 
   centered: {

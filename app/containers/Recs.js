@@ -21,7 +21,6 @@ class Recs extends Component {
 
   componentDidMount() {
     api('/recs', {accessToken: this.props.accessToken}).then((r) => {
-      console.log(r)
       // TEMP: PLACING THIS HERE TO AVOID CHANGES ON VIEW RERENDERS //
       r.recs.forEach(u => {
         Image.prefetch(u.photos[0].url)
@@ -72,14 +71,12 @@ class Recs extends Component {
     return (
       <View style={{flex: 1}}>
       {
-        ([this.state.recs[0]] || this.state.recs).map((r,i,a) => {
+        this.state.recs.map((r,i,a) => {
           console.log(a.length)
           return <RecView {...this.state}
                           key={i}
                           rec={r}
                           setHeight={(h) => this.setState({viewHeight: h})}
-                          showInfo={() => this.setState({infoOpen: true})}
-                          hideInfo={() => this.setState({infoOpen: false})}
                           like={this.like}
                           pass={this.pass} />
         })
