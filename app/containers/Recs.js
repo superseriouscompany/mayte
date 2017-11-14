@@ -72,7 +72,6 @@ class Recs extends Component {
       <View style={{flex: 1}}>
       {
         this.state.recs.map((r,i,a) => {
-          console.log(a.length)
           return <RecView {...this.state}
                           key={i}
                           rec={r}
