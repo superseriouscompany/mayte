@@ -3,6 +3,7 @@
 import React, {Component} from 'react'
 import {connect}          from 'react-redux'
 import RecView            from '../components/RecView'
+import IssaMatchView      from '../components/IssaMatchView'
 import api                from '../services/api'
 import {Image, View}      from 'react-native'
 
@@ -13,7 +14,6 @@ class Recs extends Component {
     this.pass  = this.pass.bind(this)
     this.state = {
       loading: true,
-      index: 0,
       viewHeight: 0,
       recs: [],
     }
@@ -42,25 +42,32 @@ class Recs extends Component {
     })
   }
 
-  like(userId) {
-    api(`/ratings/${userId}/like`, {
+  like(u) {
+    api(`/ratings/${u.id}/like`, {
       method: 'POST',
       accessToken: this.props.accessToken
     }).then((r) => {
-      if( r.match ) { this.props.itsAMatch(); alert('It\'s a match!') }
-      this.setState({index: this.state.index + 1, infoOpen: false})
+      if ( r.match ) {
+        this.props.itsAMatch()
+        this.setState({match: u})
+      }
+      const recs = this.state.recs
+      recs.pop()
+      this.setState({recs: recs})
     }).catch((err) => {
       console.error(err)
       alert(err.message || err)
     })
   }
 
-  pass(userId) {
-    api(`/ratings/${userId}/pass`, {
+  pass(u) {
+    api(`/ratings/${u.id}/pass`, {
       method: 'POST',
       accessToken: this.props.accessToken
     }).then((r) => {
-      this.setState({index: this.state.index + 1, infoOpen: false})
+      const recs = this.state.recs
+      recs.pop()
+      this.setState({recs: recs})
     }).catch((err) => {
       console.error(err)
       alert(err.message || err)
@@ -68,17 +75,25 @@ class Recs extends Component {
   }
 
   render() {
+    const {props, state} = this
     return (
       <View style={{flex: 1}}>
       {
         this.state.recs.map((r,i,a) => {
-          return <RecView {...this.state}
+          return <RecView {...state}
                           key={i}
                           rec={r}
                           setHeight={(h) => this.setState({viewHeight: h})}
                           like={this.like}
                           pass={this.pass} />
         })
+      }
+      {
+        state.match ?
+        <IssaMatchView viewHeight={state.viewHeight}
+                       otherUser={state.match}
+                       viewChat={() => props.viewChat(state.match)}
+                       dismiss={() => this.setState({match: null})} /> : null
       }
       </View>
     )
@@ -99,6 +114,13 @@ function mapDispatchToProps(dispatch) {
     itsAMatch: () => {
       dispatch({type: 'matches:invalidate'})
     },
+    viewChat: (user) => {
+      dispatch({type: 'scene:change', scene: {
+        name: 'Match',
+        view: 'Chat',
+        user: user,
+      }})
+    }
   }
 }
 

@@ -66,7 +66,7 @@ export default class RecView extends Component {
           <View style={style.centered}>
             <Text style={style.error}>{props.error}</Text>
           </View>
-        : props.exhausted || props.index >= props.recs.length ?
+        : props.exhausted || props.recs.length === 0 ?
           <View style={style.centered}>
             <Text>{`There's no one new around you.`}</Text>
           </View>
@@ -96,8 +96,8 @@ export default class RecView extends Component {
 
             <RecInfoView {...props}
                          infoOpen={state.infoOpen}
-                         like={() => {this.animateLike(); props.like()}}
-                         pass={() => {this.animatePass(); props.pass()}}
+                         like={() => {this.animateLike(); props.like(props.rec)}}
+                         pass={() => {this.animatePass(); props.pass(props.rec)}}
                          showInfo={() => this.setState({infoOpen: true})}
                          hideInfo={() => this.setState({infoOpen: false})} />
           </View>
