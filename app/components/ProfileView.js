@@ -10,9 +10,20 @@ import {
   TouchableOpacity,
   TouchableWithoutFeedback,
   Image,
+  Linking,
 } from 'react-native'
 
 export default (props) => {
+  const linkToInstagram = (url) => {
+    Linking.canOpenURL(url).then(supported => {
+      if (!supported) {
+        console.error(`can't handle url: ${url}`)
+      } else {
+        Linking.openURL(url)
+      }
+    })
+  }
+
   return(
     <LinearGradient colors={['rgba(0,0,0,0)', 'rgba(0,0,0,0.6)']}
                     style={style.gradient}>
@@ -59,8 +70,10 @@ export default (props) => {
           null
         }
         <View style={style.cv}>
-          <Text style={style.handle}>Profreshional Model, Treats!</Text>
-          <Text style={style.handle}>@beners</Text>
+          <Text style={style.handle}>{`${props.user.occupation || 'Profreshional Model, Treats'}`}!</Text>
+          <TouchableOpacity onPress={() => linkToInstagram(`https:\/\/instagram.com/${props.user.instagramHandle || 'treatsmag'}`)}>
+            <Text style={style.handle}>{`@${props.user.instagramHandle || 'treatsmag'}`}</Text>
+          </TouchableOpacity>
         </View>
         <View>
           <Text style={style.bio}>
