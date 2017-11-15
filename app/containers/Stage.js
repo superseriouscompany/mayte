@@ -49,7 +49,7 @@ class Stage extends PureComponent {
 
     return (
       <Navigation initialSceneName="Recs">
-        <Settings
+        <Settings sceneName="Settings"
           tabLabel="Profile"
           tabIcon={({tintColor, focused}) => (
             <Icon name={focused ? 'ios-person' : 'ios-person-outline'}
@@ -63,7 +63,7 @@ class Stage extends PureComponent {
                   size={26}
                   style={{color: tintColor}} />
           )} />
-        <MatchBridge
+        <MatchBridge sceneName="Matches"
           tabLabel="Matches"
           tabIcon={({tintColor, focused}) => (
             <Icon name={focused ? 'ios-chatbubbles' : 'ios-chatbubbles-outline'}

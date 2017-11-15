@@ -8,9 +8,7 @@ export default function(props) {
 
   React.Children.forEach(props.children, (child, i) => {
     scenes[child.props.sceneName || `${child.type.displayName}${i}`] = {
-      screen: () => (
-        child
-      ),
+      screen: () => child,
       navigationOptions: {
         tabBarLabel: child.props.tabLabel,
         tabBarIcon:  child.props.tabIcon,

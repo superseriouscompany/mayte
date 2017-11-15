@@ -1,4 +1,5 @@
 import React, {Component} from 'react'
+import { withNavigation } from 'react-navigation'
 import { connect } from 'react-redux'
 import { screenWidth, screenHeight } from '../constants/dimensions'
 import { issaMatchOpen, issaMatchClose } from '../constants/timings'
@@ -134,9 +135,10 @@ const mapStateToProps = (state, ownProps) => {
   }
 }
 
-const mapDispatchToProps = (dispatch) => {
+const mapDispatchToProps = (dispatch, ownProps) => {
   return {
     viewChat: (match) => {
+      ownProps.navigation.navigate("Matches")
       dispatch({type: 'scene:change', scene: {
         name: 'Match',
         view: 'Chat',
@@ -146,4 +148,4 @@ const mapDispatchToProps = (dispatch) => {
   }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(IssaMatchView)
+export default withNavigation(connect(mapStateToProps, mapDispatchToProps)(IssaMatchView))
