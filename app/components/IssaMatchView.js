@@ -1,7 +1,10 @@
 import React, {Component} from 'react'
+import { connect } from 'react-redux'
 import { screenWidth, screenHeight } from '../constants/dimensions'
+import { issaMatchOpen, issaMatchClose } from '../constants/timings'
 import {
   StyleSheet,
+  Animated,
   View,
   Text,
   Image,
@@ -9,32 +12,65 @@ import {
 } from 'react-native'
 
 class IssaMatchView extends Component {
+  constructor(props) {
+    super(props)
+    this.state = {
+      opacity: new Animated.Value(0)
+    }
+
+    this.animateIn = this.animateIn.bind(this)
+    this.animateOut = this.animateOut.bind(this)
+  }
+
+  componentDidMount() {
+    this.animateIn()
+  }
+
+  animateIn() {
+    Animated.parallel([
+      Animated.timing(this.state.opacity, {
+        toValue: 1,
+        duration: issaMatchOpen
+      })
+    ]).start()
+  }
+
+  animateOut() {
+    Animated.parallel([
+      Animated.timing(this.state.opacity, {
+        toValue: 0,
+        duration: issaMatchClose
+      })
+    ]).start(this.props.dismiss)
+  }
+
   render() {
-    const {props} = this
+    const {props, state} = this
     return (
-      <View style={[style.container, {height: props.viewHeight}]}>
+      <Animated.View style={[{opacity: state.opacity, height: props.viewHeight}, style.container]}>
         <Text style={style.title}>{`U GUYS SHUD KISS <3`}</Text>
 
         <View style={style.tray}>
-          <Image style={style.bubble} source={{uri: 'https://pokewalls.files.wordpress.com/2011/04/1bulbasaur1920x1200.jpg'}} />
+          <Image style={style.bubble} source={{uri: props.user.photos[0].url}} />
           <Image style={style.bubble} source={{uri: props.otherUser.photos[0].url}} />
         </View>
 
-        <TouchableOpacity onPress={() => {props.viewChat(); props.dismiss()}}
+        <TouchableOpacity onPress={() => {
+                            props.viewChat(props.otherUser)
+                            this.animateOut()
+                          }}
                           style={[style.button, {marginBottom: 40}]}>
           <Text style={[style.buttonText]}>START CHATTING</Text>
         </TouchableOpacity>
 
-        <TouchableOpacity onPress={() => {/*some animation*/ props.dismiss()}}
+        <TouchableOpacity onPress={this.animateOut}
                           style={style.button}>
           <Text style={[style.buttonText]}>KEEP BROWSING</Text>
         </TouchableOpacity>
-      </View>
+      </Animated.View>
     )
   }
 }
-
-export default IssaMatchView
 
 style = StyleSheet.create({
   container: {
@@ -91,3 +127,23 @@ style = StyleSheet.create({
     letterSpacing: 1,
   }
 })
+
+const mapStateToProps = (state, ownProps) => {
+  return {
+    user: state.user
+  }
+}
+
+const mapDispatchToProps = (dispatch) => {
+  return {
+    viewChat: (match) => {
+      dispatch({type: 'scene:change', scene: {
+        name: 'Match',
+        view: 'Chat',
+        user: match,
+      }})
+    }
+  }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(IssaMatchView)

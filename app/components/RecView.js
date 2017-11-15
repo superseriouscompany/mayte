@@ -3,6 +3,7 @@
 import React, {Component} from 'react'
 import RecInfoView from './RecInfoView'
 import { screenWidth, screenHeight } from '../constants/dimensions'
+import { recLike, recPass } from '../constants/timings'
 import {
   Animated,
   Image,
@@ -31,11 +32,11 @@ export default class RecView extends Component {
     Animated.parallel([
       Animated.timing(this.state.leftValue, {
         toValue: screenWidth,
-        duration: 333,
+        duration: recLike,
       }),
       Animated.timing(this.state.opacity, {
         toValue: 0,
-        duration: 333,
+        duration: recLike,
       })
     ]).start()
   }
@@ -44,11 +45,11 @@ export default class RecView extends Component {
     Animated.parallel([
       Animated.timing(this.state.leftValue, {
         toValue: -screenWidth,
-        duration: 333,
+        duration: recPass,
       }),
       Animated.timing(this.state.opacity, {
         toValue: 0,
-        duration: 333,
+        duration: recPass,
       })
     ]).start()
   }

@@ -96,7 +96,6 @@ class Recs extends Component {
           state.match ?
           <IssaMatchView viewHeight={state.viewHeight}
                          otherUser={state.match}
-                         viewChat={() => props.viewChat(state.match)}
                          dismiss={() => this.setState({match: null})} /> : null
         }
       </View>
@@ -122,13 +121,6 @@ function mapDispatchToProps(dispatch) {
     itsAMatch: () => {
       dispatch({type: 'matches:invalidate'})
     },
-    viewChat: (user) => {
-      dispatch({type: 'scene:change', scene: {
-        name: 'Match',
-        view: 'Chat',
-        user: user,
-      }})
-    }
   }
 }
 
