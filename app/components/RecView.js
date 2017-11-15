@@ -4,7 +4,6 @@ import React, {Component} from 'react'
 import RecInfoView from './RecInfoView'
 import { screenWidth, screenHeight } from '../constants/dimensions'
 import {
-  ActivityIndicator,
   Animated,
   Image,
   ScrollView,
@@ -58,11 +57,7 @@ export default class RecView extends Component {
     const {props, state} = this
     return (
       <Animated.View style={[{left: state.leftValue, opacity: state.opacity}, style.wrapper]}>
-        { props.loading ?
-          <View style={style.centered}>
-            <ActivityIndicator />
-          </View>
-        : props.error ?
+        { props.error ?
           <View style={style.centered}>
             <Text style={style.error}>{props.error}</Text>
           </View>

@@ -5,7 +5,11 @@ import {connect}          from 'react-redux'
 import RecView            from '../components/RecView'
 import IssaMatchView      from '../components/IssaMatchView'
 import api                from '../services/api'
-import {Image, View}      from 'react-native'
+import {
+  ActivityIndicator,
+  Image,
+  View,
+} from 'react-native'
 
 class Recs extends Component {
   constructor(props) {
@@ -15,7 +19,7 @@ class Recs extends Component {
     this.state = {
       loading: true,
       viewHeight: 0,
-      recs: [],
+      index: 0,
     }
   }
 
@@ -51,9 +55,7 @@ class Recs extends Component {
         this.props.itsAMatch()
         this.setState({match: u})
       }
-      const recs = this.state.recs
-      recs.pop()
-      this.setState({recs: recs})
+      this.setState({index: this.state.index + 1})
     }).catch((err) => {
       console.error(err)
       alert(err.message || err)
@@ -65,9 +67,7 @@ class Recs extends Component {
       method: 'POST',
       accessToken: this.props.accessToken
     }).then((r) => {
-      const recs = this.state.recs
-      recs.pop()
-      this.setState({recs: recs})
+      this.setState({index: this.state.index + 1})
     }).catch((err) => {
       console.error(err)
       alert(err.message || err)
@@ -77,24 +77,32 @@ class Recs extends Component {
   render() {
     const {props, state} = this
     return (
+      !state.loading
+      ?
       <View style={{flex: 1}}>
-      {
-        this.state.recs.map((r,i,a) => {
-          return <RecView {...state}
-                          key={i}
-                          rec={r}
-                          setHeight={(h) => this.setState({viewHeight: h})}
-                          like={this.like}
-                          pass={this.pass} />
-        })
-      }
-      {
-        state.match ?
-        <IssaMatchView viewHeight={state.viewHeight}
-                       otherUser={state.match}
-                       viewChat={() => props.viewChat(state.match)}
-                       dismiss={() => this.setState({match: null})} /> : null
-      }
+        <RecView {...state}
+                 key={state.recs[state.index + 1].id}
+                 rec={state.recs[state.index + 1]}
+                 setHeight={(h) => this.setState({viewHeight: h})}
+                 like={this.like}
+                 pass={this.pass} />
+        <RecView {...state}
+                 key={state.recs[state.index].id}
+                 rec={state.recs[state.index]}
+                 setHeight={(h) => this.setState({viewHeight: h})}
+                 like={this.like}
+                 pass={this.pass} />
+        {
+          state.match ?
+          <IssaMatchView viewHeight={state.viewHeight}
+                         otherUser={state.match}
+                         viewChat={() => props.viewChat(state.match)}
+                         dismiss={() => this.setState({match: null})} /> : null
+        }
+      </View>
+      :
+      <View style={{flex: 1, alignItems: 'center', justifyContent: 'center'}}>
+        <ActivityIndicator />
       </View>
     )
   }
