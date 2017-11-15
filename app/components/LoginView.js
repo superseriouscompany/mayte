@@ -1,6 +1,7 @@
 'use strict'
 
-import React, {Component} from 'react'
+import React, { Component } from 'react'
+import { mayteBlack }       from '../constants/colors'
 import {
   StyleSheet,
   Text,
@@ -50,7 +51,7 @@ const style = StyleSheet.create({
     position: 'absolute',
     height: '100%',
     width: '100%',
-    backgroundColor: 'rgba(35,31,32,0.66)',
+    backgroundColor: mayteBlack(0.66),
   },
 
   logo: {
@@ -77,7 +78,7 @@ const style = StyleSheet.create({
     textAlign: 'center',
     fontSize: 16,
     fontWeight: 'bold',
-    color: 'rgba(35,31,32,1)',
+    color: mayteBlack(),
     letterSpacing: 1,
   }
 })

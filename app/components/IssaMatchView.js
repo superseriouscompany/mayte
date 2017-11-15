@@ -3,6 +3,7 @@ import { withNavigation } from 'react-navigation'
 import { connect } from 'react-redux'
 import { screenWidth, screenHeight } from '../constants/dimensions'
 import { issaMatchOpen, issaMatchClose } from '../constants/timings'
+import { mayteBlack } from '../constants/colors'
 import {
   StyleSheet,
   Animated,
@@ -79,7 +80,7 @@ style = StyleSheet.create({
     top: 0,
     left: 0,
     width: screenWidth,
-    backgroundColor: 'rgba(35,31,32, 0.8)',
+    backgroundColor: mayteBlack(0.8),
     zIndex: 10,
     justifyContent: 'center',
     alignItems: 'center',
@@ -124,7 +125,7 @@ style = StyleSheet.create({
     textAlign: 'center',
     fontSize: 16,
     fontWeight: 'bold',
-    color: 'rgba(35,31,32,1)',
+    color: mayteBlack(),
     letterSpacing: 1,
   }
 })

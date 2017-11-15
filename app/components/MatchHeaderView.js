@@ -1,28 +1,47 @@
 'use strict'
 
-import React, {Component}    from 'react'
-import LinearGradient        from 'react-native-linear-gradient'
-import { matchHeaderHeight } from '../constants/dimensions'
+import React, { Component }                   from 'react'
+import LinearGradient                         from 'react-native-linear-gradient'
+import { matchHeaderHeight, statusBarHeight } from '../constants/dimensions'
+import { mayteBlack }                         from '../constants/colors'
 import {
   StyleSheet,
   Text,
   TouchableOpacity,
   View,
+  Image,
 } from 'react-native'
 
 export default function(props) {
+  console.log('match', props)
   return (
     <View style={style.container}>
       <TouchableOpacity onPress={props.showMatches}>
-        <Text style={style.button}>Back</Text>
+        <Image style={style.ban}
+               resizeMode='contain'
+               source={require('../images/back-black.png')} />
       </TouchableOpacity>
 
-      <TouchableOpacity onPress={props.view === 'Profile' ? props.showChat : props.showProfile}>
-        <Text style={style.button}>{`${props.view === 'Profile' ? 'Chat' : 'Deets'}`}</Text>
+      <TouchableOpacity style={style.nav}
+                        onPress={props.view === 'Profile' ? props.showChat : props.showProfile}>
+        {
+          props.view === 'Profile'
+          ?
+          <Image style={style.chat}
+                 resizeMode='contain'
+                 source={require('../images/chat-bubble-black.png')} />
+          :
+          <View style={{flexDirection: 'row', justifyContent: 'center', alignItems: 'center'}}>
+            <Image style={style.bubble} source={{uri: props.match.photos[0].url}} />
+            <Text style={style.name}>{props.match.fullName.split(' ')[0]}</Text>
+          </View>
+        }
       </TouchableOpacity>
 
       <TouchableOpacity onPress={props.showBlock}>
-        <Text style={style.button}>Block</Text>
+        <Image style={style.ban}
+               resizeMode='contain'
+               source={require('../images/ban-black.png')} />
       </TouchableOpacity>
     </View>
   )
@@ -37,6 +56,7 @@ const style = StyleSheet.create({
     paddingRight: 5,
     paddingLeft: 5,
     height: matchHeaderHeight,
+    paddingTop: statusBarHeight,
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
@@ -48,5 +68,34 @@ const style = StyleSheet.create({
   button: {
     color: 'blue',
     backgroundColor: 'transparent',
-  }
+  },
+  nav: {
+    paddingLeft: 20,
+    paddingRight: 20,
+  },
+  bubble: {
+    height: matchHeaderHeight * 0.55,
+    width: matchHeaderHeight * 0.55,
+    borderRadius: matchHeaderHeight * 0.55 * 0.5,
+    borderWidth: 1,
+    borderColor: mayteBlack(0.33),
+  },
+  name: {
+    color: mayteBlack(),
+    marginLeft: 5,
+    fontSize: 18,
+    letterSpacing: 0.5,
+  },
+  chat: {
+    height: matchHeaderHeight * 0.4,
+    width: matchHeaderHeight * 0.4,
+  },
+  ban: {
+    height: matchHeaderHeight * 0.38,
+    width: matchHeaderHeight * 0.38,
+  },
+  back: {
+    height: matchHeaderHeight * 0.38,
+    width: matchHeaderHeight * 0.38,
+  },
 })

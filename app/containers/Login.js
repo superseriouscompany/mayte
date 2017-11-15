@@ -1,9 +1,9 @@
 'use strict'
 
 import React, {Component} from 'react'
-import {connect}          from 'react-redux'
+import { connect }        from 'react-redux'
 import LoginView          from '../components/LoginView'
-import api, {baseUrl}     from '../services/api'
+import api, { baseUrl }   from '../services/api'
 import {
   Linking,
 } from 'react-native'
