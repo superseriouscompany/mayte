@@ -13,7 +13,6 @@ import {
 } from 'react-native'
 
 export default function(props) {
-  console.log('match', props)
   return (
     <View style={style.container}>
       <TouchableOpacity onPress={props.showMatches}>
