@@ -45,18 +45,9 @@ export default (props) => {
                      maxLength={500}
                      defaultValue={props.user.bio}
                      placeholder="Bio"
-                     onChangeText={text => {
-                       // Goal is to have timeout here a la:
-                       //   cancelTimeout(this.bioTimeout)
-                       //   this.bioTimeout = setTimeout(() => props.updateBio(text), 500)
-                       props.setBio(text)
-                     }}></TextInput>
-          <TouchableOpacity style={[style.submitBtn, {opacity: props.updatingBio ? 0.5 : 1}]}
-                            onPress={props.updateBio}>
-            <Text>SUBMIT</Text>
-          </TouchableOpacity>
+                     onChangeText={props.setBio}></TextInput>
           <DatePicker style={{width: screenWidth - 40, marginLeft: 20}}
-                      date={null}
+                      date={props.user.dob}
                       mode="date"
                       placeholder="Birthdate"
                       format="YYYY-MM-DD"
@@ -65,9 +56,9 @@ export default (props) => {
                       showIcon={false}
                       confirmBtnText="confirm"
                       cancelBtnText="cancel"
-                      onDateChange={date => props.setDob(date)} />
-          <TouchableOpacity style={[style.submitBtn, {opacity: props.updatingDob ? 0.5 : 1}]}
-                            onPress={props.updateDob}>
+                      onDateChange={props.setDob} />
+          <TouchableOpacity style={[style.submitBtn, {opacity: props.updating ? 0.5 : 1}]}
+                            onPress={props.updating ? () => {} : props.update}>
             <Text>SUBMIT</Text>
           </TouchableOpacity>
 
@@ -133,9 +124,7 @@ const style = StyleSheet.create({
   bio: {
     borderWidth: 1,
     borderColor: 'black',
-    marginLeft: 20,
-    marginRight: 20,
-    marginTop: 20,
+    margin: 20,
     height: 100,
     padding: 10,
   },

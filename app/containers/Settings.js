@@ -17,8 +17,7 @@ class Settings extends Component {
     this.activate     = this.activate.bind(this)
     this.deactivate   = this.deactivate.bind(this)
     this.updatePhotos = this.updatePhotos.bind(this)
-    this.updateBio    = this.updateBio.bind(this)
-    this.updateDob    = this.updateDob.bind(this)
+    this.update       = this.update.bind(this)
   }
 
   activate(instagramId) {
@@ -50,33 +49,18 @@ class Settings extends Component {
     })
   }
 
-  updateBio() {
-    this.setState({updatingBio: true})
+  update() {
+    this.setState({updating: true})
     api('/users/me', {
       method: 'PATCH',
       accessToken: this.props.accessToken,
       body: {
-        bio: this.state.bio
+        bio: this.state.bio,
+        dob: this.state.dob,
       }
-    })
-    .then(() => this.setState({updatingBio: false}))
-    .catch((err) => {
-      alert(err.message || err)
-      console.error(err)
-    })
-  }
-
-  updateDob() {
-    this.setState({updatingDob: true})
-    api('/users/me', {
-      method: 'PATCH',
-      accessToken: this.props.accessToken,
-      body: {
-        dob: this.state.dob
-      }
-    })
-    .then(() => this.setState({updatingDob: false}))
-    .catch((err) => {
+    }).then(() =>
+      this.setState({updating: false})
+    ).catch((err) => {
       alert(err.message || err)
       console.error(err)
     })
@@ -92,6 +76,7 @@ class Settings extends Component {
   componentDidMount() {
     var user;
     Promise.all([
+      // TODO: why? isn't this in the reducer?
       api('/users/me', { accessToken: this.props.accessToken}),
       api('/photos/available', {accessToken: this.props.accessToken}),
     ]).then((v) => {
@@ -113,8 +98,7 @@ class Settings extends Component {
                     {...this.props}
                     setBio={text => this.setState({bio: text})}
                     setDob={date => this.setState({dob: date})}
-                    updateBio={this.updateBio}
-                    updateDob={this.updateDob}
+                    update={this.update}
                     activate={this.activate}
                     deactivate={this.deactivate}/>
     )
