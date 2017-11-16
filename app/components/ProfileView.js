@@ -70,10 +70,18 @@ export default (props) => {
           null
         }
         <View style={style.cv}>
-          <Text style={style.handle}>{`${props.user.occupation || 'Profreshional Model, Treats'}`}!</Text>
-          <TouchableOpacity onPress={() => linkToInstagram(`https:\/\/instagram.com/${props.user.instagramHandle || 'treatsmag'}`)}>
-            <Text style={style.handle}>{`@${props.user.instagramHandle || 'treatsmag'}`}</Text>
-          </TouchableOpacity>
+          { props.user.occupation ?
+            <Text style={style.handle}>{props.user.occupation}</Text>
+          :
+            null
+          }
+          { props.user.instagramHandle ?
+            <TouchableOpacity onPress={() => linkToInstagram(`https:\/\/instagram.com/${props.user.instagramHandle}`)}>
+              <Text style={style.handle}>@{props.user.instagramHandle}}</Text>
+            </TouchableOpacity>
+          :
+            null
+          }
         </View>
         <View>
           <Text style={style.bio}>
