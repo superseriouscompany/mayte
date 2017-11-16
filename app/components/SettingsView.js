@@ -36,80 +36,60 @@ export default (props) => {
             <Text style={style.button}>Sign Out</Text>
           </TouchableOpacity>
         </View>
-      : !props.photos.length ?
-        <View style={style.centered}>
-          <Text>You have no photos available.</Text>
-          <View>
-            <TextInput style={[style.bio]}
-                       multiline={true}
-                       maxLength={500}
-                       defaultValue={props.user.bio || 'Sample bio text'}
-                       onChangeText={text => {
-                         // Goal is to have timeout here a la:
-                         //   cancelTimeout(this.bioTimeout)
-                         //   this.bioTimeout = setTimeout(() => props.updateBio(text), 500)
-                         props.updateBio(text)
-                       }}></TextInput>
-            <TextInput style={[style.age]}
-                       keyboardType={'numeric'}
-                       defaultValue={props.user.age || '25'}
-                       onChangeText={text => {
-                         // Goal is to have timeout here a la:
-                         //   cancelTimeout(this.ageTimeout)
-                         //   this.ageTimeout = setTimeout(() => props.updateAge(text), 500)
-                         props.updateAge(parseInt(text))
-                       }} />
-          </View>
-          <TouchableOpacity onPress={props.logout}>
-            <Text style={style.button}>Sign Out</Text>
-          </TouchableOpacity>
-        </View>
       :
         <ScrollView style={{flex: 1}}>
           <Text style={style.title}>{props.user && props.user.fullName} ID: {props.user && props.user.id}</Text>
-          <View style={style.grid}>
-            { (props.photos || []).map((p, key) => (
-              <TouchableOpacity key={key}
-                                onPress={() => p.isActive ? props.deactivate(p.instagramId) : props.activate(p.instagramId)}>
-                <Image source={{url: p.thumbnail.url}}
-                       style={[style.image, {
-                         width: screenWidth / 3,
-                         height: screenWidth / 3,
-                       }, p.isActive ? style.active : style.inactive]} />
-              </TouchableOpacity>
-            ))}
-          </View>
-          <View>
-            <TextInput style={[style.bio]}
-                       multiline={true}
-                       maxLength={500}
-                       defaultValue={props.user.bio || 'Sample bio text'}
-                       onChangeText={text => {
-                         // Goal is to have timeout here a la:
-                         //   cancelTimeout(this.bioTimeout)
-                         //   this.bioTimeout = setTimeout(() => props.updateBio(text), 500)
-                         props.setBio(text)
-                       }}></TextInput>
-            <TouchableOpacity style={[style.submitBtn, {opacity: props.updatingBio ? 0.5 : 1}]}
-                              onPress={props.updateBio}>
-              <Text>SUBMIT</Text>
-            </TouchableOpacity>
-            <DatePicker style={{width: screenWidth - 40, marginLeft: 20}}
-                        date={props.dob}
-                        mode="date"
-                        placeholder="select date"
-                        format="YYYY-MM-DD"
-                        minDate={minDob}
-                        maxDate={maxDob}
-                        showIcon={false}
-                        confirmBtnText="confirm"
-                        cancelBtnText="cancel"
-                        onDateChange={date => props.setDob(date)} />
-            <TouchableOpacity style={[style.submitBtn, {opacity: props.updatingDob ? 0.5 : 1}]}
-                              onPress={props.updateDob}>
-              <Text>SUBMIT</Text>
-            </TouchableOpacity>
-          </View>
+
+          <TextInput style={[style.bio]}
+                     multiline={true}
+                     maxLength={500}
+                     defaultValue={props.user.bio}
+                     placeholder="Bio"
+                     onChangeText={text => {
+                       // Goal is to have timeout here a la:
+                       //   cancelTimeout(this.bioTimeout)
+                       //   this.bioTimeout = setTimeout(() => props.updateBio(text), 500)
+                       props.setBio(text)
+                     }}></TextInput>
+          <TouchableOpacity style={[style.submitBtn, {opacity: props.updatingBio ? 0.5 : 1}]}
+                            onPress={props.updateBio}>
+            <Text>SUBMIT</Text>
+          </TouchableOpacity>
+          <DatePicker style={{width: screenWidth - 40, marginLeft: 20}}
+                      date={null}
+                      mode="date"
+                      placeholder="Birthdate"
+                      format="YYYY-MM-DD"
+                      minDate={minDob}
+                      maxDate={maxDob}
+                      showIcon={false}
+                      confirmBtnText="confirm"
+                      cancelBtnText="cancel"
+                      onDateChange={date => props.setDob(date)} />
+          <TouchableOpacity style={[style.submitBtn, {opacity: props.updatingDob ? 0.5 : 1}]}
+                            onPress={props.updateDob}>
+            <Text>SUBMIT</Text>
+          </TouchableOpacity>
+
+          { !props.photos.length ?
+            <View style={style.centered}>
+              <Text>You have no photos available.</Text>
+            </View>
+          :
+            <View style={style.grid}>
+              { (props.photos || []).map((p, key) => (
+                <TouchableOpacity key={key}
+                                  onPress={() => p.isActive ? props.deactivate(p.instagramId) : props.activate(p.instagramId)}>
+                  <Image source={{url: p.thumbnail.url}}
+                         style={[style.image, {
+                           width: screenWidth / 3,
+                           height: screenWidth / 3,
+                         }, p.isActive ? style.active : style.inactive]} />
+                </TouchableOpacity>
+              ))}
+            </View>
+          }
+
           <TouchableOpacity onPress={props.logout}>
             <Text style={style.button}>Sign Out</Text>
           </TouchableOpacity>
@@ -157,6 +137,7 @@ const style = StyleSheet.create({
     marginRight: 20,
     marginTop: 20,
     height: 100,
+    padding: 10,
   },
   dob: {
     borderWidth: 1,
