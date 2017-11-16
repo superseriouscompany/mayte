@@ -65,7 +65,7 @@ class RecInfoView extends Component {
 
     return (
       <Animated.View style={[{top: state.topValue, height: state.heightValue,}, style.info]}>
-        <ProfileView user={props.recs[props.index]}
+        <ProfileView user={props.rec}
                      pass={props.pass}
                      like={props.like}
                      topValue={state.topValue}

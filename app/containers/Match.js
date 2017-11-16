@@ -17,7 +17,7 @@ class Match extends Component {
 
     return (
       <View style={{flex: 1}}>
-        <MatchHeader />
+        <MatchHeader match={props.user} />
         <MatchView {...state} {...props}
                    setHeight={(h) => this.setState({viewHeight: h})}
                    showInfo={() => this.setState({infoOpen: true})}
