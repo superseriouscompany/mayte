@@ -16,8 +16,6 @@ import {
   View,
 } from 'react-native'
 
-const useScratch = false
-
 export default class RecView extends Component {
   constructor(props) {
     super(props)

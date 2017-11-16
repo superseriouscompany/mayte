@@ -9,6 +9,7 @@ import {
   ActivityIndicator,
   Image,
   View,
+  Text,
 } from 'react-native'
 
 class Recs extends Component {
@@ -80,18 +81,31 @@ class Recs extends Component {
       !state.loading
       ?
       <View style={{flex: 1}}>
-        <RecView {...state}
-                 key={state.recs[state.index + 1].id}
-                 rec={state.recs[state.index + 1]}
-                 setHeight={(h) => this.setState({viewHeight: h})}
-                 like={this.like}
-                 pass={this.pass} />
-        <RecView {...state}
-                 key={state.recs[state.index].id}
-                 rec={state.recs[state.index]}
-                 setHeight={(h) => this.setState({viewHeight: h})}
-                 like={this.like}
-                 pass={this.pass} />
+        {
+          state.recs[state.index + 1] ?
+          <RecView {...state}
+                   key={state.recs[state.index + 1].id}
+                   rec={state.recs[state.index + 1]}
+                   setHeight={(h) => this.setState({viewHeight: h})}
+                   like={this.like}
+                   pass={this.pass} /> :
+          state.recs[state.index] ?
+          <View style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}>
+            <Text style={{color: 'black'}}>There's no one new around you</Text>
+          </View> : null
+        }
+        {
+          state.recs[state.index] ?
+          <RecView {...state}
+                   key={state.recs[state.index].id}
+                   rec={state.recs[state.index]}
+                   setHeight={(h) => this.setState({viewHeight: h})}
+                   like={this.like}
+                   pass={this.pass} /> :
+          <View style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}>
+            <Text style={{color: 'black'}}>There's no one new around you</Text>
+          </View>
+        }
         {
           state.match ?
           <IssaMatchView viewHeight={state.viewHeight}
