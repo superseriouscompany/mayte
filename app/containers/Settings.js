@@ -14,10 +14,11 @@ class Settings extends Component {
       updatingBio: false,
       updatingDob: false,
     }
-    this.activate     = this.activate.bind(this)
-    this.deactivate   = this.deactivate.bind(this)
-    this.updatePhotos = this.updatePhotos.bind(this)
-    this.update       = this.update.bind(this)
+    this.activate      = this.activate.bind(this)
+    this.deactivate    = this.deactivate.bind(this)
+    this.updatePhotos  = this.updatePhotos.bind(this)
+    this.update        = this.update.bind(this)
+    this.deleteAccount = this.deleteAccount.bind(this)
   }
 
   activate(instagramId) {
@@ -89,7 +90,18 @@ class Settings extends Component {
     }).catch((err) => {
       this.setState({ loading: false, error: err.message || err })
     })
+  }
 
+  deleteAccount() {
+    this.setState({ loading: true })
+    api('/users/me', {
+      method: 'DELETE',
+      accessToken: this.props.accessToken,
+    }).then(this.props.logout).catch((err) => {
+      this.setState({loading: false})
+      alert(err.message || err)
+      console.error(err)
+    })
   }
 
   render() {
@@ -100,7 +112,8 @@ class Settings extends Component {
                     setDob={date => this.setState({dob: date})}
                     update={this.update}
                     activate={this.activate}
-                    deactivate={this.deactivate}/>
+                    deactivate={this.deactivate}
+                    deleteAccount={this.deleteAccount} />
     )
   }
 }

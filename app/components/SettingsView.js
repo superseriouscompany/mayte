@@ -6,6 +6,7 @@ import DatePicker         from 'react-native-datepicker'
 import { screenWidth }    from '../constants/dimensions'
 import {
   ActivityIndicator,
+  Alert,
   Image,
   ScrollView,
   StyleSheet,
@@ -84,6 +85,15 @@ export default (props) => {
           <TouchableOpacity onPress={props.logout}>
             <Text style={style.button}>Sign Out</Text>
           </TouchableOpacity>
+
+          <TouchableOpacity onPress={() => {
+            Alert.alert("Delete Account", "Are you sure?", [
+              { text: 'Yes', onPress: props.deleteAccount },
+              { text: 'No', style: 'cancel' }
+            ])
+          }}>
+            <Text style={[style.button, style.danger]}>Delete Account</Text>
+          </TouchableOpacity>
         </ScrollView>
       }
     </View>
@@ -138,5 +148,8 @@ const style = StyleSheet.create({
     margin: 20,
     backgroundColor: 'lightblue',
     padding: 10,
+  },
+  danger: {
+    color: 'red',
   }
 })
