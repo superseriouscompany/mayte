@@ -117,15 +117,11 @@ export default class ProfileView extends Component {
       onPanResponderTerminationRequest: (evt, gestureState) => true,
 
       onPanResponderRelease: (evt, gestureState) => {
-        // if (this.props.infoOpen) {
           if (this.state.topValue._value < this.panStartY * 0.9) {
-            console.log("keep me open")
             this.animateOpen()
           } else {
             this.animateClosed()
           }
-        // } else {
-        // }
       },
 
       onShouldBlockNativeResponder: (evt, gestureState) => {
@@ -140,18 +136,13 @@ export default class ProfileView extends Component {
     const { props, state } = this
 
     return(
-      <Animated.View {...this._panResponder.panHandlers}
-                     style={[{top: state.topValue, height: state.heightValue,}, style.info]}>
+      <Animated.View style={[{top: state.topValue, height: state.heightValue,}, style.info]}>
         <LinearGradient colors={['rgba(0,0,0,0)', 'rgba(0,0,0,0.6)']}
                         style={style.gradient}>
           <ScrollView style={style.content}
+                      {...this._panResponder.panHandlers}
                       scrollEventThrottle={100}
-                      onScroll={(e) => {
-                        const {y} = e.nativeEvent.contentOffset
-                        if (y < 0) {
-                          props.hideInfo()
-                        }
-                      }}
+
                       scrollEnabled={props.infoOpen ? true : false}>
             <Text style={style.name}>
               {props.user.fullName.split(' ')[0]}, {props.user.dob ? moment().diff(props.user.dob, "years") : 25}
@@ -162,12 +153,6 @@ export default class ProfileView extends Component {
             {
               props.hideButtons ? null :
               <View style={[style.tray]}>
-                {
-                  !props.infoOpen ?
-                  <TouchableOpacity style={[style.opener]} onPress={() => props.showInfo()} />
-                  :
-                  null
-                }
                 <TouchableOpacity style={[style.bubble]} onPress={() => props.pass(props.user.id)} >
                   <Image style={style.icon}
                          resizeMode='contain'
@@ -188,7 +173,7 @@ export default class ProfileView extends Component {
             </View>
             <View>
               <Text style={style.bio}>
-    {props.user.bio || ``}
+                {props.user.bio || ``}
               </Text>
             </View>
           </ScrollView>
