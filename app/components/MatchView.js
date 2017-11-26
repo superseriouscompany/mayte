@@ -2,6 +2,7 @@
 
 import React, {Component}                 from 'react'
 import MatchInfoView                      from './MatchInfoView'
+import ProfileView                        from './ProfileView'
 import { screenWidth, matchHeaderHeight } from '../constants/dimensions'
 import {
   Animated,
@@ -22,7 +23,7 @@ export default (props) => {
   const imgStyle = {width: screenWidth, height: props.viewHeight}
 
   return (
-    <View style={{...style.container, paddingTop: matchHeaderHeight}}>
+    <View style={{...style.container, marginTop: matchHeaderHeight}}>
       <FlatList style={[style.container]}
                 onLayout={(e) => {
                   const {height} = e.nativeEvent.layout
@@ -45,7 +46,9 @@ export default (props) => {
                          source={{url: item.url}} />
                 } />
 
-      <MatchInfoView {...props} matchOpen={props.view === 'Profile'} />
+      <ProfileView {...props}
+                   matchOpen={props.view === 'Profile'}
+                   hideButtons={true} />
     </View>
   )
 }

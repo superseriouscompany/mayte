@@ -16,7 +16,6 @@ import {
 class RecInfoView extends Component {
   constructor(props) {
     super(props)
-
     this.state = {
       topValue: new Animated.Value(screenHeight * 0.65),
       heightValue: new Animated.Value(screenHeight * 0.3),
@@ -32,32 +31,6 @@ class RecInfoView extends Component {
     } else if (!nextProps.infoOpen && this.props.infoOpen) {
       this.animateClosed()
     }
-  }
-
-  animateOpen() {
-    Animated.parallel([
-      Animated.timing(this.state.topValue, {
-        toValue: 0,
-        duration: 333,
-      }),
-      Animated.timing(this.state.heightValue, {
-        toValue: screenHeight,
-        duration: 333,
-      })
-    ]).start()
-  }
-
-  animateClosed() {
-    Animated.parallel([
-      Animated.timing(this.state.topValue, {
-        toValue: screenHeight * 0.65,
-        duration: 333,
-      }),
-      Animated.timing(this.state.heightValue, {
-        toValue: screenHeight * 0.3,
-        duration: 333,
-      }),
-    ]).start()
   }
 
   render() {

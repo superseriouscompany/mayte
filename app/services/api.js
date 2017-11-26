@@ -1,4 +1,5 @@
 export const baseUrl = __DEV__ ?
+  // 'http://localhost:3000' :
   'https://superserious.ngrok.io' :
   'https://nwhj3zzqi6.execute-api.us-west-2.amazonaws.com/development';
 

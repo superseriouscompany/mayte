@@ -3,6 +3,7 @@ import moment                        from 'moment'
 import LinearGradient                from 'react-native-linear-gradient'
 import { screenWidth, screenHeight } from '../constants/dimensions'
 import {
+  Animated,
   StyleSheet,
   ScrollView,
   Text,
@@ -11,10 +12,80 @@ import {
   TouchableWithoutFeedback,
   Image,
   Linking,
+  PanResponder,
 } from 'react-native'
 
-export default (props) => {
-  const linkToInstagram = (url) => {
+export default class ProfileView extends Component {
+  constructor(props) {
+    super(props)
+
+
+    this.state = {
+      topValue: new Animated.Value(screenHeight * 0.65),
+      heightValue: new Animated.Value(screenHeight * 0.3),
+    }
+
+    this.animateOpen = this.animateOpen.bind(this)
+    this.animateClosed = this.animateClosed.bind(this)
+
+    this.linkToInstagram = this.linkToInstagram.bind(this)
+  }
+
+  componentWillReceiveProps(nextProps) {
+    if (nextProps.infoOpen && !this.props.infoOpen) {
+      this.animateOpen()
+    } else if (!nextProps.infoOpen && this.props.infoOpen) {
+      this.animateClosed()
+    }
+  }
+
+  animateOpen() {
+    Animated.parallel([
+      Animated.timing(this.state.topValue, {
+        toValue: 0,
+        duration: 333,
+      }),
+      Animated.timing(this.state.heightValue, {
+        toValue: screenHeight,
+        duration: 333,
+      })
+    ]).start()
+  }
+
+
+  animateSub() {
+    Animated.parallel([
+      Animated.timing(this.state.topValue, {
+        toValue: screenHeight * 0.65,
+        duration: profileSwitch,
+      }),
+
+      Animated.timing(this.state.heightValue, {
+        toValue: screenHeight * 0.3,
+        duration: profileSwitch,
+      }),
+
+      Animated.timing(this.state.opacity, {
+        toValue: 1,
+        duration: profileOpen,
+      })
+    ]).start()
+  }
+
+  animateClosed() {
+    Animated.parallel([
+      Animated.timing(this.state.topValue, {
+        toValue: screenHeight * 0.65,
+        duration: 333,
+      }),
+      Animated.timing(this.state.heightValue, {
+        toValue: screenHeight * 0.3,
+        duration: 333,
+      }),
+    ]).start()
+  }
+
+  linkToInstagram(url) {
     Linking.canOpenURL(url).then(supported => {
       if (!supported) {
         console.error(`can't handle url: ${url}`)
@@ -24,69 +95,117 @@ export default (props) => {
     })
   }
 
-  return(
-    <LinearGradient colors={['rgba(0,0,0,0)', 'rgba(0,0,0,0.6)']}
-                    style={style.gradient}>
-      <ScrollView style={style.content}
-                  scrollEventThrottle={100}
-                  onScroll={(e) => {
-                    const {y} = e.nativeEvent.contentOffset
-                    if (y < 0) {
-                      props.hideInfo()
-                    }
-                  }}
-                  scrollEnabled={props.infoOpen ? true : false}>
-        <Text style={style.name}>
-          {props.user.fullName.split(' ')[0]}, {props.user.dob ? moment().diff(props.user.dob, "years") : 25}
-        </Text>
-        <Text style={style.location}>
-          {props.user.distance} miles away
-        </Text>
-        {
-          props.hideButtons ? null :
-          <View style={[style.tray]}>
+  componentWillMount() {
+    this._panResponder = PanResponder.create({
+      onStartShouldSetPanResponder: (evt, gestureState) => true,
+      onStartShouldSetPanResponderCapture: (evt, gestureState) => true,
+      onMoveShouldSetPanResponder: (evt, gestureState) => true,
+      onMoveShouldSetPanResponderCapture: (evt, gestureState) => true,
+
+      onPanResponderGrant: (evt, gestureState) => {
+        this.panStartY = this.state.topValue._value
+      },
+
+      onPanResponderMove: (evt, gestureState) => {
+        const newTop = this.panStartY + gestureState.dy
+        this.setState({
+          topValue: new Animated.Value(newTop),
+          heightValue: new Animated.Value(screenHeight - newTop),
+        })
+      },
+
+      onPanResponderTerminationRequest: (evt, gestureState) => true,
+
+      onPanResponderRelease: (evt, gestureState) => {
+        // if (this.props.infoOpen) {
+          if (this.state.topValue._value < this.panStartY * 0.9) {
+            console.log("keep me open")
+            this.animateOpen()
+          } else {
+            this.animateClosed()
+          }
+        // } else {
+        // }
+      },
+
+      onShouldBlockNativeResponder: (evt, gestureState) => {
+        // Returns whether this component should block native components from becoming the JS
+        // responder. Returns true by default. Is currently only supported on android.
+        return true;
+      },
+    })
+  }
+
+  render() {
+    const { props, state } = this
+
+    return(
+      <Animated.View {...this._panResponder.panHandlers}
+                     style={[{top: state.topValue, height: state.heightValue,}, style.info]}>
+        <LinearGradient colors={['rgba(0,0,0,0)', 'rgba(0,0,0,0.6)']}
+                        style={style.gradient}>
+          <ScrollView style={style.content}
+                      scrollEventThrottle={100}
+                      onScroll={(e) => {
+                        const {y} = e.nativeEvent.contentOffset
+                        if (y < 0) {
+                          props.hideInfo()
+                        }
+                      }}
+                      scrollEnabled={props.infoOpen ? true : false}>
+            <Text style={style.name}>
+              {props.user.fullName.split(' ')[0]}, {props.user.dob ? moment().diff(props.user.dob, "years") : 25}
+            </Text>
+            <Text style={style.location}>
+              {props.user.distance} miles away
+            </Text>
             {
-              !props.infoOpen ?
-              <TouchableOpacity style={[style.opener]} onPress={() => props.showInfo()} />
-              :
-              null
+              props.hideButtons ? null :
+              <View style={[style.tray]}>
+                {
+                  !props.infoOpen ?
+                  <TouchableOpacity style={[style.opener]} onPress={() => props.showInfo()} />
+                  :
+                  null
+                }
+                <TouchableOpacity style={[style.bubble]} onPress={() => props.pass(props.user.id)} >
+                  <Image style={style.icon}
+                         resizeMode='contain'
+                         source={require('../images/x.png')} />
+                </TouchableOpacity>
+                <TouchableOpacity style={[style.bubble]} onPress={() => props.like(props.user.id)}>
+                  <Image style={style.icon}
+                         resizeMode='contain'
+                         source={require('../images/heart.png')} />
+                </TouchableOpacity>
+              </View>
             }
-            <TouchableOpacity style={[style.bubble]} onPress={() => props.pass(props.user.id)} >
-              <Image style={style.icon}
-                     resizeMode='contain'
-                     source={require('../images/x.png')} />
-            </TouchableOpacity>
-            <TouchableOpacity style={[style.bubble]} onPress={() => props.like(props.user.id)}>
-              <Image style={style.icon}
-                     resizeMode='contain'
-                     source={require('../images/heart.png')} />
-            </TouchableOpacity>
-          </View>
-        }
-        {
-          !props.infoOpen ?
-          <TouchableOpacity style={style.opener} onPress={() => props.showInfo()} />
-          :
-          null
-        }
-        <View style={style.cv}>
-          <Text style={style.handle}>{`${props.user.occupation || 'Profreshional Model, Treats'}`}!</Text>
-          <TouchableOpacity onPress={() => linkToInstagram(`https:\/\/instagram.com/${props.user.instagramHandle || 'treatsmag'}`)}>
-            <Text style={style.handle}>{`@${props.user.instagramHandle || 'treatsmag'}`}</Text>
-          </TouchableOpacity>
-        </View>
-        <View>
-          <Text style={style.bio}>
-{props.user.bio || ``}
-          </Text>
-        </View>
-      </ScrollView>
-    </LinearGradient>
-  )
+            <View style={style.cv}>
+              <Text style={style.handle}>{`${props.user.occupation || 'Profreshional Model, Treats'}`}!</Text>
+              <TouchableOpacity onPress={() => this.linkToInstagram(`https:\/\/instagram.com/${props.user.instagramHandle || 'treatsmag'}`)}>
+                <Text style={style.handle}>{`@${props.user.instagramHandle || 'treatsmag'}`}</Text>
+              </TouchableOpacity>
+            </View>
+            <View>
+              <Text style={style.bio}>
+    {props.user.bio || ``}
+              </Text>
+            </View>
+          </ScrollView>
+        </LinearGradient>
+    </Animated.View>
+    )
+  }
 }
 
 
 const style = StyleSheet.create({
+  info: {
+    position: 'absolute',
+    left: 0,
+    width: '100%',
+  },
+
   gradient: {
     position: 'relative',
     width: '100%',

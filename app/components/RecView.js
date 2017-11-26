@@ -1,7 +1,7 @@
 'use strict'
 
 import React, {Component} from 'react'
-import RecInfoView from './RecInfoView'
+import ProfileView from './ProfileView'
 import { screenWidth, screenHeight } from '../constants/dimensions'
 import { recLike, recPass } from '../constants/timings'
 import {
@@ -88,7 +88,8 @@ export default class RecView extends Component {
                                source={{url: item.url}} />
                       } />
 
-            <RecInfoView {...props}
+            <ProfileView {...props}
+                         user={props.rec}
                          infoOpen={state.infoOpen}
                          like={() => {this.animateLike(); props.like(props.rec)}}
                          pass={() => {this.animatePass(); props.pass(props.rec)}}
