@@ -13,6 +13,7 @@ import {
   ScrollView,
   TextInput,
   FlatList,
+  Switch,
   Image,
   View,
   Text,
@@ -24,6 +25,32 @@ const maxDob   = `${oldest.year()}-${oldest.month()}-${oldest.date()}`
 const minDob   = `${youngest.year()}-${youngest.month()}-${youngest.date()}`
 
 export default class SettingsEditor extends Component {
+  constructor(props) {
+    super(props)
+    this.options = [
+      {
+        label: 'SHOW AGE',
+        action: (val) => console.log("AGE", val)
+      },
+      {
+        label: 'SHOW LOCATION',
+        action: (val) => console.log("LOCATION", val)
+      },
+      {
+        label: 'SHOW OCCUPATION',
+        action: (val) => console.log("OCCUPATION", val)
+      },
+      {
+        label: 'SHOW INSTAGRAM FEED',
+        action: (val) => console.log("INSTAGRAM FEED", val)
+      },
+      {
+        label: 'SHOW INSTAGRAM HANDLE',
+        action: (val) => console.log("INSTAGRAM HANDLES", val)
+      }
+    ]
+  }
+
   render() {
     const { props, state } = this
     return(
@@ -118,8 +145,8 @@ export default class SettingsEditor extends Component {
           <View style={[style.sectionHeader]}>
             <Text style={[style.sectionHeaderLabel]}>BIRTHDATE</Text>
           </View>
-          <DatePicker style={{width: '100%', backgroundColor: 'white'}}
-                      date={props.dob}
+          <DatePicker style={[style.dobInput]}
+                      date={props.user.dob}
                       mode="date"
                       placeholder="select date"
                       format="YYYY-MM-DD"
@@ -129,9 +156,30 @@ export default class SettingsEditor extends Component {
                       confirmBtnText="confirm"
                       cancelBtnText="cancel"
                       onDateChange={null/*date => props.setDob(date)*/} />
+
+          <View style={[style.sectionHeader]}>
+            <Text style={[style.sectionHeaderLabel]}>OCCUPATION</Text>
+          </View>
+          <TextInput style={style.occupationInput}
+                     defaultValue={props.user.occupation || 'Professional'}
+                     onChangeText={text => {
+
+                     }}/>
         </View>
 
         {/* OPTIONS */}
+        <View style={[style.padded]}>
+        {
+          this.options.map((o,i) => {
+            return(
+              <View style={[style.option]}>
+                <Text style={style.optionLabel}>{o.label}</Text>
+                <Switch value={true} onValueChange={o.action}></Switch>
+              </View>
+            )
+          })
+        }
+        </View>
 
 
         <View style={style.centered}>
@@ -229,7 +277,39 @@ const style = StyleSheet.create({
     fontSize: em(1),
     minHeight: em(8),
     padding: em(1),
+    paddingTop: em(0.66),
+    paddingBottom: em(0.66),
     borderRadius: em(0.33),
     marginBottom: em(1),
   },
+
+  dobInput: {
+    backgroundColor: 'white',
+    width: '100%',
+    marginBottom: em(1),
+  },
+
+  occupationInput: {
+    backgroundColor: 'white',
+    borderRadius: em(0.33),
+    padding: em(1),
+    paddingTop: em(0.66),
+    paddingBottom: em(0.66),
+    textAlign: 'center',
+    marginBottom: em(2),
+  },
+
+
+  option: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    paddingBottom: em(1),
+  },
+  optionLabel: {
+    color: 'white',
+    fontSize: em(1.33),
+    fontWeight: 'bold',
+  },
+  optionSwitch: {},
 })
