@@ -1,5 +1,7 @@
 import React, { Component } from 'react'
+import moment from 'moment'
 import { mayteBlack } from '../constants/colors'
+import DatePicker from 'react-native-datepicker'
 import {
   em,
   statusBarHeight,
@@ -9,11 +11,17 @@ import {
   TouchableOpacity,
   StyleSheet,
   ScrollView,
+  TextInput,
   FlatList,
   Image,
   View,
   Text,
 } from 'react-native'
+
+const oldest   = moment().subtract(100, 'years')
+const youngest = moment().subtract(18, 'years')
+const maxDob   = `${oldest.year()}-${oldest.month()}-${oldest.date()}`
+const minDob   = `${youngest.year()}-${youngest.month()}-${youngest.date()}`
 
 export default class SettingsEditor extends Component {
   render() {
@@ -29,9 +37,10 @@ export default class SettingsEditor extends Component {
           </TouchableOpacity>
         </View>
 
+        {/* PHOTOS */}
         <View>
           <View style={[style.padded]}>
-            <View style={[style.sectionHeader, {flexDirection: 'row'}]}>
+            <View style={[style.sectionHeader]}>
               <Text style={[style.sectionHeaderLabel]}>PHOTOS</Text>
               <Text style={[style.sectionHeaderSublabel]}>{props.user.photos.length}/10</Text>
             </View>
@@ -75,7 +84,54 @@ export default class SettingsEditor extends Component {
               </View>
             </ScrollView>
           </View>
+
+          <View style={{alignItems: 'center'}}>
+            <Text style={{textAlign: 'center', color: 'white'}}>
+              SELECT FROM CAMERA ROLL
+            </Text>
+            <TouchableOpacity>
+              <View style={[style.cameraRollBtn]}>
+                <Text style={{fontSize: em(1.5), color: 'white', height: em(2)}}>+</Text>
+              </View>
+            </TouchableOpacity>
+          </View>
         </View>
+
+
+        {/* INFO */}
+        <View style={[style.padded]}>
+          <View style={[style.sectionHeader]}>
+            <Text style={[style.sectionHeaderLabel]}>BIO</Text>
+            <Text style={[style.sectionHeaderSublabel]}>{props.user.bio.length}/500</Text>
+          </View>
+          <TextInput style={[style.bioInput]}
+                     multiline={true}
+                     maxLength={500}
+                     defaultValue={props.user.bio || 'Sample bio text'}
+                     onChangeText={text => {
+                       // Goal is to have timeout here a la:
+                       //   cancelTimeout(this.bioTimeout)
+                       //   this.bioTimeout = setTimeout(() => props.updateBio(text), 500)
+                       // props.updateBio(text)
+                     }}></TextInput>
+
+          <View style={[style.sectionHeader]}>
+            <Text style={[style.sectionHeaderLabel]}>BIRTHDATE</Text>
+          </View>
+          <DatePicker style={{width: '100%', backgroundColor: 'white'}}
+                      date={props.dob}
+                      mode="date"
+                      placeholder="select date"
+                      format="YYYY-MM-DD"
+                      minDate={minDob}
+                      maxDate={maxDob}
+                      showIcon={false}
+                      confirmBtnText="confirm"
+                      cancelBtnText="cancel"
+                      onDateChange={null/*date => props.setDob(date)*/} />
+        </View>
+
+        {/* OPTIONS */}
 
 
         <View style={style.centered}>
@@ -95,7 +151,6 @@ export default class SettingsEditor extends Component {
 const style = StyleSheet.create({
   container: {
     flex: 1,
-    // backgroundColor: mayteBlack(),
   },
   text: {
     color: 'white',
@@ -123,6 +178,7 @@ const style = StyleSheet.create({
   sectionHeader: {
     paddingBottom: em(0.66),
     alignItems: 'center',
+    flexDirection: 'row',
   },
   sectionHeaderLabel: {
     color: 'white',
@@ -156,5 +212,24 @@ const style = StyleSheet.create({
     borderRadius: em(0.33),
     marginBottom: em(0.33),
     marginRight: em(0.33),
-  }
+  },
+
+  cameraRollBtn: {
+    width: em(3),
+    height: em(3),
+    borderRadius: em(1.5),
+    borderWidth: 3,
+    borderColor: 'white',
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+
+  bioInput: {
+    backgroundColor: 'white',
+    fontSize: em(1),
+    minHeight: em(8),
+    padding: em(1),
+    borderRadius: em(0.33),
+    marginBottom: em(1),
+  },
 })
