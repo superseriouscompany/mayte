@@ -1,12 +1,12 @@
-import React, {Component}            from 'react'
-import moment                        from 'moment'
-import LinearGradient                from 'react-native-linear-gradient'
-import { screenWidth, screenHeight } from '../constants/dimensions'
+import React, {Component}                from 'react'
+import moment                            from 'moment'
+import LinearGradient                    from 'react-native-linear-gradient'
+import { screenWidth, screenHeight, em } from '../constants/dimensions'
 import {
   Animated,
   StyleSheet,
   ScrollView,
-FlatList,
+  FlatList,
   Text,
   View,
   TouchableOpacity,
@@ -160,23 +160,29 @@ export default class ProfileView extends Component {
 
                         scrollEnabled={props.infoOpen ? true : false}>
               <Text style={style.name}>
-                {props.user.fullName.split(' ')[0]}, {props.user.dob ? moment().diff(props.user.dob, "years") : 25}
+                {props.user.fullName.split(' ')[0].toUpperCase()}
               </Text>
-              <Text style={style.location}>
-                {props.user.distance} miles away
-              </Text>
+              <View style={{flexDirection: 'row', justifyContent: 'center'}}>
+                <Text style={style.age}>
+                  {props.user.dob ? moment().diff(props.user.dob, "years") : 25}
+                </Text>
+                <Image style={style.pin} resizeMode='contain' source={require('../images/pin.png')} />
+                <Text style={style.location}>
+                  {props.user.distance}
+                </Text>
+              </View>
               {
                 props.hideButtons ? null :
                 <View style={[style.tray]}>
-                  <TouchableOpacity style={[style.bubble]} onPress={() => props.pass(props.user.id)} >
-                    <Image style={style.icon}
+                  <TouchableOpacity onPress={() => props.pass(props.user.id)} >
+                    <Image style={style.bubble}
                            resizeMode='contain'
-                           source={require('../images/x.png')} />
+                           source={require('../images/nope-white.png')} />
                   </TouchableOpacity>
-                  <TouchableOpacity style={[style.bubble]} onPress={() => props.like(props.user.id)}>
-                    <Image style={style.icon}
+                  <TouchableOpacity onPress={() => props.like(props.user.id)}>
+                    <Image style={style.bubble}
                            resizeMode='contain'
-                           source={require('../images/heart.png')} />
+                           source={require('../images/wink-white.png')} />
                   </TouchableOpacity>
                 </View>
               }
@@ -247,21 +253,36 @@ const style = StyleSheet.create({
     top: 0, left: 0, right: 0,
     color: 'rgba(255,255,255,1)',
     textAlign: 'center',
-    fontSize: 25,
+    fontSize: em(1.5),
+    fontFamily: 'Gotham-Black',
+    letterSpacing: em(0.1),
     paddingTop: 40,
+  },
+
+  age: {
+    textAlign: 'center',
+    fontSize: em(1.25),
+    backgroundColor: 'transparent',
+    color: 'rgba(255,255,255,1)',
+  },
+
+  pin: {
+    width: em(1),
+    height: em(1),
+    marginLeft: em(0.66),
   },
 
   location: {
     textAlign: 'center',
-    fontSize: 20,
+    fontSize: em(1.25),
     backgroundColor: 'transparent',
     color: 'rgba(255,255,255,1)',
   },
 
   tray: {
     width: '100%',
-    paddingTop: 40,
-    paddingBottom: 40,
+    paddingTop: 30,
+    paddingBottom: 30,
     flexDirection: 'row',
     justifyContent: 'space-around',
     alignItems: 'center',
@@ -269,20 +290,10 @@ const style = StyleSheet.create({
   },
 
   bubble: {
-    width: screenWidth * 0.3,
+    width: screenWidth * 0.125,
     height: screenWidth * 0.125,
-    borderRadius: screenWidth * 0.125,
-    borderWidth: 1,
-    borderColor: 'rgba(255,255,255,0.9)',
-    backgroundColor: 'rgba(255,255,255,0.2)',
-    justifyContent: 'center',
-    alignItems: 'center',
+    opacity: 0.9,
     zIndex: 1,
-  },
-
-  icon: {
-    height: '60%',
-    opacity: 0.8,
   },
 
   button: {
