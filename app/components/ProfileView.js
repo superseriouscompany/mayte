@@ -43,11 +43,11 @@ export default class ProfileView extends Component {
     Animated.parallel([
       Animated.timing(this.state.topValue, {
         toValue: 0,
-        duration: 333,
+        duration: 100,
       }),
       Animated.timing(this.state.heightValue, {
         toValue: screenHeight,
-        duration: 333,
+        duration: 100,
       })
     ]).start()
   }
@@ -76,11 +76,11 @@ export default class ProfileView extends Component {
     Animated.parallel([
       Animated.timing(this.state.topValue, {
         toValue: screenHeight * 0.65,
-        duration: 333,
+        duration: 100,
       }),
       Animated.timing(this.state.heightValue, {
         toValue: screenHeight * 0.3,
-        duration: 333,
+        duration: 100,
       }),
     ]).start()
   }

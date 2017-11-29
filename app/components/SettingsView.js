@@ -1,10 +1,14 @@
 import React, { Component } from 'react'
 import Preferences from '../containers/Preferences'
+import SettingsProfile from '../containers/SettingsProfile'
+import SettingsEditor from '../containers/SettingsEditor'
 import { mayteBlack } from '../constants/colors'
 import {
   ActivityIndicator,
+  TouchableOpacity,
   StyleSheet,
-  View
+  View,
+  Text,
 } from 'react-native'
 
 export default class SettingsView extends Component {
@@ -17,6 +21,10 @@ export default class SettingsView extends Component {
         <View style={style.centered}>
           <ActivityIndicator />
         </View> :
+        props.scene.view === 'Profile' ?
+        <SettingsProfile {...props} /> :
+        props.scene.view === 'Editor' ?
+        <SettingsEditor {...props} /> :
         <Preferences {...props} />
       }
       </View>
@@ -27,7 +35,6 @@ export default class SettingsView extends Component {
 const style = StyleSheet.create({
   container: {
     flex: 1,
-    // backgroundColor: mayteBlack(),
   },
   centered: {
     flex:           1,

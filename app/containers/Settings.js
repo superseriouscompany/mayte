@@ -124,13 +124,32 @@ class Settings extends Component {
 function mapStateToProps(state) {
   return {
     accessToken: state.user.accessToken,
+    scene: state.scene,
   }
 }
 
 function mapDispatchToProps(dispatch) {
   return {
-    logout: function() {
+    logout: () => {
       dispatch({type: 'user:destroy'})
+    },
+    viewProfile: () => {
+      dispatch({type: 'scene:change', scene: {
+        name: 'Settings',
+        view: 'Profile',
+      }})
+    },
+    viewEditor: () => {
+      dispatch({type: 'scene:change', scene: {
+        name: 'Settings',
+        view: 'Editor',
+      }})
+    },
+    viewPreferences: () => {
+      dispatch({type: 'scene:change', scene: {
+        name: 'Settings',
+        view: 'Preferences',
+      }})
     }
   }
 }
