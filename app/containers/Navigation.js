@@ -18,7 +18,7 @@ export default function(props) {
 
   const TabNav = TabNavigator(scenes, {
     animationEnabled: true,
-    swipeEnabled: true,
+    swipeEnabled: false,
     lazy: true,
     tabBarOptions: {
       activeTintColor:         'white',

@@ -6,6 +6,7 @@ import {
   Animated,
   StyleSheet,
   ScrollView,
+FlatList,
   Text,
   View,
   TouchableOpacity,
@@ -19,7 +20,6 @@ export default class ProfileView extends Component {
   constructor(props) {
     super(props)
 
-
     this.state = {
       topValue: new Animated.Value(screenHeight * 0.65),
       heightValue: new Animated.Value(screenHeight * 0.3),
@@ -27,27 +27,18 @@ export default class ProfileView extends Component {
 
     this.animateOpen = this.animateOpen.bind(this)
     this.animateClosed = this.animateClosed.bind(this)
-
     this.linkToInstagram = this.linkToInstagram.bind(this)
   }
 
-  componentWillReceiveProps(nextProps) {
-    if (nextProps.infoOpen && !this.props.infoOpen) {
-      this.animateOpen()
-    } else if (!nextProps.infoOpen && this.props.infoOpen) {
-      this.animateClosed()
-    }
-  }
-
-  animateOpen() {
+  animateOpen(time) {
     Animated.parallel([
       Animated.timing(this.state.topValue, {
         toValue: 0,
-        duration: 100,
+        duration: time || 100,
       }),
       Animated.timing(this.state.heightValue, {
         toValue: screenHeight,
-        duration: 100,
+        duration: time || 100,
       })
     ]).start()
   }
@@ -136,55 +127,84 @@ export default class ProfileView extends Component {
     const { props, state } = this
 
     return(
-      <Animated.View style={[{top: state.topValue, height: state.heightValue,}, style.info]}>
-        <LinearGradient colors={['rgba(0,0,0,0)', 'rgba(0,0,0,0.6)']}
-                        style={style.gradient}>
-          <ScrollView style={style.content}
-                      {...this._panResponder.panHandlers}
-                      scrollEventThrottle={100}
+      <View style={[style.container]}>
+        <FlatList style={[style.container]}
+                  onLayout={(e) => {
+                    const {height} = e.nativeEvent.layout
+                    return props.viewHeight ? null : props.setHeight(height)
+                  }}
+                  onScroll={(e) => {
+                    const {contentOffset, layoutMeasurement, contentSize} = e.nativeEvent
+                    if (contentOffset.y + layoutMeasurement.height > contentSize.height) {
+                      e.preventDefault()
+                      // console.log("bard")
+                      // this.setState({infoOpen: true})
+                      this.animateOpen()
+                    }
+                  }}
+                  showsVerticalScrollIndicator={false}
+                  pagingEnabled
+                  data={props.user.photos || []}
+                  keyExtractor={(item, index) => index}
+                  renderItem={({item}) =>
+                    <Image style={{width: screenWidth, height: props.viewHeight}}
+                           resizeMode="cover"
+                           source={{url: item.url}} />
+                  } />
+        <Animated.View style={[{top: state.topValue, height: state.heightValue,}, style.info]}>
+          <LinearGradient colors={['rgba(0,0,0,0)', 'rgba(0,0,0,0.6)']}
+                          style={style.gradient}>
+            <ScrollView style={style.content}
+                        {...this._panResponder.panHandlers}
+                        scrollEventThrottle={100}
 
-                      scrollEnabled={props.infoOpen ? true : false}>
-            <Text style={style.name}>
-              {props.user.fullName.split(' ')[0]}, {props.user.dob ? moment().diff(props.user.dob, "years") : 25}
-            </Text>
-            <Text style={style.location}>
-              {props.user.distance} miles away
-            </Text>
-            {
-              props.hideButtons ? null :
-              <View style={[style.tray]}>
-                <TouchableOpacity style={[style.bubble]} onPress={() => props.pass(props.user.id)} >
-                  <Image style={style.icon}
-                         resizeMode='contain'
-                         source={require('../images/x.png')} />
-                </TouchableOpacity>
-                <TouchableOpacity style={[style.bubble]} onPress={() => props.like(props.user.id)}>
-                  <Image style={style.icon}
-                         resizeMode='contain'
-                         source={require('../images/heart.png')} />
+                        scrollEnabled={props.infoOpen ? true : false}>
+              <Text style={style.name}>
+                {props.user.fullName.split(' ')[0]}, {props.user.dob ? moment().diff(props.user.dob, "years") : 25}
+              </Text>
+              <Text style={style.location}>
+                {props.user.distance} miles away
+              </Text>
+              {
+                props.hideButtons ? null :
+                <View style={[style.tray]}>
+                  <TouchableOpacity style={[style.bubble]} onPress={() => props.pass(props.user.id)} >
+                    <Image style={style.icon}
+                           resizeMode='contain'
+                           source={require('../images/x.png')} />
+                  </TouchableOpacity>
+                  <TouchableOpacity style={[style.bubble]} onPress={() => props.like(props.user.id)}>
+                    <Image style={style.icon}
+                           resizeMode='contain'
+                           source={require('../images/heart.png')} />
+                  </TouchableOpacity>
+                </View>
+              }
+              <View style={style.cv}>
+                <Text style={style.handle}>{`${props.user.occupation || 'Profreshional Model, Treats'}`}!</Text>
+                <TouchableOpacity onPress={() => this.linkToInstagram(`https:\/\/instagram.com/${props.user.instagramHandle || 'treatsmag'}`)}>
+                  <Text style={style.handle}>{`@${props.user.instagramHandle || 'treatsmag'}`}</Text>
                 </TouchableOpacity>
               </View>
-            }
-            <View style={style.cv}>
-              <Text style={style.handle}>{`${props.user.occupation || 'Profreshional Model, Treats'}`}!</Text>
-              <TouchableOpacity onPress={() => this.linkToInstagram(`https:\/\/instagram.com/${props.user.instagramHandle || 'treatsmag'}`)}>
-                <Text style={style.handle}>{`@${props.user.instagramHandle || 'treatsmag'}`}</Text>
-              </TouchableOpacity>
-            </View>
-            <View>
-              <Text style={style.bio}>
-                {props.user.bio || ``}
-              </Text>
-            </View>
-          </ScrollView>
-        </LinearGradient>
-    </Animated.View>
+              <View>
+                <Text style={style.bio}>
+                  {props.user.bio || ``}
+                </Text>
+              </View>
+            </ScrollView>
+          </LinearGradient>
+        </Animated.View>
+      </View>
     )
   }
 }
 
 
 const style = StyleSheet.create({
+  container: {
+    flex: 1,
+  },
+
   info: {
     position: 'absolute',
     left: 0,

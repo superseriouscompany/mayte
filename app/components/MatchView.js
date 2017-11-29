@@ -24,28 +24,6 @@ export default (props) => {
 
   return (
     <View style={{...style.container, marginTop: matchHeaderHeight}}>
-      <FlatList style={[style.container]}
-                onLayout={(e) => {
-                  const {height} = e.nativeEvent.layout
-                  props.setHeight(height)
-                }}
-                onScroll={(e) => {
-                 const {contentOffset, layoutMeasurement, contentSize} = e.nativeEvent
-                 if (contentOffset.y + layoutMeasurement.height > contentSize.height) {
-                   e.preventDefault()
-                   props.showInfo()
-                 }
-                }}
-                showsVerticalScrollIndicator={false}
-                pagingEnabled
-                data={props.user.photos || []}
-                keyExtractor={(item, index) => index}
-                renderItem={({item}) =>
-                  <Image style={imgStyle}
-                         resizeMode="cover"
-                         source={{url: item.url}} />
-                } />
-
       <ProfileView {...props}
                    matchOpen={props.view === 'Profile'}
                    hideButtons={true} />

@@ -20,7 +20,9 @@ export default class SettingsProfile extends Component {
             <Text>Editor</Text>
           </TouchableOpacity>
         </View>
-        <ProfileView {...props} hideButtons={true} />
+        <ProfileView {...props}
+                     setHeight={(h) => this.setState({viewHeight: h})}
+                     hideButtons={true} />
       </View>
     )
   }

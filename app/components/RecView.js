@@ -20,7 +20,6 @@ export default class RecView extends Component {
   constructor(props) {
     super(props)
     this.state = {
-      infoOpen: false,
       leftValue: new Animated.Value(0),
       opacity: new Animated.Value(1),
     }
@@ -64,38 +63,11 @@ export default class RecView extends Component {
           <View style={style.centered}>
             <Text>{`There's no one new around you.`}</Text>
           </View>
-        :
-          <View style={[style.container]}>
-            <FlatList style={[style.container]}
-                      onLayout={(e) => {
-                        const {height} = e.nativeEvent.layout
-                        return props.viewHeight ? null : props.setHeight(height)
-                      }}
-                      onScroll={(e) => {
-                        const {contentOffset, layoutMeasurement, contentSize} = e.nativeEvent
-                        if (contentOffset.y + layoutMeasurement.height > contentSize.height) {
-                          e.preventDefault()
-                          this.setState({infoOpen: true})
-                        }
-                      }}
-                      showsVerticalScrollIndicator={false}
-                      pagingEnabled
-                      data={props.rec.photos || []}
-                      keyExtractor={(item, index) => index}
-                      renderItem={({item}) =>
-                        <Image style={{width: screenWidth, height: props.viewHeight}}
-                               resizeMode="cover"
-                               source={{url: item.url}} />
-                      } />
-
-            <ProfileView {...props}
-                         user={props.rec}
-                         infoOpen={state.infoOpen}
-                         like={() => {this.animateLike(); props.like(props.rec)}}
-                         pass={() => {this.animatePass(); props.pass(props.rec)}}
-                         showInfo={() => this.setState({infoOpen: true})}
-                         hideInfo={() => this.setState({infoOpen: false})} />
-          </View>
+        : <ProfileView {...props}
+                       user={props.rec}
+                       infoOpen={state.infoOpen}
+                       like={() => {this.animateLike(); props.like(props.rec)}}
+                       pass={() => {this.animatePass(); props.pass(props.rec)}} />
         }
       </Animated.View>
     )
