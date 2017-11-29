@@ -7,6 +7,7 @@ export default function(props) {
   var scenes = {}
 
   React.Children.forEach(props.children, (child, i) => {
+    if (!child.props.sceneName) return
     scenes[child.props.sceneName || `${child.type.displayName}${i}`] = {
       screen: () => child,
       navigationOptions: {

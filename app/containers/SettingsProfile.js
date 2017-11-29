@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import ProfileView from '../components/ProfileView'
+import { matchHeaderHeight, statusBarHeight } from '../constants/dimensions'
 import {
   TouchableOpacity,
   StyleSheet,
@@ -12,15 +13,15 @@ export default class SettingsProfile extends Component {
     const { props, state } = this
     return(
       <View style={style.container}>
-        <View style={{flexDirection: 'row', justifyContent: 'space-between'}}>
+        <View style={[{height: matchHeaderHeight, paddingTop: statusBarHeight, flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between'}]}>
           <TouchableOpacity onPress={props.viewPreferences}>
             <Text>Preferences</Text>
           </TouchableOpacity>
-          <TouchableOpacity onPress={props.viewPreferences}>
+          <TouchableOpacity onPress={props.viewEditor}>
             <Text>Editor</Text>
           </TouchableOpacity>
         </View>
-        <ProfileView {...props}
+        <ProfileView {...props} {...state}
                      setHeight={(h) => this.setState({viewHeight: h})}
                      hideButtons={true} />
       </View>

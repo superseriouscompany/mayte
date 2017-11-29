@@ -125,7 +125,7 @@ export default class ProfileView extends Component {
 
   render() {
     const { props, state } = this
-
+    console.log(props.viewHeight)
     return(
       <View style={[style.container]}>
         <FlatList style={[style.container]}
