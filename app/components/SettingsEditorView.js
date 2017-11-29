@@ -55,7 +55,7 @@ export default (props) => {
         </View>
 
         <View>
-          <Text style={{textAlign: 'center', color: 'white'}}>
+          <Text style={[style.photoSelectLabel, {textAlign: 'center', color: 'white'}]}>
             SELECT FROM INSTAGRAM
           </Text>
           <ScrollView horizontal={true}>
@@ -85,7 +85,7 @@ export default (props) => {
         </View>
 
         <View style={{alignItems: 'center'}}>
-          <Text style={{textAlign: 'center', color: 'white'}}>
+          <Text style={[style.photoSelectLabel, {textAlign: 'center', color: 'white'}]}>
             SELECT FROM CAMERA ROLL
           </Text>
           <TouchableOpacity>
@@ -98,7 +98,7 @@ export default (props) => {
 
 
       {/* INFO */}
-      <View style={[style.padded]}>
+      <View style={[style.padded, {paddingTop: em(2)}]}>
         <View style={[style.sectionHeader]}>
           <Text style={[style.sectionHeaderLabel]}>BIO</Text>
           <Text style={[style.sectionHeaderSublabel]}>{props.user.bio.length}/500</Text>
@@ -117,7 +117,17 @@ export default (props) => {
         <View style={[style.sectionHeader]}>
           <Text style={[style.sectionHeaderLabel]}>BIRTHDATE</Text>
         </View>
-        <DatePicker style={[style.dobInput]}
+        <DatePicker style={[style.dobInput, {borderRadius: em(0.33)}]}
+                    customStyles={{
+                      dateInput: {
+                        borderWidth: 0,
+                        borderRadius: em(0.33),
+                      },
+                      dateText: {
+                        fontFamily: 'Gotham-Book',
+                        fontSize: em(0.9),
+                      }
+                    }}
                     date={props.user.dob}
                     mode="date"
                     placeholder="select date"
@@ -140,11 +150,11 @@ export default (props) => {
       </View>
 
       {/* OPTIONS */}
-      <View style={[style.padded]}>
+      <View style={[style.padded, {paddingTop: em(3)}]}>
       {
         props.options.map((o,i) => {
           return(
-            <View style={[style.option]}>
+            <View key={i} style={[style.option]}>
               <Text style={style.optionLabel}>{o.label}</Text>
               <Switch value={true} onValueChange={o.action}></Switch>
             </View>
@@ -189,6 +199,8 @@ const style = StyleSheet.create({
   headerBtn: {
     color: 'white',
     fontSize: em(1),
+    letterSpacing: em(0.1),
+    fontFamily: 'Gotham-Book',
   },
   padded: {
     paddingLeft: em(1),
@@ -201,12 +213,16 @@ const style = StyleSheet.create({
   },
   sectionHeaderLabel: {
     color: 'white',
-    fontWeight: '700',
-    fontSize: em(1.33),
+    fontSize: em(1.2),
+    letterSpacing: em(0.1),
+    fontFamily: 'Gotham-Black',
   },
   sectionHeaderSublabel: {
     color: 'white',
+    fontFamily: 'Gotham-Book',
+    letterSpacing: em(0.1),
     marginLeft: em(0.66),
+    marginTop: em(0.33),
   },
 
 
@@ -224,6 +240,13 @@ const style = StyleSheet.create({
   photoSelect: {
     flexDirection: 'row',
     paddingLeft: em(1),
+  },
+  photoSelectLabel: {
+    fontSize: em(1),
+    fontFamily: 'Gotham-Black',
+    letterSpacing: em(0.1),
+    paddingTop: em(2),
+    paddingBottom: em(1),
   },
   photoSelectImg: {
     width: screenWidth * 0.25,
@@ -248,10 +271,13 @@ const style = StyleSheet.create({
     fontSize: em(1),
     minHeight: em(8),
     padding: em(1),
-    paddingTop: em(0.66),
-    paddingBottom: em(0.66),
+    paddingTop: em(0.8),
+    paddingBottom: em(0.8),
     borderRadius: em(0.33),
     marginBottom: em(1),
+    fontFamily: 'Gotham-Book',
+    fontSize: em(0.9),
+    letterSpacing: em(0.1),
   },
 
   dobInput: {
@@ -264,10 +290,12 @@ const style = StyleSheet.create({
     backgroundColor: 'white',
     borderRadius: em(0.33),
     padding: em(1),
-    paddingTop: em(0.66),
-    paddingBottom: em(0.66),
+    paddingTop: em(0.8),
+    paddingBottom: em(0.8),
     textAlign: 'center',
-    marginBottom: em(2),
+    fontFamily: 'Gotham-Book',
+    fontSize: em(0.9),
+    letterSpacing: em(0.1),
   },
 
 
@@ -279,8 +307,9 @@ const style = StyleSheet.create({
   },
   optionLabel: {
     color: 'white',
-    fontSize: em(1.33),
-    fontWeight: 'bold',
+    fontSize: em(1.2),
+    fontFamily: 'Gotham-Black',
+    letterSpacing: em(0.1),
   },
   optionSwitch: {},
 })

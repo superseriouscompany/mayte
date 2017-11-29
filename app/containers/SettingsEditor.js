@@ -1,24 +1,5 @@
 import React, { Component } from 'react'
 import SettingsEditorView from '../components/SettingsEditorView'
-import moment from 'moment'
-import { mayteBlack } from '../constants/colors'
-import DatePicker from 'react-native-datepicker'
-import {
-  em,
-  statusBarHeight,
-  screenWidth,
-} from '../constants/dimensions'
-import {
-  TouchableOpacity,
-  StyleSheet,
-  ScrollView,
-  TextInput,
-  FlatList,
-  Switch,
-  Image,
-  View,
-  Text,
-} from 'react-native'
 
 export default class SettingsEditor extends Component {
   constructor(props) {
