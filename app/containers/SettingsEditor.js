@@ -9,6 +9,7 @@ import {
   TouchableOpacity,
   StyleSheet,
   ScrollView,
+  FlatList,
   Image,
   View,
   Text,
@@ -18,8 +19,8 @@ export default class SettingsEditor extends Component {
   render() {
     const { props, state } = this
     return(
-      <ScrollView style={[style.container, {backgroundColor: mayteBlack(), paddingLeft: em(1), paddingRight: em(1),}]}>
-        <View style={[style.header]}>
+      <ScrollView style={[style.container, {backgroundColor: mayteBlack()}]}>
+        <View style={[style.header, style.padded]}>
           <TouchableOpacity>
             <Text style={[style.headerBtn]}>CANCEL</Text>
           </TouchableOpacity>
@@ -29,18 +30,50 @@ export default class SettingsEditor extends Component {
         </View>
 
         <View>
-          <View style={[style.sectionHeader, {flexDirection: 'row'}]}>
-            <Text style={[style.sectionHeaderLabel]}>PHOTOS</Text>
-            <Text style={[style.sectionHeaderSublabel]}>{props.user.photos.length}/10</Text>
+          <View style={[style.padded]}>
+            <View style={[style.sectionHeader, {flexDirection: 'row'}]}>
+              <Text style={[style.sectionHeaderLabel]}>PHOTOS</Text>
+              <Text style={[style.sectionHeaderSublabel]}>{props.user.photos.length}/10</Text>
+            </View>
+            <View style={[style.currentPhotos]}>
+            {
+              props.user.photos.map((p,i) => {
+                return(
+                  <Image style={style.currentPhotosImg} key={i} source={{uri: p.url}} />
+                )
+              })
+            }
+            </View>
           </View>
-          <View style={[style.currentPhotos]}>
-          {
-            props.user.photos.map((p,i) => {
-              return(
-                <Image style={style.currentPhotosImg} key={i} source={{uri: p.url}} />
-              )
-            })
-          }
+
+          <View>
+            <Text style={{textAlign: 'center', color: 'white'}}>
+              SELECT FROM INSTAGRAM
+            </Text>
+            <ScrollView horizontal={true}>
+              <View>
+                <View style={style.photoSelect}>
+                {
+                  (props.user.availablePhotos.filter((p,i) => i%2===0) || []).map((p,i) => {
+                    return <Image key={i}
+                                  style={[style.photoSelectImg]}
+                                  resizeMode="cover"
+                                  source={{url: p.image.url}} />
+                  })
+                }
+                </View>
+                <View style={style.photoSelect}>
+                {
+                  (props.user.availablePhotos.filter((p,i) => i%2===1) || []).map((p,i) => {
+                    return <Image key={i}
+                                  style={[style.photoSelectImg]}
+                                  resizeMode="cover"
+                                  source={{url: p.image.url}} />
+                  })
+                }
+                </View>
+              </View>
+            </ScrollView>
           </View>
         </View>
 
@@ -83,6 +116,10 @@ const style = StyleSheet.create({
     color: 'white',
     fontSize: em(1),
   },
+  padded: {
+    paddingLeft: em(1),
+    paddingRight: em(1),
+  },
   sectionHeader: {
     paddingBottom: em(0.66),
     alignItems: 'center',
@@ -99,12 +136,25 @@ const style = StyleSheet.create({
 
 
   currentPhotos: {
-    flexDirection: 'row'
+    flexDirection: 'row',
   },
   currentPhotosImg: {
     width: screenWidth * 0.1,
     height: screenWidth * 0.1,
     borderRadius: em(0.33),
+    marginRight: em(0.33),
+  },
+
+
+  photoSelect: {
+    flexDirection: 'row',
+    paddingLeft: em(1),
+  },
+  photoSelectImg: {
+    width: screenWidth * 0.25,
+    height: screenWidth * 0.25,
+    borderRadius: em(0.33),
+    marginBottom: em(0.33),
     marginRight: em(0.33),
   }
 })
