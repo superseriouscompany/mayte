@@ -58,7 +58,7 @@ export default (props) => {
           <Text style={[style.photoSelectLabel, {textAlign: 'center', color: 'white'}]}>
             SELECT FROM INSTAGRAM
           </Text>
-          <ScrollView horizontal={true}>
+          <ScrollView horizontal={true} showsHorizontalScrollIndicator={false}>
             <View>
               <View style={style.photoSelect}>
               {
@@ -193,7 +193,7 @@ const style = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
-    paddingTop: statusBarHeight + em(1),
+    paddingTop: em(1.33),
     marginBottom: em(2),
   },
   headerBtn: {
@@ -240,6 +240,7 @@ const style = StyleSheet.create({
   photoSelect: {
     flexDirection: 'row',
     paddingLeft: em(1),
+    paddingRight: em(1),
   },
   photoSelectLabel: {
     fontSize: em(1),

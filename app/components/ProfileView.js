@@ -152,7 +152,7 @@ export default class ProfileView extends Component {
                            source={{url: item.url}} />
                   } />
         <Animated.View style={[{top: state.topValue, height: state.heightValue,}, style.info]}>
-          <LinearGradient colors={['rgba(0,0,0,0)', 'rgba(0,0,0,0.6)']}
+          <LinearGradient colors={['rgba(0,0,0,0)', 'rgba(0,0,0,0.7)']}
                           style={style.gradient}>
             <ScrollView style={style.content}
                         {...this._panResponder.panHandlers}
@@ -187,10 +187,10 @@ export default class ProfileView extends Component {
                 </View>
               }
               <View style={style.cv}>
-                <Text style={style.handle}>{`${props.user.occupation || 'Profreshional Model, Treats'}`}!</Text>
                 <TouchableOpacity onPress={() => this.linkToInstagram(`https:\/\/instagram.com/${props.user.instagramHandle || 'treatsmag'}`)}>
-                  <Text style={style.handle}>{`@${props.user.instagramHandle || 'treatsmag'}`}</Text>
+                  <Text style={style.handle}>@{props.user.instagramHandle || 'treatsmag'}</Text>
                 </TouchableOpacity>
+                <Text style={style.occupation}>{(props.user.occupation || 'Model').toUpperCase()}</Text>
               </View>
               <View>
                 <Text style={style.bio}>
@@ -239,7 +239,19 @@ const style = StyleSheet.create({
     textAlign: 'center',
     backgroundColor: 'transparent',
     color: 'rgba(255,255,255,1)',
-    fontSize: 23,
+    marginBottom: em(0.33),
+    fontSize: em(1.66),
+    letterSpacing: em(0.1),
+    fontFamily: 'Gotham-Book',
+  },
+
+  occupation: {
+    textAlign: 'center',
+    backgroundColor: 'transparent',
+    color: 'rgba(255,255,255,1)',
+    fontSize: em(1.33),
+    letterSpacing: em(0.1),
+    fontFamily: 'Gotham-Black',
   },
 
   bio: {

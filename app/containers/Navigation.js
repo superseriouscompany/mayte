@@ -2,6 +2,8 @@
 
 import React, {Component} from 'react'
 import { TabNavigator }   from 'react-navigation'
+import { em }             from '../constants/dimensions'
+import { mayteBlack }     from '../constants/colors'
 
 export default function(props) {
   var scenes = {}
@@ -24,8 +26,11 @@ export default function(props) {
     tabBarOptions: {
       activeTintColor:         'white',
       inactiveTintColor:       'gainsboro',
-      activeBackgroundColor:   'rgba(50,50,50,0.8)',
-      inactiveBackgroundColor: 'rgba(0,0,0,0.8)',
+      activeBackgroundColor:   mayteBlack(0.66),
+      inactiveBackgroundColor: mayteBlack(0.9),
+      style:                   {borderTopWidth: 0},
+      labelStyle:              {fontFamily: 'Gotham-Book', letterSpacing: em(0.1)},
+      allowFontScaling:        false,
     },
     initialRouteName: props.initialSceneName,
   })
