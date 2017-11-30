@@ -19,6 +19,7 @@ class Settings extends Component {
     this.updatePhotos = this.updatePhotos.bind(this)
     this.updateBio    = this.updateBio.bind(this)
     this.updateDob    = this.updateDob.bind(this)
+    this.hydrateUser  = this.hydrateUser.bind(this)
   }
 
   activate(instagramId) {
@@ -90,8 +91,13 @@ class Settings extends Component {
   }
 
   componentDidMount() {
+    this.hydrateUser()
+  }
+
+  hydrateUser() {
     var user;
-    Promise.all([
+    this.setState({loading: true})
+    return Promise.all([
       api('/users/me', { accessToken: this.props.accessToken}),
       api('/photos/available', {accessToken: this.props.accessToken}),
     ]).then((v) => {
@@ -104,14 +110,14 @@ class Settings extends Component {
     }).catch((err) => {
       this.setState({ loading: false, error: err.message || err })
     })
-
   }
 
   render() {
     return (
       <SettingsView {...this.state}
                     {...this.props}
-                    // scene={{view:'Profile'}}
+                    // scene={{view:'Editor'}}
+                    hydrateUser={this.hydrateUser}
                     setBio={text => this.setState({bio: text})}
                     setDob={date => this.setState({dob: date})}
                     updateBio={this.updateBio}

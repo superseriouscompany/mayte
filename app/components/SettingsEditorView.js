@@ -31,8 +31,8 @@ export default (props) => {
         <TouchableOpacity>
           <Text style={[style.headerBtn]}>CANCEL</Text>
         </TouchableOpacity>
-        <TouchableOpacity>
-          <Text style={[style.headerBtn]}>SAVE</Text>
+        <TouchableOpacity onPress={props.saving ? null : props.save}>
+          <Text style={[style.headerBtn]}>{props.saving ? '...' : 'SAVE'}</Text>
         </TouchableOpacity>
       </View>
 
@@ -101,18 +101,13 @@ export default (props) => {
       <View style={[style.padded, {paddingTop: em(2)}]}>
         <View style={[style.sectionHeader]}>
           <Text style={[style.sectionHeaderLabel]}>BIO</Text>
-          <Text style={[style.sectionHeaderSublabel]}>{props.user.bio.length}/500</Text>
+          <Text style={[style.sectionHeaderSublabel]}>{props.bio.length}/500</Text>
         </View>
         <TextInput style={[style.bioInput]}
                    multiline={true}
                    maxLength={500}
-                   defaultValue={props.user.bio || 'Sample bio text'}
-                   onChangeText={text => {
-                     // Goal is to have timeout here a la:
-                     //   cancelTimeout(this.bioTimeout)
-                     //   this.bioTimeout = setTimeout(() => props.updateBio(text), 500)
-                     // props.updateBio(text)
-                   }}></TextInput>
+                   defaultValue={props.bio || 'Sample bio text'}
+                   onChangeText={text => props.setBio(text)}></TextInput>
 
         <View style={[style.sectionHeader]}>
           <Text style={[style.sectionHeaderLabel]}>BIRTHDATE</Text>
@@ -128,7 +123,7 @@ export default (props) => {
                         fontSize: em(0.9),
                       }
                     }}
-                    date={props.user.dob}
+                    date={props.dob}
                     mode="date"
                     placeholder="select date"
                     format="YYYY-MM-DD"
@@ -137,26 +132,24 @@ export default (props) => {
                     showIcon={false}
                     confirmBtnText="confirm"
                     cancelBtnText="cancel"
-                    onDateChange={null/*date => props.setDob(date)*/} />
+                    onDateChange={date => props.setDob(date)} />
 
         <View style={[style.sectionHeader]}>
           <Text style={[style.sectionHeaderLabel]}>OCCUPATION</Text>
         </View>
         <TextInput style={style.occupationInput}
-                   defaultValue={props.user.occupation || 'Professional'}
-                   onChangeText={text => {
-
-                   }}/>
+                   defaultValue={props.occupation || 'Professional'}
+                   onChangeText={text => props.setOccupation(text)}/>
       </View>
 
       {/* OPTIONS */}
       <View style={[style.padded, {paddingTop: em(3)}]}>
       {
-        props.options.map((o,i) => {
+        Object.keys(props.options).map((o,i) => {
           return(
-            <View key={i} style={[style.option]}>
-              <Text style={style.optionLabel}>{o.label}</Text>
-              <Switch value={true} onValueChange={o.action}></Switch>
+            <View key={i} style={[style.option]} ref={el => this[o]}>
+              <Text style={style.optionLabel}>{props.options[o].label}</Text>
+              <Switch value={props[o]} onValueChange={(val) => props.setPrivacyOption(o,val)}></Switch>
             </View>
           )
         })
