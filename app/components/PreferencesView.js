@@ -14,10 +14,17 @@ import {
 const bubbleDiameter = 200
 
 export default class PreferencesView extends Component {
+  constructor(props) {
+    super(props)
+    this.state = {
+      scrollEnabled: true
+    }
+  }
+
   render() {
     const { props, state } = this
     return(
-      <ScrollView contentContainerStyle={style.container}>
+      <ScrollView contentContainerStyle={style.container} scrollEnabled={state.scrollEnabled}>
         <TouchableOpacity onPress={() => props.viewProfile()}>
           <Image style={style.bubble} source={{uri: props.user.photos[0].url}} />
         </TouchableOpacity>
@@ -31,7 +38,9 @@ export default class PreferencesView extends Component {
             <Text>{props.ageRange}</Text>
           </View>
           <RangeSlider minValue={18}
-                       maxValue={50} />
+                       maxValue={50}
+                       onGestureStart={() => this.setState({scrollEnabled: false})}
+                       onGestureEnd={() => this.setState({scrollEnabled: true})} />
         </View>
       </ScrollView>
     )

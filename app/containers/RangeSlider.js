@@ -2,10 +2,6 @@ import React, { Component } from 'react'
 import RangeSliderView from '../components/RangeSliderView.js'
 
 class RangeSlider extends Component {
-  // static defaultProps = {
-  //
-  // }
-
   constructor(props) {
     super(props)
     this.state = {

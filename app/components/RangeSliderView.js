@@ -13,44 +13,52 @@ export default class RangeSliderView extends Component {
     this.panHandlers = {}
 
     this.state = {
-      x: 0,
       trackLength: 0,
     }
-  }
 
-  componentWillMount() {
-
-    console.log("THIS.PANHANDLERS", this.panHandlers)
-    // for (var i = 0; i < this.props.numMarkers; i++) {
-    //   console.log("hi")
-    // }
-
-    for (var i = 0; i < this.props.numMarkers; i++) {
-      this.panHandlers[`mRes${i}`] = PanResponder.create({
+    for (let i = 0; i < props.numMarkers; i++) {
+      // ^ FINALLY A USE FOR let - this doesn't work otherwise
+      this.panHandlers[`mRes${i}`] = this.state[`mRes${i}`] = PanResponder.create({
         onStartShouldSetPanResponder: (evt, gestureState) => true,
         onStartShouldSetPanResponderCapture: (evt, gestureState) => true,
         onMoveShouldSetPanResponder: (evt, gestureState) => true,
         onMoveShouldSetPanResponderCapture: (evt, gestureState) => true,
 
         onPanResponderGrant: (evt, gestureState) => {
-          this.panHandlers[`mRes${0}`].x = gestureState.x
+          this.props.onGestureStart()
+          let state = this.state
+          state[`mRes${i}`].ogx = state[`mRes${i}`].x
+          this.setState(state)
         },
 
         onPanResponderMove: (evt, gestureState) => {
-          console.log("MOVING", `mRes${i}`, this.panHandlers[`mRes${i}`])
-          this.setState({x: this.panHandlers[`mRes${i}`].x + gestureState.dx})
+          let state = this.state
+          state[`mRes${i}`].x = state[`mRes${i}`].ogx + gestureState.dx
+
+          if (state[`mRes${i}`].x > state.trackDims.width) {
+              console.log("too high")
+              state[`mRes${i}`].x = state.trackDims.width
+          }
+
+          if (state[`mRes${i}`].x < 0) {
+              console.log("too low")
+              state[`mRes${i}`].x = 0
+          }
+
+          this.setState(state)
         },
 
         onPanResponderTerminationRequest: (evt, gestureState) => true,
 
         onPanResponderRelease: (evt, gestureState) => {
-          // console.log("FINISHED:", this[`mRes0`])
+          this.props.onGestureEnd()
+          console.log("FINISHED:", this.state[`mRes${i}`])
           // console.log(this.state.trackDims)
-          const { trackDims, x } = this.state
-          const { markerRadius } = this.props
-
-          const pct = gestureState.x + markerRadius / trackDims.width
-          console.log(pct, gestureState.x, markerRadius, trackDims.width)
+          // const { trackDims, x } = this.state
+          // const { markerRadius } = props
+          //
+          // const pct = gestureState.x + markerRadius / trackDims.width
+          // console.log(pct, gestureState.x, markerRadius, trackDims.width)
         },
 
         onShouldBlockNativeResponder: (evt, gestureState) => {
@@ -60,6 +68,9 @@ export default class RangeSliderView extends Component {
         },
       })
     }
+  }
+
+  componentWillMount() {
   }
 
   render() {
@@ -86,9 +97,14 @@ export default class RangeSliderView extends Component {
               <View
                 {...this.panHandlers[m].panHandlers}
                 key={i}
+                onLayout={(e) => {
+                  let state = this.state
+                  state[`mRes${i}`].x = e.nativeEvent.layout.x
+                  this.setState(state)
+                }}
                 style={{
                   position: 'absolute',
-                  top: 0, left: state.x,
+                  top: 0, left: state[`mRes${i}`].x,
                   width: props.markerDiameter,
                   height: props.markerDiameter,
                   borderRadius: props.markerDiameter * 0.5,
