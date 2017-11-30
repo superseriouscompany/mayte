@@ -84,22 +84,7 @@ export default class extends Component {
             renderBubble={(props) => (
               <Bubble
                 {...props}
-                containerToNextStyle={{
-                  left: {
-                    borderBottomLeftRadius: 15,
-                  },
-                  right: {
-                    borderBottomRightRadius: 15,
-                  },
-                }}
-                containerToPreviousStyle={{
-                  left: {
-                    borderTopLeftRadius: 15,
-                  },
-                  right: {
-                    borderTopRightRadius: 15,
-                  },
-                }} />
+                 />
             )}
             />
         }

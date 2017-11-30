@@ -2,6 +2,7 @@ import React, {Component}                from 'react'
 import moment                            from 'moment'
 import LinearGradient                    from 'react-native-linear-gradient'
 import { screenWidth, screenHeight, em } from '../constants/dimensions'
+import { mayteBlack }                    from '../constants/colors'
 import {
   Animated,
   StyleSheet,
@@ -20,8 +21,10 @@ export default class ProfileView extends Component {
   constructor(props) {
     super(props)
 
+    this.infoClosedTop = screenHeight *  0.65 + (props.hideButtons ? 10 : 0)
+
     this.state = {
-      topValue: new Animated.Value(screenHeight * 0.65),
+      topValue: new Animated.Value(this.infoClosedTop),
       heightValue: new Animated.Value(screenHeight * 0.3),
     }
 
@@ -47,7 +50,7 @@ export default class ProfileView extends Component {
   animateSub() {
     Animated.parallel([
       Animated.timing(this.state.topValue, {
-        toValue: screenHeight * 0.65,
+        toValue: this.infoClosedTop,
         duration: profileSwitch,
       }),
 
@@ -66,7 +69,7 @@ export default class ProfileView extends Component {
   animateClosed() {
     Animated.parallel([
       Animated.timing(this.state.topValue, {
-        toValue: screenHeight * 0.65,
+        toValue: this.infoClosedTop,
         duration: 100,
       }),
       Animated.timing(this.state.heightValue, {
@@ -125,10 +128,9 @@ export default class ProfileView extends Component {
 
   render() {
     const { props, state } = this
-    console.log(props.viewHeight)
     return(
       <View style={[style.container]}>
-        <FlatList style={[style.container]}
+        <FlatList style={[style.container, {backgroundColor: mayteBlack()}]}
                   onLayout={(e) => {
                     const {height} = e.nativeEvent.layout
                     return props.viewHeight ? null : props.setHeight(height)
@@ -137,8 +139,6 @@ export default class ProfileView extends Component {
                     const {contentOffset, layoutMeasurement, contentSize} = e.nativeEvent
                     if (contentOffset.y + layoutMeasurement.height > contentSize.height) {
                       e.preventDefault()
-                      // console.log("bard")
-                      // this.setState({infoOpen: true})
                       this.animateOpen()
                     }
                   }}
@@ -162,7 +162,7 @@ export default class ProfileView extends Component {
               <Text style={style.name}>
                 {props.user.fullName.split(' ')[0].toUpperCase()}
               </Text>
-              <View style={{flexDirection: 'row', justifyContent: 'center'}}>
+              <View style={[style.stats, {paddingBottom: props.hideButtons ? em(1) : 0}]}>
                 <Text style={style.age}>
                   {props.user.dob ? moment().diff(props.user.dob, "years") : 25}
                 </Text>
@@ -257,6 +257,11 @@ const style = StyleSheet.create({
     fontFamily: 'Gotham-Black',
     letterSpacing: em(0.1),
     paddingTop: 40,
+  },
+
+  stats: {
+    flexDirection: 'row',
+    justifyContent: 'center',
   },
 
   age: {

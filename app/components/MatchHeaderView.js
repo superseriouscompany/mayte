@@ -83,7 +83,8 @@ const style = StyleSheet.create({
     color: mayteBlack(),
     marginLeft: 5,
     fontSize: 18,
-    letterSpacing: 0.5,
+    letterSpacing: 0.1,
+    fontFamily: 'Gotham-Medium',
   },
   chat: {
     height: matchHeaderHeight * 0.4,

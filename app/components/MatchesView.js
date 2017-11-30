@@ -1,11 +1,13 @@
 'use strict'
 
-import React, {Component} from 'react'
-import MatchPreview       from './MatchPreview'
-import {statusBarHeight}  from '../constants/dimensions'
+import React, {Component}      from 'react'
+import MatchPreview            from './MatchPreview'
+import { statusBarHeight, em } from '../constants/dimensions'
+import { mayteBlack }          from '../constants/colors'
 import {
   ActivityIndicator,
   StyleSheet,
+  ScrollView,
   Text,
   View,
 } from 'react-native'
@@ -28,11 +30,12 @@ export default function(props) {
           <Text>You have no matches.</Text>
         </View>
       :
-        <View style={{flex: 1, paddingTop: statusBarHeight}}>
+        <ScrollView style={{flex: 1, paddingTop: statusBarHeight}}>
+          <Text></Text>
           { props.matches.map((m, key) => (
             <MatchPreview key={key} match={m} viewChat={() => props.viewChat(m.user)} />
           ))}
-        </View>
+        </ScrollView>
       }
     </View>
   )
