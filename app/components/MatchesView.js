@@ -1,9 +1,9 @@
 'use strict'
 
-import React, {Component}      from 'react'
-import MatchPreview            from './MatchPreview'
-import { statusBarHeight, em } from '../constants/dimensions'
-import { mayteBlack }          from '../constants/colors'
+import React, {Component}                         from 'react'
+import MatchPreview                               from './MatchPreview'
+import { statusBarHeight, matchHeaderHeight, em } from '../constants/dimensions'
+import { mayteBlack }                             from '../constants/colors'
 import {
   ActivityIndicator,
   StyleSheet,
@@ -15,23 +15,25 @@ import {
 export default function(props) {
   return (
     <View style={style.container}>
+      <View style={[style.centered, style.header]}>
+        <Text style={style.headerLabel}>MATCHES</Text>
+      </View>
       { props.loading  ?
-        <View style={style.centered}>
+        <View style={[style.container, style.centered]}>
           <ActivityIndicator />
         </View>
       : props.error ?
-        <View style={style.centered}>
+        <View style={[style.container, style.centered]}>
           <Text style={style.error}>
             {props.error}
           </Text>
         </View>
       : !props.matches.length ?
-        <View style={style.centered}>
+        <View style={[style.container, style.centered]}>
           <Text>You have no matches.</Text>
         </View>
       :
-        <ScrollView style={{flex: 1, paddingTop: statusBarHeight}}>
-          <Text></Text>
+        <ScrollView style={{flex: 1}}>
           { props.matches.map((m, key) => (
             <MatchPreview key={key} match={m} viewChat={() => props.viewChat(m.user)} />
           ))}
@@ -46,11 +48,20 @@ const style = StyleSheet.create({
     flex: 1,
   },
   centered: {
-    flex:           1,
     alignItems:     'center',
     justifyContent: 'center',
   },
   error: {
     color: 'red'
+  },
+  header: {
+    height: matchHeaderHeight,
+    borderBottomWidth: 1,
+    borderBottomColor: mayteBlack(0.5),
+  },
+  headerLabel: {
+    fontSize: em(1.33),
+    letterSpacing: em(0.1),
+    fontFamily: 'Gotham-Bold',
   }
 })

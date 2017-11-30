@@ -1,9 +1,9 @@
 'use strict'
 
-import React, { Component }                   from 'react'
-import LinearGradient                         from 'react-native-linear-gradient'
-import { matchHeaderHeight, statusBarHeight } from '../constants/dimensions'
-import { mayteBlack }                         from '../constants/colors'
+import React, { Component }                       from 'react'
+import LinearGradient                             from 'react-native-linear-gradient'
+import { matchHeaderHeight, statusBarHeight, em } from '../constants/dimensions'
+import { mayteBlack }                             from '../constants/colors'
 import {
   StyleSheet,
   Text,
@@ -52,8 +52,8 @@ const style = StyleSheet.create({
     top: 0,
     zIndex: 1,
     width: '100%',
-    paddingRight: 5,
-    paddingLeft: 5,
+    paddingRight: em(1),
+    paddingLeft: em(1),
     height: matchHeaderHeight,
     paddingTop: statusBarHeight,
     flexDirection: 'row',
@@ -63,14 +63,6 @@ const style = StyleSheet.create({
     borderBottomWidth: 1,
     borderBottomColor: 'rgba(40,40,40,1)',
     opacity: 1,
-  },
-  button: {
-    color: 'blue',
-    backgroundColor: 'transparent',
-  },
-  nav: {
-    paddingLeft: 20,
-    paddingRight: 20,
   },
   bubble: {
     height: matchHeaderHeight * 0.55,
