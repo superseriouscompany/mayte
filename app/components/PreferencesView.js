@@ -35,10 +35,11 @@ export default class PreferencesView extends Component {
         <View style={style.preferences}>
           <View style={style.preferenceHeader}>
             <Text style={style.preferenceLabel}>Age Preference</Text>
-            <Text>{props.ageRange}</Text>
+            <Text>{props.ageRange[0]} - {props.ageRange[1]}</Text>
           </View>
-          <RangeSlider minValue={18}
-                       maxValue={50}
+          <RangeSlider onUpdate={(pcts) =>
+                         props.updateAgeRange(pcts.map(p => Math.round(p * (props.maxAge - props.minAge)) + props.minAge))
+                       }
                        onGestureStart={() => this.setState({scrollEnabled: false})}
                        onGestureEnd={() => this.setState({scrollEnabled: true})} />
         </View>

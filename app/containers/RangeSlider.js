@@ -13,8 +13,7 @@ class RangeSlider extends Component {
   render() {
     const { props, state } = this
     return(
-      <RangeSliderView onUpdate={props.onUpdate([state.minValue, state.maxValue])}
-                       {...props} {...state} />
+      <RangeSliderView {...props} {...state} />
     )
   }
 }

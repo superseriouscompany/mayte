@@ -16,7 +16,11 @@ export default class RangeSliderView extends Component {
       trackLength: 0,
     }
 
-    for (let i = 0; i < props.numMarkers; i++) {
+    this.calculatePositions = this.calculatePositions.bind(this)
+  }
+
+  componentWillMount() {
+    for (let i = 0; i < this.props.numMarkers; i++) {
       // ^ FINALLY A USE FOR let - this doesn't work otherwise
       this.panHandlers[`mRes${i}`] = this.state[`mRes${i}`] = PanResponder.create({
         onStartShouldSetPanResponder: (evt, gestureState) => true,
@@ -46,19 +50,13 @@ export default class RangeSliderView extends Component {
           }
 
           this.setState(state)
+          this.props.onUpdate(this.calculatePositions())
         },
 
         onPanResponderTerminationRequest: (evt, gestureState) => true,
 
         onPanResponderRelease: (evt, gestureState) => {
           this.props.onGestureEnd()
-          console.log("FINISHED:", this.state[`mRes${i}`])
-          // console.log(this.state.trackDims)
-          // const { trackDims, x } = this.state
-          // const { markerRadius } = props
-          //
-          // const pct = gestureState.x + markerRadius / trackDims.width
-          // console.log(pct, gestureState.x, markerRadius, trackDims.width)
         },
 
         onShouldBlockNativeResponder: (evt, gestureState) => {
@@ -70,7 +68,12 @@ export default class RangeSliderView extends Component {
     }
   }
 
-  componentWillMount() {
+  calculatePositions() {
+    const { trackDims } = this.state
+    const percents = Object.keys(this.panHandlers).map(k => {
+      return this.state[k].x / trackDims.width
+    })
+    return percents.sort()
   }
 
   render() {
