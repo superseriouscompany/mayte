@@ -11,10 +11,7 @@ export default class RangeSliderView extends Component {
     super(props)
 
     this.panHandlers = {}
-
-    this.state = {
-      trackLength: 0,
-    }
+    this.state = {}
 
     this.calculatePositions = this.calculatePositions.bind(this)
   }
@@ -39,13 +36,11 @@ export default class RangeSliderView extends Component {
           let state = this.state
           state[`mRes${i}`].x = state[`mRes${i}`].ogx + gestureState.dx
 
-          if (state[`mRes${i}`].x > state.trackDims.width) {
-              console.log("too high")
+          if (state[`mRes${i}`].x > state.trackDims.width) { // Too high
               state[`mRes${i}`].x = state.trackDims.width
           }
 
-          if (state[`mRes${i}`].x < 0) {
-              console.log("too low")
+          if (state[`mRes${i}`].x < 0) { // Too low
               state[`mRes${i}`].x = 0
           }
 
@@ -84,7 +79,6 @@ export default class RangeSliderView extends Component {
               width: '100%',
               justifyContent: 'center',
               height: Math.max(fullDiameter, props.trackHeight),
-              backgroundColor: 'pink',
               paddingLeft: props.markerDiameter * 0.5,
               paddingRight: props.markerDiameter * 0.5,
             }}>
@@ -94,8 +88,9 @@ export default class RangeSliderView extends Component {
                 width: '100%',
               }}
               onLayout={(e) => this.setState({trackDims: e.nativeEvent.layout})} />
-        { this.panHandlers ?
+        { !state.trackDims ? null :
           Object.keys(this.panHandlers).map((m,i) => {
+            const startPct = ((props.values[i] - props.minValue) / (props.maxValue - props.minValue)) * state.trackDims.width
             return(
               <View
                 {...this.panHandlers[m].panHandlers}
@@ -107,7 +102,7 @@ export default class RangeSliderView extends Component {
                 }}
                 style={{
                   position: 'absolute',
-                  top: 0, left: state[`mRes${i}`].x,
+                  top: 0, left: (state[`mRes${i}`].x || startPct),
                   width: props.markerDiameter,
                   height: props.markerDiameter,
                   borderRadius: props.markerDiameter * 0.5,
@@ -116,7 +111,7 @@ export default class RangeSliderView extends Component {
                   borderWidth: props.markerStrokeWidth,
                 }} />
             )
-          }) : null
+          })
         }
       </View>
     )

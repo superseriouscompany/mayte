@@ -4,16 +4,12 @@ import RangeSliderView from '../components/RangeSliderView.js'
 class RangeSlider extends Component {
   constructor(props) {
     super(props)
-    this.state = {
-      minValue: props.minValue,
-      maxValue: props.maxValue,
-    }
   }
 
   render() {
     const { props, state } = this
     return(
-      <RangeSliderView {...props} {...state} />
+      <RangeSliderView {...props} />
     )
   }
 }
@@ -23,8 +19,9 @@ RangeSlider.defaultProps = {
   minValue: 0,
   maxValue: 0,
   numMarkers: 2,
+  values: [0,0],
   trackHeight: 3,
-  markerDiameter: 60,
+  markerDiameter: 30,
   trackColor: '#000',
   markerFill: '#000',
   markerStroke: '#000',
