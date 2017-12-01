@@ -1,8 +1,13 @@
 import React, { Component } from 'react'
 import SettingsEditorView from '../components/SettingsEditorView'
+import { screenWidth, screenHeight } from '../constants/dimensions'
 import api from '../services/api'
+import ImagePicker from 'react-native-image-crop-picker'
+import {
+  ImageEditor,
+} from 'react-native'
 
-export default class SettingsEditor extends Component {
+class SettingsEditor extends Component {
   constructor(props) {
     super(props)
 
@@ -27,6 +32,7 @@ export default class SettingsEditor extends Component {
     }
 
     this.state = {
+      crop: null,
       saving: false,
       dob: props.user.dob,
       bio: props.user.bio || '',
@@ -40,6 +46,8 @@ export default class SettingsEditor extends Component {
 
     this.save = this.save.bind(this)
     this.setPrivacyOption = this.setPrivacyOption.bind(this)
+    this.cropImage = this.cropImage.bind(this)
+    this.editImage = this.editImage.bind(this)
   }
 
   save() {
@@ -75,12 +83,31 @@ export default class SettingsEditor extends Component {
     this.setState(state)
   }
 
+  cropImage(img) {
+    return ImagePicker.openCropper({
+      path: img.url,
+      width: screenWidth,
+      height: screenHeight,
+    })
+  }
+
+  editImage(img) {
+    return this.cropImage(img)
+      .then(d => {
+        let user = this.props.user
+        user.photos.push({url: d.path})
+        return this.props.setUser(user)
+      })
+      .catch(err => {alert(err); return console.error(err)})
+  }
+
   render() {
     const { props, state } = this
     return(
       <SettingsEditorView {...props} {...state}
-                          options={this.options}
                           save={this.save}
+                          options={this.options}
+                          editImage={this.editImage}
                           setBio={text => this.setState({bio: text})}
                           setDob={date => this.setState({dob: date})}
                           setOccupation={text => this.setState({occupation: text})}
@@ -88,3 +115,5 @@ export default class SettingsEditor extends Component {
     )
   }
 }
+
+export default SettingsEditor

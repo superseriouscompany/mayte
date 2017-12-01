@@ -55,6 +55,7 @@
 		3F96AE7C1F6A1D710081E709 /* leveldb-library.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3FE9CC1B1F6A195A005DD60C /* leveldb-library.framework */; };
 		3F96AE7D1F6A1D710081E709 /* nanopb.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3FE9CC171F6A195A005DD60C /* nanopb.framework */; };
 		3F96AE7E1F6A1D710081E709 /* Protobuf.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3FE9CC161F6A195A005DD60C /* Protobuf.framework */; };
+		430B1BC0ABEE4CCB81ED9CCB /* libimageCropPicker.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 5CD4855D83E440AB889A1730 /* libimageCropPicker.a */; };
 		50D84F114DC04FC1BCD5507C /* Feather.ttf in Resources */ = {isa = PBXBuildFile; fileRef = A87A92D231F9496E9D8ADD9E /* Feather.ttf */; };
 		55C9EA8A663A497CBA431C59 /* FontAwesome.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 6EBFA3070A304C27B177A872 /* FontAwesome.ttf */; };
 		5E9157361DD0AC6A00FF2AA8 /* libRCTAnimation.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 5E9157331DD0AC6500FF2AA8 /* libRCTAnimation.a */; };
@@ -373,6 +374,13 @@
 			remoteGlobalIDString = 9936F32F1F5F2E5B0010BF04;
 			remoteInfo = "privatedata-tvOS";
 		};
+		842ACBEE1FD206E900C83C40 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = A703E3AC79A442D6B233FB7C /* imageCropPicker.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 3400A8081CEB54A6008A0BC7;
+			remoteInfo = imageCropPicker;
+		};
 		84D51B031FA2BB940035682F /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 9EFB5EEBF6924242B8BE691C /* RNBlur.xcodeproj */;
@@ -468,6 +476,7 @@
 		4FA547E3650D4D95902052C6 /* Gotham-Black.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Gotham-Black.ttf"; path = "../app/fonts/Gotham-Black.ttf"; sourceTree = "<group>"; };
 		5AAB361D196D4312856524E1 /* Gotham-Book.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Gotham-Book.ttf"; path = "../app/fonts/Gotham-Book.ttf"; sourceTree = "<group>"; };
 		5B90484A9B124E738216D0AF /* libRCTActionSheet.a */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = archive.ar; path = libRCTActionSheet.a; sourceTree = "<group>"; };
+		5CD4855D83E440AB889A1730 /* libimageCropPicker.a */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = archive.ar; path = libimageCropPicker.a; sourceTree = "<group>"; };
 		5E91572D1DD0AC6500FF2AA8 /* RCTAnimation.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTAnimation.xcodeproj; path = "../node_modules/react-native/Libraries/NativeAnimation/RCTAnimation.xcodeproj"; sourceTree = "<group>"; };
 		5F4B2ECB7BBC4E06A842E283 /* libRNWalletModule.a */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = archive.ar; path = libRNWalletModule.a; sourceTree = "<group>"; };
 		6BE9B673D2E84E05B9CBC3B8 /* RNBranch.xcodeproj */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = "wrapper.pb-project"; name = RNBranch.xcodeproj; path = "../node_modules/react-native-branch/ios/RNBranch.xcodeproj"; sourceTree = "<group>"; };
@@ -483,6 +492,7 @@
 		9EFB5EEBF6924242B8BE691C /* RNBlur.xcodeproj */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = "wrapper.pb-project"; name = RNBlur.xcodeproj; path = "../node_modules/react-native-blur/ios/RNBlur.xcodeproj"; sourceTree = "<group>"; };
 		A335716D9CF04A73B268098B /* Gotham-Medium.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Gotham-Medium.ttf"; path = "../app/fonts/Gotham-Medium.ttf"; sourceTree = "<group>"; };
 		A653F9CD33BC469D92D11B19 /* Ionicons.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = Ionicons.ttf; path = "../node_modules/react-native-vector-icons/Fonts/Ionicons.ttf"; sourceTree = "<group>"; };
+		A703E3AC79A442D6B233FB7C /* imageCropPicker.xcodeproj */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = "wrapper.pb-project"; name = imageCropPicker.xcodeproj; path = "../node_modules/react-native-image-crop-picker/ios/imageCropPicker.xcodeproj"; sourceTree = "<group>"; };
 		A87A92D231F9496E9D8ADD9E /* Feather.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = Feather.ttf; path = "../node_modules/react-native-vector-icons/Fonts/Feather.ttf"; sourceTree = "<group>"; };
 		AC8999DD8BB440879561A324 /* Gotham-Bold.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Gotham-Bold.ttf"; path = "../app/fonts/Gotham-Bold.ttf"; sourceTree = "<group>"; };
 		ADBDB91F1DFEBF0600ED6528 /* RCTBlob.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTBlob.xcodeproj; path = "../node_modules/react-native/Libraries/Blob/RCTBlob.xcodeproj"; sourceTree = "<group>"; };
@@ -543,6 +553,7 @@
 				C832CDEA780045509014AA27 /* libRNBlur.a in Frameworks */,
 				C8D97A28F2C249A1869E854D /* libRNVectorIcons.a in Frameworks */,
 				EF89DAC9495142A9AF0FCDE5 /* libRCTActionSheet.a in Frameworks */,
+				430B1BC0ABEE4CCB81ED9CCB /* libimageCropPicker.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -723,6 +734,7 @@
 				C9AC81BBEA154422BC17D8DA /* libRNBlur.a */,
 				EB0A0EEB132E43B286C8148F /* libRNVectorIcons.a */,
 				5B90484A9B124E738216D0AF /* libRCTActionSheet.a */,
+				5CD4855D83E440AB889A1730 /* libimageCropPicker.a */,
 			);
 			name = "Recovered References";
 			sourceTree = "<group>";
@@ -803,6 +815,7 @@
 				9EFB5EEBF6924242B8BE691C /* RNBlur.xcodeproj */,
 				293049935F2B421D9AE05D63 /* RNVectorIcons.xcodeproj */,
 				CB25DC0C3B0247B3A0D4F5CA /* Slider.xcodeproj */,
+				A703E3AC79A442D6B233FB7C /* imageCropPicker.xcodeproj */,
 			);
 			name = Libraries;
 			sourceTree = "<group>";
@@ -839,6 +852,14 @@
 				00E356EE1AD99517003FC87E /* mayteTests.xctest */,
 				2D02E47B1E0B4A5D006451C7 /* mayte-tvOS.app */,
 				2D02E4901E0B4A5D006451C7 /* mayte-tvOSTests.xctest */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		842ACBEB1FD206E900C83C40 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				842ACBEF1FD206E900C83C40 /* libimageCropPicker.a */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -1035,6 +1056,10 @@
 				{
 					ProductGroup = 84E8F30A1F9974BE0058AC0E /* Products */;
 					ProjectRef = 84E8F3091F9974BE0058AC0E /* BVLinearGradient.xcodeproj */;
+				},
+				{
+					ProductGroup = 842ACBEB1FD206E900C83C40 /* Products */;
+					ProjectRef = A703E3AC79A442D6B233FB7C /* imageCropPicker.xcodeproj */;
 				},
 				{
 					ProductGroup = 3F8D15A21F6B4E1600011281 /* Products */;
@@ -1404,6 +1429,13 @@
 			remoteRef = 8405904C1FBB6F2A00F99452 /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
+		842ACBEF1FD206E900C83C40 /* libimageCropPicker.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = libimageCropPicker.a;
+			remoteRef = 842ACBEE1FD206E900C83C40 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
 		84D51B041FA2BB940035682F /* libRNBlur.a */ = {
 			isa = PBXReferenceProxy;
 			fileType = archive.ar;
@@ -1620,12 +1652,14 @@
 					"$(SRCROOT)/../node_modules/react-native-blur/ios",
 					"$(SRCROOT)/../node_modules/react-native-vector-icons/RNVectorIconsManager",
 					"$(SRCROOT)/../node_modules/react-native-multi-slider/iOS/Slider",
+					"$(SRCROOT)/../node_modules/react-native-image-crop-picker/ios/**",
 				);
 				INFOPLIST_FILE = mayteTests/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
+					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
@@ -1658,12 +1692,14 @@
 					"$(SRCROOT)/../node_modules/react-native-blur/ios",
 					"$(SRCROOT)/../node_modules/react-native-vector-icons/RNVectorIconsManager",
 					"$(SRCROOT)/../node_modules/react-native-multi-slider/iOS/Slider",
+					"$(SRCROOT)/../node_modules/react-native-image-crop-picker/ios/**",
 				);
 				INFOPLIST_FILE = mayteTests/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
+					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
@@ -1699,6 +1735,7 @@
 					"$(SRCROOT)/../node_modules/react-native-blur/ios",
 					"$(SRCROOT)/../node_modules/react-native-vector-icons/RNVectorIconsManager",
 					"$(SRCROOT)/../node_modules/react-native-multi-slider/iOS/Slider",
+					"$(SRCROOT)/../node_modules/react-native-image-crop-picker/ios/**",
 				);
 				INFOPLIST_FILE = mayte/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
@@ -1731,6 +1768,7 @@
 					"$(SRCROOT)/../node_modules/react-native-blur/ios",
 					"$(SRCROOT)/../node_modules/react-native-vector-icons/RNVectorIconsManager",
 					"$(SRCROOT)/../node_modules/react-native-multi-slider/iOS/Slider",
+					"$(SRCROOT)/../node_modules/react-native-image-crop-picker/ios/**",
 				);
 				INFOPLIST_FILE = mayte/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
@@ -1768,11 +1806,13 @@
 					"$(SRCROOT)/../node_modules/react-native-blur/ios",
 					"$(SRCROOT)/../node_modules/react-native-vector-icons/RNVectorIconsManager",
 					"$(SRCROOT)/../node_modules/react-native-multi-slider/iOS/Slider",
+					"$(SRCROOT)/../node_modules/react-native-image-crop-picker/ios/**",
 				);
 				INFOPLIST_FILE = "mayte-tvOS/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
+					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
@@ -1815,11 +1855,13 @@
 					"$(SRCROOT)/../node_modules/react-native-blur/ios",
 					"$(SRCROOT)/../node_modules/react-native-vector-icons/RNVectorIconsManager",
 					"$(SRCROOT)/../node_modules/react-native-multi-slider/iOS/Slider",
+					"$(SRCROOT)/../node_modules/react-native-image-crop-picker/ios/**",
 				);
 				INFOPLIST_FILE = "mayte-tvOS/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
+					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
@@ -1863,6 +1905,7 @@
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
+					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = "com.facebook.REACT.mayte-tvOSTests";
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -1888,6 +1931,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
+					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",

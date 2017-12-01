@@ -6,6 +6,7 @@ import {
   em,
   statusBarHeight,
   screenWidth,
+  screenHeight,
 } from '../constants/dimensions'
 import {
   TouchableOpacity,
@@ -38,6 +39,7 @@ export default (props) => {
 
       {/* PHOTOS */}
       <View>
+        {props.crop ? <Image style={{width: screenWidth / 2, height: screenHeight / 2}} resizeMode='cover' source={{uri: props.crop.path}} /> : null}
         <View style={[style.padded]}>
           <View style={[style.sectionHeader]}>
             <Text style={[style.sectionHeaderLabel]}>PHOTOS</Text>
@@ -63,20 +65,26 @@ export default (props) => {
               <View style={style.photoSelect}>
               {
                 (props.user.availablePhotos.filter((p,i) => i%2===0) || []).map((p,i) => {
-                  return <Image key={i}
-                                style={[style.photoSelectImg]}
-                                resizeMode="cover"
-                                source={{url: p.image.url}} />
+                  return (
+                    <TouchableOpacity key={i} onPress={() => props.editImage(p.image)}>
+                      <Image style={[style.photoSelectImg]}
+                             resizeMode="cover"
+                             source={{url: p.image.url}} />
+                    </TouchableOpacity>
+                  )
                 })
               }
               </View>
               <View style={style.photoSelect}>
               {
                 (props.user.availablePhotos.filter((p,i) => i%2===1) || []).map((p,i) => {
-                  return <Image key={i}
-                                style={[style.photoSelectImg]}
-                                resizeMode="cover"
-                                source={{url: p.image.url}} />
+                  return (
+                    <TouchableOpacity key={i} onPress={() => props.editImage(p.image)}>
+                      <Image style={[style.photoSelectImg]}
+                             resizeMode="cover"
+                             source={{url: p.image.url}} />
+                    </TouchableOpacity>
+                  )
                 })
               }
               </View>

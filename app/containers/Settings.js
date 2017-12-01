@@ -106,7 +106,8 @@ class Settings extends Component {
       const photos = this.calculateActive(activeIds, v[1].photos)
       const bio = user.bio
       const dob = user.dob
-      this.setState({ user: user, activeIds: activeIds, photos: photos, loading: false, bio: bio, dob: dob })
+      this.setState({ activeIds: activeIds, photos: photos, loading: false, bio: bio, dob: dob })
+      this.props.setUser(user)
     }).catch((err) => {
       this.setState({ loading: false, error: err.message || err })
     })
@@ -131,6 +132,7 @@ class Settings extends Component {
 function mapStateToProps(state) {
   return {
     accessToken: state.user.accessToken,
+    user: state.user,
     scene: state.scene,
   }
 }
@@ -157,6 +159,9 @@ function mapDispatchToProps(dispatch) {
         name: 'Settings',
         view: 'Preferences',
       }})
+    },
+    setUser: (user) => {
+      dispatch({type: 'user:set', user: user})
     }
   }
 }
