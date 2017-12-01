@@ -71,6 +71,10 @@ export default class PreferencesView extends Component {
                          }} />
           </View>
         </View>
+
+        <TouchableOpacity onPress={props.logout}>
+          <Text style={style.logout}>Sign Out</Text>
+        </TouchableOpacity>
       </ScrollView>
     )
   }
@@ -109,5 +113,11 @@ const style = StyleSheet.create({
   },
   preferenceLabel: {
     fontSize: em(1.33),
-  }
+  },
+
+  logout: {
+    textAlign: 'center',
+    marginTop: em(2),
+    marginBottom: em(2),
+  },
 })
