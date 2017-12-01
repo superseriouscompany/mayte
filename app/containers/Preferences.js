@@ -35,6 +35,7 @@ export default class Preferences extends Component {
       }
     }).then(() => {
       console.log("updated preferences")
+      this.props.hydrateUser(false)
     }).catch(err => {
       alert(err.message || err)
       console.error(err)

@@ -94,9 +94,9 @@ class Settings extends Component {
     this.hydrateUser()
   }
 
-  hydrateUser() {
+  hydrateUser(reload = true) {
     var user;
-    this.setState({loading: true})
+    if (reload) this.setState({loading: true});
     return Promise.all([
       api('/users/me', { accessToken: this.props.accessToken}),
       api('/photos/available', {accessToken: this.props.accessToken}),
