@@ -70,7 +70,6 @@ const style = StyleSheet.create({
     fontFamily: 'Futura',
     fontSize: 18,
     width: 300,
-
   },
 
   overlay: {
