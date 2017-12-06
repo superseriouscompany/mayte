@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 import moment from 'moment'
 import { mayteBlack } from '../constants/colors'
 import DatePicker from 'react-native-datepicker'
+import CurrentPhotos from '../containers/CurrentPhotos'
 import {
   em,
   statusBarHeight,
@@ -27,7 +28,8 @@ export default (props) => {
   const minDob   = `${youngest.year()}-${youngest.month()}-${youngest.date()}`
 
   return(
-    <ScrollView style={[style.container, {backgroundColor: mayteBlack()}]}>
+    <ScrollView style={[style.container, {backgroundColor: mayteBlack()}]}
+                scrollEnabled={!props.rearrangingPhotos}>
       <View style={[style.header, style.padded]}>
         <TouchableOpacity>
           <Text style={[style.headerBtn]}>CANCEL</Text>
@@ -45,15 +47,9 @@ export default (props) => {
             <Text style={[style.sectionHeaderLabel]}>PHOTOS</Text>
             <Text style={[style.sectionHeaderSublabel]}>{props.user.photos.length}/10</Text>
           </View>
-          <View style={[style.currentPhotos]}>
-          {
-            props.user.photos.map((p,i) => {
-              return(
-                <Image style={style.currentPhotosImg} key={i} source={{uri: p.url}} />
-              )
-            })
-          }
-          </View>
+          <CurrentPhotos photos={props.user.photos}
+                         active={props.rearrangingPhotos}
+                         toggleActive={props.toggleRearrangingPhotos} />
         </View>
 
         <View>
@@ -225,18 +221,6 @@ const style = StyleSheet.create({
     marginLeft: em(0.66),
     marginTop: em(0.33),
   },
-
-
-  currentPhotos: {
-    flexDirection: 'row',
-  },
-  currentPhotosImg: {
-    width: screenWidth * 0.1,
-    height: screenWidth * 0.1,
-    borderRadius: em(0.33),
-    marginRight: em(0.33),
-  },
-
 
   photoSelect: {
     flexDirection: 'row',
