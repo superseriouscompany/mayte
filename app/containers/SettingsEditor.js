@@ -43,6 +43,7 @@ class SettingsEditor extends Component {
       showInstagramFeed: privacyOptions.showInstagramFeed || false,
       showInstagramHandle: privacyOptions.showInstagramHandle || false,
       rearrangingPhotos: false,
+      trashReady: false,
     }
 
     this.save = this.save.bind(this)
@@ -112,7 +113,9 @@ class SettingsEditor extends Component {
                           setBio={text => this.setState({bio: text})}
                           setDob={date => this.setState({dob: date})}
                           setOccupation={text => this.setState({occupation: text})}
-                          toggleRearrangingPhotos={() => this.setState({rearrangingPhotos: !this.state.rearrangingPhotos})}
+                          setTrashArea={(layout) => this.setState({trashArea: layout})}
+                          toggleTrashReady={() => this.setState({trashReady: !state.trashReady})}
+                          toggleRearrangingPhotos={() => this.setState({rearrangingPhotos: !state.rearrangingPhotos})}
                           setPrivacyOption={this.setPrivacyOption} />
     )
   }

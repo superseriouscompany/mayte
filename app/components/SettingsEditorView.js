@@ -27,6 +27,8 @@ export default (props) => {
   const maxDob   = `${oldest.year()}-${oldest.month()}-${oldest.date()}`
   const minDob   = `${youngest.year()}-${youngest.month()}-${youngest.date()}`
 
+  let trash
+
   return(
     <ScrollView style={[style.container, {backgroundColor: mayteBlack()}]}
                 scrollEnabled={!props.rearrangingPhotos}>
@@ -46,9 +48,24 @@ export default (props) => {
           <View style={[style.sectionHeader]}>
             <Text style={[style.sectionHeaderLabel]}>PHOTOS</Text>
             <Text style={[style.sectionHeaderSublabel]}>{props.user.photos.length}/10</Text>
+            <View style={[style.trashBin, {transform: [{scale: props.trashReady ? 1 : 0.8}]}]}
+                  ref={(el) => trash = el}
+                  onLayout={(e) => {
+                    trash.measure((x, y, width, height, pageX, pageY) => {
+                      props.setTrashArea({pageX, pageY, width, height})
+                    })
+                  }} />
           </View>
           <CurrentPhotos photos={props.user.photos}
                          active={props.rearrangingPhotos}
+                         trashArea={props.trashArea}
+                         toggleTrashReady={props.toggleTrashReady}
+                         trashPhoto={(p) => {
+                           // const photos = props.user.photos.splice(idx, 1)
+                           const idx = props.user.photos.indexOf(p)
+                           props.user.photos.splice(idx, 1)
+                           props.setUser(props.user)
+                         }}
                          toggleActive={props.toggleRearrangingPhotos} />
         </View>
 
@@ -159,7 +176,6 @@ export default (props) => {
         })
       }
       </View>
-
 
       <View style={style.centered}>
         <TouchableOpacity onPress={props.viewProfile}>
@@ -298,4 +314,14 @@ const style = StyleSheet.create({
     letterSpacing: em(0.1),
   },
   optionSwitch: {},
+
+  trashBin: {
+    height: em(1.2),
+    width: em(1.2),
+    backgroundColor: 'pink',
+    marginLeft: em(0.33),
+    // position: 'absolute',
+    // bottom: 50,
+    // left: screenWidth * 0.5 - 25,
+  },
 })

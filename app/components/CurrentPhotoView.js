@@ -13,6 +13,10 @@ export default class CurrentPhotoView extends Component {
     super(props)
     this.state = {
       offset: new Animated.ValueXY(props.targetPositions[props.idx]),
+      // opacity: new Animated.Value(1),
+      scale: new Animated.Value(1),
+      size: new Animated.Value(props.thumbWidth),
+      trashable: false,
       active: false,
     }
   }
@@ -46,6 +50,25 @@ export default class CurrentPhotoView extends Component {
       onPanResponderMove: (evt, gestureState) => {
         if (!this.props.active) return
 
+        // if (gestureState)
+        // console.log(evt.nativeEvent.pageX, evt.nativeEvent.pageY, this.props.trashArea)
+
+        if (evt.nativeEvent.pageX >= this.props.trashArea.pageX &&
+            evt.nativeEvent.pageX <= this.props.trashArea.pageX + this.props.trashArea.width &&
+            evt.nativeEvent.pageY >= this.props.trashArea.pageY &&
+            evt.nativeEvent.pageY <= this.props.trashArea.pageY + this.props.trashArea.height) {
+          if (!this.state.trashable) {
+            console.log("trashable")
+            this.setState({trashable: true})
+            this.props.toggleTrashReady()
+            Animated.timing(this.state.scale, {toValue: 0, duration: 500}).start()
+          }
+        } else if (this.state.trashable) {
+          this.setState({trashable: false})
+          Animated.timing(this.state.scale, {toValue: 1, duration: 500}).start()
+          this.props.toggleTrashReady()
+        }
+
         Animated.spring(this.state.offset, {
           toValue: {
             x: this.startX + gestureState.dx,
@@ -61,6 +84,9 @@ export default class CurrentPhotoView extends Component {
         if (!this.props.active) {
           clearTimeout(this.activeTO)
         } else {
+          if (this.state.trashable) {
+            return this.props.trashPhoto()
+          }
           this.props.toggleActive()
           Animated.spring(this.state.offset, {
             toValue: this.props.targetPositions[this.props.idx]
@@ -84,10 +110,10 @@ export default class CurrentPhotoView extends Component {
                style={[
                  props.style,
                  {
+                   left: state.offset.x,
+                   top: state.offset.y,
                    transform: [
-                     // {scale: props.active ? 0.9 : 1},
-                     {translateX: state.offset.x},
-                     {translateY: state.offset.y}
+                     {scale: state.scale},
                    ],
                    zIndex: state.active ? 1 : 0,
                  }

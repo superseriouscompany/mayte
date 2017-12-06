@@ -38,8 +38,11 @@ export default class CurrentPhotos extends Component {
                                 idx={state.flip ? a.length - 1 - i : i}
                                 photo={p}
                                 {...state}
+                                trashArea={props.trashArea}
                                 targetPositions={a.map(() => { return {x: (thumbWidth + em(0.33)) * i, y: 0} }) }
                                 toggleActive={props.toggleActive}
+                                toggleTrashReady={props.toggleTrashReady}
+                                trashPhoto={props.trashPhoto}
                                 active={props.active}
                                 style={style.thumbnail}
                                 thumbWidth={thumbWidth} />
