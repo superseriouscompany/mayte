@@ -15,25 +15,36 @@ const bg = require('../images/LoginBG.jpg')
 export default function(props) {
   return (
     <View style={style.container}>
-      <Image style={[style.cover]}
-             resizeMode="cover"
-             source={bg} />
       <View style={style.overlay} />
 
       { props.loading ?
         <ActivityIndicator size="large"/>
+      : props.isAbout ?
+        <View>
+          <Image style={[style.logo]}
+                 source={require('../images/logo.jpg')}
+                 resizeMode="contain" />
+
+          <Text style={style.about}>
+            UNICORN is a Premium Dating App and Concierge Service.
+          </Text>
+        </View>
       :
         <View>
           <Image style={[style.logo]}
-                 source={require('../images/logo-trans.png')}
+                 source={require('../images/logo.jpg')}
                  resizeMode="contain" />
 
           <TouchableOpacity onPress={props.login} style={[style.button, {marginBottom: 40}]}>
             <Text style={[style.buttonText]}>LOGIN WITH INSTAGRAM</Text>
           </TouchableOpacity>
 
-          <TouchableOpacity onPress={props.linkedinLogin} style={style.button}>
+          <TouchableOpacity onPress={props.linkedinLogin} style={[style.button, {marginBottom: 40}]}>
             <Text style={[style.buttonText]}>LOGIN WITH LINKEDIN</Text>
+          </TouchableOpacity>
+
+          <TouchableOpacity onPress={props.about} style={style.button}>
+            <Text style={[style.buttonText]}>ABOUT UNICORN</Text>
           </TouchableOpacity>
         </View>
       }
@@ -55,11 +66,18 @@ const style = StyleSheet.create({
     height: '100%',
   },
 
+  about: {
+    fontFamily: 'Futura',
+    fontSize: 18,
+    width: 300,
+
+  },
+
   overlay: {
     position: 'absolute',
     height: '100%',
     width: '100%',
-    backgroundColor: mayteBlack(0.66),
+    backgroundColor: 'white',
   },
 
   logo: {

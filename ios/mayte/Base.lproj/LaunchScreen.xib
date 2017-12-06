@@ -16,11 +16,11 @@
             <rect key="frame" x="0.0" y="0.0" width="480" height="480"/>
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
-                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="icon-trans" translatesAutoresizingMaskIntoConstraints="NO" id="Ray-Zq-efT">
-                    <rect key="frame" x="178.5" y="214" width="123" height="72"/>
+                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="U" translatesAutoresizingMaskIntoConstraints="NO" id="Ray-Zq-efT">
+                    <rect key="frame" x="199.5" y="194.5" width="81" height="111"/>
                 </imageView>
             </subviews>
-            <color key="backgroundColor" red="0.13725490196078433" green="0.12156862745098039" blue="0.12549019607843137" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+            <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
             <constraints>
                 <constraint firstItem="Ray-Zq-efT" firstAttribute="centerY" secondItem="Nxt-Yc-iG7" secondAttribute="centerY" id="PvY-Fh-98Z"/>
                 <constraint firstItem="Ray-Zq-efT" firstAttribute="centerX" secondItem="Nxt-Yc-iG7" secondAttribute="centerX" id="t9V-dG-yXu"/>
@@ -32,6 +32,6 @@
         </view>
     </objects>
     <resources>
-        <image name="icon-trans" width="123" height="72"/>
+        <image name="U" width="81" height="111"/>
     </resources>
 </document>

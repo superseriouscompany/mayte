@@ -13,6 +13,7 @@ class Login extends Component {
     super(props)
     this.login  = this.login.bind(this)
     this.handle = this.handle.bind(this)
+    this.about = this.about.bind(this)
     this.state = {}
   }
 
@@ -60,6 +61,10 @@ class Login extends Component {
     }).catch(console.error)
   }
 
+  about() {
+    this.setState({about: true})
+  }
+
   linkedinLogin() {
     const redirectUrl = `${baseUrl}/webhooks/linkedin`
     const clientId    = '77jqckdp1kbvtl'
@@ -81,7 +86,7 @@ class Login extends Component {
   }
 
   render() { return (
-    <LoginView linkedinLogin={this.linkedinLogin} login={this.login} {...this.props} loading={this.state.loading}/>
+    <LoginView linkedinLogin={this.linkedinLogin} login={this.login} {...this.props} loading={this.state.loading} about={this.about} isAbout={this.state.about}/>
   )}
 }
 
