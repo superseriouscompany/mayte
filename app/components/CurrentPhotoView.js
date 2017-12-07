@@ -12,23 +12,28 @@ export default class CurrentPhotoView extends Component {
   constructor(props) {
     super(props)
     this.state = {
-      offset: new Animated.ValueXY(props.targetPositions[props.idx]),
+      offset: new Animated.ValueXY(props.targetPosition),
       // opacity: new Animated.Value(1),
       scale: new Animated.Value(1),
       size: new Animated.Value(props.thumbWidth),
       trashable: false,
       active: false,
     }
+
+    this.springToTarget = this.springToTarget.bind(this)
   }
 
-  componentDidUpdate(prevProps) {
-    // console.log(prevProps.idx, this.props.idx)
-    if (prevProps.idx != this.props.idx) {
-      console.log(this.props.targetPositions[this.props.idx])
-      Animated.spring(this.state.offset, {
-        toValue: this.props.targetPositions[this.props.idx]
-      }).start()
-    }
+  springToTarget() {
+    Animated.spring(this.state.offset, {
+      toValue: this.props.targetPosition
+    }).start()
+  }
+
+  componentWillReceiveProps(nextProps) {
+    // console.log("I UPDATED", this.props.photo.url)
+    // if (nextProps.targetPosition != this.props.targetPosition) {
+    //   this.springToTarget()
+    // }
   }
 
   componentWillMount() {
@@ -39,16 +44,16 @@ export default class CurrentPhotoView extends Component {
       onMoveShouldSetPanResponderCapture: (evt, gestureState) => true,
 
       onPanResponderGrant: (evt, gestureState) => {
-        this.setState({active: true})
+        // this.setState({active: true})
         // this.activeTO = setTimeout(() => {
-          this.startX = this.state.offset.x._value
-          this.startY = this.state.offset.y._value
+          this.startX = this.props.targetPosition.x
+          this.startY = this.props.targetPosition.y
           this.props.toggleActive()
         // }, 500)
       },
 
       onPanResponderMove: (evt, gestureState) => {
-        if (!this.props.active) return
+        // if (!this.state.active) return
 
         // if (gestureState)
         // console.log(evt.nativeEvent.pageX, evt.nativeEvent.pageY, this.props.trashArea)
@@ -81,17 +86,17 @@ export default class CurrentPhotoView extends Component {
       onPanResponderTerminationRequest: (evt, gestureState) => true,
 
       onPanResponderRelease: (evt, gestureState) => {
-        if (!this.props.active) {
-          clearTimeout(this.activeTO)
-        } else {
-          if (this.state.trashable) {
-            return this.props.trashPhoto()
-          }
+        // if (!this.state.active) {
+          // clearTimeout(this.activeTO)
+        // } else {
           this.props.toggleActive()
+          if (this.state.trashable) {
+            return this.props.trashPhoto(this.props.photo)
+          }
           Animated.spring(this.state.offset, {
-            toValue: this.props.targetPositions[this.props.idx]
+            toValue: this.props.targetPosition
           }).start(() => this.setState({active: false}))
-        }
+        // }
       },
 
       onShouldBlockNativeResponder: (evt, gestureState) => {
@@ -104,8 +109,9 @@ export default class CurrentPhotoView extends Component {
 
   render() {
     const { props, state } = this
+    if (props.idx == 1) {console.log(props.targetPosition)}
     return (
-        <Animated.Image source={{uri: props.photo.url}}
+        <Animated.Image source={{uri: props.source}}
                {...this._panResponder.panHandlers}
                style={[
                  props.style,

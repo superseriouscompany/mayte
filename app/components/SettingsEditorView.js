@@ -44,11 +44,11 @@ export default (props) => {
       {/* PHOTOS */}
       <View>
         {props.crop ? <Image style={{width: screenWidth / 2, height: screenHeight / 2}} resizeMode='cover' source={{uri: props.crop.path}} /> : null}
-        <View style={[style.padded]}>
+        <View style={[style.padded, {zIndex: 100}]}>
           <View style={[style.sectionHeader]}>
             <Text style={[style.sectionHeaderLabel]}>PHOTOS</Text>
-            <Text style={[style.sectionHeaderSublabel]}>{props.user.photos.length}/10</Text>
-            <View style={[style.trashBin, {transform: [{scale: props.trashReady ? 1 : 0.8}]}]}
+            <Text style={[style.sectionHeaderSublabel]}>{props.photoBin.length}/10</Text>
+            <View style={[style.trashBin, {opacity: props.rearrangingPhotos ? 1 : 0, transform: [{scale: props.trashReady ? 1 : 0.8}]}]}
                   ref={(el) => trash = el}
                   onLayout={(e) => {
                     trash.measure((x, y, width, height, pageX, pageY) => {
@@ -56,16 +56,10 @@ export default (props) => {
                     })
                   }} />
           </View>
-          <CurrentPhotos photos={props.user.photos}
+          <CurrentPhotos photoBin={props.photoBin}
                          active={props.rearrangingPhotos}
                          trashArea={props.trashArea}
                          toggleTrashReady={props.toggleTrashReady}
-                         trashPhoto={(p) => {
-                           // const photos = props.user.photos.splice(idx, 1)
-                           const idx = props.user.photos.indexOf(p)
-                           props.user.photos.splice(idx, 1)
-                           props.setUser(props.user)
-                         }}
                          toggleActive={props.toggleRearrangingPhotos} />
         </View>
 

@@ -44,6 +44,7 @@ class SettingsEditor extends Component {
       showInstagramHandle: privacyOptions.showInstagramHandle || false,
       rearrangingPhotos: false,
       trashReady: false,
+      photoBin: props.user.photos.map(p => p.url)
     }
 
     this.save = this.save.bind(this)
@@ -107,6 +108,7 @@ class SettingsEditor extends Component {
     const { props, state } = this
     return(
       <SettingsEditorView {...props} {...state}
+                          photoBin={state.photoBin}
                           save={this.save}
                           options={this.options}
                           editImage={this.editImage}
