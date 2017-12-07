@@ -1,6 +1,8 @@
 import React, { Component } from 'react'
+import { BlurView } from 'react-native-blur'
 import RangeSlider from '../containers/RangeSlider'
 import { em } from '../constants/dimensions'
+import { mayteBlack } from '../constants/colors'
 import {
   StyleSheet,
   ScrollView,
@@ -24,19 +26,24 @@ export default class PreferencesView extends Component {
   render() {
     const { props, state } = this
     return(
-      <ScrollView contentContainerStyle={style.container} scrollEnabled={state.scrollEnabled}>
+      <ScrollView contentContainerStyle={style.container} bounces={false} scrollEnabled={state.scrollEnabled}>
+        <Image source={{uri: props.user.photos[0].url}} resizeMode='cover' style={style.background} />
+        <BlurView style={style.blur}
+                  blurType="light"
+                  blurAmount={10}
+                  viewRef={null/* required for Android */} />
         <TouchableOpacity onPress={() => props.viewProfile()}>
           <Image style={style.bubble} source={{uri: props.user.photos[0].url}} />
         </TouchableOpacity>
         <TouchableOpacity onPress={() => props.viewEditor()}>
-          <Text style={style.editCTA}>Edit Profile</Text>
+          <Text style={style.editCTA}>EDIT PROFILE</Text>
         </TouchableOpacity>
 
         <View style={style.preferences}>
           <View style={[style.preference]}>
             <View style={style.preferenceHeader}>
               <Text style={style.preferenceLabel}>Age Preference</Text>
-              <Text>{props.ageRange[0]} - {props.ageRange[1]}</Text>
+              <Text style={style.preferenceSetting}>{props.ageRange[0]} - {props.ageRange[1]}</Text>
             </View>
             <RangeSlider onUpdate={(pcts) =>
                            props.updateAgeRange(pcts.map(p => Math.round(p * (props.maxAge - props.minAge)) + props.minAge))
@@ -54,13 +61,14 @@ export default class PreferencesView extends Component {
           <View style={[style.preference]}>
             <View style={style.preferenceHeader}>
               <Text style={style.preferenceLabel}>Distance</Text>
-              <Text>{props.distance} miles away</Text>
+              <Text style={style.preferenceSetting}>{props.distance} miles away</Text>
             </View>
             <RangeSlider onUpdate={(pcts) => {
                            let d = Math.round(pcts[0] * (props.maxDistance - props.minDistance)) + props.minDistance
                            return props.updateDistance(d)
                          }}
                          numMarkers={1}
+                         debug={true}
                          minValue={props.minDistance}
                          maxValue={props.maxDistance}
                          values={[props.distance]}
@@ -72,8 +80,8 @@ export default class PreferencesView extends Component {
           </View>
         </View>
 
-        <TouchableOpacity onPress={props.logout}>
-          <Text style={style.logout}>Sign Out</Text>
+        <TouchableOpacity onPress={props.logout} style={[style.button]}>
+          <Text style={style.logout}>SIGN OUT</Text>
         </TouchableOpacity>
       </ScrollView>
     )
@@ -86,6 +94,18 @@ const style = StyleSheet.create({
     paddingTop: em(4),
     alignItems: 'center',
   },
+  background: {
+    position: 'absolute',
+    top: 0, bottom: 0,
+    left: 0, right: 0,
+    opacity: 0.3,
+  },
+  blur: {
+    position: 'absolute',
+    top: 0, left: 0, bottom: 0, right: 0,
+    borderWidth: 0,
+    opacity: 0.8,
+  },
   bubble: {
     width: bubbleDiameter,
     height: bubbleDiameter,
@@ -93,11 +113,14 @@ const style = StyleSheet.create({
   },
   editCTA: {
     paddingTop: em(1.66),
-    fontSize: em(1.66),
+    fontSize: em(1),
+    fontFamily: 'Gotham-Medium',
+    letterSpacing: em(0.1),
+    backgroundColor: 'transparent',
   },
   preferences: {
     width: '100%',
-    paddingTop: em(2),
+    paddingTop: em(3),
     paddingLeft: em(1),
     paddingRight: em(1),
   },
@@ -113,11 +136,31 @@ const style = StyleSheet.create({
   },
   preferenceLabel: {
     fontSize: em(1.33),
+    fontFamily: 'Gotham-Medium',
+    backgroundColor: 'transparent',
   },
-
+  preferenceSetting: {
+    backgroundColor: 'transparent',
+    fontFamily: 'Gotham-Book',
+  },
+  button: {
+    paddingTop: em(1.2),
+    paddingBottom: em(1.2),
+    paddingLeft: em(3.66),
+    paddingRight: em(3.66),
+    borderRadius: em(0.33),
+    shadowRadius: 4,
+    shadowOffset: {width: 2, height: 2},
+    shadowColor: 'rgba(0,0,0,1)',
+    backgroundColor: mayteBlack(0.9),
+    marginBottom: em(5),
+    marginTop: em(1),
+  },
   logout: {
     textAlign: 'center',
-    marginTop: em(2),
-    marginBottom: em(2),
+    fontFamily: 'Gotham-Book',
+    fontSize: em(1),
+    letterSpacing: em(0.1),
+    color: 'white',
   },
 })
