@@ -319,8 +319,5 @@ const style = StyleSheet.create({
     height: em(1.66),
     width: em(1.66),
     marginLeft: em(0.33),
-    // position: 'absolute',
-    // bottom: 50,
-    // left: screenWidth * 0.5 - 25,
   },
 })

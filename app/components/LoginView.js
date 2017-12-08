@@ -15,7 +15,7 @@ export default function(props) {
     <View style={style.container}>
       <Image style={[style.cover]}
              resizeMode="cover"
-             source={{url: "https://scontent-lax3-1.cdninstagram.com/t51.2885-15/sh0.08/e35/p640x640/14590945_592060144325067_9110004373622095872_n.jpg%20640w,https://scontent-lax3-1.cdninstagram.com/t51.2885-15/sh0.08/e35/p750x750/14590945_592060144325067_9110004373622095872_n.jpg%20750w,https://scontent-lax3-1.cdninstagram.com/t51.2885-15/e35/14590945_592060144325067_9110004373622095872_n.jpg"}} />
+             source={require('../images/login.jpg')} />
       <View style={style.overlay} />
 
       <Image style={[style.logo]}
