@@ -48,7 +48,7 @@ class SettingsEditor extends Component {
       rearrangingPhotos: false,
       trashReady: false,
       scrollEnabled: true,
-      photoBin: props.user.photos.map(p => p.url)
+      photoBin: props.user.photos.map(p => new Object({uri: p.url}))
     }
 
     this.save = this.save.bind(this)
@@ -57,6 +57,7 @@ class SettingsEditor extends Component {
     this.editImage = this.editImage.bind(this)
     this.cancelEdit = this.cancelEdit.bind(this)
     this.getFromCameraRoll = this.getFromCameraRoll.bind(this)
+    this.pushToPhotoBin = this.pushToPhotoBin.bind(this)
   }
 
   save() {
@@ -104,8 +105,8 @@ class SettingsEditor extends Component {
     return this.cropImage(img)
       .then(d => {
         let user = this.props.user
-        user.photos.push({url: d.path})
-        return this.props.setUser(user)
+        return this.pushToPhotoBin(d.path)
+        // return this.props.setUser(user)
       })
       .catch(err => {alert(err); return console.error(err)})
   }
@@ -116,18 +117,22 @@ class SettingsEditor extends Component {
   }
 
   getFromCameraRoll() {
-    console.log("getting cam roll")
     CameraRoll.getPhotos({first: 20})
       .then(r => {
         let edges = this.state.cameraRollEdges
         r.edges.forEach(e => edges.push(e))
         this.setState({cameraRollOpen: true, cameraRollEdges: edges, scrollEnabled: false})
-        console.log(r)
       })
       .catch(e => {
         console.error("Error loading images")
         alert(e)
       })
+  }
+
+  pushToPhotoBin(uri) {
+    let photoBin = this.state.photoBin
+    photoBin.push({uri: uri})
+    this.setState({photoBin: photoBin})
   }
 
   render() {
@@ -140,6 +145,7 @@ class SettingsEditor extends Component {
                           options={this.options}
                           editImage={this.editImage}
                           getFromCameraRoll={this.getFromCameraRoll}
+                          pushToPhotoBin={this.pushToPhotoBin}
                           closeCameraRoll={() => this.setState({cameraRollOpen: false, scrollEnabled: true})}
                           setBio={text => this.setState({bio: text})}
                           setDob={date => this.setState({dob: date})}

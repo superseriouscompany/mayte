@@ -35,8 +35,11 @@ export default class CurrentPhotos extends Component {
   //   }
   // }
 
-  componentDidUpdate() {
+  componentDidUpdate(prevProps) {
     // this.bindPanResponders()
+    if (prevProps.photoBin.length != this.props.photoBin.length) {
+      this.setState({targetPositions: this.calculateTargets(this.props.photoBin)})
+    }
   }
 
   componentDidMount() {
@@ -74,7 +77,7 @@ export default class CurrentPhotos extends Component {
           props.photoBin.map((p,i,a) => {
             return(
               <CurrentPhotoView key={i}
-                                source={p}
+                                source={p.uri}
                                 {...props}
                                 style={style.thumbnail}
                                 targetPosition={ state.targetPositions[i] } />

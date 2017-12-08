@@ -47,7 +47,11 @@ export default class CameraRollView extends Component {
           {
             props.cameraRollEdges.map((e,i) => {
               return(
-                <TouchableOpacity key={i} style={[style.thumbnail]}>
+                <TouchableOpacity key={i} style={[style.thumbnail]}
+                                  onPress={() => {
+                                    props.pushToPhotoBin(e.node.image.uri)
+                                    this.close()
+                                  }} >
                   <Image resizeMode='cover'
                          style={{width: '100%', height: '100%'}}
                          source={{uri: e.node.image.uri}} />

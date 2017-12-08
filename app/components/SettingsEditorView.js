@@ -185,6 +185,7 @@ export default (props) => {
       {
         props.cameraRollOpen ?
         <CameraRoll cameraRollOpen={props.cameraRollOpen}
+                    pushToPhotoBin={props.pushToPhotoBin}
                     cameraRollEdges={props.cameraRollEdges}
                     closeCameraRoll={props.closeCameraRoll} /> :
         null
