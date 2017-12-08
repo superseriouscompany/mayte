@@ -13,13 +13,15 @@ class Settings extends Component {
       loading: true,
       updatingBio: false,
       updatingDob: false,
+      baseScene: 'Preferences',
     }
-    this.activate     = this.activate.bind(this)
-    this.deactivate   = this.deactivate.bind(this)
-    this.updatePhotos = this.updatePhotos.bind(this)
-    this.updateBio    = this.updateBio.bind(this)
-    this.updateDob    = this.updateDob.bind(this)
-    this.hydrateUser  = this.hydrateUser.bind(this)
+    this.activate        = this.activate.bind(this)
+    this.deactivate      = this.deactivate.bind(this)
+    this.updatePhotos    = this.updatePhotos.bind(this)
+    this.updateBio       = this.updateBio.bind(this)
+    this.updateDob       = this.updateDob.bind(this)
+    this.hydrateUser     = this.hydrateUser.bind(this)
+    this.updateBaseScene = this.updateBaseScene.bind(this)
   }
 
   activate(instagramId) {
@@ -94,6 +96,10 @@ class Settings extends Component {
     this.hydrateUser()
   }
 
+  updateBaseScene(name) {
+    this.setState({baseScene: name})
+  }
+
   hydrateUser(reload = true) {
     var user;
     if (reload) this.setState({loading: true});
@@ -117,7 +123,8 @@ class Settings extends Component {
     return (
       <SettingsView {...this.state}
                     {...this.props}
-                    scene={{view:'Preferences'}}
+                    // scene={{view:'Preferences'}}
+                    updateBaseScene={this.updateBaseScene}
                     hydrateUser={this.hydrateUser}
                     setBio={text => this.setState({bio: text})}
                     setDob={date => this.setState({dob: date})}
@@ -142,22 +149,10 @@ function mapDispatchToProps(dispatch) {
     logout: () => {
       dispatch({type: 'user:destroy'})
     },
-    viewProfile: () => {
+    viewSettingsPage: (view) => {
       dispatch({type: 'scene:change', scene: {
         name: 'Settings',
-        view: 'Profile',
-      }})
-    },
-    viewEditor: () => {
-      dispatch({type: 'scene:change', scene: {
-        name: 'Settings',
-        view: 'Editor',
-      }})
-    },
-    viewPreferences: () => {
-      dispatch({type: 'scene:change', scene: {
-        name: 'Settings',
-        view: 'Preferences',
+        view: view,
       }})
     },
     setUser: (user) => {

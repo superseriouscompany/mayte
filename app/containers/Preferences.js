@@ -23,6 +23,10 @@ export default class Preferences extends Component {
     this.updatePreferences = this.updatePreferences.bind(this)
   }
 
+  componentDidMount() {
+    this.props.updateBaseScene('Preferences')
+  }
+
   updatePreferences() {
     api('/users/me', {
       method: 'PATCH',

@@ -32,10 +32,10 @@ export default class PreferencesView extends Component {
                   blurType="light"
                   blurAmount={10}
                   viewRef={null/* required for Android */} />
-        <TouchableOpacity onPress={() => props.viewProfile()}>
+        <TouchableOpacity onPress={() => props.viewSettingsPage('Profile')}>
           <Image style={style.bubble} source={{uri: props.user.photos[0].url}} />
         </TouchableOpacity>
-        <TouchableOpacity onPress={() => props.viewEditor()}>
+        <TouchableOpacity onPress={() => props.viewSettingsPage('Editor')}>
           <Text style={style.editCTA}>EDIT PROFILE</Text>
         </TouchableOpacity>
 

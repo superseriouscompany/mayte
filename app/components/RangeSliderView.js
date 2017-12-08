@@ -46,13 +46,11 @@ export default class RangeSliderView extends Component {
         },
 
         onPanResponderMove: (evt, gestureState) => {
-          let anim
-
           let value = this.state[`${i}OGX`] + gestureState.dx
           if (value < 0) {value = 0}
           if (value > this.state.trackDims.width) {value = this.state.trackDims.width}
 
-          anim = Animated.spring(this.state[`${i}X`], {
+          Animated.spring(this.state[`${i}X`], {
             toValue: value,
             stiffness: 250,
             overshootClamping: true,

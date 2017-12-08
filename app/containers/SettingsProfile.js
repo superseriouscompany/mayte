@@ -14,10 +14,10 @@ export default class SettingsProfile extends Component {
     return(
       <View style={style.container}>
         <View style={[{height: matchHeaderHeight, paddingTop: statusBarHeight, flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between'}]}>
-          <TouchableOpacity onPress={props.viewPreferences}>
+          <TouchableOpacity onPress={() => props.viewSettingsPage('Preferences')}>
             <Text>Preferences</Text>
           </TouchableOpacity>
-          <TouchableOpacity onPress={props.viewEditor}>
+          <TouchableOpacity onPress={() => props.viewSettingsPage('Editor')}>
             <Text>Editor</Text>
           </TouchableOpacity>
         </View>

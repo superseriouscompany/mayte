@@ -33,7 +33,7 @@ export default (props) => {
     <ScrollView style={[style.container, {backgroundColor: mayteBlack()}]}
                 scrollEnabled={!props.rearrangingPhotos}>
       <View style={[style.header, style.padded]}>
-        <TouchableOpacity>
+        <TouchableOpacity onPress={props.cancelEdit}>
           <Text style={[style.headerBtn]}>CANCEL</Text>
         </TouchableOpacity>
         <TouchableOpacity onPress={props.saving ? null : props.save}>

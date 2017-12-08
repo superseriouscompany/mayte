@@ -51,6 +51,7 @@ class SettingsEditor extends Component {
     this.setPrivacyOption = this.setPrivacyOption.bind(this)
     this.cropImage = this.cropImage.bind(this)
     this.editImage = this.editImage.bind(this)
+    this.cancelEdit = this.cancelEdit.bind(this)
   }
 
   save() {
@@ -73,7 +74,7 @@ class SettingsEditor extends Component {
     }).then(() => {
       this.setState({saving: false})
       this.props.hydrateUser()
-      this.props.viewProfile()
+      this.props.viewSettingsPage('Profile')
     }).catch((err) => {
       alert(err.message || err)
       console.error(err)
@@ -104,12 +105,18 @@ class SettingsEditor extends Component {
       .catch(err => {alert(err); return console.error(err)})
   }
 
+  cancelEdit() {
+    // TODO: Alert user if they about to lose all that throbbing hard work
+    this.props.viewSettingsPage(this.props.baseScene)
+  }
+
   render() {
     const { props, state } = this
     return(
       <SettingsEditorView {...props} {...state}
                           photoBin={state.photoBin}
                           save={this.save}
+                          cancelEdit={this.cancelEdit}
                           options={this.options}
                           editImage={this.editImage}
                           setBio={text => this.setState({bio: text})}
