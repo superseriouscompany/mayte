@@ -21,7 +21,7 @@ RangeSlider.defaultProps = {
   numMarkers: 2,
   values: [0,0],
   trackHeight: 3,
-  markerDiameter: 30,
+  markerDiameter: 20,
   trackColor: '#000',
   markerFill: '#000',
   markerStroke: '#000',

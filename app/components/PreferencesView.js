@@ -51,6 +51,7 @@ export default class PreferencesView extends Component {
                          minValue={props.minAge}
                          maxValue={props.maxAge}
                          values={props.ageRange}
+                         markerDiameter={em(1.33)}
                          onGestureStart={() => this.setState({scrollEnabled: false})}
                          onGestureEnd={() => {
                            this.setState({scrollEnabled: true})
@@ -69,6 +70,7 @@ export default class PreferencesView extends Component {
                          }}
                          numMarkers={1}
                          debug={true}
+                         markerDiameter={em(1.33)}
                          minValue={props.minDistance}
                          maxValue={props.maxDistance}
                          values={[props.distance]}

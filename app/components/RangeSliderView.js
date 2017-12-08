@@ -12,14 +12,9 @@ export default class RangeSliderView extends Component {
     super(props)
 
     this._panHandlers = {}
-    this.state = {
-      poopX: new Animated.Value(0)
-    }
+    this.state = {}
 
     this.calculatePositions = this.calculatePositions.bind(this)
-  }
-
-  componentDidMount() {
   }
 
   componentDidUpdate(prevProps, prevState) {
@@ -46,50 +41,28 @@ export default class RangeSliderView extends Component {
         onPanResponderGrant: (evt, gestureState) => {
           this.props.onGestureStart()
           let state = this.state
-          // state[`mRes${i}`].ogx = state[`mRes${i}`].x._value
-          // this.setState(state)
-          // let rando = Math.random() * this.state.trackDims.width
-          // console.log('RANDO', rando)
-          // Animated.spring(this.state[`${i}X`], {
-          //   // toValue: this.state[`mRes${i}`].ogx + gestureState.dx
-          //   toValue: 100
-          // }).start(() => console.log(this.state[`${i}X`]))
           state[`${i}OGX`] = state[`${i}X`]._value
           this.setState(state)
         },
 
         onPanResponderMove: (evt, gestureState) => {
-          // return
           let anim
-          // state[`mRes${i}`].x = state[`mRes${i}`].ogx + gestureState.dx
+
+          let value = this.state[`${i}OGX`] + gestureState.dx
+          if (value < 0) {value = 0}
+          if (value > this.state.trackDims.width) {value = this.state.trackDims.width}
+
           anim = Animated.spring(this.state[`${i}X`], {
-            // toValue: this.state[`mRes${i}`].ogx + gestureState.dx
-            toValue: this.state[`${i}OGX`] + gestureState.dx
-          })
-
-          // if (this.state[`${i}X`]._value > this.state.trackDims.width) { // Too high
-          //     anim = Animated.spring(this.state[`${i}X`], {
-          //       toValue: state.trackDims.width
-          //     })
-          //     // state[`mRes${i}`].x = state.trackDims.width
-          // }
-          // if (this.state[`${i}X`]._value < 0) { // Too low
-          //     anim = Animated.spring(this.state[`${i}X`], {
-          //       toValue: 0
-          //     })
-          //     // state[`mRes${i}`].x = 0
-          // }
-
-          // this.setState(state)
-          anim.start(
-            // () => this.props.onUpdate(this.calculatePositions())
-          )
+            toValue: value,
+            stiffness: 250,
+            overshootClamping: true,
+          }).start(() => this.props.onUpdate(this.calculatePositions()))
         },
 
         onPanResponderTerminationRequest: (evt, gestureState) => true,
 
         onPanResponderRelease: (evt, gestureState) => {
-          // this.props.onGestureEnd()
+          this.props.onGestureEnd()
         },
 
         onShouldBlockNativeResponder: (evt, gestureState) => {
@@ -99,32 +72,11 @@ export default class RangeSliderView extends Component {
         },
       })
     }
-
-    this.poopHandler = PanResponder.create({
-      onStartShouldSetPanResponder: (evt, gestureState) => true,
-      onStartShouldSetPanResponderCapture: (evt, gestureState) => true,
-      onMoveShouldSetPanResponder: (evt, gestureState) => true,
-      onMoveShouldSetPanResponderCapture: (evt, gestureState) => true,
-      onPanResponderGrant: (evt, gestureState) => {
-        console.log("poop granted")
-        // Animated.spring(this.state.poopX, {
-        //   toValue: Math.random() * this.state.trackDims.width
-        // }).start()
-        let s = this.state
-        s['poopOGX'] = this.state.poopX._value
-        this.setState(s)
-      },
-      onPanResponderMove: (evt, gestureState) => {
-        Animated.spring(this.state.poopX, {
-          toValue: this.state.poopOGX + gestureState.dx
-        }).start()
-      }
-    })
   }
 
   calculatePositions() {
     const { trackDims } = this.state
-    const percents = Object.keys(this.panHandlers).map((k,i) => {
+    const percents = Object.keys(this._panHandlers).map((k,i) => {
       return this.state[`${i}X`]._value / trackDims.width
     })
     return percents.sort()
@@ -133,7 +85,6 @@ export default class RangeSliderView extends Component {
   render() {
     const { props, state } = this
     const fullDiameter = props.markerDiameter + props.markerStrokeWidth
-    if (props.debug) {console.log(state)}
     return(
       <View style={{
               width: '100%',
@@ -150,57 +101,26 @@ export default class RangeSliderView extends Component {
               onLayout={(e) => this.setState({trackDims: e.nativeEvent.layout})} />
         { !state.trackDims ? null :
           Object.keys(this._panHandlers).map((m,i) => {
-            // const startPct = new Animated.Value(((props.values[i] - props.minValue) / (props.maxValue - props.minValue)) * state.trackDims.width)
             return( !state[`${i}X`] ? null :
               <Animated.View
                 {...this._panHandlers[m].panHandlers}
                 key={i}
-                onLayout={(e) => {
-                  // let s = this.state
-                  // // for (let i = 0; i < this.props.numMarkers; i++) {
-                  //   s[`${i}X`] = new Animated.Value((this.props.values[i] - this.props.minValue) / (this.props.maxValue - this.props.minValue) * s.trackDims.width)
-                  // // }
-                  // this.setState(s)
-                }}
+                ref={(el) => this[`marker${i}`] = el}
                 style={{
-                  position: 'absolute',
-                  // top: 0,
+                  top: 0,
                   left: state[`${i}X`],
+                  position: 'absolute',
                   width: props.markerDiameter,
                   height: props.markerDiameter,
-                  // borderRadius: props.markerDiameter * 0.5,
+                  borderColor: props.markerStroke,
                   backgroundColor: props.markerFill,
-                  // borderColor: props.markerStroke,
-                  // borderWidth: props.markerStrokeWidth,
+                  borderWidth: props.markerStrokeWidth,
+                  borderRadius: props.markerDiameter * 0.5,
                 }} />
             )
           })
-        }
-        {
-          !state.trackDims ? null :
-          <Animated.View
-            {...this.poopHandler.panHandlers}
-            onLayout={() => {
-              // let s = this.state
-              // let v = (this.props.values[0] - this.props.minValue) / (this.props.maxValue - this.props.minValue) * s.trackDims.width
-              // console.log("POOOOP", v)
-              // s.poopX = Animated.add(state.poopX, v)
-              // this.setState(s)
-            }}
-            style={{
-              position: 'absolute',
-              top: '100%',
-              left: state['poopX'],
-              width: 40,
-              height: 40,
-              backgroundColor: 'pink',
-            }} />
         }
       </View>
     )
   }
 }
-
-const style = StyleSheet.create({
-
-})
