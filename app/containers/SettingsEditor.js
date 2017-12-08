@@ -4,6 +4,7 @@ import { screenWidth, screenHeight } from '../constants/dimensions'
 import api from '../services/api'
 import ImagePicker from 'react-native-image-crop-picker'
 import {
+  CameraRoll,
   ImageEditor,
 } from 'react-native'
 
@@ -42,8 +43,11 @@ class SettingsEditor extends Component {
       showOccupation: privacyOptions.showOccupation || false,
       showInstagramFeed: privacyOptions.showInstagramFeed || false,
       showInstagramHandle: privacyOptions.showInstagramHandle || false,
+      cameraRollOpen: false,
+      cameraRollEdges: [],
       rearrangingPhotos: false,
       trashReady: false,
+      scrollEnabled: true,
       photoBin: props.user.photos.map(p => p.url)
     }
 
@@ -52,6 +56,7 @@ class SettingsEditor extends Component {
     this.cropImage = this.cropImage.bind(this)
     this.editImage = this.editImage.bind(this)
     this.cancelEdit = this.cancelEdit.bind(this)
+    this.getFromCameraRoll = this.getFromCameraRoll.bind(this)
   }
 
   save() {
@@ -110,6 +115,21 @@ class SettingsEditor extends Component {
     this.props.viewSettingsPage(this.props.baseScene)
   }
 
+  getFromCameraRoll() {
+    console.log("getting cam roll")
+    CameraRoll.getPhotos({first: 20})
+      .then(r => {
+        let edges = this.state.cameraRollEdges
+        r.edges.forEach(e => edges.push(e))
+        this.setState({cameraRollOpen: true, cameraRollEdges: edges, scrollEnabled: false})
+        console.log(r)
+      })
+      .catch(e => {
+        console.error("Error loading images")
+        alert(e)
+      })
+  }
+
   render() {
     const { props, state } = this
     return(
@@ -119,12 +139,14 @@ class SettingsEditor extends Component {
                           cancelEdit={this.cancelEdit}
                           options={this.options}
                           editImage={this.editImage}
+                          getFromCameraRoll={this.getFromCameraRoll}
+                          closeCameraRoll={() => this.setState({cameraRollOpen: false, scrollEnabled: true})}
                           setBio={text => this.setState({bio: text})}
                           setDob={date => this.setState({dob: date})}
                           setOccupation={text => this.setState({occupation: text})}
                           setTrashArea={(layout) => this.setState({trashArea: layout})}
                           toggleTrashReady={() => this.setState({trashReady: !state.trashReady})}
-                          toggleRearrangingPhotos={() => this.setState({rearrangingPhotos: !state.rearrangingPhotos})}
+                          toggleRearrangingPhotos={() => this.setState({rearrangingPhotos: !state.rearrangingPhotos, scrollEnabled: !state.scrollEnabled})}
                           setPrivacyOption={this.setPrivacyOption} />
     )
   }

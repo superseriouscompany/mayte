@@ -3,6 +3,7 @@ import moment from 'moment'
 import { mayteBlack } from '../constants/colors'
 import DatePicker from 'react-native-datepicker'
 import CurrentPhotos from '../containers/CurrentPhotos'
+import CameraRoll from '../containers/CameraRoll'
 import {
   em,
   statusBarHeight,
@@ -31,7 +32,7 @@ export default (props) => {
 
   return(
     <ScrollView style={[style.container, {backgroundColor: mayteBlack()}]}
-                scrollEnabled={!props.rearrangingPhotos}>
+                scrollEnabled={props.scrollEnabled}>
       <View style={[style.header, style.padded]}>
         <TouchableOpacity onPress={props.cancelEdit}>
           <Text style={[style.headerBtn]}>CANCEL</Text>
@@ -103,7 +104,7 @@ export default (props) => {
           <Text style={[style.photoSelectLabel, {textAlign: 'center', color: 'white'}]}>
             SELECT FROM CAMERA ROLL
           </Text>
-          <TouchableOpacity>
+          <TouchableOpacity onPress={props.getFromCameraRoll}>
             <View style={[style.cameraRollBtn]}>
               <Text style={{fontSize: em(1.5), color: 'white', height: em(2)}}>+</Text>
             </View>
@@ -180,6 +181,14 @@ export default (props) => {
           <Text style={[style.text]}>View Preferences</Text>
         </TouchableOpacity>
       </View>
+
+      {
+        props.cameraRollOpen ?
+        <CameraRoll cameraRollOpen={props.cameraRollOpen}
+                    cameraRollEdges={props.cameraRollEdges}
+                    closeCameraRoll={props.closeCameraRoll} /> :
+        null
+      }
     </ScrollView>
   )
 }

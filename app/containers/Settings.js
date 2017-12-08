@@ -123,7 +123,7 @@ class Settings extends Component {
     return (
       <SettingsView {...this.state}
                     {...this.props}
-                    // scene={{view:'Preferences'}}
+                    scene={{view:'Editor'}}
                     updateBaseScene={this.updateBaseScene}
                     hydrateUser={this.hydrateUser}
                     setBio={text => this.setState({bio: text})}

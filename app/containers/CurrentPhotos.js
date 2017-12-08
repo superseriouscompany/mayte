@@ -75,13 +75,9 @@ export default class CurrentPhotos extends Component {
             return(
               <CurrentPhotoView key={i}
                                 source={p}
-                                // {...this.panResponders[i].panHandlers}
+                                {...props}
                                 style={style.thumbnail}
-                                targetPosition={ state.targetPositions[i] }
-                                scale={state.scale}
-                                toggleActive={props.toggleActive}
-                                trashArea={props.trashArea}
-                                style={style.thumbnail} />
+                                targetPosition={ state.targetPositions[i] } />
             )
           })
         }
