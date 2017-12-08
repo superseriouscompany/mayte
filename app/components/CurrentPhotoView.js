@@ -13,7 +13,6 @@ export default class CurrentPhotoView extends Component {
     super(props)
     this.state = {
       offset: new Animated.ValueXY(props.targetPosition),
-      // opacity: new Animated.Value(1),
       scale: new Animated.Value(1),
       size: new Animated.Value(props.thumbWidth),
       trashable: false,
@@ -46,9 +45,11 @@ export default class CurrentPhotoView extends Component {
       onPanResponderGrant: (evt, gestureState) => {
         // this.setState({active: true})
         // this.activeTO = setTimeout(() => {
+          this.props.toggleActive()
           this.startX = this.props.targetPosition.x
           this.startY = this.props.targetPosition.y
-          this.props.toggleActive()
+          console.log("TARGET", this.props.targetPosition, this.startX, this.startY)
+          this.setState({active: true, offset: new Animated.ValueXY(this.startX, this.startY)})
         // }, 500)
       },
 
@@ -109,15 +110,19 @@ export default class CurrentPhotoView extends Component {
 
   render() {
     const { props, state } = this
-    if (props.idx == 1) {console.log(props.targetPosition)}
+    // if (props.idx == 1) {console.log(props.targetPosition)}
     return (
         <Animated.Image source={{uri: props.source}}
                {...this._panResponder.panHandlers}
                style={[
                  props.style,
                  {
-                   left: state.offset.x,
-                   top: state.offset.y,
+                   // left: state.offset.x,
+                   // top: state.offset.y,
+                   // left: props.targetPosition.x,
+                   // top: props.targetPosition.y,
+                   left: state.active ? state.offset.x : ((screenWidth * 0.1) + em(0.33)) * props.idx,
+                   top: state.active ? state.offset.y : 0,
                    transform: [
                      {scale: state.scale},
                    ],

@@ -104,8 +104,8 @@ class SettingsEditor extends Component {
   editImage(img) {
     return this.cropImage(img)
       .then(d => {
-        let user = this.props.user
         return this.pushToPhotoBin(d.path)
+        // let user = this.props.user
         // return this.props.setUser(user)
       })
       .catch(err => {alert(err); return console.error(err)})
@@ -130,7 +130,7 @@ class SettingsEditor extends Component {
   }
 
   pushToPhotoBin(uri) {
-    let photoBin = this.state.photoBin
+    const photoBin = this.state.photoBin.map(p => p)
     photoBin.push({uri: uri})
     this.setState({photoBin: photoBin})
   }
@@ -139,7 +139,6 @@ class SettingsEditor extends Component {
     const { props, state } = this
     return(
       <SettingsEditorView {...props} {...state}
-                          photoBin={state.photoBin}
                           save={this.save}
                           cancelEdit={this.cancelEdit}
                           options={this.options}

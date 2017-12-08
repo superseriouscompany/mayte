@@ -35,7 +35,6 @@ export default class CameraRollView extends Component {
 
   render() {
     const { props, state } = this
-    console.log("PROPS", props)
     return (
       <Animated.ScrollView style={[style.container, {top: state.top}]}>
         <View style={style.centered}>

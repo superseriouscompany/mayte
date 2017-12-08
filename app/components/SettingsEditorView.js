@@ -49,13 +49,19 @@ export default (props) => {
           <View style={[style.sectionHeader]}>
             <Text style={[style.sectionHeaderLabel]}>PHOTOS</Text>
             <Text style={[style.sectionHeaderSublabel]}>{props.photoBin.length}/10</Text>
-            <View style={[style.trashBin, {opacity: props.rearrangingPhotos ? 1 : 0, transform: [{scale: props.trashReady ? 1 : 0.8}]}]}
+            <View style={[style.trashBin, {opacity: props.rearrangingPhotos ? 1 : 0, /*transform: [{scale: props.trashReady ? 1 : 0.8}]*/}]}
                   ref={(el) => trash = el}
                   onLayout={(e) => {
                     trash.measure((x, y, width, height, pageX, pageY) => {
                       props.setTrashArea({pageX, pageY, width, height})
                     })
-                  }} />
+                  }}>
+              <Image source={props.trashReady ?
+                             require('../images/trash-open-white.png') :
+                             require('../images/trash-closed-white.png') }
+                     style={{width: '100%', height:'100%'}}
+                     resizeMode='contain' />
+            </View>
           </View>
           <CurrentPhotos photoBin={props.photoBin}
                          active={props.rearrangingPhotos}
@@ -170,16 +176,6 @@ export default (props) => {
           )
         })
       }
-      </View>
-
-      <View style={style.centered}>
-        <TouchableOpacity onPress={props.viewProfile}>
-          <Text style={[style.text]}>View Profile</Text>
-        </TouchableOpacity>
-        <Text style={[style.text]}>Editor</Text>
-        <TouchableOpacity onPress={props.viewPreferences}>
-          <Text style={[style.text]}>View Preferences</Text>
-        </TouchableOpacity>
       </View>
 
       {
@@ -320,9 +316,8 @@ const style = StyleSheet.create({
   optionSwitch: {},
 
   trashBin: {
-    height: em(1.2),
-    width: em(1.2),
-    backgroundColor: 'pink',
+    height: em(1.66),
+    width: em(1.66),
     marginLeft: em(0.33),
     // position: 'absolute',
     // bottom: 50,

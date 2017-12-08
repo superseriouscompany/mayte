@@ -19,26 +19,42 @@ export default class CurrentPhotos extends Component {
     this.panHandlers = {}
 
     this.state = {
-      active: false,
       targetPositions: this.calculateTargets(props.photoBin),
     }
     this.calculateTargets = this.calculateTargets.bind(this)
     this.trashPhoto = this.trashPhoto.bind(this)
   }
 
-  // componentWillReceiveProps(nextProps) {
-  //   if (nextProps.photos.length != this.state.photos.length) {
-  //     this.setState({
-  //       photos: nextProps.photos,
-  //       targetPositions: this.calculateTargets(nextProps.photos)
-  //     })
-  //   }
+  componentWillReceiveProps(nextProps) {
+    // console.log(
+    //   'Current PhotoBin:',
+    //   this.props.photoBin,
+    //   'Next PhotoBin:',
+    //   nextProps.photoBin
+    // )
+
+    // if (nextProps.photos.length != this.state.photos.length) {
+    //   this.setState({
+    //     photos: nextProps.photos,
+    //     targetPositions: this.calculateTargets(nextProps.photos)
+    //   })
+    // }
+  }
+
+  // componentDidUpdate(prevProps) {
+  //   console.log(
+  //     'Current PhotoBin:',
+  //     this.props.photoBin,
+  //     'Prev PhotoBin:',
+  //     prevProps.photoBin
+  //   )
   // }
 
-  componentDidUpdate(prevProps) {
+  componentWillUpdate(nextProps) {
     // this.bindPanResponders()
-    if (prevProps.photoBin.length != this.props.photoBin.length) {
-      this.setState({targetPositions: this.calculateTargets(this.props.photoBin)})
+    if (nextProps.photoBin.length != this.props.photoBin.length) {
+      // console.log("TARGETS", this.calculateTargets(nextProps.photoBin))
+      this.setState({targetPositions: this.calculateTargets(nextProps.photoBin)})
     }
   }
 
@@ -77,6 +93,7 @@ export default class CurrentPhotos extends Component {
           props.photoBin.map((p,i,a) => {
             return(
               <CurrentPhotoView key={i}
+                                idx={i}
                                 source={p.uri}
                                 {...props}
                                 style={style.thumbnail}
