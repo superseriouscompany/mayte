@@ -3,12 +3,14 @@
 import React, { Component } from 'react'
 import { mayteBlack }       from '../constants/colors'
 import {
+  ActivityIndicator,
   StyleSheet,
   Text,
   TouchableOpacity,
   View,
   Image,
 } from 'react-native'
+const bg = require('../images/LoginBG.jpg')
 
 export default function(props) {
   return (
@@ -18,17 +20,23 @@ export default function(props) {
              source={require('../images/login.jpg')} />
       <View style={style.overlay} />
 
-      <Image style={[style.logo]}
-             source={require('../images/logo-trans.png')}
-             resizeMode="contain" />
+      { props.loading ?
+        <ActivityIndicator size="large"/>
+      :
+        <View>
+          <Image style={[style.logo]}
+                 source={require('../images/logo-trans.png')}
+                 resizeMode="contain" />
 
-      <TouchableOpacity onPress={props.login} style={[style.button, {marginBottom: 40}]}>
-        <Text style={[style.buttonText]}>LOGIN WITH INSTAGRAM</Text>
-      </TouchableOpacity>
+          <TouchableOpacity onPress={props.login} style={[style.button, {marginBottom: 40}]}>
+            <Text style={[style.buttonText]}>LOGIN WITH INSTAGRAM</Text>
+          </TouchableOpacity>
 
-      <TouchableOpacity onPress={props.linkedinLogin} style={style.button}>
-        <Text style={[style.buttonText]}>LOGIN WITH LINKEDIN</Text>
-      </TouchableOpacity>
+          <TouchableOpacity onPress={props.linkedinLogin} style={style.button}>
+            <Text style={[style.buttonText]}>LOGIN WITH LINKEDIN</Text>
+          </TouchableOpacity>
+        </View>
+      }
     </View>
   )
 }

@@ -13,6 +13,7 @@ class Login extends Component {
     super(props)
     this.login  = this.login.bind(this)
     this.handle = this.handle.bind(this)
+    this.state = {}
   }
 
   componentDidMount() {
@@ -33,6 +34,8 @@ class Login extends Component {
     if( !matches ) {
       return console.warn('No access token provided', event && event.url)
     }
+
+    this.setState({loading: true})
 
     api('/users/me', {accessToken: matches[1]}).then((u) => {
       u.accessToken = matches[1]
@@ -78,7 +81,7 @@ class Login extends Component {
   }
 
   render() { return (
-    <LoginView linkedinLogin={this.linkedinLogin} login={this.login} {...this.props} />
+    <LoginView linkedinLogin={this.linkedinLogin} login={this.login} {...this.props} loading={this.state.loading}/>
   )}
 }
 

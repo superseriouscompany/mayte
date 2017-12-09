@@ -65,7 +65,8 @@ export default class SettingsEditorPhotos extends Component {
       if (ph != p) return ph
     })
     this.setState({
-      photoBin: newBin
+      photoBin: newBin,
+      trashReady: false,
     })
   }
 
