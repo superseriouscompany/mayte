@@ -30,7 +30,9 @@ export default class CurrentPhotoView extends Component {
 
   componentDidUpdate(prevProps) {
     if (prevProps.targetPosition != this.props.targetPosition) {
-      this.springToNewTarget(this.props.targetPosition)
+      if (!this.state.active) {
+        this.springToNewTarget(this.props.targetPosition)
+      }
     }
   }
 
@@ -51,13 +53,13 @@ export default class CurrentPhotoView extends Component {
       },
 
       onPanResponderMove: (evt, gestureState) => {
-        const { pageX, pageY } = evt.nativeEvent
-        const { trashX, trashY } = this.props.trashArea
-        this.props.handleMovement(pageX, pageY)
-        if (pageX >= trashX &&
-            pageX <= trashX + this.props.trashArea.width &&
-            pageY >= trashY &&
-            pageY <= trashY + this.props.trashArea.height) {
+        const { pageX: px, pageY: py } = evt.nativeEvent
+        const { pageX: tx, pageY: ty } = this.props.trashArea
+        this.props.handleMovement(px, py, this.props.idx)
+        if (px >= tx &&
+            px <= tx + this.props.trashArea.width &&
+            py >= ty &&
+            py <= ty + this.props.trashArea.height) {
           if (!this.state.trashable) {
             this.setState({trashable: true})
             this.props.toggleTrashReady()

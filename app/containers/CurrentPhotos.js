@@ -20,6 +20,8 @@ export default class CurrentPhotos extends Component {
 
     this.state = {
       targetPositions: this.calculateTargets(props.photoBin),
+      newTargets: this.calculateTargets(props.photoBin),
+      prevTargets: this.calculateTargets(props.photoBin),
     }
     this.calculateTargets = this.calculateTargets.bind(this)
     this.updateTargetPosition = this.updateTargetPosition.bind(this)
@@ -36,14 +38,11 @@ export default class CurrentPhotos extends Component {
   }
 
   componentDidMount() {
-    const tp = this.state.targetPositions
-    setTimeout(() => {
-      this.setState({
-        newTargets: tp.map((pos,i) => {
-          return tp[tp.length - i - 1]
-        })
-      })
-    },3000)
+    // this.setState({
+    //   newTargets: tp.map((pos,i) => {
+    //     return tp[tp.length - i - 1]
+    //   })
+    // })
   }
 
   trashPhoto(p) {
@@ -65,7 +64,7 @@ export default class CurrentPhotos extends Component {
     })
   }
 
-  handleMovement(pageX, pageY) {
+  handleMovement(pageX, pageY, index) {
     // console.log(pageX, pageY)
     var tp = this.state.targetPositions
     for (let i = 0; i < tp.length; i++) {
@@ -73,7 +72,10 @@ export default class CurrentPhotos extends Component {
           pageX <= tp[i].x + thumbWidth &&
           pageY >= this.contPageY &&
           pageY <= this.contPageY + thumbWidth) {
-          console.log("hovering over", i)
+          let state = this.state
+          state.newTargets[index] = tp[i]
+          state.newTargets[i] = tp[index]
+          this.setState(state)
       }
     }
   }
@@ -104,6 +106,7 @@ export default class CurrentPhotos extends Component {
                                 photo={p}
                                 style={style.thumbnail}
                                 handleMovement={this.handleMovement}
+                                targetPositions={state.targetPositions}
                                 targetPosition={ (state.newTargets || [])[i] || state.targetPositions[i] }
                                 updateTargetPosition={this.updateTargetPosition} />
             )
