@@ -2,8 +2,7 @@ import React, { Component } from 'react'
 import moment from 'moment'
 import { mayteBlack } from '../constants/colors'
 import DatePicker from 'react-native-datepicker'
-import CurrentPhotos from '../containers/CurrentPhotos'
-import CameraRoll from '../containers/CameraRoll'
+import SettingsEditorPhotos from '../containers/SettingsEditorPhotos'
 import {
   em,
   statusBarHeight,
@@ -43,80 +42,7 @@ export default (props) => {
       </View>
 
       {/* PHOTOS */}
-      <View>
-        {props.crop ? <Image style={{width: screenWidth / 2, height: screenHeight / 2}} resizeMode='cover' source={{uri: props.crop.path}} /> : null}
-        <View style={[style.padded, {zIndex: 100}]}>
-          <View style={[style.sectionHeader]}>
-            <Text style={[style.sectionHeaderLabel]}>PHOTOS</Text>
-            <Text style={[style.sectionHeaderSublabel]}>{props.photoBin.length}/10</Text>
-            <View style={[style.trashBin, {opacity: props.rearrangingPhotos ? 1 : 0, /*transform: [{scale: props.trashReady ? 1 : 0.8}]*/}]}
-                  ref={(el) => trash = el}
-                  onLayout={(e) => {
-                    trash.measure((x, y, width, height, pageX, pageY) => {
-                      props.setTrashArea({pageX, pageY, width, height})
-                    })
-                  }}>
-              <Image source={props.trashReady ?
-                             require('../images/trash-open-white.png') :
-                             require('../images/trash-closed-white.png') }
-                     style={{width: '100%', height:'100%'}}
-                     resizeMode='contain' />
-            </View>
-          </View>
-          <CurrentPhotos photoBin={props.photoBin}
-                         active={props.rearrangingPhotos}
-                         trashArea={props.trashArea}
-                         toggleTrashReady={props.toggleTrashReady}
-                         toggleActive={props.toggleRearrangingPhotos} />
-        </View>
-
-        <View>
-          <Text style={[style.photoSelectLabel, {textAlign: 'center', color: 'white'}]}>
-            SELECT FROM INSTAGRAM
-          </Text>
-          <ScrollView horizontal={true} showsHorizontalScrollIndicator={false}>
-            <View>
-              <View style={style.photoSelect}>
-              {
-                (props.user.availablePhotos.filter((p,i) => i%2===0) || []).map((p,i) => {
-                  return (
-                    <TouchableOpacity key={i} onPress={() => props.editImage(p.image)}>
-                      <Image style={[style.photoSelectImg]}
-                             resizeMode="cover"
-                             source={{url: p.image.url}} />
-                    </TouchableOpacity>
-                  )
-                })
-              }
-              </View>
-              <View style={style.photoSelect}>
-              {
-                (props.user.availablePhotos.filter((p,i) => i%2===1) || []).map((p,i) => {
-                  return (
-                    <TouchableOpacity key={i} onPress={() => props.editImage(p.image)}>
-                      <Image style={[style.photoSelectImg]}
-                             resizeMode="cover"
-                             source={{url: p.image.url}} />
-                    </TouchableOpacity>
-                  )
-                })
-              }
-              </View>
-            </View>
-          </ScrollView>
-        </View>
-
-        <View style={{alignItems: 'center'}}>
-          <Text style={[style.photoSelectLabel, {textAlign: 'center', color: 'white'}]}>
-            SELECT FROM CAMERA ROLL
-          </Text>
-          <TouchableOpacity onPress={props.getFromCameraRoll}>
-            <View style={[style.cameraRollBtn]}>
-              <Text style={{fontSize: em(1.5), color: 'white', height: em(2)}}>+</Text>
-            </View>
-          </TouchableOpacity>
-        </View>
-      </View>
+      <SettingsEditorPhotos {...props} />
 
 
       {/* INFO */}
@@ -178,14 +104,6 @@ export default (props) => {
       }
       </View>
 
-      {
-        props.cameraRollOpen ?
-        <CameraRoll cameraRollOpen={props.cameraRollOpen}
-                    pushToPhotoBin={props.pushToPhotoBin}
-                    cameraRollEdges={props.cameraRollEdges}
-                    closeCameraRoll={props.closeCameraRoll} /> :
-        null
-      }
     </ScrollView>
   )
 }
@@ -236,26 +154,6 @@ const style = StyleSheet.create({
     letterSpacing: em(0.1),
     marginLeft: em(0.66),
     marginTop: em(0.33),
-  },
-
-  photoSelect: {
-    flexDirection: 'row',
-    paddingLeft: em(1),
-    paddingRight: em(1),
-  },
-  photoSelectLabel: {
-    fontSize: em(1),
-    fontFamily: 'Gotham-Black',
-    letterSpacing: em(0.1),
-    paddingTop: em(2),
-    paddingBottom: em(1),
-  },
-  photoSelectImg: {
-    width: screenWidth * 0.25,
-    height: screenWidth * 0.25,
-    borderRadius: em(0.33),
-    marginBottom: em(0.33),
-    marginRight: em(0.33),
   },
 
   cameraRollBtn: {
@@ -314,10 +212,4 @@ const style = StyleSheet.create({
     letterSpacing: em(0.1),
   },
   optionSwitch: {},
-
-  trashBin: {
-    height: em(1.66),
-    width: em(1.66),
-    marginLeft: em(0.33),
-  },
 })
