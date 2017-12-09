@@ -19,20 +19,19 @@ export default class CurrentPhotoView extends Component {
       active: false,
     }
 
-    this.springToTarget = this.springToTarget.bind(this)
+    this.springToNewTarget = this.springToNewTarget.bind(this)
   }
 
-  springToTarget() {
+  springToNewTarget(target) {
     Animated.spring(this.state.offset, {
-      toValue: this.props.targetPosition
-    }).start()
+      toValue: target
+    }).start(() => this.setState({offset: new Animated.ValueXY(target)}))
   }
 
-  componentWillReceiveProps(nextProps) {
-    // console.log("I UPDATED", this.props.photo.url)
-    // if (nextProps.targetPosition != this.props.targetPosition) {
-    //   this.springToTarget()
-    // }
+  componentDidUpdate(prevProps) {
+    if (prevProps.targetPosition != this.props.targetPosition) {
+      this.springToNewTarget(this.props.targetPosition)
+    }
   }
 
   componentWillMount() {
@@ -43,28 +42,23 @@ export default class CurrentPhotoView extends Component {
       onMoveShouldSetPanResponderCapture: (evt, gestureState) => true,
 
       onPanResponderGrant: (evt, gestureState) => {
-        // this.setState({active: true})
-        // this.activeTO = setTimeout(() => {
-          this.props.toggleActive()
-          this.startX = this.props.targetPosition.x
-          this.startY = this.props.targetPosition.y
-          console.log("TARGET", this.props.targetPosition, this.startX, this.startY)
-          this.setState({active: true, offset: new Animated.ValueXY(this.startX, this.startY)})
-        // }, 500)
+        this.props.toggleActive()
+        this.startX = this.props.targetPosition.x
+        this.startY = this.props.targetPosition.y
+        this.setState({
+          active: true,
+        })
       },
 
       onPanResponderMove: (evt, gestureState) => {
-        // if (!this.state.active) return
-
-        // if (gestureState)
-        // console.log(evt.nativeEvent.pageX, evt.nativeEvent.pageY, this.props.trashArea)
-
-        if (evt.nativeEvent.pageX >= this.props.trashArea.pageX &&
-            evt.nativeEvent.pageX <= this.props.trashArea.pageX + this.props.trashArea.width &&
-            evt.nativeEvent.pageY >= this.props.trashArea.pageY &&
-            evt.nativeEvent.pageY <= this.props.trashArea.pageY + this.props.trashArea.height) {
+        const { pageX, pageY } = evt.nativeEvent
+        const { trashX, trashY } = this.props.trashArea
+        this.props.handleMovement(pageX, pageY)
+        if (pageX >= trashX &&
+            pageX <= trashX + this.props.trashArea.width &&
+            pageY >= trashY &&
+            pageY <= trashY + this.props.trashArea.height) {
           if (!this.state.trashable) {
-            console.log("trashable")
             this.setState({trashable: true})
             this.props.toggleTrashReady()
             Animated.timing(this.state.scale, {toValue: 0, duration: 500}).start()
@@ -87,17 +81,13 @@ export default class CurrentPhotoView extends Component {
       onPanResponderTerminationRequest: (evt, gestureState) => true,
 
       onPanResponderRelease: (evt, gestureState) => {
-        // if (!this.state.active) {
-          // clearTimeout(this.activeTO)
-        // } else {
-          this.props.toggleActive()
-          if (this.state.trashable) {
-            return this.props.trashPhoto(this.props.photo)
-          }
-          Animated.spring(this.state.offset, {
-            toValue: this.props.targetPosition
-          }).start(() => this.setState({active: false}))
-        // }
+        this.props.toggleActive()
+        if (this.state.trashable) {
+          return this.props.trashPhoto(this.props.photo)
+        }
+        Animated.spring(this.state.offset, {
+          toValue: this.props.targetPosition
+        }).start(() => this.setState({active: false}))
       },
 
       onShouldBlockNativeResponder: (evt, gestureState) => {
@@ -110,19 +100,14 @@ export default class CurrentPhotoView extends Component {
 
   render() {
     const { props, state } = this
-    // if (props.idx == 1) {console.log(props.targetPosition)}
     return (
         <Animated.Image source={{uri: props.source}}
                {...this._panResponder.panHandlers}
                style={[
                  props.style,
                  {
-                   // left: state.offset.x,
-                   // top: state.offset.y,
-                   // left: props.targetPosition.x,
-                   // top: props.targetPosition.y,
-                   left: state.active ? state.offset.x : ((screenWidth * 0.1) + em(0.33)) * props.idx,
-                   top: state.active ? state.offset.y : 0,
+                   left: state.offset.x,
+                   top: state.offset.y,
                    transform: [
                      {scale: state.scale},
                    ],

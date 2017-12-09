@@ -22,47 +22,28 @@ export default class CurrentPhotos extends Component {
       targetPositions: this.calculateTargets(props.photoBin),
     }
     this.calculateTargets = this.calculateTargets.bind(this)
+    this.updateTargetPosition = this.updateTargetPosition.bind(this)
     this.trashPhoto = this.trashPhoto.bind(this)
+    this.handleMovement = this.handleMovement.bind(this)
   }
-
-  componentWillReceiveProps(nextProps) {
-    // console.log(
-    //   'Current PhotoBin:',
-    //   this.props.photoBin,
-    //   'Next PhotoBin:',
-    //   nextProps.photoBin
-    // )
-
-    // if (nextProps.photos.length != this.state.photos.length) {
-    //   this.setState({
-    //     photos: nextProps.photos,
-    //     targetPositions: this.calculateTargets(nextProps.photos)
-    //   })
-    // }
-  }
-
-  // componentDidUpdate(prevProps) {
-  //   console.log(
-  //     'Current PhotoBin:',
-  //     this.props.photoBin,
-  //     'Prev PhotoBin:',
-  //     prevProps.photoBin
-  //   )
-  // }
 
   componentWillUpdate(nextProps) {
     // this.bindPanResponders()
     if (nextProps.photoBin.length != this.props.photoBin.length) {
-      // console.log("TARGETS", this.calculateTargets(nextProps.photoBin))
+      console.log("NEW BIN ALURT")
       this.setState({targetPositions: this.calculateTargets(nextProps.photoBin)})
     }
   }
 
   componentDidMount() {
-    // this.setState({
-    //   photos: this.props.photos.map(p => {console.log(p.url); return p.url}),
-    //   targetPositions: this.calculateTargets(this.props.photos)
-    // })
+    const tp = this.state.targetPositions
+    setTimeout(() => {
+      this.setState({
+        newTargets: tp.map((pos,i) => {
+          return tp[tp.length - i - 1]
+        })
+      })
+    },3000)
   }
 
   trashPhoto(p) {
@@ -77,27 +58,54 @@ export default class CurrentPhotos extends Component {
 
   calculateTargets(photos) {
     return photos.map((p,i) => {
-      return {x: (thumbWidth + em(0.33)) * i, y: 0}
+      return {
+        x: (thumbWidth + em(0.33)) * i,
+        y: 0
+      }
     })
   }
 
-  handleMovement() {
+  handleMovement(pageX, pageY) {
+    // console.log(pageX, pageY)
+    var tp = this.state.targetPositions
+    for (let i = 0; i < tp.length; i++) {
+      if (pageX >= tp[i].x &&
+          pageX <= tp[i].x + thumbWidth &&
+          pageY >= this.contPageY &&
+          pageY <= this.contPageY + thumbWidth) {
+          console.log("hovering over", i)
+      }
+    }
+  }
 
+  updateTargetPosition(index, target) {
+    let state = this.state
+    state.targetPositions[index] = target
+    state.newTargets = null
+    this.setState(state)
   }
 
   render() {
     const { props, state } = this
     return (
-        <View style={[style.container]}>
+        <View style={[style.container]} ref={el => this.cont = el}
+              onLayout={() => {
+                this.cont.measure((x, y, width, height, pageX, pageY) => {
+                  this.contPageY = pageY
+                })
+              }} >
         {
           props.photoBin.map((p,i,a) => {
             return(
               <CurrentPhotoView key={i}
                                 idx={i}
-                                source={p.uri}
                                 {...props}
+                                source={p.uri}
+                                photo={p}
                                 style={style.thumbnail}
-                                targetPosition={ state.targetPositions[i] } />
+                                handleMovement={this.handleMovement}
+                                targetPosition={ (state.newTargets || [])[i] || state.targetPositions[i] }
+                                updateTargetPosition={this.updateTargetPosition} />
             )
           })
         }

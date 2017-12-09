@@ -27,6 +27,7 @@ export default class SettingsEditorPhotos extends Component {
     this.editImage = this.editImage.bind(this)
     this.getFromCameraRoll = this.getFromCameraRoll.bind(this)
     this.pushToPhotoBin = this.pushToPhotoBin.bind(this)
+    this.trashPhoto = this.trashPhoto.bind(this)
   }
 
   cropImage(img) {
@@ -47,18 +48,25 @@ export default class SettingsEditorPhotos extends Component {
 
   getFromCameraRoll() {
     ImagePicker.openPicker({
-      width: 300,
-      height: 400,
-      cropping: true
+      width: screenWidth,
+      height: screenHeight,
+      cropping: true,
     }).then(image => {
       this.pushToPhotoBin(image.path)
     })
   }
 
   pushToPhotoBin(uri) {
-    const photoBin = this.state.photoBin.map(p => p)
-    photoBin.push({uri: uri})
-    this.setState({photoBin: photoBin})
+    this.setState({photoBin: (this.state.photoBin || []).concat({uri: uri})})
+  }
+
+  trashPhoto(p) {
+    let newBin = this.state.photoBin.filter(ph => {
+      if (ph != p) return ph
+    })
+    this.setState({
+      photoBin: newBin
+    })
   }
 
   render() {
@@ -86,6 +94,7 @@ export default class SettingsEditorPhotos extends Component {
           <CurrentPhotos photoBin={state.photoBin}
                          active={state.rearrangingPhotos}
                          trashArea={state.trashArea}
+                         trashPhoto={this.trashPhoto}
                          toggleTrashReady={() => this.setState({trashReady: !state.trashReady})}
                          toggleActive={() => {
                            this.setState({rearrangingPhotos: !state.rearrangingPhotos})
