@@ -64,7 +64,7 @@ export default class CurrentPhotos extends Component {
     })
   }
 
-  handleMovement(pageX, pageY, index) {
+  handleMovement(pageX, pageY, picIndex) {
     // console.log(pageX, pageY)
     var tp = this.state.targetPositions
     for (let i = 0; i < tp.length; i++) {
@@ -72,10 +72,16 @@ export default class CurrentPhotos extends Component {
           pageX <= tp[i].x + thumbWidth &&
           pageY >= this.contPageY &&
           pageY <= this.contPageY + thumbWidth) {
+
           let state = this.state
-          state.newTargets[index] = tp[i]
-          state.newTargets[i] = tp[index]
+          // state.prevTargets[picIndex]
+          state.newTargets[i] = state.prevTargets[picIndex]
+          state.newTargets[picIndex] = state.prevTargets[picIndex] = tp[i]
+
           this.setState(state)
+
+          this.isArranging = false
+          break
       }
     }
   }
@@ -105,9 +111,13 @@ export default class CurrentPhotos extends Component {
                                 source={p.uri}
                                 photo={p}
                                 style={style.thumbnail}
+                                willBeMoved={props.toBeMoved === i}
                                 handleMovement={this.handleMovement}
                                 targetPositions={state.targetPositions}
-                                targetPosition={ (state.newTargets || [])[i] || state.targetPositions[i] }
+                                targetPosition={
+                                  state.targetPositions[props.photoBin.indexOf(p)]
+                                }
+                                // targetPosition={ (state.newTargets || [])[i] || state.targetPositions[i] }
                                 updateTargetPosition={this.updateTargetPosition} />
             )
           })

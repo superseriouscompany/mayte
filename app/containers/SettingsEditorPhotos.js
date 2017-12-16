@@ -22,12 +22,14 @@ export default class SettingsEditorPhotos extends Component {
       rearrangingPhotos: false,
       trashReady: false,
       photoBin: props.user.photos.map(p => new Object({uri: p.url})),
+      toBeMoved: null,
     }
     this.cropImage = this.cropImage.bind(this)
     this.editImage = this.editImage.bind(this)
     this.getFromCameraRoll = this.getFromCameraRoll.bind(this)
     this.pushToPhotoBin = this.pushToPhotoBin.bind(this)
     this.trashPhoto = this.trashPhoto.bind(this)
+    this.reorder = this.reorder.bind(this)
   }
 
   cropImage(img) {
@@ -70,6 +72,36 @@ export default class SettingsEditorPhotos extends Component {
     })
   }
 
+  reorder(from, to) {
+    const pb = this.state.photoBin
+
+    if (typeof from !== 'number' || typeof to !== 'number') {
+      return console.log("reorder requires 2 index args")
+    }
+
+    let arr = new Array(this.state.photoBin.length)
+    if (from > to) {
+      for (let i = from; i > to; i--) {
+        arr[i] = pb[i - 1]
+      }
+      arr[to] = pb[from]
+    } else if (to > from) {
+    	for (let i = from; i < to; i++) {
+        arr[i] = pb[i + 1]
+      }
+      arr[to] = pb[from]
+    } else {
+      return
+    }
+
+    for (let i = 0; i < arr.length; i++) {
+      if (!arr[i]) {
+        arr[i] = pb[i]
+      }
+    }
+    return this.setState({photoBin: arr, toBeMoved: null})
+  }
+
   render() {
     const { props, state } = this
     return (
@@ -93,9 +125,12 @@ export default class SettingsEditorPhotos extends Component {
             </View>
           </View>
           <CurrentPhotos photoBin={state.photoBin}
+                         reorder={this.reorder}
                          active={state.rearrangingPhotos}
                          trashArea={state.trashArea}
                          trashPhoto={this.trashPhoto}
+                         toBeMoved={state.toBeMoved}
+                         setToBeMoved={(i) => this.setState({toBeMoved: i})}
                          toggleTrashReady={() => this.setState({trashReady: !state.trashReady})}
                          toggleActive={() => {
                            this.setState({rearrangingPhotos: !state.rearrangingPhotos})

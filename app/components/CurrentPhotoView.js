@@ -44,52 +44,60 @@ export default class CurrentPhotoView extends Component {
       onMoveShouldSetPanResponderCapture: (evt, gestureState) => true,
 
       onPanResponderGrant: (evt, gestureState) => {
-        this.props.toggleActive()
-        this.startX = this.props.targetPosition.x
-        this.startY = this.props.targetPosition.y
-        this.setState({
-          active: true,
-        })
+        // this.props.toggleActive()
+        // this.startX = this.props.targetPosition.x
+        // this.startY = this.props.targetPosition.y
+        // this.setState({
+        //   active: true,
+        // })
+
+        if (this.props.willBeMoved) {
+          return this.props.setToBeMoved(null)
+        }
+        if (this.props.toBeMoved !== null && !this.props.willBeMoved) {
+          return this.props.reorder(this.props.toBeMoved, this.props.idx)
+        }
+        return this.props.setToBeMoved(this.props.idx)
       },
 
       onPanResponderMove: (evt, gestureState) => {
-        const { pageX: px, pageY: py } = evt.nativeEvent
-        const { pageX: tx, pageY: ty } = this.props.trashArea
-        this.props.handleMovement(px, py, this.props.idx)
-        if (px >= tx &&
-            px <= tx + this.props.trashArea.width &&
-            py >= ty &&
-            py <= ty + this.props.trashArea.height) {
-          if (!this.state.trashable) {
-            this.setState({trashable: true})
-            this.props.toggleTrashReady()
-            Animated.timing(this.state.scale, {toValue: 0, duration: 500}).start()
-          }
-        } else if (this.state.trashable) {
-          this.setState({trashable: false})
-          Animated.timing(this.state.scale, {toValue: 1, duration: 500}).start()
-          this.props.toggleTrashReady()
-        }
-
-        Animated.spring(this.state.offset, {
-          toValue: {
-            x: this.startX + gestureState.dx,
-            y: this.startY + gestureState.dy,
-          }
-        }).start()
+        // const { pageX: px, pageY: py } = evt.nativeEvent
+        // const { pageX: tx, pageY: ty } = this.props.trashArea
+        // this.props.handleMovement(px, py, this.props.idx)
+        // if (px >= tx &&
+        //     px <= tx + this.props.trashArea.width &&
+        //     py >= ty &&
+        //     py <= ty + this.props.trashArea.height) {
+        //   if (!this.state.trashable) {
+        //     this.setState({trashable: true})
+        //     this.props.toggleTrashReady()
+        //     Animated.timing(this.state.scale, {toValue: 0, duration: 500}).start()
+        //   }
+        // } else if (this.state.trashable) {
+        //   this.setState({trashable: false})
+        //   Animated.timing(this.state.scale, {toValue: 1, duration: 500}).start()
+        //   this.props.toggleTrashReady()
+        // }
+        //
+        // Animated.spring(this.state.offset, {
+        //   toValue: {
+        //     x: this.startX + gestureState.dx,
+        //     y: this.startY + gestureState.dy,
+        //   }
+        // }).start()
 
       },
 
       onPanResponderTerminationRequest: (evt, gestureState) => true,
 
       onPanResponderRelease: (evt, gestureState) => {
-        this.props.toggleActive()
-        if (this.state.trashable) {
-          return this.props.trashPhoto(this.props.photo)
-        }
-        Animated.spring(this.state.offset, {
-          toValue: this.props.targetPosition
-        }).start(() => this.setState({active: false}))
+        // this.props.toggleActive()
+        // if (this.state.trashable) {
+        //   return this.props.trashPhoto(this.props.photo)
+        // }
+        // Animated.spring(this.state.offset, {
+        //   toValue: this.props.targetPosition
+        // }).start(() => this.setState({active: false}))
       },
 
       onShouldBlockNativeResponder: (evt, gestureState) => {
@@ -114,6 +122,8 @@ export default class CurrentPhotoView extends Component {
                      {scale: state.scale},
                    ],
                    zIndex: state.active ? 1 : 0,
+                   borderColor: 'red',
+                   borderWidth: props.willBeMoved ? 1 : 0,
                  }
                ]} />
     )
