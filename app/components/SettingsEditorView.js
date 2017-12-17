@@ -86,7 +86,7 @@ export default (props) => {
           <Text style={[style.sectionHeaderLabel]}>OCCUPATION</Text>
         </View>
         <TextInput style={style.occupationInput}
-                   defaultValue={props.occupation || 'Professional'}
+                   defaultValue={props.occupation || ''}
                    onChangeText={text => props.setOccupation(text)}/>
       </View>
 
