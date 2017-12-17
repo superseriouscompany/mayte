@@ -51,7 +51,11 @@ export default class SettingsEditorPhotos extends Component {
       .then(d => {
         return this.pushToPhotoBin(d.path)
       })
-      .catch(err => {alert(err); return console.error(err)})
+      .catch(err => {
+        if (err.code === 'E_PICKER_CANCELLED') {return}
+        alert(err)
+        return console.error(err)
+      })
   }
 
   getFromCameraRoll() {
@@ -61,6 +65,10 @@ export default class SettingsEditorPhotos extends Component {
       cropping: true,
     }).then(image => {
       this.pushToPhotoBin(image.path)
+    }).catch(err => {
+      if (err.code === 'E_PICKER_CANCELLED') {return}
+      alert(err)
+      return console.error(err)
     })
   }
 
@@ -81,7 +89,6 @@ export default class SettingsEditorPhotos extends Component {
   }
 
   reorder(from, to) {
-    // console.log(from, to)
     const pb = this.state.photoBin
 
     if (typeof from !== 'number' || typeof to !== 'number') {
