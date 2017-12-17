@@ -43,7 +43,9 @@ export default class PreferencesView extends Component {
           <View style={[style.preference]}>
             <View style={style.preferenceHeader}>
               <Text style={style.preferenceLabel}>Age Preference</Text>
-              <Text style={style.preferenceSetting}>{props.ageRange[0]} - {props.ageRange[1]}</Text>
+              <Text style={style.preferenceSetting}>
+                {props.ageRange[0]} - {`${props.ageRange[1]}${props.ageRange[1] === props.maxAge ? '+' : ''}`}
+              </Text>
             </View>
             <RangeSlider onUpdate={(pcts) =>
                            props.updateAgeRange(pcts.map(p => Math.round(p * (props.maxAge - props.minAge)) + props.minAge))
@@ -62,7 +64,9 @@ export default class PreferencesView extends Component {
           <View style={[style.preference]}>
             <View style={style.preferenceHeader}>
               <Text style={style.preferenceLabel}>Distance</Text>
-              <Text style={style.preferenceSetting}>{props.distance} miles away</Text>
+              <Text style={style.preferenceSetting}>
+                {`${props.distance}${props.distance === props.maxDistance ? '+' : ''}`} miles away
+              </Text>
             </View>
             <RangeSlider onUpdate={(pcts) => {
                            let d = Math.round(pcts[0] * (props.maxDistance - props.minDistance)) + props.minDistance

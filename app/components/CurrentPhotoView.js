@@ -23,6 +23,7 @@ export default class CurrentPhotoView extends Component {
   }
 
   springToNewTarget(target) {
+    if (this.state.active) {return}
     Animated.spring(this.state.offset, {
       toValue: target,
       stiffness: 250,

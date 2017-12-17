@@ -65,7 +65,7 @@ export default class CurrentPhotos extends Component {
           pageY >= this.contPageY &&
           pageY <= this.contPageY + thumbWidth) {
 
-            console.log("would release on", i)
+          // this.props.reorder(picIndex, i)
           // let state = this.state
           // // state.prevTargets[picIndex]
           // state.newTargets[i] = state.prevTargets[picIndex]
@@ -113,7 +113,6 @@ export default class CurrentPhotos extends Component {
 
   render() {
     const { props, state } = this
-    console.log(state.cloneBin.length, props.photoBin.length, state.targetPositions.length)
     return (
         <View style={[style.container]} ref={el => this.cont = el}
               onLayout={() => {
@@ -126,7 +125,7 @@ export default class CurrentPhotos extends Component {
             const willBeMoved = props.toBeMoved === i
             const idx = props.photoBin.indexOf(p)
             return(
-              <CurrentPhotoView key={i}
+              <CurrentPhotoView key={idx}
                                 idx={idx}
                                 id={'abcdefghij'[idx]}
                                 {...props}
