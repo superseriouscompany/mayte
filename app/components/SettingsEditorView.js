@@ -24,8 +24,8 @@ import {
 export default (props) => {
   const oldest   = moment().subtract(100, 'years')
   const youngest = moment().subtract(18, 'years')
-  const maxDob   = `${oldest.year()}-${oldest.month()}-${oldest.date()}`
-  const minDob   = `${youngest.year()}-${youngest.month()}-${youngest.date()}`
+  // const minDob   = `${oldest.year()}-${oldest.month()}-${oldest.date()}`
+  // const maxDob   = `${youngest.year()}-${youngest.month()}-${youngest.date()}`
 
   let trash
 
@@ -74,9 +74,9 @@ export default (props) => {
                     date={props.dob}
                     mode="date"
                     placeholder="select date"
-                    format="YYYY-MM-DD"
-                    minDate={minDob}
-                    maxDate={maxDob}
+                    format="MMM Do YYYY"
+                    minDate={oldest.format('MMM Do YYYY')}
+                    maxDate={youngest.format('MMM Do YYYY')}
                     showIcon={false}
                     confirmBtnText="confirm"
                     cancelBtnText="cancel"
@@ -86,7 +86,8 @@ export default (props) => {
           <Text style={[style.sectionHeaderLabel]}>OCCUPATION</Text>
         </View>
         <TextInput style={style.occupationInput}
-                   defaultValue={props.occupation || ''}
+                   defaultValue={props.occupation}
+                   placeholder={'Professional'}
                    onChangeText={text => props.setOccupation(text)}/>
       </View>
 

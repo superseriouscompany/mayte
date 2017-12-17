@@ -164,7 +164,7 @@ export default class ProfileView extends Component {
               </Text>
               <View style={[style.stats, {paddingBottom: props.hideButtons ? em(1) : 0}]}>
                 <Text style={style.age}>
-                  {props.user.dob ? moment().diff(props.user.dob, "years") : 25}
+                  {props.user.dob ? moment().diff(moment(props.user.dob, ['MMM Do YYYY']), 'years') : 25}
                 </Text>
                 <Image style={style.pin} resizeMode='contain' source={require('../images/pin.png')} />
                 <Text style={style.location}>
