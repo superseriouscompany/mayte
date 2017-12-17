@@ -168,7 +168,7 @@ export default class ProfileView extends Component {
                 </Text>
                 <Image style={style.pin} resizeMode='contain' source={require('../images/pin.png')} />
                 <Text style={style.location}>
-                  {props.user.distance}
+                  {props.user.distance || 1}
                 </Text>
               </View>
               {
@@ -287,6 +287,7 @@ const style = StyleSheet.create({
     width: em(1),
     height: em(1),
     marginLeft: em(0.66),
+    marginTop: em(0.1),
   },
 
   location: {
