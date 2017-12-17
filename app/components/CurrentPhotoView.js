@@ -24,15 +24,31 @@ export default class CurrentPhotoView extends Component {
 
   springToNewTarget(target) {
     Animated.spring(this.state.offset, {
-      toValue: target
-    }).start(() => this.setState({offset: new Animated.ValueXY(target)}))
+      toValue: target,
+      stiffness: 250,
+      overshootClamping: true,
+    }).start(() => {
+      if (this.state.active) {this.props.onSpring()}
+      this.setState({
+        offset: new Animated.ValueXY(target),
+        active: false,
+      })
+    })
   }
 
-  componentDidUpdate(prevProps) {
-    if (prevProps.targetPosition != this.props.targetPosition) {
-      if (!this.state.active) {
-        this.springToNewTarget(this.props.targetPosition)
-      }
+  // componentDidUpdate(prevProps) {
+  //   if (prevProps.targetPosition != this.props.targetPosition) {
+  //     // if (!this.state.active) {
+  //       this.springToNewTarget(this.props.targetPosition)
+  //     // }
+  //   }
+  // }
+
+  componentWillReceiveProps(nextProps) {
+    if (nextProps.targetPosition != this.props.targetPosition) {
+      // if (!this.state.active) {
+        this.springToNewTarget(nextProps.targetPosition)
+      // }
     }
   }
 
@@ -44,60 +60,66 @@ export default class CurrentPhotoView extends Component {
       onMoveShouldSetPanResponderCapture: (evt, gestureState) => true,
 
       onPanResponderGrant: (evt, gestureState) => {
-        // this.props.toggleActive()
-        // this.startX = this.props.targetPosition.x
-        // this.startY = this.props.targetPosition.y
-        // this.setState({
-        //   active: true,
-        // })
+        this.props.toggleActive()
+        this.startX = this.props.targetPosition.x
+        this.startY = this.props.targetPosition.y
+        this.setState({
+          active: true,
+        })
 
-        if (this.props.willBeMoved) {
-          return this.props.setToBeMoved(null)
-        }
-        if (this.props.toBeMoved !== null && !this.props.willBeMoved) {
-          return this.props.reorder(this.props.toBeMoved, this.props.idx)
-        }
-        return this.props.setToBeMoved(this.props.idx)
+        // if (this.props.willBeMoved) {
+        //   return this.props.setToBeMoved(null)
+        // }
+        // if (this.props.toBeMoved !== null && !this.props.willBeMoved) {
+        //   return this.props.reorder(this.props.toBeMoved, this.props.idx)
+        // }
+        // return this.props.setToBeMoved(this.props.idx)
       },
 
       onPanResponderMove: (evt, gestureState) => {
-        // const { pageX: px, pageY: py } = evt.nativeEvent
-        // const { pageX: tx, pageY: ty } = this.props.trashArea
-        // this.props.handleMovement(px, py, this.props.idx)
-        // if (px >= tx &&
-        //     px <= tx + this.props.trashArea.width &&
-        //     py >= ty &&
-        //     py <= ty + this.props.trashArea.height) {
-        //   if (!this.state.trashable) {
-        //     this.setState({trashable: true})
-        //     this.props.toggleTrashReady()
-        //     Animated.timing(this.state.scale, {toValue: 0, duration: 500}).start()
-        //   }
-        // } else if (this.state.trashable) {
-        //   this.setState({trashable: false})
-        //   Animated.timing(this.state.scale, {toValue: 1, duration: 500}).start()
-        //   this.props.toggleTrashReady()
-        // }
-        //
-        // Animated.spring(this.state.offset, {
-        //   toValue: {
-        //     x: this.startX + gestureState.dx,
-        //     y: this.startY + gestureState.dy,
-        //   }
-        // }).start()
+        const { pageX: px, pageY: py } = evt.nativeEvent
+        const { pageX: tx, pageY: ty } = this.props.trashArea
+        this.props.handleMovement(px, py, this.props.idx)
+        if (px >= tx &&
+            px <= tx + this.props.trashArea.width &&
+            py >= ty &&
+            py <= ty + this.props.trashArea.height) {
+          if (!this.state.trashable) {
+            this.setState({trashable: true})
+            this.props.toggleTrashReady(true)
+            Animated.timing(this.state.scale, {toValue: 0, duration: 500}).start()
+          }
+        } else if (this.state.trashable) {
+          this.setState({trashable: false})
+          Animated.timing(this.state.scale, {toValue: 1, duration: 500}).start()
+          this.props.toggleTrashReady(false)
+        }
+
+        Animated.spring(this.state.offset, {
+          toValue: {
+            x: this.startX + gestureState.dx,
+            y: this.startY + gestureState.dy,
+          }
+        }).start()
 
       },
 
       onPanResponderTerminationRequest: (evt, gestureState) => true,
 
       onPanResponderRelease: (evt, gestureState) => {
-        // this.props.toggleActive()
-        // if (this.state.trashable) {
-        //   return this.props.trashPhoto(this.props.photo)
-        // }
-        // Animated.spring(this.state.offset, {
-        //   toValue: this.props.targetPosition
-        // }).start(() => this.setState({active: false}))
+        const { pageX: px, pageY: py } = evt.nativeEvent
+        const { pageX: tx, pageY: ty } = this.props.trashArea
+        //
+        // console.log("release me", px, py, this.props.idx)
+        if (this.state.trashable) {
+          return this.props.trashPhoto(this.props.photo)
+        }
+
+        this.props.handleRelease(px, py, this.props.idx)
+
+        Animated.spring(this.state.offset, {
+          toValue: this.props.targetPosition
+        }).start(() => this.setState({active: false}))
       },
 
       onShouldBlockNativeResponder: (evt, gestureState) => {
@@ -110,6 +132,7 @@ export default class CurrentPhotoView extends Component {
 
   render() {
     const { props, state } = this
+    // console.log("i'm photo", props.id, state.offset.x)
     return (
         <Animated.Image source={{uri: props.source}}
                {...this._panResponder.panHandlers}
@@ -119,7 +142,8 @@ export default class CurrentPhotoView extends Component {
                    left: state.offset.x,
                    top: state.offset.y,
                    transform: [
-                     {scale: state.scale},
+                     // {scale: state.scale},
+                     {scale: 1},
                    ],
                    zIndex: state.active ? 1 : 0,
                    borderColor: 'red',

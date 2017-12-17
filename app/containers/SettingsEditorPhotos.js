@@ -30,6 +30,12 @@ export default class SettingsEditorPhotos extends Component {
     this.pushToPhotoBin = this.pushToPhotoBin.bind(this)
     this.trashPhoto = this.trashPhoto.bind(this)
     this.reorder = this.reorder.bind(this)
+    this.toggleActive = this.toggleActive.bind(this)
+  }
+
+  toggleActive() {
+    this.setState({rearrangingPhotos: !this.state.rearrangingPhotos})
+    this.props.toggleScroll()
   }
 
   cropImage(img) {
@@ -69,10 +75,13 @@ export default class SettingsEditorPhotos extends Component {
     this.setState({
       photoBin: newBin,
       trashReady: false,
+      rearrangingPhotos: false,
     })
+    this.props.toggleScroll()
   }
 
   reorder(from, to) {
+    // console.log(from, to)
     const pb = this.state.photoBin
 
     if (typeof from !== 'number' || typeof to !== 'number') {
@@ -131,11 +140,8 @@ export default class SettingsEditorPhotos extends Component {
                          trashPhoto={this.trashPhoto}
                          toBeMoved={state.toBeMoved}
                          setToBeMoved={(i) => this.setState({toBeMoved: i})}
-                         toggleTrashReady={() => this.setState({trashReady: !state.trashReady})}
-                         toggleActive={() => {
-                           this.setState({rearrangingPhotos: !state.rearrangingPhotos})
-                           props.toggleScroll()
-                         }} />
+                         toggleTrashReady={(boo) => this.setState({trashReady: boo})}
+                         toggleActive={this.toggleActive} />
         </View>
         <View>
           <Text style={[style.photoSelectLabel, {textAlign: 'center', color: 'white'}]}>

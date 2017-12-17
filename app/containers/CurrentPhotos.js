@@ -19,40 +19,32 @@ export default class CurrentPhotos extends Component {
     this.panHandlers = {}
 
     this.state = {
+      cloneBin: this.props.photoBin,
+      onSpring: null,
       targetPositions: this.calculateTargets(props.photoBin),
       newTargets: this.calculateTargets(props.photoBin),
       prevTargets: this.calculateTargets(props.photoBin),
     }
     this.calculateTargets = this.calculateTargets.bind(this)
     this.updateTargetPosition = this.updateTargetPosition.bind(this)
-    this.trashPhoto = this.trashPhoto.bind(this)
     this.handleMovement = this.handleMovement.bind(this)
+    this.handleRelease = this.handleRelease.bind(this)
   }
 
-  componentWillUpdate(nextProps) {
-    // this.bindPanResponders()
+  componentWillReceiveProps(nextProps) {
     if (nextProps.photoBin.length != this.props.photoBin.length) {
       console.log("NEW BIN ALURT")
-      this.setState({targetPositions: this.calculateTargets(nextProps.photoBin)})
+      this.setState({
+        cloneBin: nextProps.photoBin,
+        targetPositions: this.calculateTargets(nextProps.photoBin)
+      })
+    } else if (nextProps.photoBin !== this.state.cloneBin) {
+      this.setState({
+          onSpring: () => {
+          this.setState({cloneBin: nextProps.photoBin, onSpring: null})
+        }
+      })
     }
-  }
-
-  componentDidMount() {
-    // this.setState({
-    //   newTargets: tp.map((pos,i) => {
-    //     return tp[tp.length - i - 1]
-    //   })
-    // })
-  }
-
-  trashPhoto(p) {
-    // console.log("TRASH", p.url)
-    const state = this.state
-    const idx = state.photos.indexOf(p)
-    state.photos.splice(idx, 1)
-    // props.setUser({...props.user, photos})
-    state.targetPositions = this.calculateTargets(state.photos)
-    this.setState(state)
   }
 
   calculateTargets(photos) {
@@ -68,22 +60,48 @@ export default class CurrentPhotos extends Component {
     // console.log(pageX, pageY)
     var tp = this.state.targetPositions
     for (let i = 0; i < tp.length; i++) {
-      if (pageX >= tp[i].x &&
-          pageX <= tp[i].x + thumbWidth &&
+      if (pageX >= tp[i].x + em(1) &&
+          pageX <= tp[i].x + thumbWidth + em(1) &&
           pageY >= this.contPageY &&
           pageY <= this.contPageY + thumbWidth) {
 
-          let state = this.state
-          // state.prevTargets[picIndex]
-          state.newTargets[i] = state.prevTargets[picIndex]
-          state.newTargets[picIndex] = state.prevTargets[picIndex] = tp[i]
-
-          this.setState(state)
-
-          this.isArranging = false
+            console.log("would release on", i)
+          // let state = this.state
+          // // state.prevTargets[picIndex]
+          // state.newTargets[i] = state.prevTargets[picIndex]
+          // state.newTargets[picIndex] = state.prevTargets[picIndex] = tp[i]
+          //
+          // this.setState(state)
+          //
+          // this.isArranging = false
           break
       }
     }
+  }
+
+  handleRelease(pageX, pageY, picIndex) {
+    var tp = this.state.targetPositions
+    for (let i = 0; i < tp.length; i++) {
+      if (pageX >= tp[i].x + em(1) &&
+          pageX <= tp[i].x + thumbWidth + em(1) &&
+          pageY >= this.contPageY &&
+          pageY <= this.contPageY + thumbWidth) {
+
+            console.log(`reording ${picIndex} to ${i}`)
+            this.props.reorder(picIndex, i)
+
+          // let state = this.state
+          // // state.prevTargets[picIndex]
+          // state.newTargets[i] = state.prevTargets[picIndex]
+          // state.newTargets[picIndex] = state.prevTargets[picIndex] = tp[i]
+          //
+          // this.setState(state)
+          //
+          // this.isArranging = false
+          break
+      }
+    }
+    this.props.toggleActive()
   }
 
   updateTargetPosition(index, target) {
@@ -95,6 +113,7 @@ export default class CurrentPhotos extends Component {
 
   render() {
     const { props, state } = this
+    console.log(state.cloneBin.length, props.photoBin.length, state.targetPositions.length)
     return (
         <View style={[style.container]} ref={el => this.cont = el}
               onLayout={() => {
@@ -103,22 +122,30 @@ export default class CurrentPhotos extends Component {
                 })
               }} >
         {
-          props.photoBin.map((p,i,a) => {
+          state.cloneBin.map((p,i,a) => {
+            const willBeMoved = props.toBeMoved === i
+            const idx = props.photoBin.indexOf(p)
             return(
               <CurrentPhotoView key={i}
-                                idx={i}
+                                idx={idx}
+                                id={'abcdefghij'[idx]}
                                 {...props}
                                 source={p.uri}
                                 photo={p}
                                 style={style.thumbnail}
-                                willBeMoved={props.toBeMoved === i}
+                                willBeMoved={willBeMoved}
+                                onSpring={
+                                  () => {
+                                    // if (!willBeMoved) {return}
+                                    this.setState({cloneBin: props.photoBin})
+                                    // props.setToBeMoved(null)
+                                  }
+                                }
                                 handleMovement={this.handleMovement}
-                                targetPositions={state.targetPositions}
+                                handleRelease={this.handleRelease}
                                 targetPosition={
                                   state.targetPositions[props.photoBin.indexOf(p)]
-                                }
-                                // targetPosition={ (state.newTargets || [])[i] || state.targetPositions[i] }
-                                updateTargetPosition={this.updateTargetPosition} />
+                                } />
             )
           })
         }
