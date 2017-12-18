@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import { BlurView } from 'react-native-blur'
 import RangeSlider from '../containers/RangeSlider'
-import { em } from '../constants/dimensions'
+import { em, tabNavHeight, screenHeight } from '../constants/dimensions'
 import { mayteBlack } from '../constants/colors'
 import {
   StyleSheet,
@@ -26,79 +26,82 @@ export default class PreferencesView extends Component {
   render() {
     const { props, state } = this
     return(
-      <ScrollView contentContainerStyle={style.container} bounces={false} scrollEnabled={state.scrollEnabled}>
+      <View>
         <Image source={{uri: props.user.photos[0].url}} resizeMode='cover' style={style.background} />
         <BlurView style={style.blur}
                   blurType="light"
                   blurAmount={10}
                   viewRef={null/* required for Android */} />
-        <TouchableOpacity onPress={() => props.viewSettingsPage('Profile')}>
-          <Image style={style.bubble} source={{uri: props.user.photos[0].url}} />
-        </TouchableOpacity>
-        <TouchableOpacity onPress={() => props.viewSettingsPage('Editor')}>
-          <Text style={style.editCTA}>EDIT PROFILE</Text>
-        </TouchableOpacity>
+        <ScrollView contentContainerStyle={style.container} bounces={false} showsVerticalScrollIndicator={false} scrollEnabled={state.scrollEnabled}>
+          <TouchableOpacity onPress={() => props.viewSettingsPage('Profile')}>
+            <Image style={style.bubble} source={{uri: props.user.photos[0].url}} />
+          </TouchableOpacity>
+          <TouchableOpacity onPress={() => props.viewSettingsPage('Editor')}>
+            <Text style={style.editCTA}>EDIT PROFILE</Text>
+          </TouchableOpacity>
 
-        <View style={style.preferences}>
-          <View style={[style.preference]}>
-            <View style={style.preferenceHeader}>
-              <Text style={style.preferenceLabel}>Age Preference</Text>
-              <Text style={style.preferenceSetting}>
-                {props.ageRange[0]} - {`${props.ageRange[1]}${props.ageRange[1] === props.maxAge ? '+' : ''}`}
-              </Text>
+          <View style={style.preferences}>
+            <View style={[style.preference]}>
+              <View style={style.preferenceHeader}>
+                <Text style={style.preferenceLabel}>Age Preference</Text>
+                <Text style={style.preferenceSetting}>
+                  {props.ageRange[0]} - {`${props.ageRange[1]}${props.ageRange[1] === props.maxAge ? '+' : ''}`}
+                </Text>
+              </View>
+              <RangeSlider onUpdate={(pcts) =>
+                             props.updateAgeRange(pcts.map(p => Math.round(p * (props.maxAge - props.minAge)) + props.minAge))
+                           }
+                           minValue={props.minAge}
+                           maxValue={props.maxAge}
+                           values={props.ageRange}
+                           markerDiameter={em(1.33)}
+                           onGestureStart={() => this.setState({scrollEnabled: false})}
+                           onGestureEnd={() => {
+                             this.setState({scrollEnabled: true})
+                             this.props.updatePreferences()
+                           }} />
             </View>
-            <RangeSlider onUpdate={(pcts) =>
-                           props.updateAgeRange(pcts.map(p => Math.round(p * (props.maxAge - props.minAge)) + props.minAge))
-                         }
-                         minValue={props.minAge}
-                         maxValue={props.maxAge}
-                         values={props.ageRange}
-                         markerDiameter={em(1.33)}
-                         onGestureStart={() => this.setState({scrollEnabled: false})}
-                         onGestureEnd={() => {
-                           this.setState({scrollEnabled: true})
-                           this.props.updatePreferences()
-                         }} />
+
+            <View style={[style.preference]}>
+              <View style={style.preferenceHeader}>
+                <Text style={style.preferenceLabel}>Distance</Text>
+                <Text style={style.preferenceSetting}>
+                  {`${props.distance}${props.distance === props.maxDistance ? '+' : ''}`} miles away
+                </Text>
+              </View>
+              <RangeSlider onUpdate={(pcts) => {
+                             let d = Math.round(pcts[0] * (props.maxDistance - props.minDistance)) + props.minDistance
+                             return props.updateDistance(d)
+                           }}
+                           numMarkers={1}
+                           debug={true}
+                           markerDiameter={em(1.33)}
+                           minValue={props.minDistance}
+                           maxValue={props.maxDistance}
+                           values={[props.distance]}
+                           onGestureStart={() => this.setState({scrollEnabled: false})}
+                           onGestureEnd={() => {
+                             this.setState({scrollEnabled: true})
+                             this.props.updatePreferences()
+                           }} />
+            </View>
           </View>
 
-          <View style={[style.preference]}>
-            <View style={style.preferenceHeader}>
-              <Text style={style.preferenceLabel}>Distance</Text>
-              <Text style={style.preferenceSetting}>
-                {`${props.distance}${props.distance === props.maxDistance ? '+' : ''}`} miles away
-              </Text>
-            </View>
-            <RangeSlider onUpdate={(pcts) => {
-                           let d = Math.round(pcts[0] * (props.maxDistance - props.minDistance)) + props.minDistance
-                           return props.updateDistance(d)
-                         }}
-                         numMarkers={1}
-                         debug={true}
-                         markerDiameter={em(1.33)}
-                         minValue={props.minDistance}
-                         maxValue={props.maxDistance}
-                         values={[props.distance]}
-                         onGestureStart={() => this.setState({scrollEnabled: false})}
-                         onGestureEnd={() => {
-                           this.setState({scrollEnabled: true})
-                           this.props.updatePreferences()
-                         }} />
-          </View>
-        </View>
-
-        <TouchableOpacity onPress={props.logout} style={[style.button]}>
-          <Text style={style.logout}>SIGN OUT</Text>
-        </TouchableOpacity>
-      </ScrollView>
+          <TouchableOpacity onPress={props.logout} style={[style.button]}>
+            <Text style={style.logout}>SIGN OUT</Text>
+          </TouchableOpacity>
+        </ScrollView>
+      </View>
     )
   }
 }
 
 const style = StyleSheet.create({
   container: {
-    flex: 1,
+    minHeight: screenHeight - tabNavHeight,
     paddingTop: em(4),
     alignItems: 'center',
+    paddingBottom: tabNavHeight,
   },
   background: {
     position: 'absolute',
@@ -159,7 +162,6 @@ const style = StyleSheet.create({
     shadowOffset: {width: 2, height: 2},
     shadowColor: 'rgba(0,0,0,1)',
     backgroundColor: mayteBlack(0.9),
-    marginBottom: em(5),
     marginTop: em(1),
   },
   logout: {

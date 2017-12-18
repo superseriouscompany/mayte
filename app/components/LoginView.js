@@ -23,7 +23,7 @@ export default function(props) {
       { props.loading ?
         <ActivityIndicator size="large"/>
       :
-        <View>
+        <View style={style.container}>
           <Image style={[style.logo]}
                  source={require('../images/logo-trans.png')}
                  resizeMode="contain" />
