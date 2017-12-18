@@ -208,9 +208,11 @@ const style = StyleSheet.create({
   },
   optionLabel: {
     color: 'white',
-    fontSize: em(1.2),
+    fontSize: em(1),
     fontFamily: 'Gotham-Bold',
     letterSpacing: em(0.1),
   },
   optionSwitch: {},
 })
+
+console.log(screenWidth)

@@ -26,7 +26,11 @@ export default class ProfileView extends Component {
   constructor(props) {
     super(props)
 
-    this.infoClosedTop = screenHeight *  0.65 + (props.hideButtons ? 10 : 0) + (props.myProfile ? matchHeaderHeight : 0)
+    this.infoClosedTop = screenHeight -
+                       ( props.hideButtons ?
+                           props.myProfile ?
+                             em(1) * 11.25 : em(1) * 11.25 + matchHeaderHeight :
+                           em(1) * 15 )
 
     this.state = {
       topValue: new Animated.Value(this.infoClosedTop),
@@ -304,8 +308,8 @@ const style = StyleSheet.create({
 
   tray: {
     width: '100%',
-    paddingTop: 30,
-    paddingBottom: 30,
+    paddingTop: em(1),
+    paddingBottom: em(1),
     flexDirection: 'row',
     justifyContent: 'space-around',
     alignItems: 'center',

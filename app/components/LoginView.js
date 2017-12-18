@@ -2,6 +2,7 @@
 
 import React, { Component } from 'react'
 import { mayteBlack }       from '../constants/colors'
+import { em, screenWidth }  from '../constants/dimensions'
 import {
   ActivityIndicator,
   StyleSheet,
@@ -63,28 +64,29 @@ const style = StyleSheet.create({
   },
 
   logo: {
-    height: 120,
-    width: 300,
+    height: em(6),
+    width: em(16),
     marginBottom: 40,
   },
 
   button: {
-    paddingTop: 20,
-    paddingBottom: 20,
-    paddingLeft: 20,
-    paddingRight: 20,
+    paddingTop: em(1),
+    paddingBottom: em(1),
+    paddingLeft: em(1),
+    paddingRight: em(1),
     borderRadius: 4,
     shadowRadius: 4,
     shadowOffset: {width: 2, height: 2},
     shadowColor: 'rgba(0,0,0,1)',
     backgroundColor: 'rgba(220,224,223,1)',
-    width: 280,
+    width: screenWidth * 0.8,
+    maxWidth: 280,
   },
 
   buttonText: {
     width: '100%',
     textAlign: 'center',
-    fontSize: 16,
+    fontSize: em(1),
     fontWeight: 'bold',
     color: mayteBlack(),
     letterSpacing: 1,
