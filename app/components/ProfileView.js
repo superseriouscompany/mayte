@@ -1,8 +1,13 @@
 import React, {Component}                from 'react'
 import moment                            from 'moment'
 import LinearGradient                    from 'react-native-linear-gradient'
-import { screenWidth, screenHeight, em } from '../constants/dimensions'
 import { mayteBlack }                    from '../constants/colors'
+import {
+  screenWidth,
+  screenHeight,
+  matchHeaderHeight,
+  em,
+} from '../constants/dimensions'
 import {
   Animated,
   StyleSheet,
@@ -21,7 +26,7 @@ export default class ProfileView extends Component {
   constructor(props) {
     super(props)
 
-    this.infoClosedTop = screenHeight *  0.65 + (props.hideButtons ? 10 : 0)
+    this.infoClosedTop = screenHeight *  0.65 + (props.hideButtons ? 10 : 0) + (props.myProfile ? matchHeaderHeight : 0)
 
     this.state = {
       topValue: new Animated.Value(this.infoClosedTop),

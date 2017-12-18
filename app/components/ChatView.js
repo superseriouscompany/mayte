@@ -3,8 +3,12 @@
 import React, {Component}                  from 'react'
 import { GiftedChat, Bubble }              from 'react-native-gifted-chat'
 import { BlurView }                        from 'react-native-blur'
-import { screenHeight, matchHeaderHeight } from '../constants/dimensions'
 import { chatOpen, chatClose }             from '../constants/timings'
+import {
+  screenHeight,
+  matchHeaderHeight,
+  tabNavHeight,
+} from '../constants/dimensions'
 import {
   Animated,
   ActivityIndicator,
@@ -97,9 +101,8 @@ const style = StyleSheet.create({
   container: {
     position: 'absolute',
     width: '100%',
-    height: screenHeight - matchHeaderHeight,
+    height: screenHeight - matchHeaderHeight - tabNavHeight,
     backgroundColor: 'rgba(255,255,255,0.9)',
-    paddingBottom: 100,
   },
   blur: {
     position: 'absolute',
