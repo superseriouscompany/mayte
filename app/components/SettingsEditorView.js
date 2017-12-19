@@ -24,8 +24,6 @@ import {
 export default (props) => {
   const oldest   = moment().subtract(100, 'years')
   const youngest = moment().subtract(18, 'years')
-  // const minDob   = `${oldest.year()}-${oldest.month()}-${oldest.date()}`
-  // const maxDob   = `${youngest.year()}-${youngest.month()}-${youngest.date()}`
 
   let trash
 
@@ -214,5 +212,3 @@ const style = StyleSheet.create({
   },
   optionSwitch: {},
 })
-
-console.log(screenWidth)

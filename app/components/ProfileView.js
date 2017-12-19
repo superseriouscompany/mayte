@@ -6,6 +6,7 @@ import {
   screenWidth,
   screenHeight,
   matchHeaderHeight,
+  notchHeight,
   em,
 } from '../constants/dimensions'
 import {
@@ -26,10 +27,10 @@ export default class ProfileView extends Component {
   constructor(props) {
     super(props)
 
-    this.infoClosedTop = screenHeight -
+    this.infoClosedTop = screenHeight - notchHeight*2 -
                        ( props.hideButtons ?
                            props.myProfile ?
-                             em(1) * 11.25 : em(1) * 11.25 + matchHeaderHeight :
+                             em(1) * 11.25 : em(1) * 11.25 + matchHeaderHeight + notchHeight :
                            em(1) * 15 )
 
     this.state = {
@@ -224,6 +225,7 @@ const style = StyleSheet.create({
     position: 'absolute',
     left: 0,
     width: '100%',
+    paddingTop: notchHeight,
   },
 
   gradient: {

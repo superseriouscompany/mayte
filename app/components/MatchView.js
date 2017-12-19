@@ -3,7 +3,11 @@
 import React, {Component}                 from 'react'
 import MatchInfoView                      from './MatchInfoView'
 import ProfileView                        from './ProfileView'
-import { screenWidth, matchHeaderHeight } from '../constants/dimensions'
+import {
+  screenWidth,
+  notchHeight,
+  matchHeaderHeight,
+} from '../constants/dimensions'
 import {
   Animated,
   ActivityIndicator,
@@ -23,7 +27,7 @@ export default (props) => {
   const imgStyle = {width: screenWidth, height: props.viewHeight}
 
   return (
-    <View style={{...style.container, marginTop: matchHeaderHeight}}>
+    <View style={{...style.container, marginTop: matchHeaderHeight + notchHeight}}>
       <ProfileView {...props}
                    matchOpen={props.view === 'Profile'}
                    hideButtons={true} />

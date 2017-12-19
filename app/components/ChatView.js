@@ -7,6 +7,7 @@ import { chatOpen, chatClose }             from '../constants/timings'
 import {
   screenHeight,
   matchHeaderHeight,
+  notchHeight,
   tabNavHeight,
 } from '../constants/dimensions'
 import {
@@ -101,7 +102,7 @@ const style = StyleSheet.create({
   container: {
     position: 'absolute',
     width: '100%',
-    height: screenHeight - matchHeaderHeight - tabNavHeight,
+    height: screenHeight - matchHeaderHeight - tabNavHeight - notchHeight,
     backgroundColor: 'rgba(255,255,255,0.9)',
   },
   blur: {

@@ -2,7 +2,7 @@
 
 import React, {Component}                         from 'react'
 import MatchPreview                               from './MatchPreview'
-import { statusBarHeight, matchHeaderHeight, em } from '../constants/dimensions'
+import { notchHeight, matchHeaderHeight, em }     from '../constants/dimensions'
 import { mayteBlack }                             from '../constants/colors'
 import {
   ActivityIndicator,
@@ -55,7 +55,8 @@ const style = StyleSheet.create({
     color: 'red'
   },
   header: {
-    height: matchHeaderHeight,
+    height: matchHeaderHeight + notchHeight,
+    paddingTop: notchHeight,
     borderBottomWidth: 1,
     borderBottomColor: mayteBlack(0.5),
   },

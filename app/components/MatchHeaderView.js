@@ -2,7 +2,7 @@
 
 import React, { Component }                       from 'react'
 import LinearGradient                             from 'react-native-linear-gradient'
-import { matchHeaderHeight, statusBarHeight, em } from '../constants/dimensions'
+import { matchHeaderHeight, notchHeight, em }     from '../constants/dimensions'
 import { mayteBlack }                             from '../constants/colors'
 import {
   StyleSheet,
@@ -54,8 +54,8 @@ const style = StyleSheet.create({
     width: '100%',
     paddingRight: em(1),
     paddingLeft: em(1),
-    height: matchHeaderHeight,
-    paddingTop: statusBarHeight,
+    height: matchHeaderHeight + notchHeight,
+    paddingTop: notchHeight,
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
