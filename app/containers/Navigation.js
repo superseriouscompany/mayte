@@ -1,12 +1,15 @@
 'use strict'
 
-import React, {Component} from 'react'
-import { TabNavigator }   from 'react-navigation'
+import React, {Component}   from 'react'
+import { TabNavigator }     from 'react-navigation'
+import { em, tabNavHeight } from '../constants/dimensions'
+import { mayteBlack }       from '../constants/colors'
 
 export default function(props) {
   var scenes = {}
 
   React.Children.forEach(props.children, (child, i) => {
+    if (!child.props.sceneName) return
     scenes[child.props.sceneName || `${child.type.displayName}${i}`] = {
       screen: () => child,
       navigationOptions: {
@@ -18,13 +21,17 @@ export default function(props) {
 
   const TabNav = TabNavigator(scenes, {
     animationEnabled: true,
-    swipeEnabled: true,
+    swipeEnabled: false,
     lazy: true,
+    tabBarPosition: 'bottom',
     tabBarOptions: {
       activeTintColor:         'white',
       inactiveTintColor:       'gainsboro',
-      activeBackgroundColor:   'rgba(50,50,50,0.8)',
-      inactiveBackgroundColor: 'rgba(0,0,0,0.8)',
+      activeBackgroundColor:   mayteBlack(0.66),
+      inactiveBackgroundColor: mayteBlack(0.9),
+      style:                   {borderTopWidth: 0, height: tabNavHeight},
+      labelStyle:              {fontFamily: 'Gotham-Book', letterSpacing: em(0.1), fontSize: em(0.66)},
+      allowFontScaling:        false,
     },
     initialRouteName: props.initialSceneName,
   })

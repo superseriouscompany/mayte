@@ -13,12 +13,13 @@ class Settings extends Component {
       loading: true,
       updatingBio: false,
       updatingDob: false,
+      baseScene: 'Preferences',
     }
-    this.activate      = this.activate.bind(this)
-    this.deactivate    = this.deactivate.bind(this)
-    this.updatePhotos  = this.updatePhotos.bind(this)
-    this.update        = this.update.bind(this)
-    this.deleteAccount = this.deleteAccount.bind(this)
+    this.activate        = this.activate.bind(this)
+    this.deactivate      = this.deactivate.bind(this)
+    this.updatePhotos    = this.updatePhotos.bind(this)
+    this.hydrateUser     = this.hydrateUser.bind(this)
+    this.updateBaseScene = this.updateBaseScene.bind(this)
   }
 
   activate(instagramId) {
@@ -75,9 +76,17 @@ class Settings extends Component {
   }
 
   componentDidMount() {
+    this.hydrateUser()
+  }
+
+  updateBaseScene(name) {
+    this.setState({baseScene: name})
+  }
+
+  hydrateUser(reload = true) {
     var user;
-    Promise.all([
-      // TODO: why? isn't this in the reducer?
+    if (reload) this.setState({loading: true});
+    return Promise.all([
       api('/users/me', { accessToken: this.props.accessToken}),
       api('/photos/available', {accessToken: this.props.accessToken}),
     ]).then((v) => {
@@ -86,21 +95,10 @@ class Settings extends Component {
       const photos = this.calculateActive(activeIds, v[1].photos)
       const bio = user.bio
       const dob = user.dob
-      this.setState({ user: user, activeIds: activeIds, photos: photos, loading: false, bio: bio, dob: dob })
+      this.setState({ activeIds: activeIds, photos: photos, loading: false, bio: bio, dob: dob })
+      this.props.setUser(user)
     }).catch((err) => {
       this.setState({ loading: false, error: err.message || err })
-    })
-  }
-
-  deleteAccount() {
-    this.setState({ loading: true })
-    api('/users/me', {
-      method: 'DELETE',
-      accessToken: this.props.accessToken,
-    }).then(this.props.logout).catch((err) => {
-      this.setState({loading: false})
-      alert(err.message || err)
-      console.error(err)
     })
   }
 
@@ -108,6 +106,9 @@ class Settings extends Component {
     return (
       <SettingsView {...this.state}
                     {...this.props}
+                    // scene={{view:'Editor'}}
+                    updateBaseScene={this.updateBaseScene}
+                    hydrateUser={this.hydrateUser}
                     setBio={text => this.setState({bio: text})}
                     setDob={date => this.setState({dob: date})}
                     update={this.update}
@@ -121,13 +122,24 @@ class Settings extends Component {
 function mapStateToProps(state) {
   return {
     accessToken: state.user.accessToken,
+    user: state.user,
+    scene: state.scene,
   }
 }
 
 function mapDispatchToProps(dispatch) {
   return {
-    logout: function() {
+    logout: () => {
       dispatch({type: 'user:destroy'})
+    },
+    viewSettingsPage: (view) => {
+      dispatch({type: 'scene:change', scene: {
+        name: 'Settings',
+        view: view,
+      }})
+    },
+    setUser: (user) => {
+      dispatch({type: 'user:set', user: user})
     }
   }
 }
