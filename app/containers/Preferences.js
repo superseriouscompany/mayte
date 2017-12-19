@@ -14,10 +14,12 @@ export default class Preferences extends Component {
     const ps = props.user.preferences || {}
     const ageRange = ps.ageRange ? [ps.ageRange[0], ps.ageRange[1]] : [minAge, maxAge]
     const distance = ps.distance ? ps.distance : maxDistance
+    const sexual = ps.sexual ? ps.sexual : 'WOMEN'
 
     this.state = {
       ageRange: ageRange,
       distance: distance,
+      sexual: sexual,
     }
 
     this.updatePreferences = this.updatePreferences.bind(this)
@@ -27,7 +29,7 @@ export default class Preferences extends Component {
     this.props.updateBaseScene('Preferences')
   }
 
-  updatePreferences() {
+  updatePreferences(prefs={}) {
     api('/users/me', {
       method: 'PATCH',
       accessToken: this.props.accessToken,
@@ -35,6 +37,8 @@ export default class Preferences extends Component {
         preferences: {
           ageRange: this.state.ageRange,
           distance: this.state.distance,
+          sexual: this.state.sexual,
+          ...prefs,
         }
       }
     }).then(() => {
@@ -57,7 +61,8 @@ export default class Preferences extends Component {
                        maxDistance={maxDistance}
                        updatePreferences={this.updatePreferences}
                        updateDistance={(d) => this.setState({distance: d})}
-                       updateAgeRange={(vals) => this.setState({ageRange: vals})} />
+                       updateAgeRange={(vals) => this.setState({ageRange: vals})}
+                       updateSexual={(p) => this.setState({sexual: p})} />
     )
   }
 }

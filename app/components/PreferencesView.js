@@ -1,7 +1,8 @@
 import React, { Component } from 'react'
 import { BlurView } from 'react-native-blur'
 import RangeSlider from '../containers/RangeSlider'
-import { em, tabNavHeight, screenHeight } from '../constants/dimensions'
+import SexualPreference from '../containers/SexualPreference'
+import { em, tabNavHeight, screenHeight, notchHeight } from '../constants/dimensions'
 import { mayteBlack } from '../constants/colors'
 import {
   StyleSheet,
@@ -26,13 +27,13 @@ export default class PreferencesView extends Component {
   render() {
     const { props, state } = this
     return(
-      <View>
+      <View style={{flex: 1}}>
         <Image source={{uri: props.user.photos[0].url}} resizeMode='cover' style={style.background} />
         <BlurView style={style.blur}
                   blurType="light"
                   blurAmount={10}
                   viewRef={null/* required for Android */} />
-        <ScrollView contentContainerStyle={style.container} bounces={false} showsVerticalScrollIndicator={false} scrollEnabled={state.scrollEnabled}>
+        <ScrollView contentContainerStyle={style.container} showsVerticalScrollIndicator={false} scrollEnabled={state.scrollEnabled}>
           <TouchableOpacity onPress={() => props.viewSettingsPage('Profile')}>
             <Image style={style.bubble} source={{uri: props.user.photos[0].url}} />
           </TouchableOpacity>
@@ -87,6 +88,18 @@ export default class PreferencesView extends Component {
             </View>
           </View>
 
+          <View style={[style.preference]}>
+            <View style={[style.preferenceHeader, {justifyContent: 'flex-start'}]}>
+              <Text style={style.preferenceLabel}>Interested In</Text>
+            </View>
+            <SexualPreference options={['MEN', 'WOMEN', 'ALL']}
+                              selected={props.sexual}
+                              onUpdate={(o) => {
+                                props.updateSexual(o)
+                                props.updatePreferences({sexual: o})
+                              }} />
+          </View>
+
           <TouchableOpacity onPress={props.logout} style={[style.button]}>
             <Text style={style.logout}>SIGN OUT</Text>
           </TouchableOpacity>
@@ -98,7 +111,6 @@ export default class PreferencesView extends Component {
 
 const style = StyleSheet.create({
   container: {
-    minHeight: screenHeight - tabNavHeight,
     paddingTop: em(4),
     alignItems: 'center',
     paddingBottom: tabNavHeight,
@@ -130,17 +142,19 @@ const style = StyleSheet.create({
   preferences: {
     width: '100%',
     paddingTop: em(3),
-    paddingLeft: em(1),
-    paddingRight: em(1),
   },
   preference: {
     marginBottom: em(2),
+    paddingLeft: em(1),
+    paddingRight: em(1),
+    width: '100%',
   },
   preferenceHeader: {
     flexDirection: 'row',
     justifyContent: 'space-between',
     marginBottom: em(1),
     alignItems: 'center',
+    width: '100%',
     paddingRight: em(1),
   },
   preferenceLabel: {
@@ -170,5 +184,6 @@ const style = StyleSheet.create({
     fontSize: em(1),
     letterSpacing: em(0.1),
     color: 'white',
+    marginTop: em(0.1),
   },
 })
