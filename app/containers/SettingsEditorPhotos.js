@@ -222,44 +222,55 @@ export default class SettingsEditorPhotos extends Component {
           <Text style={[style.photoSelectLabel, {textAlign: 'center', color: 'white'}]}>
             SELECT FROM INSTAGRAM
           </Text>
-          <ScrollView horizontal={true} showsHorizontalScrollIndicator={false}>
-            <View>
-              <View style={style.photoSelect}>
-              {
-                (props.user.availablePhotos.filter((p,i) => i%2===0) || []).map((p,i) => {
-                  return (
-                    <TouchableOpacity key={i}
-                                      onPress={() => {
-                                        if (state.photoBin.length >= props.photoLimit) {return this.alertLimitReached()}
-                                        this.editImage(p.image)
-                                      }}>
-                      <Image style={[style.photoSelectImg]}
-                             resizeMode="cover"
-                             source={{url: p.image.url}} />
-                    </TouchableOpacity>
-                  )
-                })
-              }
+          {
+            props.user.instagramId ?
+            <ScrollView horizontal={true} showsHorizontalScrollIndicator={false}>
+              <View>
+                <View style={style.photoSelect}>
+                {
+                  (props.user.availablePhotos.filter((p,i) => i%2===0) || []).map((p,i) => {
+                    return (
+                      <TouchableOpacity key={i}
+                                        onPress={() => {
+                                          if (state.photoBin.length >= props.photoLimit) {return this.alertLimitReached()}
+                                          this.editImage(p.image)
+                                        }}>
+                        <Image style={[style.photoSelectImg]}
+                               resizeMode="cover"
+                               source={{url: p.image.url}} />
+                      </TouchableOpacity>
+                    )
+                  })
+                }
+                </View>
+                <View style={style.photoSelect}>
+                {
+                  (props.user.availablePhotos.filter((p,i) => i%2===1) || []).map((p,i) => {
+                    return (
+                      <TouchableOpacity key={i}
+                                        onPress={() => {
+                                          if (state.photoBin.length >= props.photoLimit) {return this.alertLimitReached()}
+                                          this.editImage(p.image)
+                                        }}>
+                        <Image style={[style.photoSelectImg]}
+                               resizeMode="cover"
+                               source={{url: p.image.url}} />
+                      </TouchableOpacity>
+                    )
+                  })
+                }
+                </View>
               </View>
-              <View style={style.photoSelect}>
-              {
-                (props.user.availablePhotos.filter((p,i) => i%2===1) || []).map((p,i) => {
-                  return (
-                    <TouchableOpacity key={i}
-                                      onPress={() => {
-                                        if (state.photoBin.length >= props.photoLimit) {return this.alertLimitReached()}
-                                        this.editImage(p.image)
-                                      }}>
-                      <Image style={[style.photoSelectImg]}
-                             resizeMode="cover"
-                             source={{url: p.image.url}} />
-                    </TouchableOpacity>
-                  )
-                })
-              }
-              </View>
+            </ScrollView> :
+            <View style={style.centered}>
+              <TouchableOpacity style={style.connectIgBtn}>
+                <Text style={style.connectIgText}>Connect Instagram</Text>
+                 <Image style={style.connectIgLogo}
+                        resizeMode='contain'
+                        source={require('../images/ig-logo-black.png')} />
+              </TouchableOpacity>
             </View>
-          </ScrollView>
+          }
         </View>
 
         <View style={{alignItems: 'center'}}>
@@ -353,5 +364,32 @@ const style = StyleSheet.create({
   trashBinIcon: {
     width: '100%',
     height: '100%',
-  }
+  },
+
+  connectIgBtn: {
+    flexDirection: 'row',
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginTop: em(1),
+    marginBottom: em(0.33),
+    paddingTop: em(0.8),
+    paddingBottom: em(0.8),
+    paddingLeft: em(1),
+    paddingRight: em(1),
+    backgroundColor: 'rgba(220,224,223,1)',
+    maxWidth: '80%',
+    borderRadius: em(0.33),
+  },
+  connectIgText: {
+    backgroundColor: 'transparent',
+    fontFamily: 'Gotham-Medium',
+    marginRight: em(0.66),
+    fontSize: em(1),
+    marginTop: em(0.2),
+    letterSpacing: em(0.05),
+  },
+  connectIgLogo: {
+    width: em(2),
+    height: em(2),
+  },
 })

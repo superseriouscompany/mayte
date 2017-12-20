@@ -93,7 +93,14 @@ class SettingsEditor extends Component {
       <SettingsEditorView {...props} {...state}
                           save={this.save}
                           cancelEdit={this.cancelEdit}
-                          options={this.options}
+                          options={(() => {
+                            var op = {...this.options}
+                            if (!props.user.instagramId) {
+                              delete op.showInstagramFeed
+                              delete op.showInstagramHandle
+                            }
+                            return op
+                          })()}
                           photoLimit={photoLimit}
                           setPhotos={(bin) => this.setState({photos: bin})}
                           setBio={text => this.setState({bio: text})}
