@@ -32,7 +32,8 @@ class SettingsEditor extends Component {
     this.state = {
       saving: false,
       dob: props.user.dob,
-      bio: props.user.bio || '',
+      bio: props.user.bio,
+      photos: props.user.photos,
       occupation: props.user.occupation,
       showAge: privacyOptions.showAge || false,
       showLocation: privacyOptions.showLocation || false,
@@ -55,6 +56,7 @@ class SettingsEditor extends Component {
       body: {
         bio: this.state.bio,
         dob: this.state.dob,
+        photos: this.state.photos,
         occupation: this.state.occupation,
         privacyOptions: {
           showAge: this.state.showAge,
@@ -93,6 +95,7 @@ class SettingsEditor extends Component {
                           cancelEdit={this.cancelEdit}
                           options={this.options}
                           photoLimit={photoLimit}
+                          setPhotos={(bin) => this.setState({photos: bin})}
                           setBio={text => this.setState({bio: text})}
                           setDob={date => this.setState({dob: date})}
                           toggleScroll={() => this.setState({scrollEnabled: !state.scrollEnabled})}

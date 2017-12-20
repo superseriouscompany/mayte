@@ -47,12 +47,13 @@ export default (props) => {
       <View style={[style.padded, {paddingTop: em(2)}]}>
         <View style={[style.sectionHeader]}>
           <Text style={[style.sectionHeaderLabel]}>BIO</Text>
-          <Text style={[style.sectionHeaderSublabel]}>{props.bio.length}/500</Text>
+          <Text style={[style.sectionHeaderSublabel]}>{(props.bio || '').length}/500</Text>
         </View>
         <TextInput style={[style.bioInput]}
                    multiline={true}
                    maxLength={500}
-                   defaultValue={props.bio || 'Sample bio text'}
+                   placeholder='Bio'
+                   defaultValue={props.bio}
                    onChangeText={text => props.setBio(text)}></TextInput>
 
         <View style={[style.sectionHeader]}>

@@ -129,7 +129,7 @@ export default class CurrentPhotos extends Component {
                                 idx={idx}
                                 id={'abcdefghij'[idx]}
                                 {...props}
-                                source={p.uri}
+                                source={p.url}
                                 photo={p}
                                 style={style.thumbnail}
                                 willBeMoved={willBeMoved}

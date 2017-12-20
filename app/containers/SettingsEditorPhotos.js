@@ -23,7 +23,7 @@ export default class SettingsEditorPhotos extends Component {
       cameraRollEdges: [],
       rearrangingPhotos: false,
       trashReady: false,
-      photoBin: props.user.photos.map(p => new Object({uri: p.url})),
+      photoBin: props.user.photos.map(p => new Object({url: p.url})),
       toBeMoved: null,
     }
     this.cropImage = this.cropImage.bind(this)
@@ -36,6 +36,12 @@ export default class SettingsEditorPhotos extends Component {
     this.trashPhoto = this.trashPhoto.bind(this)
     this.reorder = this.reorder.bind(this)
     this.toggleActive = this.toggleActive.bind(this)
+  }
+
+  componentDidUpdate(prevProps, prevState) {
+    if (prevState.photoBin !== this.state.photoBin) {
+      this.props.setPhotos(this.state.photoBin)
+    }
   }
 
   alertLimitReached() {
@@ -122,20 +128,20 @@ export default class SettingsEditorPhotos extends Component {
 
   seekAndReplacePath(local, remote) {
     var pb = this.state.photoBin
-    var idx = pb.findIndex(p => p.uri === local)
-    if (idx > -1) {pb[idx].uri = remote}
+    var idx = pb.findIndex(p => p.url === local)
+    if (idx > -1) {pb[idx].url = remote}
     return this.setState({photoBin: pb})
   }
 
   seekAndDestroyPhoto(path) {
     var pb = this.state.photoBin
-    var idx = pb.findIndex(p => p.uri === path)
+    var idx = pb.findIndex(p => p.url === path)
     if (idx > -1) {pb.splice(idx,1)}
     return this.setState({photoBin: pb})
   }
 
-  pushToPhotoBin(uri) {
-    this.setState({photoBin: (this.state.photoBin || []).concat({uri: uri})})
+  pushToPhotoBin(path) {
+    this.setState({photoBin: (this.state.photoBin || []).concat({url: path})})
   }
 
   trashPhoto(p) {
