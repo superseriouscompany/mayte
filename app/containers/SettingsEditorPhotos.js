@@ -56,15 +56,20 @@ export default class SettingsEditorPhotos extends Component {
   }
 
   editImage(img) {
+    var localPath
     return this.cropImage(img)
       .then(img => {
-        return this.uploadImage(img.path)
+        localPath = img.path
+        this.pushToPhotoBin(localPath)
+        return this.uploadImage(localPath)
       }).then(payload => {
-        return this.pushToPhotoBin(payload.url)
+        if (!payload || !payload.url) {return this.seekAndDestroyPhoto(localPath)}
+        return this.seekAndReplacePath(localPath, payload.url)
       })
       .catch(err => {
         if (err.code === 'E_PICKER_CANCELLED') {return}
         alert(err)
+        this.seekAndDestroyPhoto(localPath)
         return console.error(err)
       })
   }
@@ -102,8 +107,8 @@ export default class SettingsEditorPhotos extends Component {
       cropping: true,
     }).then(image => {
       localPath = image.path
-      this.pushToPhotoBin(image.path)
-      return this.uploadImage(image.path)
+      this.pushToPhotoBin(localPath)
+      return this.uploadImage(localPath)
     }).then(payload => {
       if (!payload || !payload.url) {return this.seekAndDestroyPhoto(localPath)}
       return this.seekAndReplacePath(localPath, payload.url)
