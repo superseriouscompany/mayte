@@ -25,10 +25,10 @@ export default function(props) {
     lazy: true,
     tabBarPosition: 'bottom',
     tabBarOptions: {
-      activeTintColor:         'white',
+      activeTintColor:         mayteBlack(1),
       inactiveTintColor:       'gainsboro',
-      activeBackgroundColor:   mayteBlack(0.66),
-      inactiveBackgroundColor: mayteBlack(0.9),
+      activeBackgroundColor:   mayteBlack(0.1),
+      inactiveBackgroundColor: mayteBlack(1),
       style:                   {borderTopWidth: 0, height: tabNavHeight},
       labelStyle:              {fontFamily: 'Gotham-Book', letterSpacing: em(0.1), fontSize: em(0.66)},
       allowFontScaling:        false,
