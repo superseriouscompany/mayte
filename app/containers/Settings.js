@@ -35,11 +35,10 @@ class Settings extends Component {
       api('/photos/available', {accessToken: this.props.accessToken}),
     ]).then((v) => {
       const user = v[0]
-      const activeIds = user.photos.map(p => p.instagramId)
       const photos = user.photos
       const bio = user.bio
       const dob = user.dob
-      this.setState({ activeIds: activeIds, photos: photos, loading: false, bio: bio, dob: dob })
+      this.setState({ photos: photos, loading: false, bio: bio, dob: dob })
       this.props.setUser(user)
     }).catch((err) => {
       this.setState({ loading: false, error: err.message || err })
