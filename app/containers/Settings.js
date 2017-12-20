@@ -16,6 +16,7 @@ class Settings extends Component {
       baseScene: 'Preferences',
     }
     this.hydrateUser     = this.hydrateUser.bind(this)
+    this.deleteAccount   = this.deleteAccount.bind(this)
     this.updateBaseScene = this.updateBaseScene.bind(this)
   }
 
@@ -42,6 +43,18 @@ class Settings extends Component {
       this.props.setUser(user)
     }).catch((err) => {
       this.setState({ loading: false, error: err.message || err })
+    })
+  }
+
+  deleteAccount() {
+    api('/users/me', {
+      method: 'DELETE',
+      accessToken: this.props.accessToken
+    }).then(() => {
+      this.props.logout()
+    }).catch((err) => {
+      alert(err.message || err)
+      console.error(err)
     })
   }
 
