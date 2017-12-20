@@ -3,7 +3,7 @@
 import React, {Component} from 'react'
 import {connect}          from 'react-redux'
 import SettingsView       from '../components/SettingsView'
-import api                 from '../services/api'
+import api                from '../services/api'
 
 class Settings extends Component {
   constructor(props) {
@@ -17,6 +17,7 @@ class Settings extends Component {
     }
     this.activate        = this.activate.bind(this)
     this.deactivate      = this.deactivate.bind(this)
+    this.deleteAccount   = this.deleteAccount.bind(this)
     this.updatePhotos    = this.updatePhotos.bind(this)
     this.hydrateUser     = this.hydrateUser.bind(this)
     this.updateBaseScene = this.updateBaseScene.bind(this)
@@ -32,6 +33,18 @@ class Settings extends Component {
       return id != instagramId
     })
     this.updatePhotos(activeIds)
+  }
+
+  deleteAccount() {
+    api('/users/me', {
+      method: 'DELETE',
+      accessToken: this.props.accessToken
+    }).then(() => {
+      this.props.logout()
+    }).catch((err) => {
+      alert(err.message || err)
+      console.error(err)
+    })
   }
 
   updatePhotos(activeIds) {

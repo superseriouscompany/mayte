@@ -3,10 +3,11 @@ import { BlurView } from 'react-native-blur'
 import RangeSlider from '../containers/RangeSlider'
 import SexualPreference from '../containers/SexualPreference'
 import { em, tabNavHeight, screenHeight, notchHeight } from '../constants/dimensions'
-import { mayteBlack } from '../constants/colors'
+import { mayteBlack, mayteRed } from '../constants/colors'
 import {
   StyleSheet,
   ScrollView,
+  Alert,
   View,
   Image,
   Text,
@@ -103,6 +104,25 @@ export default class PreferencesView extends Component {
           <TouchableOpacity onPress={props.logout} style={[style.button]}>
             <Text style={style.logout}>SIGN OUT</Text>
           </TouchableOpacity>
+
+          <Image style={style.logo}
+                 resizeMode='contain'
+                 source={require('../images/icon-trans-black.png')} />
+          <Text style={style.appName}>UNIQORN</Text>
+
+          <TouchableOpacity style={style.deleteBtn}
+                            onPress={() => {
+                              Alert.alert(
+                                "Delete Account",
+                                "Are you sure?",
+                                [
+                                  {text: 'Cancel'},
+                                  {text: 'Confirm', onPress: () => props.deleteAccount()}
+                                ]
+                              )
+                            }}>
+            <Text style={style.deleteBtnText}>DELETE ACCOUNT</Text>
+          </TouchableOpacity>
         </ScrollView>
       </View>
     )
@@ -186,4 +206,29 @@ const style = StyleSheet.create({
     color: 'white',
     marginTop: em(0.1),
   },
+  logo: {
+    marginTop: em(3),
+    height: em(3.33),
+  },
+  appName: {
+    fontSize: em(0.8),
+    color: mayteBlack(0.66),
+    fontFamily: 'Gotham-Book',
+    letterSpacing: em(0.1),
+    marginTop: em(0.66),
+    marginLeft: em(0.1),
+    backgroundColor: 'transparent',
+  },
+  deleteBtn: {
+    marginTop: em(2.66),
+    backgroundColor: 'transparent',
+  },
+  deleteBtnText: {
+    fontSize: em(0.8),
+    backgroundColor: 'transparent',
+    color: mayteRed(1),
+    fontFamily: 'Gotham-Book',
+    letterSpacing: em(0.1),
+    marginLeft: em(0.2),
+  }
 })
