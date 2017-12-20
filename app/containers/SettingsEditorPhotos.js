@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 import CurrentPhotos from '../containers/CurrentPhotos'
 import { em, screenWidth, screenHeight } from '../constants/dimensions'
 import ImagePicker from 'react-native-image-crop-picker'
+import api, {baseUrl} from '../services/api'
 import {
   View,
   Text,
@@ -26,6 +27,7 @@ export default class SettingsEditorPhotos extends Component {
     }
     this.cropImage = this.cropImage.bind(this)
     this.editImage = this.editImage.bind(this)
+    this.uploadImage = this.uploadImage.bind(this)
     this.getFromCameraRoll = this.getFromCameraRoll.bind(this)
     this.pushToPhotoBin = this.pushToPhotoBin.bind(this)
     this.trashPhoto = this.trashPhoto.bind(this)
@@ -58,13 +60,43 @@ export default class SettingsEditorPhotos extends Component {
       })
   }
 
+  uploadImage(path) {
+    return new Promise((resolve, reject) => {
+      var body = new FormData();
+      body.append('image_file', {uri: path, name: 'photo.jpg', type: 'image/jpeg'});
+
+      var xhr = new XMLHttpRequest;
+      xhr.onreadystatechange = (e) => {
+        if( xhr.readyState !== 4 ) { return; }
+
+        if( xhr.status < 299 ) {
+          const json = JSON.parse(xhr.responseText);
+          return resolve(json)
+        } else {
+          reject(xhr.status + ': ' + xhr.responseText);
+        }
+      }
+      xhr.open('POST', `${baseUrl}/images`);
+      xhr.send(body);
+    }).then((payload) => {
+      console.log("UPLOAD PAYLOAD:", payload)
+      // this.set('imageUrl', payload.url)
+    }).catch((err) => {
+      alert(err.message || JSON.stringify(err))
+    })
+  }
+
   getFromCameraRoll() {
     ImagePicker.openPicker({
       width: screenWidth,
       height: screenHeight,
       cropping: true,
     }).then(image => {
-      this.pushToPhotoBin(image.path)
+      this.uploadImage(image.path)
+    }).then(data => {
+      // console.log(image)
+      // this.pushToPhotoBin(image.path)
+      return console.log("DUNZO")
     }).catch(err => {
       if (err.code === 'E_PICKER_CANCELLED') {return}
       alert(err)
