@@ -1,7 +1,7 @@
 export const baseUrl = __DEV__ ?
   // 'http://localhost:3000' :
   'https://superserious.ngrok.io' :
-  'https://nwhj3zzqi6.execute-api.us-west-2.amazonaws.com/development';
+  'https://obscure-tundra-93213.herokuapp.com';
 
 export default function request(path, options = {}) {
   if( path[0] != '/' ) path = `/${path}`;

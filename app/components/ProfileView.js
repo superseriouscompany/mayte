@@ -101,10 +101,16 @@ export default class ProfileView extends Component {
 
   componentWillMount() {
     this._panResponder = PanResponder.create({
-      onStartShouldSetPanResponder: (evt, gestureState) => true,
-      onStartShouldSetPanResponderCapture: (evt, gestureState) => true,
-      onMoveShouldSetPanResponder: (evt, gestureState) => true,
-      onMoveShouldSetPanResponderCapture: (evt, gestureState) => true,
+      onStartShouldSetPanResponder: (evt, gestureState) => false,
+      onStartShouldSetPanResponderCapture: (evt, gestureState) => false,
+      onMoveShouldSetPanResponder: (evt, gestureState) => {
+        // https://github.com/facebook/react-native/issues/3082
+        if (gestureState.dx !== 0 || gestureState.dy !== 0) {
+          return true
+        }
+        return false
+      },
+      onMoveShouldSetPanResponderCapture: (evt, gestureState) => false,
 
       onPanResponderGrant: (evt, gestureState) => {
         this.panStartY = this.state.topValue._value
@@ -184,12 +190,12 @@ export default class ProfileView extends Component {
               {
                 props.hideButtons ? null :
                 <View style={[style.tray]}>
-                  <TouchableOpacity onPress={() => props.pass(props.user.id)} >
+                  <TouchableOpacity onPress={() => props.pass(props.user.id)}>
                     <Image style={style.bubble}
                            resizeMode='contain'
                            source={require('../images/nope-white.png')} />
                   </TouchableOpacity>
-                  <TouchableOpacity onPress={() => props.like(props.user.id)}>
+                  <TouchableOpacity onPress={(e) => props.like(props.user.id)}>
                     <Image style={style.bubble}
                            resizeMode='contain'
                            source={require('../images/wink-white.png')} />
@@ -328,13 +334,5 @@ const style = StyleSheet.create({
   button: {
     color: 'rgba(255,255,255,0.9)',
     backgroundColor: 'rgba(255,255,255,0)',
-  },
-
-  opener: {
-    position: 'absolute',
-    top: 10, left: 0,
-    width: '100%',
-    height: screenHeight * 0.25,
-    zIndex: 1,
   },
 })
