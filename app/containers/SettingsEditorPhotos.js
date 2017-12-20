@@ -7,6 +7,7 @@ import {
   View,
   Text,
   Image,
+  Alert,
   ScrollView,
   StyleSheet,
   CameraRoll,
@@ -35,6 +36,10 @@ export default class SettingsEditorPhotos extends Component {
     this.toggleActive = this.toggleActive.bind(this)
   }
 
+  alertLimitReached() {
+    Alert.alert("Limit Reached!", "Remove photos to add new ones", {text: "Ok"})
+  }
+
   toggleActive() {
     this.setState({rearrangingPhotos: !this.state.rearrangingPhotos})
     this.props.toggleScroll()
@@ -50,8 +55,10 @@ export default class SettingsEditorPhotos extends Component {
 
   editImage(img) {
     return this.cropImage(img)
-      .then(d => {
-        return this.pushToPhotoBin(d.path)
+      .then(img => {
+        return this.uploadImage(img.path)
+      }).then(payload => {
+        return this.pushToPhotoBin(payload.url)
       })
       .catch(err => {
         if (err.code === 'E_PICKER_CANCELLED') {return}
@@ -78,9 +85,8 @@ export default class SettingsEditorPhotos extends Component {
       }
       xhr.open('POST', `${baseUrl}/images`);
       xhr.send(body);
-    }).then((payload) => {
-      console.log("UPLOAD PAYLOAD:", payload)
-      // this.set('imageUrl', payload.url)
+    }).then(payload => {
+      return payload
     }).catch((err) => {
       alert(err.message || JSON.stringify(err))
     })
@@ -92,11 +98,9 @@ export default class SettingsEditorPhotos extends Component {
       height: screenHeight,
       cropping: true,
     }).then(image => {
-      this.uploadImage(image.path)
-    }).then(data => {
-      // console.log(image)
-      // this.pushToPhotoBin(image.path)
-      return console.log("DUNZO")
+      return this.uploadImage(image.path)
+    }).then(payload => {
+      return this.pushToPhotoBin(payload.url)
     }).catch(err => {
       if (err.code === 'E_PICKER_CANCELLED') {return}
       alert(err)
@@ -192,7 +196,11 @@ export default class SettingsEditorPhotos extends Component {
               {
                 (props.user.availablePhotos.filter((p,i) => i%2===0) || []).map((p,i) => {
                   return (
-                    <TouchableOpacity key={i} onPress={() => this.editImage(p.image)}>
+                    <TouchableOpacity key={i}
+                                      onPress={() => {
+                                        if (state.photoBin.length >= props.photoLimit) {return this.alertLimitReached()}
+                                        this.editImage(p.image)
+                                      }}>
                       <Image style={[style.photoSelectImg]}
                              resizeMode="cover"
                              source={{url: p.image.url}} />
@@ -205,7 +213,11 @@ export default class SettingsEditorPhotos extends Component {
               {
                 (props.user.availablePhotos.filter((p,i) => i%2===1) || []).map((p,i) => {
                   return (
-                    <TouchableOpacity key={i} onPress={() => this.editImage(p.image)}>
+                    <TouchableOpacity key={i}
+                                      onPress={() => {
+                                        if (state.photoBin.length >= props.photoLimit) {return this.alertLimitReached()}
+                                        this.editImage(p.image)
+                                      }}>
                       <Image style={[style.photoSelectImg]}
                              resizeMode="cover"
                              source={{url: p.image.url}} />
@@ -223,6 +235,7 @@ export default class SettingsEditorPhotos extends Component {
             SELECT FROM CAMERA ROLL
           </Text>
           <TouchableOpacity onPress={() => {
+                              if (state.photoBin.length >= props.photoLimit) {return this.alertLimitReached()}
                               this.setState({cameraRollOpen: true})
                               this.getFromCameraRoll()
                             }}>

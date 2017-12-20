@@ -3,6 +3,8 @@ import SettingsEditorView from '../components/SettingsEditorView'
 import { screenWidth, screenHeight } from '../constants/dimensions'
 import api from '../services/api'
 
+const photoLimit = 8
+
 class SettingsEditor extends Component {
   constructor(props) {
     super(props)
@@ -90,6 +92,7 @@ class SettingsEditor extends Component {
                           save={this.save}
                           cancelEdit={this.cancelEdit}
                           options={this.options}
+                          photoLimit={photoLimit}
                           setBio={text => this.setState({bio: text})}
                           setDob={date => this.setState({dob: date})}
                           toggleScroll={() => this.setState({scrollEnabled: !state.scrollEnabled})}

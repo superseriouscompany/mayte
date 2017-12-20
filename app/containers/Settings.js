@@ -15,64 +15,8 @@ class Settings extends Component {
       updatingDob: false,
       baseScene: 'Preferences',
     }
-    this.activate        = this.activate.bind(this)
-    this.deactivate      = this.deactivate.bind(this)
-    this.updatePhotos    = this.updatePhotos.bind(this)
     this.hydrateUser     = this.hydrateUser.bind(this)
     this.updateBaseScene = this.updateBaseScene.bind(this)
-  }
-
-  activate(instagramId) {
-    const activeIds = this.state.activeIds.concat(instagramId)
-    this.updatePhotos(activeIds)
-  }
-
-  deactivate(instagramId) {
-    const activeIds = this.state.activeIds.filter((id) => {
-      return id != instagramId
-    })
-    this.updatePhotos(activeIds)
-  }
-
-  updatePhotos(activeIds) {
-    this.setState({
-      activeIds: activeIds,
-      photos:    this.calculateActive(activeIds, this.state.photos),
-    })
-    api('/photos', {
-      method: 'PUT',
-      accessToken: this.props.accessToken,
-      body: {
-        photos: activeIds
-      }
-    }).catch((err) => {
-      alert(err.message || err)
-      console.error(err)
-    })
-  }
-
-  update() {
-    this.setState({updating: true})
-    api('/users/me', {
-      method: 'PATCH',
-      accessToken: this.props.accessToken,
-      body: {
-        bio: this.state.bio,
-        dob: this.state.dob,
-      }
-    }).then(() =>
-      this.setState({updating: false})
-    ).catch((err) => {
-      alert(err.message || err)
-      console.error(err)
-    })
-  }
-
-  calculateActive(activeIds, photos) {
-    return (photos || []).map((p) => {
-      p.isActive = activeIds.indexOf(p.instagramId) !== -1
-      return p
-    })
   }
 
   componentDidMount() {
@@ -92,7 +36,7 @@ class Settings extends Component {
     ]).then((v) => {
       const user = v[0]
       const activeIds = user.photos.map(p => p.instagramId)
-      const photos = this.calculateActive(activeIds, v[1].photos)
+      const photos = user.photos
       const bio = user.bio
       const dob = user.dob
       this.setState({ activeIds: activeIds, photos: photos, loading: false, bio: bio, dob: dob })
@@ -111,9 +55,6 @@ class Settings extends Component {
                     hydrateUser={this.hydrateUser}
                     setBio={text => this.setState({bio: text})}
                     setDob={date => this.setState({dob: date})}
-                    update={this.update}
-                    activate={this.activate}
-                    deactivate={this.deactivate}
                     deleteAccount={this.deleteAccount} />
     )
   }
