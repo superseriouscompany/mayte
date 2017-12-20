@@ -195,7 +195,7 @@ export default class ProfileView extends Component {
                            resizeMode='contain'
                            source={require('../images/nope-white.png')} />
                   </TouchableOpacity>
-                  <TouchableOpacity onPress={(e) => props.like(props.user.id)}>
+                  <TouchableOpacity onPress={() => props.like(props.user.id)}>
                     <Image style={style.bubble}
                            resizeMode='contain'
                            source={require('../images/wink-white.png')} />
