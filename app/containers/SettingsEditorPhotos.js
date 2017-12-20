@@ -30,6 +30,8 @@ export default class SettingsEditorPhotos extends Component {
     this.editImage = this.editImage.bind(this)
     this.uploadImage = this.uploadImage.bind(this)
     this.getFromCameraRoll = this.getFromCameraRoll.bind(this)
+    this.seekAndReplacePath = this.seekAndReplacePath.bind(this)
+    this.seekAndDestroyPhoto = this.seekAndDestroyPhoto.bind(this)
     this.pushToPhotoBin = this.pushToPhotoBin.bind(this)
     this.trashPhoto = this.trashPhoto.bind(this)
     this.reorder = this.reorder.bind(this)
@@ -93,19 +95,38 @@ export default class SettingsEditorPhotos extends Component {
   }
 
   getFromCameraRoll() {
+    var localPath
     ImagePicker.openPicker({
       width: screenWidth,
       height: screenHeight,
       cropping: true,
     }).then(image => {
+      localPath = image.path
+      this.pushToPhotoBin(image.path)
       return this.uploadImage(image.path)
     }).then(payload => {
-      return this.pushToPhotoBin(payload.url)
+      if (!payload || !payload.url) {return this.seekAndDestroyPhoto(localPath)}
+      return this.seekAndReplacePath(localPath, payload.url)
     }).catch(err => {
       if (err.code === 'E_PICKER_CANCELLED') {return}
       alert(err)
+      this.seekAndDestroyPhoto(localPath)
       return console.error(err)
     })
+  }
+
+  seekAndReplacePath(local, remote) {
+    var pb = this.state.photoBin
+    var idx = pb.findIndex(p => p.uri === local)
+    if (idx > -1) {pb[idx].uri = remote}
+    return this.setState({photoBin: pb})
+  }
+
+  seekAndDestroyPhoto(path) {
+    var pb = this.state.photoBin
+    var idx = pb.findIndex(p => p.uri === path)
+    if (idx > -1) {pb.splice(idx,1)}
+    return this.setState({photoBin: pb})
   }
 
   pushToPhotoBin(uri) {
