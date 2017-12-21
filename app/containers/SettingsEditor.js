@@ -45,7 +45,7 @@ class SettingsEditor extends Component {
     }
 
     this.save = this.save.bind(this)
-    this.handle = this.handle.bind(this)
+    this.handleConnect = this.handleConnect.bind(this)
     this.setPrivacyOption = this.setPrivacyOption.bind(this)
     this.connectIg = this.connectIg.bind(this)
     this.cancelEdit = this.cancelEdit.bind(this)
