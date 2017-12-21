@@ -263,7 +263,7 @@ export default class SettingsEditorPhotos extends Component {
               </View>
             </ScrollView> :
             <View style={style.centered}>
-              <TouchableOpacity style={style.connectIgBtn}>
+              <TouchableOpacity style={style.connectIgBtn} onPress={props.connectIg}>
                 <Text style={style.connectIgText}>Connect Instagram</Text>
                  <Image style={style.connectIgLogo}
                         resizeMode='contain'

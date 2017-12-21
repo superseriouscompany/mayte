@@ -33,7 +33,6 @@ class Settings extends Component {
     if (reload) this.setState({loading: true});
     return Promise.all([
       api('/users/me', { accessToken: this.props.accessToken}),
-      api('/photos/available', {accessToken: this.props.accessToken}),
     ]).then((v) => {
       const user = v[0]
       const photos = user.photos
@@ -62,7 +61,7 @@ class Settings extends Component {
     return (
       <SettingsView {...this.state}
                     {...this.props}
-                    scene={{view:'Editor'}}
+                    // scene={{view:'Editor'}}
                     updateBaseScene={this.updateBaseScene}
                     hydrateUser={this.hydrateUser}
                     setBio={text => this.setState({bio: text})}

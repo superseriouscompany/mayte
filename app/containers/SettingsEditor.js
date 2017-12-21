@@ -1,7 +1,8 @@
 import React, { Component } from 'react'
 import SettingsEditorView from '../components/SettingsEditorView'
 import { screenWidth, screenHeight } from '../constants/dimensions'
-import api from '../services/api'
+import api, { baseUrl } from '../services/api'
+import { Linking } from 'react-native'
 
 const photoLimit = 8
 
@@ -44,8 +45,26 @@ class SettingsEditor extends Component {
     }
 
     this.save = this.save.bind(this)
+    this.handle = this.handle.bind(this)
     this.setPrivacyOption = this.setPrivacyOption.bind(this)
+    this.connectIg = this.connectIg.bind(this)
     this.cancelEdit = this.cancelEdit.bind(this)
+  }
+
+  componentDidMount() {
+    Linking.addEventListener('url', this.handleConnect)
+  }
+
+  componentWillUnmount() {
+    Linking.removeEventListener('url', this.handleConnect)
+  }
+
+  handleConnect(event) {
+    if( !event.url ||
+        (!event.url.match(/mayte:\/\/ig/) && !event.url.match(/mayte:\/\/li/)) ) {
+      return console.warn('Unknown event url', event && event.url)
+    }
+    this.props.hydrateUser()
   }
 
   save() {
@@ -87,6 +106,23 @@ class SettingsEditor extends Component {
     this.props.viewSettingsPage(this.props.baseScene)
   }
 
+  connectIg() {
+    const redirectUrl = `${baseUrl}/webhooks/instagram?connect=${this.props.user.id}`
+    const clientId    = '1c6d8f10063b4ac7b9010194c380b6fb'
+
+    const url = 'https://instagram.com/oauth/authorize/?client_id='+clientId+
+        '&redirect_uri='+redirectUrl+
+        '&response_type=code'+
+        '&state=client.ios'
+    Linking.canOpenURL(url).then(supported => {
+      if (!supported) {
+        console.log('Can\'t handle url: ' + url)
+      } else {
+        return Linking.openURL(url)
+      }
+    }).catch(console.error)
+  }
+
   render() {
     const { props, state } = this
     return(
@@ -101,6 +137,7 @@ class SettingsEditor extends Component {
                             }
                             return op
                           })()}
+                          connectIg={this.connectIg}
                           photoLimit={photoLimit}
                           setPhotos={(bin) => this.setState({photos: bin})}
                           setBio={text => this.setState({bio: text})}
