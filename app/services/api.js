@@ -1,3 +1,5 @@
+import { Linking } from 'react-native'
+
 export const baseUrl = __DEV__ ?
   // 'http://localhost:3000' :
   'https://superserious.ngrok.io' :
@@ -40,4 +42,26 @@ export default function request(path, options = {}) {
     console.error(err)
     throw new Error(statusCode)
   })
+}
+
+export const oauthInstagram = (params) => {
+  var ps = params ? '?' + Object.keys(params).map(p => {
+    return `${p}=${params[p]}`
+  }).join('&') : ''
+
+  const redirectUrl = `${baseUrl}/webhooks/instagram${ps}`
+  const clientId    = '1c6d8f10063b4ac7b9010194c380b6fb'
+
+  const url = 'https://instagram.com/oauth/authorize/?client_id='+clientId+
+      '&redirect_uri='+redirectUrl+
+      '&response_type=code'+
+      '&state=client.ios'
+
+  return Linking.canOpenURL(url).then(supported => {
+    if (!supported) {
+      console.log('Can\'t handle url: ' + url)
+    } else {
+      return Linking.openURL(url)
+    }
+  }).catch(console.error)
 }

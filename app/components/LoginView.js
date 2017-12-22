@@ -29,7 +29,8 @@ export default function(props) {
                  source={require('../images/logo-trans.png')}
                  resizeMode="contain" />
 
-          <TouchableOpacity onPress={props.login} style={[style.button, {marginBottom: 40}]}>
+          <TouchableOpacity onPress={props.instagramLogin}
+                            style={[style.button, {marginBottom: 40}]}>
             <Text style={[style.buttonText]}>LOGIN WITH INSTAGRAM</Text>
           </TouchableOpacity>
 

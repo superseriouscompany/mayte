@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import CurrentPhotos from '../containers/CurrentPhotos'
 import { em, screenWidth, screenHeight } from '../constants/dimensions'
 import ImagePicker from 'react-native-image-crop-picker'
-import api, {baseUrl} from '../services/api'
+import api, {baseUrl, oauthInstagram} from '../services/api'
 import {
   View,
   Text,
@@ -263,7 +263,7 @@ export default class SettingsEditorPhotos extends Component {
               </View>
             </ScrollView> :
             <View style={style.centered}>
-              <TouchableOpacity style={style.connectIgBtn} onPress={props.connectIg}>
+              <TouchableOpacity style={style.connectIgBtn} onPress={() => oauthInstagram({connect: props.user.id})}>
                 <Text style={style.connectIgText}>Connect Instagram</Text>
                  <Image style={style.connectIgLogo}
                         resizeMode='contain'
