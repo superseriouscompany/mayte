@@ -46,10 +46,10 @@ function request(path, options = {}) {
 
 request.upload = (params={}) => {
   return new Promise((resolve, reject) => {
-
-    ['path', 'filePath', 'fieldName', 'fileName', 'fileType'].forEach(p => {
-      if (!params[p]) throw new Error(`Cannot upload - missing param: ${p}`)
-    })
+    const reqs = ['path', 'filePath', 'fieldName', 'fileName', 'fileType']
+    for (var i = 0; i < reqs.length; i++) {
+      if (!params[reqs[i]]) return reject(new Error(`Cannot upload - missing param: ${reqs[i]}`))
+    }
 
     var body = new FormData()
     body.append(params.fieldName, {
@@ -74,6 +74,7 @@ request.upload = (params={}) => {
   }).then(payload => {
     return payload
   }).catch((err) => {
+    console.error(err.message || JSON.stringify(err))
     alert(err.message || JSON.stringify(err))
   })
 }
