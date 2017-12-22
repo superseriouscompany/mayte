@@ -2,10 +2,12 @@ import React, { Component } from 'react'
 import CurrentPhotos from '../containers/CurrentPhotos'
 import { em, screenWidth, screenHeight } from '../constants/dimensions'
 import ImagePicker from 'react-native-image-crop-picker'
+import api, {oauthInstagram} from '../services/api'
 import {
   View,
   Text,
   Image,
+  Alert,
   ScrollView,
   StyleSheet,
   CameraRoll,
@@ -21,16 +23,29 @@ export default class SettingsEditorPhotos extends Component {
       cameraRollEdges: [],
       rearrangingPhotos: false,
       trashReady: false,
-      photoBin: props.user.photos.map(p => new Object({uri: p.url})),
+      photoBin: props.user.photos.map(p => new Object({url: p.url})),
       toBeMoved: null,
     }
     this.cropImage = this.cropImage.bind(this)
     this.editImage = this.editImage.bind(this)
+    this.uploadImage = this.uploadImage.bind(this)
     this.getFromCameraRoll = this.getFromCameraRoll.bind(this)
+    this.seekAndReplacePath = this.seekAndReplacePath.bind(this)
+    this.seekAndDestroyPhoto = this.seekAndDestroyPhoto.bind(this)
     this.pushToPhotoBin = this.pushToPhotoBin.bind(this)
     this.trashPhoto = this.trashPhoto.bind(this)
     this.reorder = this.reorder.bind(this)
     this.toggleActive = this.toggleActive.bind(this)
+  }
+
+  componentDidUpdate(prevProps, prevState) {
+    if (prevState.photoBin !== this.state.photoBin) {
+      this.props.setPhotos(this.state.photoBin)
+    }
+  }
+
+  alertLimitReached() {
+    Alert.alert("Limit Reached!", "Remove photos to add new ones", {text: "Ok"})
   }
 
   toggleActive() {
@@ -47,33 +62,73 @@ export default class SettingsEditorPhotos extends Component {
   }
 
   editImage(img) {
+    var localPath
     return this.cropImage(img)
-      .then(d => {
-        return this.pushToPhotoBin(d.path)
+      .then(img => {
+        localPath = img.path
+        this.pushToPhotoBin(localPath)
+        return this.uploadImage(localPath)
+      }).then(payload => {
+        if (!payload || !payload.url) {return this.seekAndDestroyPhoto(localPath)}
+        return this.seekAndReplacePath(localPath, payload.url)
       })
       .catch(err => {
         if (err.code === 'E_PICKER_CANCELLED') {return}
         alert(err)
+        this.seekAndDestroyPhoto(localPath)
         return console.error(err)
       })
   }
 
+  uploadImage(localPath) {
+    return api.upload({
+      path: '/images',
+      filePath: localPath,
+      fieldName: 'image_file',
+      fileName: `${this.props.user.id}_${Date.now()}.jpg`,
+      fileType: 'image/jpeg',
+    })
+  }
+
   getFromCameraRoll() {
+    var localPath
     ImagePicker.openPicker({
       width: screenWidth,
       height: screenHeight,
       cropping: true,
     }).then(image => {
-      this.pushToPhotoBin(image.path)
+      localPath = image.path
+      this.pushToPhotoBin(localPath)
+      return this.uploadImage(localPath)
+    }).then(payload => {
+      if (!payload || !payload.url) {return this.seekAndDestroyPhoto(localPath)}
+      return this.seekAndReplacePath(localPath, payload.url)
     }).catch(err => {
       if (err.code === 'E_PICKER_CANCELLED') {return}
       alert(err)
+      this.seekAndDestroyPhoto(localPath)
       return console.error(err)
     })
   }
 
-  pushToPhotoBin(uri) {
-    this.setState({photoBin: (this.state.photoBin || []).concat({uri: uri})})
+  seekAndReplacePath(local, remote) {
+    const photoBin = this.state.photoBin.map(p => {
+      if( p.url === local ) { p.url = remote }
+      return p
+    })
+    return this.setState({photoBin})
+  }
+
+  seekAndDestroyPhoto(path) {
+    const photoBin = this.state.photoBin.map(p => {
+      if( p.url === path ) { p = null }
+      return p
+    }).filter(p => p)
+    return this.setState({photoBin})
+  }
+
+  pushToPhotoBin(path) {
+    this.setState({photoBin: (this.state.photoBin || []).concat({url: path})})
   }
 
   trashPhoto(p) {
@@ -154,36 +209,55 @@ export default class SettingsEditorPhotos extends Component {
           <Text style={[style.photoSelectLabel, {textAlign: 'center', color: 'white'}]}>
             SELECT FROM INSTAGRAM
           </Text>
-          <ScrollView horizontal={true} showsHorizontalScrollIndicator={false}>
-            <View>
-              <View style={style.photoSelect}>
-              {
-                (props.user.availablePhotos.filter((p,i) => i%2===0) || []).map((p,i) => {
-                  return (
-                    <TouchableOpacity key={i} onPress={() => this.editImage(p.image)}>
-                      <Image style={[style.photoSelectImg]}
-                             resizeMode="cover"
-                             source={{url: p.image.url}} />
-                    </TouchableOpacity>
-                  )
-                })
-              }
+          {
+            props.user.instagramId ?
+            <ScrollView horizontal={true} showsHorizontalScrollIndicator={false}>
+              <View>
+                <View style={style.photoSelect}>
+                {
+                  (props.user.availablePhotos.filter((p,i) => i%2===0) || []).map((p,i) => {
+                    return (
+                      <TouchableOpacity key={i}
+                                        onPress={() => {
+                                          if (state.photoBin.length >= props.photoLimit) {return this.alertLimitReached()}
+                                          this.editImage(p.image)
+                                        }}>
+                        <Image style={[style.photoSelectImg]}
+                               resizeMode="cover"
+                               source={{url: p.image.url}} />
+                      </TouchableOpacity>
+                    )
+                  })
+                }
+                </View>
+                <View style={style.photoSelect}>
+                {
+                  (props.user.availablePhotos.filter((p,i) => i%2===1) || []).map((p,i) => {
+                    return (
+                      <TouchableOpacity key={i}
+                                        onPress={() => {
+                                          if (state.photoBin.length >= props.photoLimit) {return this.alertLimitReached()}
+                                          this.editImage(p.image)
+                                        }}>
+                        <Image style={[style.photoSelectImg]}
+                               resizeMode="cover"
+                               source={{url: p.image.url}} />
+                      </TouchableOpacity>
+                    )
+                  })
+                }
+                </View>
               </View>
-              <View style={style.photoSelect}>
-              {
-                (props.user.availablePhotos.filter((p,i) => i%2===1) || []).map((p,i) => {
-                  return (
-                    <TouchableOpacity key={i} onPress={() => this.editImage(p.image)}>
-                      <Image style={[style.photoSelectImg]}
-                             resizeMode="cover"
-                             source={{url: p.image.url}} />
-                    </TouchableOpacity>
-                  )
-                })
-              }
-              </View>
+            </ScrollView> :
+            <View style={style.centered}>
+              <TouchableOpacity style={style.connectIgBtn} onPress={() => oauthInstagram({connect: props.user.id})}>
+                <Text style={style.connectIgText}>Connect Instagram</Text>
+                 <Image style={style.connectIgLogo}
+                        resizeMode='contain'
+                        source={require('../images/ig-logo-black.png')} />
+              </TouchableOpacity>
             </View>
-          </ScrollView>
+          }
         </View>
 
         <View style={{alignItems: 'center'}}>
@@ -191,6 +265,7 @@ export default class SettingsEditorPhotos extends Component {
             SELECT FROM CAMERA ROLL
           </Text>
           <TouchableOpacity onPress={() => {
+                              if (state.photoBin.length >= props.photoLimit) {return this.alertLimitReached()}
                               this.setState({cameraRollOpen: true})
                               this.getFromCameraRoll()
                             }}>
@@ -276,5 +351,32 @@ const style = StyleSheet.create({
   trashBinIcon: {
     width: '100%',
     height: '100%',
-  }
+  },
+
+  connectIgBtn: {
+    flexDirection: 'row',
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginTop: em(1),
+    marginBottom: em(0.33),
+    paddingTop: em(0.8),
+    paddingBottom: em(0.8),
+    paddingLeft: em(1),
+    paddingRight: em(1),
+    backgroundColor: 'rgba(220,224,223,1)',
+    maxWidth: '80%',
+    borderRadius: em(0.33),
+  },
+  connectIgText: {
+    backgroundColor: 'transparent',
+    fontFamily: 'Gotham-Medium',
+    marginRight: em(0.66),
+    fontSize: em(1),
+    marginTop: em(0.2),
+    letterSpacing: em(0.05),
+  },
+  connectIgLogo: {
+    width: em(2),
+    height: em(2),
+  },
 })

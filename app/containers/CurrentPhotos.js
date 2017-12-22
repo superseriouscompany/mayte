@@ -33,7 +33,6 @@ export default class CurrentPhotos extends Component {
 
   componentWillReceiveProps(nextProps) {
     if (nextProps.photoBin.length != this.props.photoBin.length) {
-      console.log("NEW BIN ALURT")
       this.setState({
         cloneBin: nextProps.photoBin,
         targetPositions: this.calculateTargets(nextProps.photoBin)
@@ -57,7 +56,6 @@ export default class CurrentPhotos extends Component {
   }
 
   handleMovement(pageX, pageY, picIndex) {
-    // console.log(pageX, pageY)
     var tp = this.state.targetPositions
     for (let i = 0; i < tp.length; i++) {
       if (pageX >= tp[i].x + em(1) &&
@@ -87,17 +85,7 @@ export default class CurrentPhotos extends Component {
           pageY >= this.contPageY &&
           pageY <= this.contPageY + thumbWidth) {
 
-            console.log(`reording ${picIndex} to ${i}`)
-            this.props.reorder(picIndex, i)
-
-          // let state = this.state
-          // // state.prevTargets[picIndex]
-          // state.newTargets[i] = state.prevTargets[picIndex]
-          // state.newTargets[picIndex] = state.prevTargets[picIndex] = tp[i]
-          //
-          // this.setState(state)
-          //
-          // this.isArranging = false
+          this.props.reorder(picIndex, i)
           break
       }
     }
@@ -129,15 +117,13 @@ export default class CurrentPhotos extends Component {
                                 idx={idx}
                                 id={'abcdefghij'[idx]}
                                 {...props}
-                                source={p.uri}
+                                source={p.url}
                                 photo={p}
                                 style={style.thumbnail}
                                 willBeMoved={willBeMoved}
                                 onSpring={
                                   () => {
-                                    // if (!willBeMoved) {return}
                                     this.setState({cloneBin: props.photoBin})
-                                    // props.setToBeMoved(null)
                                   }
                                 }
                                 handleMovement={this.handleMovement}

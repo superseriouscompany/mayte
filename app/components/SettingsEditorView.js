@@ -47,12 +47,13 @@ export default (props) => {
       <View style={[style.padded, {paddingTop: em(2)}]}>
         <View style={[style.sectionHeader]}>
           <Text style={[style.sectionHeaderLabel]}>BIO</Text>
-          <Text style={[style.sectionHeaderSublabel]}>{props.bio.length}/500</Text>
+          <Text style={[style.sectionHeaderSublabel]}>{(props.bio || '').length}/500</Text>
         </View>
         <TextInput style={[style.bioInput]}
                    multiline={true}
                    maxLength={500}
-                   defaultValue={props.bio || 'Sample bio text'}
+                   placeholder='Bio'
+                   defaultValue={props.bio}
                    onChangeText={text => props.setBio(text)}></TextInput>
 
         <View style={[style.sectionHeader]}>
@@ -90,11 +91,11 @@ export default (props) => {
       </View>
 
       {/* OPTIONS */}
-      <View style={[style.padded, {paddingTop: em(3)}]}>
+      <View style={[style.padded, {paddingTop: em(3), paddingBottom: em(3)}]}>
       {
-        Object.keys(props.options).map((o,i) => {
+        Object.keys(props.options).map((o,i,a) => {
           return(
-            <View key={i} style={[style.option]} ref={el => this[o]}>
+            <View key={i} style={[style.option, (i == a.length - 1 ? {marginBottom: 0} : {})]} ref={el => this[o]}>
               <Text style={style.optionLabel}>{props.options[o].label}</Text>
               <Switch value={props[o]} onValueChange={(val) => props.setPrivacyOption(o,val)}></Switch>
             </View>

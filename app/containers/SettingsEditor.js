@@ -1,7 +1,10 @@
 import React, { Component } from 'react'
 import SettingsEditorView from '../components/SettingsEditorView'
 import { screenWidth, screenHeight } from '../constants/dimensions'
-import api from '../services/api'
+import api, { baseUrl } from '../services/api'
+import { Linking } from 'react-native'
+
+const photoLimit = 8
 
 class SettingsEditor extends Component {
   constructor(props) {
@@ -30,7 +33,8 @@ class SettingsEditor extends Component {
     this.state = {
       saving: false,
       dob: props.user.dob,
-      bio: props.user.bio || '',
+      bio: props.user.bio,
+      photos: props.user.photos,
       occupation: props.user.occupation,
       showAge: privacyOptions.showAge || false,
       showLocation: privacyOptions.showLocation || false,
@@ -41,8 +45,25 @@ class SettingsEditor extends Component {
     }
 
     this.save = this.save.bind(this)
+    this.handleConnect = this.handleConnect.bind(this)
     this.setPrivacyOption = this.setPrivacyOption.bind(this)
     this.cancelEdit = this.cancelEdit.bind(this)
+  }
+
+  componentDidMount() {
+    Linking.addEventListener('url', this.handleConnect)
+  }
+
+  componentWillUnmount() {
+    Linking.removeEventListener('url', this.handleConnect)
+  }
+
+  handleConnect(event) {
+    if( !event.url ||
+        (!event.url.match(/mayte:\/\/ig/) && !event.url.match(/mayte:\/\/li/)) ) {
+      return console.warn('Unknown event url', event && event.url)
+    }
+    this.props.hydrateUser()
   }
 
   save() {
@@ -53,6 +74,7 @@ class SettingsEditor extends Component {
       body: {
         bio: this.state.bio,
         dob: this.state.dob,
+        photos: this.state.photos,
         occupation: this.state.occupation,
         privacyOptions: {
           showAge: this.state.showAge,
@@ -89,7 +111,16 @@ class SettingsEditor extends Component {
       <SettingsEditorView {...props} {...state}
                           save={this.save}
                           cancelEdit={this.cancelEdit}
-                          options={this.options}
+                          options={(() => {
+                            var op = {...this.options}
+                            if (!props.user.instagramId) {
+                              delete op.showInstagramFeed
+                              delete op.showInstagramHandle
+                            }
+                            return op
+                          })()}
+                          photoLimit={photoLimit}
+                          setPhotos={(bin) => this.setState({photos: bin})}
                           setBio={text => this.setState({bio: text})}
                           setDob={date => this.setState({dob: date})}
                           toggleScroll={() => this.setState({scrollEnabled: !state.scrollEnabled})}
