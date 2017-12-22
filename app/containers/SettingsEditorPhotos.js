@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import CurrentPhotos from '../containers/CurrentPhotos'
 import { em, screenWidth, screenHeight } from '../constants/dimensions'
 import ImagePicker from 'react-native-image-crop-picker'
-import api, {baseUrl, oauthInstagram} from '../services/api'
+import api, {oauthInstagram} from '../services/api'
 import {
   View,
   Text,
@@ -80,28 +80,13 @@ export default class SettingsEditorPhotos extends Component {
       })
   }
 
-  uploadImage(path) {
-    return new Promise((resolve, reject) => {
-      var body = new FormData();
-      body.append('image_file', {uri: path, name: 'photo.jpg', type: 'image/jpeg'});
-
-      var xhr = new XMLHttpRequest;
-      xhr.onreadystatechange = (e) => {
-        if( xhr.readyState !== 4 ) { return; }
-
-        if( xhr.status < 299 ) {
-          const json = JSON.parse(xhr.responseText);
-          return resolve(json)
-        } else {
-          reject(xhr.status + ': ' + xhr.responseText);
-        }
-      }
-      xhr.open('POST', `${baseUrl}/images`);
-      xhr.send(body);
-    }).then(payload => {
-      return payload
-    }).catch((err) => {
-      alert(err.message || JSON.stringify(err))
+  uploadImage(localPath) {
+    return api.upload({
+      path: '/images',
+      filePath: localPath,
+      fieldName: 'image_file',
+      fileName: `${this.props.user.id}_${Date.now()}.jpg`,
+      fileType: 'image/jpeg',
     })
   }
 

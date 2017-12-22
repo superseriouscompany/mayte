@@ -5,7 +5,7 @@ export const baseUrl = __DEV__ ?
   'https://superserious.ngrok.io' :
   'https://obscure-tundra-93213.herokuapp.com';
 
-export default function request(path, options = {}) {
+function request(path, options = {}) {
   if( path[0] != '/' ) path = `/${path}`;
 
   options.headers = options.headers || {}
@@ -44,6 +44,40 @@ export default function request(path, options = {}) {
   })
 }
 
+request.upload = (params={}) => {
+  return new Promise((resolve, reject) => {
+
+    ['path', 'filePath', 'fieldName', 'fileName', 'fileType'].forEach(p => {
+      if (!params[p]) throw new Error(`Cannot upload - missing param: ${p}`)
+    })
+
+    var body = new FormData()
+    body.append(params.fieldName, {
+      uri: params.filePath,
+      name: params.fileName,
+      type: params.fileType,
+    })
+
+    var xhr = new XMLHttpRequest
+    xhr.onreadystatechange = (e) => {
+      if( xhr.readyState !== 4 ) { return }
+
+      if( xhr.status < 299 ) {
+        const json = JSON.parse(xhr.responseText)
+        return resolve(json)
+      } else {
+        reject(xhr.status + ': ' + xhr.responseText)
+      }
+    }
+    xhr.open('POST', `${baseUrl}${params.path}`)
+    xhr.send(body)
+  }).then(payload => {
+    return payload
+  }).catch((err) => {
+    alert(err.message || JSON.stringify(err))
+  })
+}
+
 export const oauthInstagram = (params) => {
   var ps = params ? '?' + Object.keys(params).map(p => {
     return `${p}=${params[p]}`
@@ -65,3 +99,5 @@ export const oauthInstagram = (params) => {
     }
   }).catch(console.error)
 }
+
+export default request
