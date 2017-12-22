@@ -112,17 +112,19 @@ export default class SettingsEditorPhotos extends Component {
   }
 
   seekAndReplacePath(local, remote) {
-    var pb = this.state.photoBin
-    var idx = pb.findIndex(p => p.url === local)
-    if (idx > -1) {pb[idx].url = remote}
-    return this.setState({photoBin: pb})
+    const photoBin = this.state.photoBin.map(p => {
+      if( p.url === local ) { p.url = remote }
+      return p
+    })
+    return this.setState({photoBin})
   }
 
   seekAndDestroyPhoto(path) {
-    var pb = this.state.photoBin
-    var idx = pb.findIndex(p => p.url === path)
-    if (idx > -1) {pb.splice(idx,1)}
-    return this.setState({photoBin: pb})
+    const photoBin = this.state.photoBin.map(p => {
+      if( p.url === path ) { p = null }
+      return p
+    }).filter(p => p)
+    return this.setState({photoBin})
   }
 
   pushToPhotoBin(path) {
