@@ -65,12 +65,8 @@ class Stage extends PureComponent {
         <Paywall />
     }
 
-    if( !props.isAdmin ) {
-      return <VelvetRope />
-    }
-
     return (
-      <Navigation initialSceneName="Recs">
+      <Navigation initialSceneName={props.isAdmin ? "Recs" : "VelvetRope"}>
         <Settings sceneName="Settings"
           tabLabel="Profile"
           tabIcon={({tintColor, focused}) => (
@@ -78,20 +74,24 @@ class Stage extends PureComponent {
                   size={26}
                   style={{color: tintColor}} />
           )} />
-        <Recs sceneName="Recs"
-          tabLabel="Home"
+        <VelvetRope sceneName="VelvetRope"
+          tabLabel="Perks"
           tabIcon={({tintColor, focused}) => (
-            <Icon name={focused ? 'ios-heart' : 'ios-heart-outline'}
+            <Icon name={focused ? 'ios-key' : 'ios-key-outline'}
                   size={26}
                   style={{color: tintColor}} />
           )} />
-        <MatchBridge sceneName="Matches"
-          tabLabel="Matches"
-          tabIcon={({tintColor, focused}) => (
-            <Icon name={focused ? 'ios-chatbubbles' : 'ios-chatbubbles-outline'}
-                  size={26}
-                  style={{color: tintColor}} />
-          )} />
+        { props.isAdmin ?
+          <Recs sceneName="Recs"
+            tabLabel="Home"
+            tabIcon={({tintColor, focused}) => (
+              <Icon name={focused ? 'ios-heart' : 'ios-heart-outline'}
+                    size={26}
+                    style={{color: tintColor}} />
+            )} />
+        :
+          null
+        }
       </Navigation>
     )
   }
