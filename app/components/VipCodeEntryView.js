@@ -2,6 +2,7 @@
 
 import React, {Component} from 'react'
 import {
+  ActivityIndicator,
   StyleSheet,
   Text,
   TextInput,
@@ -21,6 +22,18 @@ export default function(props) {
       <TouchableOpacity style={styles.button} onPress={props.redeem}>
         <Text style={styles.buttonText}>Redeem</Text>
       </TouchableOpacity>
+
+      <TouchableOpacity style={styles.cancel} onPress={props.visitPaywall}>
+        <Text style={styles.cancelText}>Cancel</Text>
+      </TouchableOpacity>
+
+      { props.error ?
+        <Text style={styles.error}>
+          {props.error}
+        </Text>
+      : props.loading ?
+        <ActivityIndicator />
+      : null }
     </View>
   )
 }
@@ -35,5 +48,8 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     width: '66%',
     padding: 10,
+  },
+  error: {
+    color: 'red'
   },
 })

@@ -14,6 +14,7 @@ import matches  from './matches'
 import scene    from './scene'
 import user     from './user'
 import vipCode  from './vipCode'
+import products from './products'
 
 const middleware = [thunk]
 if( __DEV__ ) {
@@ -26,6 +27,7 @@ const reducers = combineReducers({
   user,
   matches,
   vipCode,
+  products,
 })
 
 const store = createStore(
@@ -40,6 +42,7 @@ const store = createStore(
 const persistence = persistStore(store, {storage: AsyncStorage, whitelist: [
   'user',
   'vipCode',
+  'products',
 ]})
 
 export default store

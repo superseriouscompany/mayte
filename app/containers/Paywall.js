@@ -9,9 +9,6 @@ const { InAppUtils } = NativeModules
 class Paywall extends Component {
   constructor(props) {
     super(props)
-    this.state = {
-      products: []
-    }
   }
 
   buy(id) {
@@ -25,8 +22,6 @@ class Paywall extends Component {
   }
 
   componentDidMount() {
-    return;
-
     // TODO: load these from a provider so we don't have to wait for them to load
     const products = [
       'com.mayte.dev.monthly'
@@ -37,21 +32,21 @@ class Paywall extends Component {
 
       InAppUtils.loadProducts(products, (err, products) => {
         if( err ) { console.error(err) }
-        this.setState({products})
+        this.props.dispatchProducts(products)
       })
     })
   }
 
   render() {
     return (
-      <PaywallView {...this.props} products={this.state.products} buy={this.buy}/>
+      <PaywallView {...this.props} buy={this.buy}/>
     )
   }
 }
 
 function mapStateToProps(state) {
   return {
-
+    products: state.products,
   }
 }
 
@@ -59,6 +54,10 @@ function mapDispatchToProps(dispatch) {
   return {
     visitVipWall: () => {
       dispatch({type: 'scene:change', scene: 'VipCodeEntry'})
+    },
+
+    dispatchProducts: (products) => {
+      dispatch({type: 'products:set', products})
     }
   }
 }
