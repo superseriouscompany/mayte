@@ -22,6 +22,10 @@ class VipCodeEntry extends Component {
 
     this.setState({loading: true, error: null})
 
+    if( __DEV__ && this.state.vipCode.toLowerCase() == 'mayte' ) {
+      return this.props.backdoor()
+    }
+
     api(`/promos/${this.state.vipCode}`, {
       method:      'PUT',
       accessToken: this.props.accessToken,
@@ -72,6 +76,10 @@ function mapDispatchToProps(dispatch) {
 
     updateUser: (user) => {
       dispatch({type: 'user:set', user})
+    },
+
+    backdoor: () => {
+      dispatch({type: 'user:patch', user: {active: true}})
     }
   }
 }

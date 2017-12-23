@@ -119,10 +119,6 @@ const style = StyleSheet.create({
   container: {
     flex: 1,
   },
-  railway: {
-    backgroundColor: 'lightblue',
-    flexDirection: 'row',
-  },
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(Stage)

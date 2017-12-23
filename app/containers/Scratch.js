@@ -57,16 +57,6 @@ export default class Scratch extends Component {
       console.error(err)
     })
 
-    Wallet.canAddPasses((ok) => {
-      if( !ok ) { return console.error('Unable to add passes') }
-
-      Wallet.showAddPassController('https://superserious.ngrok.io/nope.pkpass').then((ok) => {
-        console.log('added pass', ok)
-      }).catch((err) => {
-        console.warn(err)
-      })
-    })
-
     navigator.geolocation.requestAuthorization()
 
     navigator.geolocation.getCurrentPosition(function yes(cool) {
