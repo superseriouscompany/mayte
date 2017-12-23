@@ -30,14 +30,10 @@ class DeeplinkProvider extends Component {
       }
 
       const inviterId = params.inviterId
-      const promoCode = params.promoCode
+      const vipCode = params.vipCode
 
-      this.processCode(promoCode)
+      this.props.processCode(vipCode)
     })
-  }
-
-  processCode(promoCode) {
-
   }
 
   componentWillUnmount() {
@@ -55,7 +51,9 @@ function mapStateToProps(state) {
 
 function mapDispatchToProps(dispatch) {
   return {
-
+    processCode: (vipCode) => {
+      dispatch({type: 'vip:set', vip: {pendingCode: vipCode}})
+    }
   }
 }
 

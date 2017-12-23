@@ -13,6 +13,10 @@ class VipCodeEntry extends Component {
     this.redeem     = this.redeem.bind(this)
   }
 
+  componentDidMount() {
+    this.setVipCode(this.props.vipCode)
+  }
+
   setVipCode(vipCode) {
     this.setState({vipCode})
   }
@@ -56,12 +60,14 @@ class VipCodeEntry extends Component {
 function mapStateToProps(state) {
   return {
     accessToken: state.user.accessToken,
+    vipCode:     state.vip.pendingCode,
   }
 }
 
 function mapDispatchToProps(dispatch) {
   return {
     visitPaywall: () => {
+      dispatch({type: 'vip:destroy'})
       dispatch({type: 'scene:change', scene: 'Paywall'})
     },
 

@@ -15,13 +15,13 @@ class PromoMaker extends Component {
 
   generate() {
     api('/promos', { method: 'POST', headers: {'X-Server-Secret': 'mayte'}}).then((json) => {
-      const promoCode = json.code
+      const vipCode = json.code
       return branch.createBranchUniversalObject(
-        `promos/${promoCode}`,
+        `promos/${vipCode}`,
         {
           metadata: {
             inviterId: this.props.userId,
-            promoCode,
+            vipCode,
           }
         }
       ).then((branchUniversalObject) => {

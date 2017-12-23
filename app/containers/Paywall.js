@@ -22,6 +22,10 @@ class Paywall extends Component {
   }
 
   componentDidMount() {
+    if( this.props.pendingCode ) {
+      this.props.visitVipWall()
+    }
+
     // TODO: load these from a provider so we don't have to wait for them to load
     const products = [
       'com.mayte.dev.monthly'
@@ -47,6 +51,7 @@ class Paywall extends Component {
 function mapStateToProps(state) {
   return {
     products: state.products,
+    pendingCode: state.vip.pendingCode,
   }
 }
 
