@@ -7,6 +7,7 @@ import Recs                   from './Recs'
 import Settings               from './Settings'
 import MatchBridge            from './MatchBridge'
 import Navigation             from './Navigation'
+import Scratch                from './Scratch'
 import Icon                   from 'react-native-vector-icons/Ionicons'
 import {
   StyleSheet,
@@ -17,7 +18,7 @@ import {
   TouchableWithoutFeedback,
 } from 'react-native'
 
-const useScratch = false
+const useScratch = true
 
 class Stage extends PureComponent {
   constructor(props) {

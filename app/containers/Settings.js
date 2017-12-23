@@ -3,7 +3,8 @@
 import React, {Component} from 'react'
 import {connect}          from 'react-redux'
 import SettingsView       from '../components/SettingsView'
-import api                 from '../services/api'
+import api                from '../services/api'
+import branch             from 'react-native-branch'
 
 class Settings extends Component {
   constructor(props) {
@@ -127,6 +128,7 @@ function mapStateToProps(state) {
 function mapDispatchToProps(dispatch) {
   return {
     logout: function() {
+      branch.logout()
       dispatch({type: 'user:destroy'})
     }
   }
