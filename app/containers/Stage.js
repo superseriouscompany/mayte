@@ -75,7 +75,7 @@ class Stage extends PureComponent {
                   style={{color: tintColor}} />
           )} />
         <VelvetRope sceneName="VelvetRope"
-          tabLabel="Perks"
+          tabLabel="Membership"
           tabIcon={({tintColor, focused}) => (
             <Icon name={focused ? 'ios-key' : 'ios-key-outline'}
                   size={26}

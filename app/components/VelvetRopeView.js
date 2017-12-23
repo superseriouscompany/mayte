@@ -17,12 +17,6 @@ export default function(props) {
         <TouchableOpacity onPress={props.addPass}>
           <Text>Add pass to wallet</Text>
         </TouchableOpacity>
-        <TouchableOpacity onPress={props.logout}>
-          <Text>Logout</Text>
-        </TouchableOpacity>
-        <TouchableOpacity onPress={props.deleteAccount}>
-          <Text>Delete Account</Text>
-        </TouchableOpacity>
       </View>
       <WebView style={{flex: 1}} source={{uri: 'https://dateunicorn.com/velvetrope/'}} scrollEnabled={false} scalesPageToFit={false}/>
     </View>

@@ -108,7 +108,7 @@ export default class PreferencesView extends Component {
           <Image style={style.logo}
                  resizeMode='contain'
                  source={require('../images/icon-trans-black.png')} />
-          <Text style={style.appName}>UNIQORN</Text>
+          <Text style={style.appName}>UNICORN</Text>
 
           <TouchableOpacity style={style.deleteBtn}
                             onPress={() => {
