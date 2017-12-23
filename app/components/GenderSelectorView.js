@@ -17,7 +17,9 @@ export default function(props) {
   return (
     <View style={styles.container}>
       { props.loading ?
-        <ActivityIndicator />
+        <View style={styles.loadingCnr}>
+          <ActivityIndicator size="large"/>
+        </View>
       :
         <View style={styles.container}>
           <View style={styles.optionsCnr}>
@@ -61,6 +63,11 @@ function Option(props) {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+    alignItems: 'center',
+  },
+  loadingCnr: {
+    flex: 1,
+    justifyContent: 'center',
     alignItems: 'center',
   },
   selected: {
