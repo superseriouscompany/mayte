@@ -10,7 +10,6 @@ import Navigation             from './Navigation'
 import Scratch                from './Scratch'
 import PromoMaker             from './PromoMaker'
 import GenderSelector         from './GenderSelector'
-import NotificationPerms      from './NotificationPerms'
 import Paywall                from './Paywall'
 import VelvetRope             from './VelvetRope'
 import VipCodeEntry           from './VipCodeEntry'
@@ -58,7 +57,7 @@ class Stage extends PureComponent {
     if( !props.isActive ) {
       return !props.gender ?
         <GenderSelector />
-      : scene == 'VipCodeEntry' ?
+      : scene.name == 'VipCodeEntry' ?
         <VipCodeEntry />
       : props.vipCode ?
         <VipCodeStatus />
@@ -105,6 +104,7 @@ function mapStateToProps(state) {
     hydrated:      !!state.hydrated,
     isAdmin:       !!state.user.admin,
     gender:        state.user.gender,
+    scene:         state.scene,
   }
 }
 
