@@ -1,10 +1,12 @@
 'use strict'
 
 import React, {Component} from 'react'
+import {em} from '../constants/dimensions'
+import base from '../constants/styles'
+import Text from './Text'
 import {
   ActivityIndicator,
   StyleSheet,
-  Text,
   TextInput,
   TouchableOpacity,
   View,
@@ -13,27 +15,30 @@ import {
 export default function(props) {
   return (
     <View style={styles.container}>
-      <TextInput
-        style={styles.input}
-        onChangeText={props.setVipCode}
-        value={props.vipCode}
-        placeholder="VIP Code" />
+      <View style={styles.inputCnr}>
+        <TextInput
+          style={styles.input}
+          onChangeText={props.setVipCode}
+          value={props.vipCode}
+          placeholder="VIP Code" />
+        { props.error ?
+          <Text style={styles.error}>
+            {props.error}
+          </Text>
+        : props.loading ?
+          <ActivityIndicator style={styles.loading}/>
+        : null }
+      </View>
 
-      <TouchableOpacity style={styles.button} onPress={props.redeem}>
-        <Text style={styles.buttonText}>Redeem</Text>
-      </TouchableOpacity>
+      <View style={styles.buttonsCnr}>
+        <TouchableOpacity style={[base.button, styles.mainButton]} onPress={props.redeem}>
+          <Text style={[base.buttonText]}>Redeem</Text>
+        </TouchableOpacity>
 
-      <TouchableOpacity style={styles.cancel} onPress={props.visitPaywall}>
-        <Text style={styles.cancelText}>Cancel</Text>
-      </TouchableOpacity>
-
-      { props.error ?
-        <Text style={styles.error}>
-          {props.error}
-        </Text>
-      : props.loading ?
-        <ActivityIndicator />
-      : null }
+        <TouchableOpacity style={styles.cancel} onPress={props.visitPaywall}>
+          <Text style={styles.cancelText}>Cancel</Text>
+        </TouchableOpacity>
+      </View>
     </View>
   )
 }
@@ -41,15 +46,36 @@ export default function(props) {
 const styles = StyleSheet.create({
   container: {
     flex:           1,
+  },
+  inputCnr: {
+    flex: 1,
     justifyContent: 'center',
-    alignItems:     'center',
+    alignItems: 'center',
   },
   input: {
     borderWidth: 1,
+    borderColor: 'gainsboro',
     width: '66%',
     padding: 10,
+    fontFamily: 'Futura',
   },
   error: {
-    color: 'red'
+    position: 'absolute',
+    color: 'red',
+    top: 10,
+  },
+  loading: {
+    position: 'absolute',
+    top: 10,
+    right: 10,
+  },
+  buttonsCnr: {
+    alignItems: 'center',
+  },
+  mainButton: {
+    marginBottom: em(1),
+  },
+  cancel: {
+    marginBottom: em(1)
   },
 })
