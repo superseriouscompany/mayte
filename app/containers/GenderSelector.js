@@ -9,10 +9,40 @@ class GenderSelector extends Component {
   constructor(props) {
     super(props)
     this.select = this.select.bind(this)
-    this.state = {}
+    this.set    = this.set.bind(this)
+    this.state  = {
+      gender:      'female',
+      orientation: 'male',
+    }
   }
 
-  select(gender) {
+  set(field, value) {
+    var updates = {
+      [field]: value
+    }
+    if( field == 'gender' ) {
+      updates.orientation =
+        value == 'male' ? 'female'
+        : value == 'female' ? 'male'
+        : 'null'
+    }
+    console.log(updates)
+    this.setState(updates)
+  }
+
+  setGender(gender) {
+    this.setState({gender})
+  }
+
+  setOrientation(orientation) {
+    this.setState({orientation})
+  }
+
+  select() {
+    const {gender, orientation} = this.state
+
+    if( !gender || !orientation ) { return }
+
     this.setState({loading: true})
     // TODO: do this optimistically
     api('/users/me', {
@@ -20,10 +50,11 @@ class GenderSelector extends Component {
       accessToken: this.props.accessToken,
       body: {
         gender,
+        orientation,
       }
     }).then(() => {
       this.setState({loading: false})
-      this.props.dispatchGender(gender)
+      this.props.updateUser({gender, orientation})
     }).catch((err) => {
       this.setState({loading: false})
       alert(err.message || JSON.stringify(err))
@@ -33,7 +64,13 @@ class GenderSelector extends Component {
 
   render() {
     return (
-      <GenderSelectorView {...this.props} select={this.select} loading={this.state.loading}/>
+      <GenderSelectorView {...this.props}
+        loading={this.state.loading}
+        gender={this.state.gender}
+        orientation={this.state.orientation}
+        set={this.set}
+        select={this.select}
+        />
     )
   }
 }
@@ -46,8 +83,8 @@ function mapStateToProps(state) {
 
 function mapDispatchToProps(dispatch) {
   return {
-    dispatchGender: (gender) => {
-      dispatch({type: 'user:set', user: {gender}})
+    updateUser: (user) => {
+      dispatch({type: 'user:set', user})
     }
   }
 }

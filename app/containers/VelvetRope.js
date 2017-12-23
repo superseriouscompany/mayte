@@ -4,13 +4,15 @@ import React, {Component} from 'react'
 import {connect}          from 'react-redux'
 import Wallet             from 'react-native-wallet'
 import VelvetRopeView     from '../components/VelvetRopeView'
-import {baseUrl}          from '../services/api'
+import api, {baseUrl}     from '../services/api'
 import branch             from 'react-native-branch'
 
 class VelvetRope extends Component {
   constructor(props) {
     super(props)
-    this.state = {}
+    this.state         = {}
+    this.addPass       = this.addPass.bind(this)
+    this.deleteAccount = this.deleteAccount.bind(this)
   }
 
   addPass() {
@@ -33,11 +35,23 @@ class VelvetRope extends Component {
     this.setState({loading: false})
   }
 
+  deleteAccount() {
+    api('/users/me', {
+      method: 'DELETE',
+      accessToken: this.props.accessToken,
+    }).then(() => {
+      this.props.logout()
+    }).catch((err) => {
+      alert(err.message || JSON.stringify(err))
+    })
+  }
+
   render() {
     return (
       <VelvetRopeView {...this.props}
         addPass={this.addPass}
         loading={this.state.loading}
+        deleteAccount={this.deleteAccount}
         />
     )
   }
@@ -45,7 +59,7 @@ class VelvetRope extends Component {
 
 function mapStateToProps(state) {
   return {
-
+    accessToken: state.user.accessToken,
   }
 }
 
@@ -55,7 +69,7 @@ function mapDispatchToProps(dispatch) {
       branch.logout()
       dispatch({type: 'user:destroy'})
       dispatch({type: 'vip:destroy'})
-    }
+    },
   }
 }
 
