@@ -10,14 +10,25 @@ class DeeplinkProvider extends Component {
   }
 
   componentDidMount() {
-    this.unsubscribe = branch.subscribe(({error, params}) => {
+    this.unsubscribe = branch.subscribe(({err, params}) => {
       if( err ) {
         alert(err.message || JSON.stringify(err))
         console.error(err)
       }
 
-      console.warn(params)
+      if( params['~feature'] != 'promo-redemption' ) {
+        return console.warn('Unknown deeplink', params)
+      }
+
+      const inviterId = params.inviterId
+      const promoCode = params.promoCode
+
+      this.processCode(promoCode)
     })
+  }
+
+  processCode(promoCode) {
+    
   }
 
   componentWillUnmount() {

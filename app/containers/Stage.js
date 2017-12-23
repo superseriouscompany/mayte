@@ -8,6 +8,13 @@ import Settings               from './Settings'
 import MatchBridge            from './MatchBridge'
 import Navigation             from './Navigation'
 import Scratch                from './Scratch'
+import PromoMaker             from './PromoMaker'
+import GenderSelector         from './GenderSelector'
+import NotificationPerms      from './NotificationPerms'
+import Paywall                from './Paywall'
+import VelvetRope             from './VelvetRope'
+import VipCodeEntry           from './VipCodeEntry'
+import VipCodeStatus          from './VipCodeStatus'
 import Icon                   from 'react-native-vector-icons/Ionicons'
 import {
   StyleSheet,
@@ -18,7 +25,7 @@ import {
   TouchableWithoutFeedback,
 } from 'react-native'
 
-const useScratch = true
+const useScratch = false
 
 class Stage extends PureComponent {
   constructor(props) {
@@ -36,9 +43,9 @@ class Stage extends PureComponent {
     : !props.authenticated ?
       <Login />
     :
-    <View style={[style.container]}>
-      { this.showScene(props.scene) }
-    </View>
+      <View style={[style.container]}>
+        { this.showScene(props.scene) }
+      </View>
   }
 
   showScene(scene) {
@@ -46,6 +53,23 @@ class Stage extends PureComponent {
 
     if (!props.authenticated) {
       return <Login />
+    }
+
+    if( !props.isActive ) {
+      return !props.gender ?
+        <GenderSelector />
+      : !props.firebaseToken ?
+        <NotificationPerms />
+      : scene == 'VipCodeEntry' ?
+        <VipCodeEntry />
+      : props.vipCode ?
+        <VipCodeStatus />
+      :
+        <Paywall />
+    }
+
+    if( !props.isAdmin ) {
+      return <VelvetRope />
     }
 
     return (
@@ -79,7 +103,10 @@ class Stage extends PureComponent {
 function mapStateToProps(state) {
   return {
     authenticated: !!state.user.accessToken,
+    isActive:      !!state.user.active,
     hydrated:      !!state.hydrated,
+    isAdmin:       !!state.user.admin,
+    gender:        state.user.gender,
   }
 }
 

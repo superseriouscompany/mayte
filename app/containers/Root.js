@@ -7,6 +7,7 @@ import { Provider }           from 'react-redux'
 import { SafeAreaView, View } from 'react-native'
 import NotificationProvider   from '../providers/NotificationProvider'
 import MatchesProvider        from '../providers/MatchesProvider'
+import DeeplinkProvider       from '../providers/DeeplinkProvider'
 
 export default class Root extends Component {
   constructor(props) {
@@ -27,6 +28,7 @@ export default class Root extends Component {
         <View style={{flex: 1}}>
           <NotificationProvider />
           <MatchesProvider />
+          <DeeplinkProvider />
           <Stage />
         </View>
       </Provider>

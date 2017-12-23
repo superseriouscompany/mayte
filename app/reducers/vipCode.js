@@ -1,14 +1,9 @@
 const initialState = {}
 export default function(state=initialState, action) {
   switch(action.type) {
-    case 'user:set':
-      return action.user
-    case 'user:patch':
-      return {
-        ...state,
-        ...action.user,
-      }
-    case 'user:destroy':
+    case 'vipCode:set':
+      return action.vipCode
+    case 'vipCode:destroy':
       return initialState
     default:
       return state
