@@ -1,9 +1,9 @@
 'use strict'
 
-import React, { Component }                   from 'react'
-import LinearGradient                         from 'react-native-linear-gradient'
-import { matchHeaderHeight, statusBarHeight } from '../constants/dimensions'
-import { mayteBlack }                         from '../constants/colors'
+import React, { Component }                       from 'react'
+import LinearGradient                             from 'react-native-linear-gradient'
+import { matchHeaderHeight, notchHeight, em }     from '../constants/dimensions'
+import { mayteBlack }                             from '../constants/colors'
 import {
   StyleSheet,
   Text,
@@ -52,10 +52,10 @@ const style = StyleSheet.create({
     top: 0,
     zIndex: 1,
     width: '100%',
-    paddingRight: 5,
-    paddingLeft: 5,
-    height: matchHeaderHeight,
-    paddingTop: statusBarHeight,
+    paddingRight: em(1),
+    paddingLeft: em(1),
+    height: matchHeaderHeight + notchHeight,
+    paddingTop: notchHeight,
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
@@ -63,14 +63,6 @@ const style = StyleSheet.create({
     borderBottomWidth: 1,
     borderBottomColor: 'rgba(40,40,40,1)',
     opacity: 1,
-  },
-  button: {
-    color: 'blue',
-    backgroundColor: 'transparent',
-  },
-  nav: {
-    paddingLeft: 20,
-    paddingRight: 20,
   },
   bubble: {
     height: matchHeaderHeight * 0.55,
@@ -83,7 +75,8 @@ const style = StyleSheet.create({
     color: mayteBlack(),
     marginLeft: 5,
     fontSize: 18,
-    letterSpacing: 0.5,
+    letterSpacing: 0.1,
+    fontFamily: 'Gotham-Medium',
   },
   chat: {
     height: matchHeaderHeight * 0.4,

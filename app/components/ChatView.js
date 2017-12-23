@@ -3,8 +3,13 @@
 import React, {Component}                  from 'react'
 import { GiftedChat, Bubble }              from 'react-native-gifted-chat'
 import { BlurView }                        from 'react-native-blur'
-import { screenHeight, matchHeaderHeight } from '../constants/dimensions'
 import { chatOpen, chatClose }             from '../constants/timings'
+import {
+  screenHeight,
+  matchHeaderHeight,
+  notchHeight,
+  tabNavHeight,
+} from '../constants/dimensions'
 import {
   Animated,
   ActivityIndicator,
@@ -84,22 +89,7 @@ export default class extends Component {
             renderBubble={(props) => (
               <Bubble
                 {...props}
-                containerToNextStyle={{
-                  left: {
-                    borderBottomLeftRadius: 15,
-                  },
-                  right: {
-                    borderBottomRightRadius: 15,
-                  },
-                }}
-                containerToPreviousStyle={{
-                  left: {
-                    borderTopLeftRadius: 15,
-                  },
-                  right: {
-                    borderTopRightRadius: 15,
-                  },
-                }} />
+                 />
             )}
             />
         }
@@ -112,9 +102,8 @@ const style = StyleSheet.create({
   container: {
     position: 'absolute',
     width: '100%',
-    height: screenHeight - matchHeaderHeight,
+    height: screenHeight - matchHeaderHeight - tabNavHeight - notchHeight,
     backgroundColor: 'rgba(255,255,255,0.9)',
-    paddingBottom: 100,
   },
   blur: {
     position: 'absolute',

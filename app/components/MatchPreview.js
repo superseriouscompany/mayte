@@ -1,6 +1,8 @@
 'use strict'
 
 import React, {Component} from 'react'
+import { em } from '../constants/dimensions'
+import { mayteBlack } from '../constants/colors'
 import {
   Image,
   StyleSheet,
@@ -15,7 +17,7 @@ export default function(props) {
   return (
     <TouchableOpacity style={style.container} onPress={props.viewChat}>
       <Image source={{url: user.photos[0].url}} style={style.image} />
-      <Text>{user.fullName}</Text>
+      <Text style={style.name}>{user.fullName}</Text>
     </TouchableOpacity>
   )
 }
@@ -23,15 +25,23 @@ export default function(props) {
 const style = StyleSheet.create({
   container: {
     borderBottomWidth: 1,
-    padding:           10,
-    borderColor:       'lightgrey',
+    paddingTop:        em(0.66),
+    paddingBottom:     em(0.66),
+    paddingLeft:       em(1),
+    paddingRight:      em(1),
+    borderColor:       mayteBlack(0.1),
     flexDirection:     'row',
     alignItems:        'center',
   },
+  name: {
+    fontFamily: 'Gotham-Medium',
+    fontSize: em(1.2),
+    color: mayteBlack(),
+  },
   image: {
-    borderRadius: 10,
-    width: 50,
-    height: 50,
-    marginRight: 10,
+    borderRadius: em(2),
+    width: em(4),
+    height: em(4),
+    marginRight: em(1),
   }
 })

@@ -1,9 +1,9 @@
 'use strict'
 
-import React, {Component} from 'react'
-import { connect }        from 'react-redux'
-import LoginView          from '../components/LoginView'
-import api, { baseUrl }   from '../services/api'
+import React, {Component}               from 'react'
+import { connect }                      from 'react-redux'
+import LoginView                        from '../components/LoginView'
+import api, { baseUrl, oauthInstagram } from '../services/api'
 import {
   Linking,
 } from 'react-native'
@@ -11,7 +11,6 @@ import {
 class Login extends Component {
   constructor(props) {
     super(props)
-    this.login  = this.login.bind(this)
     this.handle = this.handle.bind(this)
     this.state = {}
   }
@@ -43,22 +42,7 @@ class Login extends Component {
     }).catch(console.error)
   }
 
-  login() {
-    const redirectUrl = `${baseUrl}/webhooks/instagram`
-    const clientId    = '1c6d8f10063b4ac7b9010194c380b6fb'
-
-    const url = 'https://instagram.com/oauth/authorize/?client_id='+clientId+
-        '&redirect_uri='+redirectUrl+
-        '&response_type=code'+
-        '&state=client.ios'
-    Linking.canOpenURL(url).then(supported => {
-      if (!supported) {
-        console.log('Can\'t handle url: ' + url)
-      } else {
-        return Linking.openURL(url)
-      }
-    }).catch(console.error)
-  }
+  instagramLogin() { return oauthInstagram() }
 
   linkedinLogin() {
     const redirectUrl = `${baseUrl}/webhooks/linkedin`
@@ -81,7 +65,10 @@ class Login extends Component {
   }
 
   render() { return (
-    <LoginView linkedinLogin={this.linkedinLogin} login={this.login} {...this.props} loading={this.state.loading}/>
+    <LoginView {...this.props}
+               linkedinLogin={this.linkedinLogin}
+               instagramLogin={this.instagramLogin}
+               loading={this.state.loading} />
   )}
 }
 

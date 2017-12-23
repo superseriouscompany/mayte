@@ -4,10 +4,13 @@ import React, { Component }   from 'react'
 import Stage                  from './Stage'
 import store                  from '../reducers'
 import { Provider }           from 'react-redux'
-import { SafeAreaView, View } from 'react-native'
 import NotificationProvider   from '../providers/NotificationProvider'
 import MatchesProvider        from '../providers/MatchesProvider'
 import DeeplinkProvider       from '../providers/DeeplinkProvider'
+import {
+  StatusBar,
+  View
+} from 'react-native'
 
 export default class Root extends Component {
   constructor(props) {
@@ -26,6 +29,7 @@ export default class Root extends Component {
     return (
       <Provider store={store}>
         <View style={{flex: 1}}>
+          <StatusBar hidden />
           <NotificationProvider />
           <MatchesProvider />
           <DeeplinkProvider />

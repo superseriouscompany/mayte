@@ -47,7 +47,7 @@ function mapStateToProps(state) {
 function mapDispatchToProps(dispatch) {
   return {
     dispatchGender: (gender) => {
-      dispatch({type: 'user:patch', user: {gender}})
+      dispatch({type: 'user:set', user: {gender}})
     }
   }
 }

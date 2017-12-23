@@ -2,7 +2,12 @@
 
 import React, {Component}                 from 'react'
 import MatchInfoView                      from './MatchInfoView'
-import { screenWidth, matchHeaderHeight } from '../constants/dimensions'
+import ProfileView                        from './ProfileView'
+import {
+  screenWidth,
+  notchHeight,
+  matchHeaderHeight,
+} from '../constants/dimensions'
 import {
   Animated,
   ActivityIndicator,
@@ -20,30 +25,10 @@ export default (props) => {
   const imgStyle = {width: screenWidth, height: props.viewHeight}
 
   return (
-    <View style={{...style.container, paddingTop: matchHeaderHeight}}>
-      <FlatList style={[style.container]}
-                onLayout={(e) => {
-                  const {height} = e.nativeEvent.layout
-                  props.setHeight(height)
-                }}
-                onScroll={(e) => {
-                 const {contentOffset, layoutMeasurement, contentSize} = e.nativeEvent
-                 if (contentOffset.y + layoutMeasurement.height > contentSize.height) {
-                   e.preventDefault()
-                   props.showInfo()
-                 }
-                }}
-                showsVerticalScrollIndicator={false}
-                pagingEnabled
-                data={props.user.photos || []}
-                keyExtractor={(item, index) => index}
-                renderItem={({item}) =>
-                  <Image style={imgStyle}
-                         resizeMode="cover"
-                         source={{url: item.url}} />
-                } />
-
-      <MatchInfoView {...props} matchOpen={props.view === 'Profile'} />
+    <View style={{...style.container, marginTop: matchHeaderHeight + notchHeight}}>
+      <ProfileView {...props}
+                   matchOpen={props.view === 'Profile'}
+                   hideButtons={true} />
     </View>
   )
 }

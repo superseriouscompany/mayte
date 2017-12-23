@@ -79,7 +79,7 @@ function mapDispatchToProps(dispatch) {
     },
 
     backdoor: () => {
-      dispatch({type: 'user:patch', user: {active: true}})
+      dispatch({type: 'user:set', user: {active: true}})
     }
   }
 }
