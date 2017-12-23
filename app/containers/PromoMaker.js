@@ -4,6 +4,7 @@ import React, {Component} from 'react'
 import {connect}          from 'react-redux'
 import PromoMakerView     from '../components/PromoMakerView'
 import branch             from 'react-native-branch'
+import api                from '../services/api'
 
 class PromoMaker extends Component {
   constructor(props) {
@@ -13,31 +14,32 @@ class PromoMaker extends Component {
   }
 
   generate() {
-    const promoCode = 'nope'
-
-    branch.createBranchUniversalObject(
-      `promos/${promoCode}`,
-      {
-        metadata: {
-          inviterId: 'whatever',
-          promoCode,
+    api('/promos', { method: 'POST', headers: {'X-Server-Secret': 'mayte'}}).then((json) => {
+      const promoCode = json.code
+      return branch.createBranchUniversalObject(
+        `promos/${promoCode}`,
+        {
+          metadata: {
+            inviterId: this.props.userId,
+            promoCode,
+          }
         }
-      }
-    ).then((branchUniversalObject) => {
-      const linkProperties = {
-        feature: 'promo-redemption',
-        channel: 'app'
-      }
-      const controlParams = {}
+      ).then((branchUniversalObject) => {
+        const linkProperties = {
+          feature: 'promo-redemption',
+          channel: 'app'
+        }
+        const controlParams = {}
 
-      return branchUniversalObject.showShareSheet({
-        messageHeader: 'Shhhhh...',
-        messageBody:   'I think you\'re a unicorn',
-        emailSubject:  'Shhhhh...'
-      }, linkProperties, controlParams)
-    }).then((payload) => {
-      const {url} = payload
-      this.setState({url})
+        return branchUniversalObject.showShareSheet({
+          messageHeader: 'Shhhhh...',
+          messageBody:   'I think you\'re a unicorn',
+          emailSubject:  'Shhhhh...'
+        }, linkProperties, controlParams)
+      }).then((payload) => {
+        const {url} = payload
+        this.setState({url})
+      })
     }).catch((err) => {
       console.error(err)
       alert(err.message || JSON.stringify(err))
@@ -53,13 +55,15 @@ class PromoMaker extends Component {
 
 function mapStateToProps(state) {
   return {
-
+    userId: state.user.id,
   }
 }
 
 function mapDispatchToProps(dispatch) {
   return {
-
+    visitHome: () => {
+      dispatch({type: 'scene:change', scene: 'Home'})
+    }
   }
 }
 

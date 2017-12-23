@@ -1,9 +1,11 @@
 'use strict'
 
 import React, {Component} from 'react'
+import Text from './Text'
+import {em} from '../constants/dimensions'
+import base from '../constants/styles'
 import {
   StyleSheet,
-  Text,
   TouchableOpacity,
   View,
 } from 'react-native'
@@ -11,17 +13,12 @@ import {
 export default function(props) {
   return (
     <View style={styles.container}>
-      <TouchableOpacity onPress={props.generate}>
-        <Text>Generate promo code</Text>
+      <TouchableOpacity style={styles.back} onPress={props.visitHome}>
+        <Text>Cancel</Text>
       </TouchableOpacity>
-
-      { props.url ?
-        <Text>
-          {props.url}
-        </Text>
-      :
-        null
-      }
+      <TouchableOpacity style={[base.button]} onPress={props.generate}>
+        <Text style={[base.buttonText]}>Generate promo code</Text>
+      </TouchableOpacity>
     </View>
   )
 }
@@ -31,5 +28,9 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
-  }
+  },
+  back: {
+    position: 'absolute',
+    bottom: 20,
+  },
 })

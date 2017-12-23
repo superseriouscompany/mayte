@@ -65,6 +65,10 @@ class Stage extends PureComponent {
         <Paywall />
     }
 
+    if( scene.name == 'PromoMaker' ) {
+      return <PromoMaker />
+    }
+
     return (
       <Navigation initialSceneName="VelvetRope">
         <Settings sceneName="Settings"

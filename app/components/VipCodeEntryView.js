@@ -58,6 +58,7 @@ const styles = StyleSheet.create({
     width: '66%',
     padding: 10,
     fontFamily: 'Futura',
+    fontSize: 16,
   },
   error: {
     position: 'absolute',

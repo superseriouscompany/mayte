@@ -60,15 +60,20 @@ class VelvetRope extends Component {
 function mapStateToProps(state) {
   return {
     accessToken: state.user.accessToken,
+    isAdmin:     !!state.user.isAdmin,
   }
 }
 
 function mapDispatchToProps(dispatch) {
   return {
-    logout: function() {
+    logout: () => {
       branch.logout()
       dispatch({type: 'user:destroy'})
       dispatch({type: 'vip:destroy'})
+    },
+
+    visitPromoMaker: () => {
+      dispatch({type: 'scene:change', scene: 'PromoMaker'})
     },
   }
 }
