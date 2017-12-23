@@ -58,8 +58,6 @@ class Stage extends PureComponent {
     if( !props.isActive ) {
       return !props.gender ?
         <GenderSelector />
-      : !props.firebaseToken ?
-        <NotificationPerms />
       : scene == 'VipCodeEntry' ?
         <VipCodeEntry />
       : props.vipCode ?
