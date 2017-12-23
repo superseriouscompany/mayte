@@ -66,7 +66,7 @@ class Stage extends PureComponent {
     }
 
     return (
-      <Navigation initialSceneName={props.isAdmin ? "Recs" : "VelvetRope"}>
+      <Navigation initialSceneName="VelvetRope">
         <Settings sceneName="Settings"
           tabLabel="Profile"
           tabIcon={({tintColor, focused}) => (
@@ -83,7 +83,7 @@ class Stage extends PureComponent {
           )} />
         { props.isAdmin ?
           <Recs sceneName="Recs"
-            tabLabel="Home"
+            tabLabel="Meet"
             tabIcon={({tintColor, focused}) => (
               <Icon name={focused ? 'ios-heart' : 'ios-heart-outline'}
                     size={26}
@@ -102,7 +102,7 @@ function mapStateToProps(state) {
     authenticated: !!state.user.accessToken,
     isActive:      !!state.user.active,
     hydrated:      !!state.hydrated,
-    isAdmin:       !!state.user.admin,
+    isAdmin:       !!state.user.isAdmin,
     gender:        state.user.gender,
     scene:         state.scene,
     vipCode:       state.vip.code,
