@@ -21,11 +21,21 @@ class VipCodeEntry extends Component {
     if( !this.state.vipCode ) { return false }
 
     this.setState({loading: true, error: null})
+
     api(`/promos/${this.state.vipCode}`, {
       method:      'PUT',
       accessToken: this.props.accessToken,
     }).then((body) => {
-      alert('You gooch ' + JSON.stringify(body))
+      if( body.unlockCount ) {
+        this.props.dispatchCode({
+          code: this.state.vipCode,
+          unlockCount: body.unlockCount
+        })
+      } else if( body === true ) { // 204 means the door is unlocked
+        return api(`/users/me`, {
+          accessToken: this.props.accessToken
+        }).then(this.props.updateUser)
+      }
     }).catch((err) => {
       this.setState({error: err.message, loading: false})
     })
@@ -53,6 +63,15 @@ function mapDispatchToProps(dispatch) {
   return {
     visitPaywall: () => {
       dispatch({type: 'scene:change', scene: 'Paywall'})
+    },
+
+    dispatchCode: (vip) => {
+      dispatch({type: 'vip:set', vip})
+      dispatch({type: 'scene:change', scene: 'VipCodeStatus'})
+    },
+
+    updateUser: (user) => {
+      dispatch({type: 'user:set', user})
     }
   }
 }

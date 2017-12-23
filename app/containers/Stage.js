@@ -105,6 +105,7 @@ function mapStateToProps(state) {
     isAdmin:       !!state.user.admin,
     gender:        state.user.gender,
     scene:         state.scene,
+    vipCode:       state.vip.code,
   }
 }
 

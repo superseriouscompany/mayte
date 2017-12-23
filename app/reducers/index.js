@@ -13,7 +13,7 @@ import hydrated from './hydrated'
 import matches  from './matches'
 import scene    from './scene'
 import user     from './user'
-import vipCode  from './vipCode'
+import vip      from './vip'
 import products from './products'
 
 const middleware = [thunk]
@@ -26,7 +26,7 @@ const reducers = combineReducers({
   scene,
   user,
   matches,
-  vipCode,
+  vip,
   products,
 })
 
@@ -41,7 +41,7 @@ const store = createStore(
 
 const persistence = persistStore(store, {storage: AsyncStorage, whitelist: [
   'user',
-  'vipCode',
+  'vip',
   'products',
 ]})
 
