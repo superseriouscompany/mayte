@@ -16,6 +16,15 @@ class DeeplinkProvider extends Component {
         console.error(err)
       }
 
+      // +clicked_branch_link === false may be safe to ignore across the board
+      // but playing it safe here in case we have to debug edge cases
+      if( params['+is_first_session'] === false && params['+clicked_branch_link'] === false ) {
+        // this seems to be triggered on app open
+        if( Object.keys(params).length == 2 ) { return }
+        // this seems to be triggered when we follow mayte:// for login
+        if( params['+non_branch_link'] ) { return }
+      }
+
       if( params['~feature'] != 'promo-redemption' ) {
         return console.warn('Unknown deeplink', params)
       }
@@ -28,7 +37,7 @@ class DeeplinkProvider extends Component {
   }
 
   processCode(promoCode) {
-    
+
   }
 
   componentWillUnmount() {

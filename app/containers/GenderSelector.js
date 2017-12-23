@@ -13,8 +13,6 @@ class GenderSelector extends Component {
   }
 
   select(gender) {
-    alert('selecting...')
-
     this.setState({loading: true})
     // TODO: do this optimistically
     api('/users/me', {
