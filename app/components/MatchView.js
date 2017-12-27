@@ -21,8 +21,6 @@ import {
   View,
 } from 'react-native'
 
-const useScratch = false
-
 export default (props) => {
   const imgStyle = {width: screenWidth, height: props.viewHeight}
 
