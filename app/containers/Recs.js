@@ -125,7 +125,7 @@ class Recs extends Component {
 
 function mapStateToProps(state) {
   return {
-    accessToken: state.user.accessToken
+    accessToken: state.user.accessToken,
   }
 }
 

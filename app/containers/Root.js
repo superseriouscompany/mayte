@@ -6,8 +6,8 @@ import store                  from '../reducers'
 import { Provider }           from 'react-redux'
 import NotificationProvider   from '../providers/NotificationProvider'
 import MatchesProvider        from '../providers/MatchesProvider'
+import DeeplinkProvider       from '../providers/DeeplinkProvider'
 import {
-  SafeAreaView,
   StatusBar,
   View
 } from 'react-native'
@@ -32,6 +32,7 @@ export default class Root extends Component {
           <StatusBar hidden />
           <NotificationProvider />
           <MatchesProvider />
+          <DeeplinkProvider />
           <Stage />
         </View>
       </Provider>
