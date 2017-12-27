@@ -20,12 +20,13 @@ export default class SettingsView extends Component {
         props.loading ?
           <View style={style.centered}>
             <ActivityIndicator />
-          </View> :
-        props.scene.view === 'Profile' ?
-          <SettingsProfile {...props} /> :
-        props.scene.view === 'Editor' ?
-          <SettingsEditor {...props} /> :
-        <Preferences {...props} />
+          </View>
+        : props.scene.view === 'Profile' ?
+          <SettingsProfile {...props} />
+        : props.scene.view === 'Editor' ?
+          <SettingsEditor {...props} />
+        :
+          <Preferences {...props} />
       }
       </View>
     )

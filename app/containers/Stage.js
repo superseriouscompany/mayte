@@ -43,11 +43,11 @@ class Stage extends PureComponent {
       <Login />
     :
       <View style={[style.container]}>
-        { this.showScene(props.scene) }
+        { this.showScene(props.sceneName) }
       </View>
   }
 
-  showScene(scene) {
+  showScene(sceneName) {
     const {props} = this
 
     if (!props.authenticated) {
@@ -57,7 +57,7 @@ class Stage extends PureComponent {
     if( !props.isActive ) {
       return !props.gender ?
         <GenderSelector />
-      : scene.name == 'VipCodeEntry' ?
+      : sceneName == 'VipCodeEntry' ?
         <VipCodeEntry />
       : props.vipCode ?
         <VipCodeStatus />
@@ -65,7 +65,7 @@ class Stage extends PureComponent {
         <Paywall />
     }
 
-    if( scene.name == 'PromoMaker' ) {
+    if( sceneName == 'PromoMaker' ) {
       return <PromoMaker />
     }
 
@@ -102,13 +102,24 @@ class Stage extends PureComponent {
 }
 
 function mapStateToProps(state) {
+  // TODO: this hack is here bc changing the scene
+  // makes this re-render, and re-rendering resets to the `initialSceneName`
+  // of Navigation.
+  var sceneName = state.scene && state.scene.name
+  switch(sceneName) {
+    case 'VipCodeEntry': case 'PromoMaker':
+      break;
+    default:
+      sceneName = 'Hack'
+  }
+
   return {
     authenticated: !!state.user.accessToken,
     isActive:      !!state.user.active,
     hydrated:      !!state.hydrated,
     isAdmin:       !!state.user.isAdmin,
     gender:        state.user.gender,
-    scene:         state.scene,
+    sceneName:     sceneName,
     vipCode:       state.vip.code,
   }
 }
