@@ -1,7 +1,9 @@
-import React, {Component}                from 'react'
-import moment                            from 'moment'
-import LinearGradient                    from 'react-native-linear-gradient'
-import { mayteBlack }                    from '../constants/colors'
+import React, {Component} from 'react'
+import moment             from 'moment'
+import LinearGradient     from 'react-native-linear-gradient'
+import Icon               from 'react-native-vector-icons/Ionicons'
+import { mayteBlack }     from '../constants/colors'
+
 import {
   screenWidth,
   screenHeight,
@@ -191,14 +193,14 @@ export default class ProfileView extends Component {
                 props.hideButtons ? null :
                 <View style={[style.tray]}>
                   <TouchableOpacity onPress={() => props.pass(props.user.id)}>
-                    <Image style={style.bubble}
-                           resizeMode='contain'
-                           source={require('../images/nope-white.png')} />
+                    <Icon name="ios-close"
+                          size={50}
+                          style={style.decideButton} />
                   </TouchableOpacity>
                   <TouchableOpacity onPress={() => props.like(props.user.id)}>
-                    <Image style={style.bubble}
-                           resizeMode='contain'
-                           source={require('../images/wink-white.png')} />
+                    <Icon name="ios-heart"
+                          size={35}
+                          style={style.decideButton} />
                   </TouchableOpacity>
                 </View>
               }
@@ -334,5 +336,9 @@ const style = StyleSheet.create({
   button: {
     color: 'rgba(255,255,255,0.9)',
     backgroundColor: 'rgba(255,255,255,0)',
+  },
+
+  decideButton: {
+    color: 'white',
   },
 })

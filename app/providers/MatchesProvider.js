@@ -4,12 +4,12 @@ import api                from '../services/api'
 
 class MatchesProvider extends Component {
   componentWillReceiveProps(nextProps) {
-    if (nextProps.isAuthenticated && !this.props.isAuthenticated) {
-      this.props.loadMatches(nextProps.user.accessToken)
+    if (nextProps.isActive && !this.props.isActive) {
+      this.props.loadMatches(nextProps.accessToken)
     }
 
     if (nextProps.dirty && !this.props.dirty) {
-      this.props.loadMatches(nextProps.user.accessToken)
+      this.props.loadMatches(nextProps.accessToken)
     }
   }
 
@@ -18,9 +18,9 @@ class MatchesProvider extends Component {
 
 function mapStateToProps(state) {
   return {
-    isAuthenticated: !!state.user.id,
-    user: state.user,
-    dirty: state.matches.dirty,
+    isActive:        !!state.user.active && !!state.user.id,
+    accessToken:     state.user.accessToken,
+    dirty:           state.matches.dirty,
   }
 }
 

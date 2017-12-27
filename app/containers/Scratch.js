@@ -6,6 +6,7 @@ import { NativeModules, NativeEventEmitter } from 'react-native'
 import { GeoLocation } from 'react-native'
 const { InAppUtils } = NativeModules
 import Wallet from 'react-native-wallet'
+import branch from 'react-native-branch'
 import {
   Text,
   TouchableOpacity,
@@ -35,15 +36,25 @@ export default class Scratch extends Component {
   }
 
   componentDidMount() {
+    branch.createBranchUniversalObject(
+      `promos/nice`,
+      {
+        metadata: {
+          inviter_id: 'whatever',
+        }
+      }
+    ).then((branchUniversalObject) => {
+      const linkProperties = {
+        feature: 'promo-redemption',
+        channel: 'app'
+      }
+      const controlParams = {}
 
-    Wallet.canAddPasses((ok) => {
-      if( !ok ) { return console.error('Unable to add passes') }
-
-      Wallet.showAddPassController('https://superserious.ngrok.io/nope.pkpass').then((ok) => {
-        console.log('added pass', ok)
-      }).catch((err) => {
-        console.warn(err)
+      branchUniversalObject.generateShortUrl(linkProperties, controlParams).then((payload) => {
+        alert(payload.url)
       })
+    }).catch((err) => {
+      console.error(err)
     })
 
     navigator.geolocation.requestAuthorization()
