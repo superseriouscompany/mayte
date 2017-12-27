@@ -1,13 +1,14 @@
 import React, { Component } from 'react'
-import PreferencesView from '../components/PreferencesView'
-import api from '../services/api'
+import PreferencesView      from '../components/PreferencesView'
+import {connect}            from 'react-redux'
+import api                  from '../services/api'
 
 const minAge = 18
 const maxAge = 50
 const minDistance = 1
 const maxDistance = 100
 
-export default class Preferences extends Component {
+class Preferences extends Component {
   constructor(props) {
     super(props)
 
@@ -66,3 +67,17 @@ export default class Preferences extends Component {
     )
   }
 }
+
+function mapStateToProps() {
+  return {}
+}
+
+function mapDispatchToProps(dispatch) {
+  return {
+    fuck: () => {
+      dispatch({type: 'scene:change', scene: 'whatever'})
+    }
+  }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(Preferences)

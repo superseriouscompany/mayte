@@ -15,10 +15,6 @@ export default class SettingsView extends Component {
   render() {
     const { props, state } = this
     return(
-      <View style={{backgroundColor: 'hotpink', flex: 1}} />
-    )
-
-    return(
       <View style={style.container}>
       {
         props.loading ?
