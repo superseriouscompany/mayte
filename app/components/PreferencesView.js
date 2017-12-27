@@ -28,15 +28,6 @@ export default class PreferencesView extends Component {
   render() {
     const { props, state } = this
     return(
-      <View style={{backgroundColor: 'hotpink', flex: 1, justifyContent: 'center'}}>
-        <TouchableOpacity onPress={() => props.fuck()}>
-          <Text>Hey</Text>
-        </TouchableOpacity>
-      </View>
-    )
-
-
-    return(
       <View style={{flex: 1}}>
         <Image source={{uri: props.user.photos[0].url}} resizeMode='cover' style={style.background} />
         <BlurView style={style.blur}

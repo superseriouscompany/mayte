@@ -74,9 +74,6 @@ function mapStateToProps() {
 
 function mapDispatchToProps(dispatch) {
   return {
-    fuck: () => {
-      dispatch({type: 'scene:change', scene: 'whatever'})
-    }
   }
 }
 
