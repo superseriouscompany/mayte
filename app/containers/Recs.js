@@ -48,6 +48,8 @@ class Recs extends Component {
   }
 
   like(u) {
+    // this.props.itsAMatch()
+    this.setState({match: u})
     api(`/ratings/${u.id}/like`, {
       method: 'POST',
       accessToken: this.props.accessToken

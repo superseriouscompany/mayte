@@ -89,7 +89,7 @@ const style = StyleSheet.create({
     shadowRadius: 4,
     shadowOffset: {width: 2, height: 2},
     shadowColor: 'rgba(0,0,0,1)',
-    backgroundColor: 'rgba(198,202,201,1)',
+    backgroundColor: 'rgba(220,224,223,1)',
     width: screenWidth * 0.8,
     maxWidth: 280,
   },
