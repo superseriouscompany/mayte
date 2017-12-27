@@ -50,7 +50,7 @@ class IssaMatchView extends Component {
     const {props, state} = this
     return (
       <Animated.View style={[{opacity: state.opacity, height: props.viewHeight}, style.container]}>
-        <Text style={style.title}>{`U GUYS SHUD KISS <3`}</Text>
+        <Text style={style.title}>{`IT'S MUTUAL!`}</Text>
 
         <View style={style.tray}>
           <Image style={style.bubble} source={{uri: props.user.photos[0].url}} />

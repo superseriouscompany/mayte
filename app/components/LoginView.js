@@ -25,9 +25,10 @@ export default function(props) {
         <ActivityIndicator size="large"/>
       :
         <View style={style.container}>
-          <Image style={[style.logo]}
-                 source={require('../images/logo-trans.png')}
+          <Image style={[style.icon]}
+                 source={require('../images/icon-trans.png')}
                  resizeMode="contain" />
+          <Text style={[style.name]}>UNICORN</Text>
 
           <TouchableOpacity onPress={props.instagramLogin}
                             style={[style.button, {marginBottom: 40}]}>
@@ -64,10 +65,19 @@ const style = StyleSheet.create({
     backgroundColor: mayteBlack(0.66),
   },
 
-  logo: {
-    height: em(6),
-    width: em(16),
+  icon: {
+    height: em(5),
+    width: em(13.33),
+    marginBottom: em(1),
+  },
+
+  name: {
+    backgroundColor: 'transparent',
     marginBottom: 40,
+    fontSize: em(1),
+    fontFamily: 'Gotham-Book',
+    color: 'white',
+    letterSpacing: em(0.1),
   },
 
   button: {
@@ -79,7 +89,7 @@ const style = StyleSheet.create({
     shadowRadius: 4,
     shadowOffset: {width: 2, height: 2},
     shadowColor: 'rgba(0,0,0,1)',
-    backgroundColor: 'rgba(220,224,223,1)',
+    backgroundColor: 'rgba(198,202,201,1)',
     width: screenWidth * 0.8,
     maxWidth: 280,
   },
@@ -91,5 +101,7 @@ const style = StyleSheet.create({
     fontWeight: 'bold',
     color: mayteBlack(),
     letterSpacing: 1,
+    fontFamily: 'Gotham-Medium',
+    marginTop: em(0.1),
   }
 })
