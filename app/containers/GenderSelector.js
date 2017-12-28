@@ -11,8 +11,8 @@ class GenderSelector extends Component {
     this.select = this.select.bind(this)
     this.set    = this.set.bind(this)
     this.state  = {
-      gender:      'female',
-      orientation: 'male',
+      gender:      null,
+      orientation: null,
     }
   }
 
@@ -20,13 +20,12 @@ class GenderSelector extends Component {
     var updates = {
       [field]: value
     }
-    if( field == 'gender' ) {
-      updates.orientation =
-        value == 'male' ? 'female'
-        : value == 'female' ? 'male'
-        : 'null'
-    }
-    console.log(updates)
+    // if( field == 'gender' ) {
+    //   updates.orientation =
+    //     value == 'male' ? 'female'
+    //     : value == 'female' ? 'male'
+    //     : 'null'
+    // }
     this.setState(updates)
   }
 
