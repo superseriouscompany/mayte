@@ -15,14 +15,18 @@ import {
   View,
 } from 'react-native'
 
-function Unicorn(props) {
-  const selected = props[props.field] == props.value
+class Unicorn extends Component {
+  render() {
+    const {props,state} = this
+    const selected = props[props.field] == props.value
 
-  return (
-    <TouchableOpacity style={[style.option, selected ? style.selected : null, props.style]} key={props.field + '-' + props.value} onPress={() => props.set(props.field, props.value)}>
+    return (
+      <TouchableOpacity style={[style.option, selected ? style.selected : null, props.style]} key={props.field + '-' + props.value} onPress={() => props.set(props.field, props.value)}>
+      {selected ? <Text style={[style.cornLabel]}>{props.label}</Text> : null}
       {props.children}
-    </TouchableOpacity>
-  )
+      </TouchableOpacity>
+    )
+  }
 }
 
 class NightSky extends Component {
@@ -111,22 +115,22 @@ class CornSelector extends Component {
     return(
       <Animated.View style={[style.cornCont, {opacity: props.fade}]}>
         <Text style={style.heading}>{`I'm interested in:`}</Text>
-        <Unicorn {...props} field="orientation" value="male"
+        <Unicorn {...props} field="orientation" value="male" label="MEN"
                 style={[style.corn, {left: em(1), bottom: em(4.5)}]}>
           <Image source={require('../images/unicorn-male-white.png')}
                  style={{width: '100%', height: '100%'}}
                  resizeMode='contain' />
         </Unicorn>
-        <Unicorn {...props} field="orientation" value="null"
-                style={[style.corn, {right: em(8.5), bottom: em(9)}]}>
+        <Unicorn {...props} field="orientation" value="null" label="EVERYONE"
+                style={[style.corn, {right: em(8.5), bottom: em(9),  transform: [{scale: 0.66}]}]}>
         <Image source={require('../images/unicorn-all-white.png')}
-               style={{width: em(8), height: em(8), transform: [{scaleX:-0.66}, {scaleY: 0.66}]}}
+               style={{width: em(8), height: em(8), transform: [{scaleX:-1}]}}
                resizeMode='contain' />
         </Unicorn>
-        <Unicorn {...props} field="orientation" value="female"
-                style={[style.corn, {right: em(1), transform: [{scaleX:-1.1},{scaleY:1.1}], bottom: em(3)}]}>
+        <Unicorn {...props} field="orientation" value="female" label="WOMEN"
+                style={[style.corn, {right: em(1), bottom: em(3)}]}>
           <Image source={require('../images/unicorn-female-white.png')}
-                  style={{width: '100%', height: '100%'}}
+                  style={{width: '100%', height: '100%', transform: [{scaleX:-1.1},{scaleY:1.1}]}}
                   resizeMode='contain' />
         </Unicorn>
       </Animated.View>
@@ -245,6 +249,8 @@ export default class GenderSelector extends Component {
       interest: !!(props.gender),
       continue: props.gender && props.orientation,
     }
+
+    this.complete = this.complete.bind(this)
   }
 
   componentWillUpdate(nextProps) {
@@ -255,8 +261,6 @@ export default class GenderSelector extends Component {
         duration: 1000,
       }).start()
     }
-
-    console.log(nextProps.gender, nextProps.orientation)
 
     if (nextProps.gender && nextProps.orientation && !this.state.continue) {
       this.setState({continue: true})
@@ -271,6 +275,7 @@ export default class GenderSelector extends Component {
     Animated.sequence([
       Animated.timing(this._mask, {
         toValue: screenHeight,
+        delay: 1000,
         duration: 1000,
       }),
       Animated.timing(this._starFade, {
@@ -286,6 +291,17 @@ export default class GenderSelector extends Component {
     ]).start()
   }
 
+  complete() {
+    Animated.sequence([
+      Animated.parallel([
+        Animated.timing(this._idFade, {toValue: 0, duration: 1000}),
+        Animated.timing(this._interestFade, {toValue: 0, duration: 1000}),
+        Animated.timing(this._continueFade, {toValue: 0, duration: 1000}),
+      ]),
+      Animated.timing(this._mask, {toValue: 0, duration: 666})
+    ]).start(this.props.select)
+  }
+
   render() {
     const {props,state} = this
     return(
@@ -299,17 +315,14 @@ export default class GenderSelector extends Component {
           <Environment {...props} starFade={this._starFade} />
           <SelfSelector {...props} fade={this._idFade} />
           <CornSelector {...props} fade={this._interestFade} />
-          {
-            state.mask ?
-            <Animated.View style={[style.mask, {
+          <Animated.View style={[style.mask, {
               top: this._mask
-            }]} /> : null
-          }
+            }]} />
 
           {this.state.continue ?
           <Animated.View style={{opacity: this._continueFade, width: screenWidth, alignItems: 'center'}}>
             <TouchableOpacity style={[base.button,style.continue]}
-                              onPress={props.select}>
+                              onPress={this.complete}>
               <Text style={[base.buttonText]}>Continue</Text>
             </TouchableOpacity>
           </Animated.View> : null}
@@ -328,7 +341,6 @@ const style = StyleSheet.create({
     flex: 1,
     alignItems: 'center',
     backgroundColor: mayteBlack(),
-    backgroundColor: '#232037',
   },
   loadingCnr: {
     flex: 1,
@@ -351,7 +363,7 @@ const style = StyleSheet.create({
 
 
   identityCont: {
-    height: screenHeight * 0.5,
+    height: screenHeight * 0.45,
     width: screenWidth,
   },
   identity: {
@@ -388,6 +400,7 @@ const style = StyleSheet.create({
   nightSky: {
     width: screenWidth,
     height: screenHeight - 185,
+    backgroundColor: '#232037',
   },
   star: {
     position: 'absolute',
@@ -407,9 +420,19 @@ const style = StyleSheet.create({
 
 
   cornCont: {
-    height: screenHeight * 0.5,
+    height: screenHeight * 0.55,
     width: screenWidth,
     backgroundColor: 'transparent',
+  },
+  cornLabel: {
+    width: '100%',
+    textAlign: 'center',
+    fontFamily: 'Gotham-Book',
+    letterSpacing: em(0.1),
+    fontSize: em(0.8),
+    color: mayteWhite(),
+    position: 'absolute',
+    bottom: '100%',
   },
   corn: {
     width: em(8),
