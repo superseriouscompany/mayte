@@ -16,8 +16,6 @@ class Preferences extends Component {
     const ageRange = ps.ageRange ? [ps.ageRange[0], ps.ageRange[1]] : [minAge, maxAge]
     const distance = ps.distance ? ps.distance : maxDistance
 
-    console.log(ps)
-
     this.state = {
       ageRange: ageRange,
       distance: distance,

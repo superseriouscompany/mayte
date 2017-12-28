@@ -1,7 +1,8 @@
 import {em} from './dimensions'
+import {mayteBlack, mayteWhite} from './colors'
 export default {
   button: {
-    backgroundColor: 'black',
+    backgroundColor: mayteBlack(),
     paddingLeft: em(0.8),
     paddingRight: em(0.8),
     paddingTop: em(0.6),
@@ -9,7 +10,10 @@ export default {
     borderRadius: em(0.33),
   },
   buttonText: {
-    color: 'white',
+    color: mayteWhite(),
     fontSize: em(1.25),
   },
+  text: {
+    color: mayteBlack(),
+  }
 }
