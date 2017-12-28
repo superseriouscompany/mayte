@@ -8,6 +8,8 @@ import {mayteBlack} from '../constants/colors'
 import {
   Image,
   ActivityIndicator,
+  Animated,
+  Easing,
   StyleSheet,
   TouchableOpacity,
   View,
@@ -55,9 +57,7 @@ function Option(props) {
 
   return (
     <TouchableOpacity style={[style.option, selected ? style.selected : null, props.style]} key={props.field + '-' + props.value} onPress={() => props.set(props.field, props.value)}>
-      <Text style={selected ? style.selectedText : null}>
-        {props.children}
-      </Text>
+      {props.children}
     </TouchableOpacity>
   )
 }
@@ -74,35 +74,36 @@ export default function(props) {
           <View style={style.identityCont}>
             <Text style={style.heading}>I identify as:</Text>
             <SelfOption {...props} field="gender" value="female"
-                        style={{top: 20, right: 60}}>
+                        style={{top: em(6), right: em(2.5)}}>
               <Text style={style.identityText}>FEMALE</Text>
             </SelfOption>
             <SelfOption {...props} field="gender" value="male"
-                        style={{top: 60, left: 50}}>
+                        style={{top: em(9), left: em(2.5)}}>
               <Text style={style.identityText}>MALE</Text>
             </SelfOption>
             <SelfOption {...props} field="gender" value="null"
-                        style={{top: 120, right: 120}}>
+                        style={{top: em(13), right: em(8)}}>
               <Text style={style.identityText}>OTHER</Text>
             </SelfOption>
           </View>
 
           <View style={style.cornCont}>
+            <View style={style.ground}></View>
             <Text style={style.heading}>{`I'm interested in:`}</Text>
             <Option {...props} field="gender" value="male"
-                    style={[style.corn, {left: em(1), bottom: 100}]}>
+                    style={[style.corn, {left: em(1), bottom: em(4.5)}]}>
               <Image source={require('../images/unicorn-male-white.png')}
                      style={{width: '100%', height: '100%'}}
                      resizeMode='contain' />
             </Option>
             <Option {...props} field="gender" value="null"
-                    style={[style.corn, {right: em(9.5), bottom: 150}]}>
+                    style={[style.corn, {right: em(8.5), bottom: em(9)}]}>
             <Image source={require('../images/unicorn-all-white.png')}
-                   style={{width: em(6.25), height: em(6.25), transform: [{scaleX:-0.75}, {scaleY: 0.75}]}}
+                   style={{width: em(8), height: em(8), transform: [{scaleX:-0.66}, {scaleY: 0.66}]}}
                    resizeMode='contain' />
             </Option>
             <Option {...props} field="gender" value="female"
-                    style={[style.corn, {right: em(1), transform: [{scaleX:-1.1},{scaleY:1.1}], bottom: 80}]}>
+                    style={[style.corn, {right: em(1), transform: [{scaleX:-1.1},{scaleY:1.1}], bottom: em(3)}]}>
               <Image source={require('../images/unicorn-female-white.png')}
                       style={{width: '100%', height: '100%'}}
                       resizeMode='contain' />
@@ -118,22 +119,55 @@ export default function(props) {
   )
 }
 
-function SelfOption(props) {
-  const selected = props[props.field] == props.value
+class SelfOption extends Component {
+  constructor(props) {
+    super(props)
+    this._rotation = new Animated.Value(0)
+  }
 
-  return (
-    <TouchableOpacity key={props.field + '-' + props.value} onPress={() => props.set(props.field, props.value)}>
-      <View style={[style.identity, props.style]}>
+  componentDidMount() {
+    Animated.loop(
+      Animated.timing(this._rotation, {
+        toValue: 100,
+        duration: 4000,
+        easing: Easing.linear,
+      })
+    ).start()
+  }
+
+  render() {
+    const {props, state} = this
+    const selected = props[props.field] == props.value
+
+    var interpolatedRotateAnimation = this._rotation.interpolate({
+        inputRange: [0, 100],
+      outputRange: ['0deg', '360deg']
+    });
+
+    return (
+      <TouchableOpacity key={props.field + '-' + props.value} onPress={() => props.set(props.field, props.value)}
+                        style={[style.identity, props.style]}>
+        <Animated.View style={[
+            style.identityOrbit,
+            {transform: [{rotate: interpolatedRotateAnimation}]},
+            (selected ? {opacity: 1} : {}),
+          ]}>
+          <View style={style.identityOrbitOrb}></View>
+        </Animated.View>
         {props.children}
-      </View>
-    </TouchableOpacity>
-  )
+      </TouchableOpacity>
+    )
+  }
 }
+
+const idDiameter = em(5)
 
 const style = StyleSheet.create({
   container: {
     flex: 1,
     alignItems: 'center',
+    backgroundColor: mayteBlack(),
+    backgroundColor: '#232037',
   },
   loadingCnr: {
     flex: 1,
@@ -160,14 +194,13 @@ const style = StyleSheet.create({
   },
   identityCont: {
     height: screenHeight * 0.5,
-    backgroundColor: mayteBlack(),
     width: screenWidth,
   },
   identity: {
     position: 'absolute',
-    width: em(4.5),
-    height: em(4.5),
-    borderRadius: em(2.25),
+    width: idDiameter,
+    height: idDiameter,
+    borderRadius: idDiameter/2,
     borderWidth: 1,
     justifyContent: 'center',
     alignItems: 'center',
@@ -178,18 +211,40 @@ const style = StyleSheet.create({
     fontSize: em(0.66),
     letterSpacing: em(0.1),
     color: 'white',
+    backgroundColor: 'transparent',
+  },
+  identityOrbit: {
+    position: 'absolute',
+    width: idDiameter,
+    height: idDiameter,
+    borderRadius: idDiameter/2,
+    opacity: 0,
+  },
+  identityOrbitOrb: {
+    width: idDiameter/5,
+    height: idDiameter/5,
+    borderRadius: idDiameter/10,
+    backgroundColor: 'white',
+    top: idDiameter/8,
   },
   cornCont: {
     height: screenHeight * 0.5,
     width: screenWidth,
-    borderTopWidth: 1,
-    backgroundColor: mayteBlack(0.95),
-    borderColor: 'white',
   },
   corn: {
-    width: em(6.25),
-    height: em(6.25),
+    width: em(8),
+    height: em(8),
     position: 'absolute',
     backgroundColor: 'transparent',
+  },
+  ground: {
+    position: 'absolute',
+    backgroundColor: mayteBlack(0.95),
+    borderColor: mayteBlack(),
+    borderTopWidth: 1,
+    width: screenWidth,
+    height: 185,
+    bottom: 0,
+    left: 0,
   }
 })
