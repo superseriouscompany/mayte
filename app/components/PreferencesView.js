@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import { BlurView } from 'react-native-blur'
 import RangeSlider from '../containers/RangeSlider'
-import SexualPreference from '../containers/SexualPreference'
+import MaytePicker from '../containers/MaytePicker'
 import { em, tabNavHeight, screenHeight, notchHeight } from '../constants/dimensions'
 import { mayteBlack, mayteRed } from '../constants/colors'
 import {
@@ -93,12 +93,32 @@ export default class PreferencesView extends Component {
             <View style={[style.preferenceHeader, {justifyContent: 'flex-start'}]}>
               <Text style={style.preferenceLabel}>Interested In</Text>
             </View>
-            <SexualPreference options={['MEN', 'WOMEN', 'ALL']}
-                              selected={props.sexual}
-                              onUpdate={(o) => {
-                                props.updateSexual(o)
-                                props.updatePreferences({sexual: o})
-                              }} />
+            <MaytePicker options={[
+                           {label: 'MEN', value: 'male'},
+                           {label: 'WOMEN', value: 'female'},
+                           {label: 'ALL', value: 'null'},
+                         ]}
+                         selected={props.orientation}
+                         onUpdate={(o) => {
+                           props.updateOrientation(o)
+                           props.updatePreferences({orientation: o})
+                         }} />
+          </View>
+
+          <View style={[style.preference]}>
+            <View style={[style.preferenceHeader, {justifyContent: 'flex-start'}]}>
+              <Text style={style.preferenceLabel}>Identify As</Text>
+            </View>
+            <MaytePicker options={[
+                           {label: 'MALE', value: 'male'},
+                           {label: 'FEMALE', value: 'female'},
+                           {label: 'OTHER', value: 'null'},
+                         ]}
+                         selected={props.gender}
+                         onUpdate={(o) => {
+                           props.updateGender(o)
+                           props.updatePreferences({gender: o})
+                         }} />
           </View>
 
           <TouchableOpacity onPress={props.logout} style={[style.button]}>

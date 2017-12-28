@@ -9,12 +9,15 @@ import {
   TouchableWithoutFeedback,
 } from 'react-native'
 
-export default class SexualPreference extends Component {
+export default class MaytePicker extends Component {
   constructor(props) {
     super(props)
+    console.log(props)
+
+    this.vals = props.options.map(o => o.value)
 
     this.state = {
-      idx: props.options.indexOf(props.selected),
+      idx: this.vals.indexOf(props.selected),
     }
 
     this.selectOption = this.selectOption.bind(this)
@@ -22,7 +25,7 @@ export default class SexualPreference extends Component {
 
   componentWillReceiveProps(nextProps) {
     if (nextProps.selected !== this.props.selected) {
-      const idx = this.props.options.indexOf(nextProps.selected)
+      const idx = this.vals.indexOf(nextProps.selected)
       this.setState({idx: idx})
       Animated.timing(this.state.bgLeft, {
         toValue: this.state.optionLayout.width * idx,
@@ -32,7 +35,7 @@ export default class SexualPreference extends Component {
   }
 
   selectOption(i) {
-    this.props.onUpdate(this.props.options[i])
+    this.props.onUpdate(this.props.options[i].value)
   }
 
   render() {
@@ -64,7 +67,7 @@ export default class SexualPreference extends Component {
                   (i === a.length-1 ? style.optionLast : {}),
                 ]}>
                   <Animated.Text style={[style.label, {color: state.idx === i ? 'white' : 'black'}]}>
-                    {o}
+                    {o.label}
                   </Animated.Text>
                 </View>
               </TouchableWithoutFeedback>
