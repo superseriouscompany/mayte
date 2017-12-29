@@ -11,8 +11,8 @@ class GenderSelector extends Component {
     this.select = this.select.bind(this)
     this.set    = this.set.bind(this)
     this.state  = {
-      gender:      'female',
-      orientation: 'male',
+      gender:      null,
+      orientation: null,
     }
   }
 
@@ -20,13 +20,6 @@ class GenderSelector extends Component {
     var updates = {
       [field]: value
     }
-    if( field == 'gender' ) {
-      updates.orientation =
-        value == 'male' ? 'female'
-        : value == 'female' ? 'male'
-        : 'null'
-    }
-    console.log(updates)
     this.setState(updates)
   }
 
@@ -49,8 +42,10 @@ class GenderSelector extends Component {
       method: 'PATCH',
       accessToken: this.props.accessToken,
       body: {
-        gender,
-        orientation,
+        preferences: {
+          gender,
+          orientation,
+        }
       }
     }).then(() => {
       this.setState({loading: false})
@@ -69,8 +64,7 @@ class GenderSelector extends Component {
         gender={this.state.gender}
         orientation={this.state.orientation}
         set={this.set}
-        select={this.select}
-        />
+        select={this.select} />
     )
   }
 }

@@ -35,10 +35,10 @@ export default class ProfileView extends Component {
                              em(1) * 11.25 : em(1) * 11.25 + matchHeaderHeight + notchHeight :
                            em(1) * 15 )
 
-    this.state = {
-      topValue: new Animated.Value(this.infoClosedTop),
-      heightValue: new Animated.Value(screenHeight * 0.3),
-    }
+    this._y = new Animated.Value(this.infoClosedTop)
+    this._height = new Animated.Value(screenHeight * 0.3),
+
+    this.state = {}
 
     this.animateOpen = this.animateOpen.bind(this)
     this.animateClosed = this.animateClosed.bind(this)
@@ -47,11 +47,12 @@ export default class ProfileView extends Component {
 
   animateOpen(time) {
     Animated.parallel([
-      Animated.timing(this.state.topValue, {
+      Animated.timing(this._y, {
         toValue: 0,
         duration: time || 100,
+        // useNativeDriver: true,
       }),
-      Animated.timing(this.state.heightValue, {
+      Animated.timing(this._height, {
         toValue: screenHeight,
         duration: time || 100,
       })
@@ -61,12 +62,13 @@ export default class ProfileView extends Component {
 
   animateSub() {
     Animated.parallel([
-      Animated.timing(this.state.topValue, {
+      Animated.timing(this._y, {
         toValue: this.infoClosedTop,
         duration: profileSwitch,
+        // useNativeDriver: true,
       }),
 
-      Animated.timing(this.state.heightValue, {
+      Animated.timing(this._height, {
         toValue: screenHeight * 0.3,
         duration: profileSwitch,
       }),
@@ -74,17 +76,19 @@ export default class ProfileView extends Component {
       Animated.timing(this.state.opacity, {
         toValue: 1,
         duration: profileOpen,
+        // useNativeDriver: true,
       })
     ]).start()
   }
 
   animateClosed() {
     Animated.parallel([
-      Animated.timing(this.state.topValue, {
+      Animated.timing(this._y, {
         toValue: this.infoClosedTop,
         duration: 100,
+        // useNativeDriver: true,
       }),
-      Animated.timing(this.state.heightValue, {
+      Animated.timing(this._height, {
         toValue: screenHeight * 0.3,
         duration: 100,
       }),
@@ -115,21 +119,28 @@ export default class ProfileView extends Component {
       onMoveShouldSetPanResponderCapture: (evt, gestureState) => false,
 
       onPanResponderGrant: (evt, gestureState) => {
-        this.panStartY = this.state.topValue._value
+        this.panStartY = this._y._value
       },
 
       onPanResponderMove: (evt, gestureState) => {
         const newTop = this.panStartY + gestureState.dy
-        this.setState({
-          topValue: new Animated.Value(newTop),
-          heightValue: new Animated.Value(screenHeight - newTop),
-        })
+        Animated.parallel([
+          Animated.timing(this._y, {
+            toValue: newTop,
+            duration: 0,
+            // useNativeDriver: true,
+          }),
+          Animated.timing(this._height, {
+            toValue: screenHeight - newTop,
+            duration: 0,
+          })
+        ]).start()
       },
 
       onPanResponderTerminationRequest: (evt, gestureState) => true,
 
       onPanResponderRelease: (evt, gestureState) => {
-          if (this.state.topValue._value < this.panStartY * 0.9) {
+          if (this._y._value < this.panStartY * 0.9) {
             this.animateOpen()
           } else {
             this.animateClosed()
@@ -169,7 +180,7 @@ export default class ProfileView extends Component {
                            resizeMode="cover"
                            source={{url: item.url}} />
                   } />
-        <Animated.View style={[{top: state.topValue, height: state.heightValue,}, style.info]}>
+        <Animated.View style={[{top: 0, height: this._height, transform: [{translateY: this._y}]}, style.info]}>
           <LinearGradient colors={['rgba(0,0,0,0)', 'rgba(0,0,0,0.7)']}
                           style={style.gradient}>
             <ScrollView style={style.content}
@@ -181,10 +192,13 @@ export default class ProfileView extends Component {
                 {props.user.fullName.split(' ')[0].toUpperCase()}
               </Text>
               <View style={[style.stats, {paddingBottom: props.hideButtons ? em(1) : 0}]}>
-                <Text style={style.age}>
-                  {props.user.dob ? moment().diff(moment(props.user.dob, ['MMM Do YYYY']), 'years') : 25}
-                </Text>
-                <Image style={style.pin} resizeMode='contain' source={require('../images/pin.png')} />
+                {
+                  props.user.dob ?
+                  <Text style={style.age}>
+                    {moment().diff(moment(props.user.dob, ['MMM Do YYYY']), 'years')}
+                  </Text> : null
+                }
+                <Image style={[style.pin, {marginLeft: props.user.dob ? em(0.66) : 0}]} resizeMode='contain' source={require('../images/pin.png')} />
                 <Text style={style.location}>
                   {props.user.distance || 1}
                 </Text>
@@ -193,14 +207,14 @@ export default class ProfileView extends Component {
                 props.hideButtons ? null :
                 <View style={[style.tray]}>
                   <TouchableOpacity onPress={() => props.pass(props.user.id)}>
-                    <Icon name="ios-close"
-                          size={50}
-                          style={style.decideButton} />
+                    <Image style={style.bubble}
+                           resizeMode='contain'
+                           source={require('../images/x-white.png')} />
                   </TouchableOpacity>
                   <TouchableOpacity onPress={() => props.like(props.user.id)}>
-                    <Icon name="ios-heart"
-                          size={35}
-                          style={style.decideButton} />
+                    <Image style={style.bubble}
+                           resizeMode='contain'
+                           source={require('../images/unicorn-white.png')} />
                   </TouchableOpacity>
                 </View>
               }
@@ -305,7 +319,6 @@ const style = StyleSheet.create({
   pin: {
     width: em(1),
     height: em(1),
-    marginLeft: em(0.66),
     marginTop: em(0.1),
   },
 
@@ -327,8 +340,8 @@ const style = StyleSheet.create({
   },
 
   bubble: {
-    width: screenWidth * 0.125,
-    height: screenWidth * 0.125,
+    width: em(3),
+    height: em(3),
     opacity: 0.9,
     zIndex: 1,
   },

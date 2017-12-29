@@ -91,7 +91,7 @@ class Recs extends Component {
                    pass={this.pass} /> :
           state.recs[state.index] ?
           <View style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}>
-            <Text style={{color: 'black'}}>There's no one new around you</Text>
+            <Text style={{color: 'black'}}>{`There's no one new around you`}</Text>
           </View> : null
         }
         {
@@ -103,7 +103,7 @@ class Recs extends Component {
                    like={this.like}
                    pass={this.pass} /> :
           <View style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}>
-            <Text style={{color: 'black'}}>There's no one new around you</Text>
+            <Text style={{color: 'black'}}>{`There's no one new around you`}</Text>
           </View>
         }
         {

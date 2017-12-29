@@ -1,7 +1,7 @@
 import React, {Component} from 'react'
 import { withNavigation } from 'react-navigation'
 import { connect } from 'react-redux'
-import { screenWidth, screenHeight } from '../constants/dimensions'
+import { screenWidth, screenHeight, em } from '../constants/dimensions'
 import { issaMatchOpen, issaMatchClose } from '../constants/timings'
 import { mayteBlack } from '../constants/colors'
 import {
@@ -50,7 +50,7 @@ class IssaMatchView extends Component {
     const {props, state} = this
     return (
       <Animated.View style={[{opacity: state.opacity, height: props.viewHeight}, style.container]}>
-        <Text style={style.title}>{`U GUYS SHUD KISS <3`}</Text>
+        <Text style={style.title}>{`IT'S 🦄 MUTUAL`}</Text>
 
         <View style={style.tray}>
           <Image style={style.bubble} source={{uri: props.user.photos[0].url}} />
@@ -67,7 +67,7 @@ class IssaMatchView extends Component {
 
         <TouchableOpacity onPress={this.animateOut}
                           style={style.button}>
-          <Text style={[style.buttonText]}>KEEP BROWSING</Text>
+          <Text style={[style.buttonText]}>CONTINUE</Text>
         </TouchableOpacity>
       </Animated.View>
     )
@@ -87,9 +87,9 @@ style = StyleSheet.create({
   },
 
   bubble: {
-    height: 80,
-    width: 80,
-    borderRadius: 40,
+    height: Math.max(screenWidth * 0.3, 80),
+    width: Math.max(screenWidth * 0.3, 80),
+    borderRadius: Math.max(screenWidth * 0.3, 80) / 2,
     marginLeft: 20,
     marginRight: 20,
   },
@@ -97,36 +97,40 @@ style = StyleSheet.create({
   tray: {
     alignItems: 'center',
     flexDirection: 'row',
-    marginTop: 40,
-    marginBottom: 40,
+    marginTop: em(3),
+    marginBottom: em(4.5),
   },
 
   title: {
-    fontSize: 30,
+    fontSize: em(2),
     color: 'white',
-    fontWeight: 'bold',
+    fontFamily: 'Gotham-Medium',
+    letterSpacing: em(0.166),
+    marginLeft: em(0.1),
   },
 
   button: {
-    paddingTop: 20,
-    paddingBottom: 20,
-    paddingLeft: 20,
-    paddingRight: 20,
+    paddingTop: em(1.33),
+    paddingBottom: em(1.33),
+    paddingLeft: em(1),
+    paddingRight: em(1),
     borderRadius: 4,
     shadowRadius: 4,
     shadowOffset: {width: 2, height: 2},
     shadowColor: 'rgba(0,0,0,1)',
-    backgroundColor: 'rgba(220,224,223,1)',
-    width: 280,
+    backgroundColor: 'rgba(220,224,223,0.95)',
+    width: 260,
   },
 
   buttonText: {
     width: '100%',
     textAlign: 'center',
-    fontSize: 16,
+    fontSize: em(1),
     fontWeight: 'bold',
     color: mayteBlack(),
     letterSpacing: 1,
+    fontFamily: 'Gotham-Medium',
+    marginTop: em(0.1),
   }
 })
 

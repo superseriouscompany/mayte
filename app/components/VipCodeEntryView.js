@@ -1,7 +1,8 @@
 'use strict'
 
 import React, {Component} from 'react'
-import {em} from '../constants/dimensions'
+import {em, bottomBoost} from '../constants/dimensions'
+import {mayteBlack} from '../constants/colors'
 import base from '../constants/styles'
 import Text from './Text'
 import {
@@ -14,36 +15,36 @@ import {
 
 export default function(props) {
   return (
-    <View style={styles.container}>
-      <View style={styles.inputCnr}>
+    <View style={style.container}>
+      <View style={style.inputCnr}>
         <TextInput
-          style={styles.input}
+          style={style.input}
           onChangeText={props.setVipCode}
           value={props.vipCode}
           placeholder="VIP Code" />
         { props.error ?
-          <Text style={styles.error}>
+          <Text style={style.error}>
             {props.error}
           </Text>
         : props.loading ?
-          <ActivityIndicator style={styles.loading}/>
+          <ActivityIndicator style={style.loading}/>
         : null }
       </View>
 
-      <View style={styles.buttonsCnr}>
-        <TouchableOpacity style={[base.button, styles.mainButton]} onPress={props.redeem}>
+      <View style={style.buttonsCnr}>
+        <TouchableOpacity style={[base.button, style.mainButton]} onPress={props.redeem}>
           <Text style={[base.buttonText]}>Redeem</Text>
         </TouchableOpacity>
 
-        <TouchableOpacity style={styles.cancel} onPress={props.visitPaywall}>
-          <Text style={styles.cancelText}>Cancel</Text>
+        <TouchableOpacity style={style.cancel} onPress={props.visitPaywall}>
+          <Text style={style.cancelText}>Cancel</Text>
         </TouchableOpacity>
       </View>
     </View>
   )
 }
 
-const styles = StyleSheet.create({
+const style = StyleSheet.create({
   container: {
     flex:           1,
   },
@@ -53,12 +54,13 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   input: {
-    borderWidth: 1,
-    borderColor: 'gainsboro',
-    width: '66%',
-    padding: 10,
+    borderBottomWidth: 2,
+    borderColor: mayteBlack(),
+    width: '80%',
+    textAlign: 'center',
+    padding: em(0.66),
     fontFamily: 'Futura',
-    fontSize: 16,
+    fontSize: em(2),
   },
   error: {
     position: 'absolute',
@@ -75,8 +77,10 @@ const styles = StyleSheet.create({
   },
   mainButton: {
     marginBottom: em(1),
+    paddingLeft: em(1.33),
+    paddingRight: em(1.33),
   },
   cancel: {
-    marginBottom: em(1)
+    marginBottom: em(1) + bottomBoost,
   },
 })
