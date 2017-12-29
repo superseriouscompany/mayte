@@ -25,14 +25,14 @@ class NightSky extends Component {
     const {props,state} = this
     return(
       <Animated.View style={[style.nightSky, {opacity: props.starFade}]}>
-        <LinearGradient colors={['rgba(0,0,0,0.7)', '#232037']} style={{position:'absolute', top: 0, bottom: 0, left: 0, right: 0}} />
+        <LinearGradient colors={['rgba(0,0,0,1)', '#232037']} style={{position:'absolute', top: 0, bottom: 0, left: 0, right: 0}} />
         <Star style={{top: em(2), left: em(2)}} twinkleDelay={2000} />
         <Star style={{top: em(10), left: em(10)}} twinkleDelay={2800} />
         <Star style={{top: em(20), left: em(15)}} twinkleDelay={3300} />
         <Star style={{top: em(15), left: em(20)}} twinkleDelay={4500} />
         <Star style={{top: em(23), left: em(2)}} twinkleDelay={5300} />
         <Star style={{top: em(2), left: em(2)}} twinkleDelay={6200} />
-        <Star style={{top: em(33), left: em(18)}} twinkleDelay={6800} />
+        <Star style={{top: screenHeight * 0.64, left: em(18)}} twinkleDelay={6800} />
 
         {/* make a wish ya rich mothafocker */}
         <Star twinkleDelay={500}
