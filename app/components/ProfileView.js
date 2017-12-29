@@ -211,7 +211,7 @@ export default class ProfileView extends Component {
                   <TouchableOpacity onPress={() => props.like(props.user.id)}>
                     <Image style={style.bubble}
                            resizeMode='contain'
-                           source={require('../images/heart-white.png')} />
+                           source={require('../images/unicorn-white.png')} />
                   </TouchableOpacity>
                 </View>
               }
@@ -338,8 +338,8 @@ const style = StyleSheet.create({
   },
 
   bubble: {
-    width: em(2),
-    height: em(2),
+    width: em(3),
+    height: em(3),
     opacity: 0.9,
     zIndex: 1,
   },
