@@ -6,6 +6,7 @@ import base from '../constants/styles'
 import {em, screenWidth, screenHeight} from '../constants/dimensions'
 import {mayteBlack, mayteWhite} from '../constants/colors'
 import Firework from './Firework'
+import LinearGradient from 'react-native-linear-gradient'
 import {
   Image,
   ActivityIndicator,
@@ -24,6 +25,7 @@ class NightSky extends Component {
     const {props,state} = this
     return(
       <Animated.View style={[style.nightSky, {opacity: props.starFade}]}>
+        <LinearGradient colors={['rgba(0,0,0,0.7)', '#232037']} style={{position:'absolute', top: 0, bottom: 0, left: 0, right: 0}} />
         <Star style={{top: em(2), left: em(2)}} twinkleDelay={2000} />
         <Star style={{top: em(10), left: em(10)}} twinkleDelay={2800} />
         <Star style={{top: em(20), left: em(15)}} twinkleDelay={3300} />
@@ -270,7 +272,7 @@ class Unicorn extends Component {
       <TouchableOpacity key={props.field + '-' + props.value}
                         style={[props.style]}
                         onPress={() => props.set(props.field, props.value)} >
-        <Animated.Text style={[style.cornLabel, {opacity: Animated.multiply(this._labelOpacity, props.fade)}]}>{props.label}</Animated.Text>
+        <Animated.Text style={[style.cornLabel, props.labelStyle || {}, {opacity: Animated.multiply(this._labelOpacity, props.fade)}]}>{props.label}</Animated.Text>
         <Animated.View style={{width: '100%', height: '100%', opacity: props.fade, transform: [{translateY: this._jumpman}, {rotate: interpolatedRotateAnimation}]}}>
           {props.children}
         </Animated.View>
@@ -327,7 +329,7 @@ class CornSelector extends Component {
     return(
       <Animated.View style={[style.cornCont, {opacity: props.fade}]}>
         <Text style={style.heading}>{`I'm interested in:`}</Text>
-        <Unicorn {...props} field="orientation" value="null"
+        <Unicorn {...props} field="orientation" value="null" labelStyle={{bottom: '95%'}}
                  label="EVERYONE" fade={this._allOpacity} flipped={true}
                  style={[style.corn, {right: em(8), bottom: em(9)}]}>
         <Image source={require('../images/unicorn-all-white.png')}
@@ -364,24 +366,7 @@ export default class GenderSelector extends Component {
     this._shootingStarDrift = new Animated.Value(0)
     this._shootingStarFade = new Animated.Value(0)
 
-    this._interestAnim = props.gender ? Animated.timing(this._interestFade, {
-      toValue: 1,
-      duration: 1000,
-    }) : Animated.timing(this._interestFade, {
-      toValue: 0,
-      duration: 0,
-      useNativeDriver: true,
-    })
-
-    this._continueAnim = props.gender && props.orientation ? Animated.timing(this._continueFade, {
-      toValue: 1,
-      duration: 1000,
-      useNativeDriver: true,
-    }) : Animated.timing(this._continueFade, {
-      toValue: 0,
-      duration: 0,
-      useNativeDriver: true,
-    })
+    // TODO: Account for preselection?
 
     this.state = {
       mask: true,
@@ -446,9 +431,7 @@ export default class GenderSelector extends Component {
         toValue: 1,
         duration: 1000,
         useNativeDriver: true,
-      }),
-      this._interestAnim,
-      this._continueAnim,
+      })
     ]).start()
   }
 
@@ -562,7 +545,6 @@ const style = StyleSheet.create({
   nightSky: {
     width: screenWidth,
     height: screenHeight - 185,
-    backgroundColor: '#232037',
   },
   star: {
     position: 'absolute',
@@ -604,7 +586,7 @@ const style = StyleSheet.create({
   },
   ground: {
     position: 'absolute',
-    backgroundColor: mayteBlack(0.95),
+    backgroundColor: 'rgba(23,20,21,1)',
     borderColor: mayteBlack(),
     borderTopWidth: 1,
     width: screenWidth,
@@ -625,6 +607,6 @@ const style = StyleSheet.create({
     left: 0,
     width: screenWidth,
     height: screenHeight,
-    backgroundColor: mayteBlack(),
+    backgroundColor: 'rgba(23,20,21,1)',
   },
 })
