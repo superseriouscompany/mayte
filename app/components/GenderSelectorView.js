@@ -211,7 +211,7 @@ class SelfOption extends Component {
                         style={[style.identity, props.style]}>
         {
           selected ?
-          <Firework color="white" fireworkDiameter={idDiameter} sparkDiameter={em(0.33)} decayTime={2000} decayY={em(1)} explodeTime={200} /> :
+          <Firework color="white" fireworkDiameter={idDiameter * 1.5} sparkDiameter={em(0.33)} decayTime={2000} decayY={em(1)} explodeTime={200} numSparks={9} /> :
           null
         }
 

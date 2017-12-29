@@ -27,7 +27,7 @@ const calculateFireworkOffset = (top, left) => {
     left: (screenWidth/2-fireworkDiameter/2) + left,
   }
 }
-const fireworkDiameter = 150
+const fireworkDiameter = screenWidth * 0.6
 const sparkDiameter = em(1)
 
 export default class PaywallView extends Component {
@@ -69,7 +69,6 @@ export default class PaywallView extends Component {
           <Animated.View style={[
                            style.ballooner,
                            {transform: [{translateX: this._balloonerX}, {translateY: this._balloonerY}]},
-                           // {transform: [{translateX: this._balloonerX}]}
                          ]}>
             <Image source={require('../images/balloons-black.png')} resizeMode='contain'
                    style={style.balloons} />
@@ -82,9 +81,9 @@ export default class PaywallView extends Component {
                    style={style.unicorn} />
           </Animated.View>
 
-          <Firework color='pink' delay={0} style={[calculateFireworkOffset(-em(2),-em(2))]} sparkDiameter={em(1)} />
-          <Firework color='lightblue' delay={1000} style={[calculateFireworkOffset(em(1),0)]} sparkDiameter={em(1)} />
-          <Firework color='gold' delay={2000} style={[calculateFireworkOffset(-em(1),em(2))]} sparkDiameter={em(1)} />
+          <Firework color='pink' delay={0} style={[calculateFireworkOffset(-em(2),-em(2))]} fireworkDiameter={fireworkDiameter} sparkDiameter={em(1)} numSparks={10} />
+          <Firework color='lightblue' delay={1000} style={[calculateFireworkOffset(em(1),0)]} fireworkDiameter={fireworkDiameter} sparkDiameter={em(1)} numSparks={10} />
+          <Firework color='gold' delay={2000} style={[calculateFireworkOffset(-em(1),em(2))]} fireworkDiameter={fireworkDiameter} sparkDiameter={em(1)} numSparks={10} />
 
           <Text style={[style.teaser, base.text]}>
             There are only 100 spots available for our first members only party in LA.
