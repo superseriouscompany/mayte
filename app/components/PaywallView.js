@@ -3,6 +3,7 @@
 import React, {Component} from 'react'
 import Text from './Text'
 import base from '../constants/styles'
+import Firework from './Firework'
 import {
   em,
   screenWidth,
@@ -26,6 +27,8 @@ const calculateFireworkOffset = (top, left) => {
     left: (screenWidth/2-fireworkDiameter/2) + left,
   }
 }
+const fireworkDiameter = 150
+const sparkDiameter = em(1)
 
 export default class PaywallView extends Component {
   constructor(props) {
@@ -79,9 +82,9 @@ export default class PaywallView extends Component {
                    style={style.unicorn} />
           </Animated.View>
 
-          <Firework color='pink' delay={0} style={[calculateFireworkOffset(-em(2),-em(2))]} />
-          <Firework color='lightblue' delay={1000} style={[calculateFireworkOffset(em(1),0)]} />
-          <Firework color='gold' delay={2000} style={[calculateFireworkOffset(-em(1),em(2))]} />
+          <Firework color='pink' delay={0} style={[calculateFireworkOffset(-em(2),-em(2))]} sparkDiameter={em(1)} />
+          <Firework color='lightblue' delay={1000} style={[calculateFireworkOffset(em(1),0)]} sparkDiameter={em(1)} />
+          <Firework color='gold' delay={2000} style={[calculateFireworkOffset(-em(1),em(2))]} sparkDiameter={em(1)} />
 
           <Text style={[style.teaser, base.text]}>
             There are only 100 spots available for our first members only party in LA.
@@ -108,57 +111,6 @@ export default class PaywallView extends Component {
 
   }
 }
-
-class Firework extends Component {
-  constructor(props) {
-    super(props)
-    this._explode = new Animated.Value(0)
-    this._driftY  = new Animated.Value(0)
-    this._opacity = new Animated.Value(1)
-  }
-
-  componentDidMount() {
-    Animated.sequence([
-      Animated.timing(this._explode, {
-        delay: this.props.delay || 0,
-        toValue: 1,
-        duration: 100,
-        useNativeDriver: true,
-      }),
-      Animated.parallel([
-        Animated.timing(this._driftY, {
-          toValue: 100,
-          duration: 8000,
-          useNativeDriver: true,
-        }),
-        Animated.timing(this._opacity, {
-          toValue: 0,
-          duration: 8000,
-          useNativeDriver: true,
-        })
-      ])
-    ]).start()
-  }
-
-  render() {
-    const {props,state} = this
-    return(
-      <Animated.View style={[style.firework, props.style, {opacity:this._opacity, transform: [{scale:this._explode}, {translateY:this._driftY}]}]}>
-        <View style={[{top:0, left: 0}, style.spark, {backgroundColor: props.color}]} />
-        <View style={[{top:0, right: 0}, style.spark, {backgroundColor: props.color}]} />
-        <View style={[{top:-(fireworkDiameter/4), left: fireworkDiameter/2 - sparkDiameter/2}, style.spark, {backgroundColor: props.color}]} />
-        <View style={[{bottom:0, left: 0}, style.spark, {backgroundColor: props.color}]} />
-        <View style={[{bottom:0, right: 0}, style.spark, {backgroundColor: props.color}]} />
-        <View style={[{bottom:-(fireworkDiameter/4), left: fireworkDiameter/2 - sparkDiameter/2}, style.spark, {backgroundColor: props.color}]} />
-        <View style={[{top:fireworkDiameter/2 - sparkDiameter/2, left: -(fireworkDiameter/4)}, style.spark, {backgroundColor: props.color}]} />
-        <View style={[{top:fireworkDiameter/2 - sparkDiameter/2, right: -(fireworkDiameter/4)}, style.spark, {backgroundColor: props.color}]} />
-      </Animated.View>
-    )
-  }
-}
-
-const fireworkDiameter = 150
-const sparkDiameter = em(1)
 
 const style = StyleSheet.create({
   container: {
@@ -210,16 +162,4 @@ const style = StyleSheet.create({
     left: '10%',
     top: em(5),
   },
-
-  firework: {
-    width: fireworkDiameter,
-    height: fireworkDiameter,
-    position: 'absolute',
-  },
-  spark: {
-    width: sparkDiameter,
-    height: sparkDiameter,
-    borderRadius: sparkDiameter/2,
-    position: 'absolute',
-  }
 })

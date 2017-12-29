@@ -5,6 +5,7 @@ import Text from './Text'
 import base from '../constants/styles'
 import {em, screenWidth, screenHeight} from '../constants/dimensions'
 import {mayteBlack, mayteWhite} from '../constants/colors'
+import Firework from './Firework'
 import {
   Image,
   ActivityIndicator,
@@ -208,6 +209,12 @@ class SelfOption extends Component {
     return (
       <TouchableOpacity key={props.field + '-' + props.value} onPress={() => props.set(props.field, props.value)}
                         style={[style.identity, props.style]}>
+        {
+          selected ?
+          <Firework color="white" fireworkDiameter={idDiameter} sparkDiameter={em(0.33)} decayTime={2000} decayY={em(1)} explodeTime={200} /> :
+          null
+        }
+
         <Animated.View style={[
             style.identityOrbit,
             {transform: [{rotate: interpolatedRotateAnimation}]},
