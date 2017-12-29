@@ -16,20 +16,6 @@ import {
   View,
 } from 'react-native'
 
-class Unicorn extends Component {
-  render() {
-    const {props,state} = this
-    const selected = props[props.field] == props.value
-
-    return (
-      <TouchableOpacity style={[style.option, selected ? style.selected : null, props.style]} key={props.field + '-' + props.value} onPress={() => props.set(props.field, props.value)}>
-      {selected ? <Text style={[style.cornLabel]}>{props.label}</Text> : null}
-      {props.children}
-      </TouchableOpacity>
-    )
-  }
-}
-
 class NightSky extends Component {
   constructor(props) {
     super(props)
@@ -107,35 +93,6 @@ class SelfSelector extends Component {
                     style={{top: em(13), right: em(8)}}>
           <Text style={style.identityText}>OTHER</Text>
         </SelfOption>
-      </Animated.View>
-    )
-  }
-}
-
-class CornSelector extends Component {
-  render() {
-    const {props,state} = this
-    return(
-      <Animated.View style={[style.cornCont, {opacity: props.fade}]}>
-        <Text style={style.heading}>{`I'm interested in:`}</Text>
-        <Unicorn {...props} field="orientation" value="male" label="MEN"
-                style={[style.corn, {left: em(1), bottom: em(4.5)}]}>
-          <Image source={require('../images/unicorn-male-white.png')}
-                 style={{width: '100%', height: '100%'}}
-                 resizeMode='contain' />
-        </Unicorn>
-        <Unicorn {...props} field="orientation" value="null" label="EVERYONE"
-                style={[style.corn, {right: em(8), bottom: em(9),  transform: [{scale: 0.66}]}]}>
-        <Image source={require('../images/unicorn-all-white.png')}
-               style={{width: em(8), height: em(8), transform: [{scaleX:-1}]}}
-               resizeMode='contain' />
-        </Unicorn>
-        <Unicorn {...props} field="orientation" value="female" label="WOMEN"
-                style={[style.corn, {right: em(1), bottom: em(3)}]}>
-          <Image source={require('../images/unicorn-female-white.png')}
-                  style={{width: '100%', height: '100%', transform: [{scaleX:-1.1},{scaleY:1.1}]}}
-                  resizeMode='contain' />
-        </Unicorn>
       </Animated.View>
     )
   }
@@ -228,6 +185,119 @@ class SelfOption extends Component {
   }
 }
 
+class Unicorn extends Component {
+  constructor(props) {
+    super(props)
+    this._labelOpacity = new Animated.Value(0)
+  }
+
+  componentWillReceiveProps(nextProps) {
+    const selected = nextProps[nextProps.field] == nextProps.value
+    if (selected || !nextProps[nextProps.field]) {
+      Animated.timing(this._labelOpacity, {
+        toValue: 1,
+        duration: 333,
+        useNativeDriver: true,
+      }).start()
+    } else {
+      Animated.timing(this._labelOpacity, {
+        toValue: 0,
+        duration: 333,
+        useNativeDriver: true,
+      }).start()
+    }
+  }
+
+  render() {
+    const {props,state} = this
+    const selected = props[props.field] == props.value
+
+    return (
+      <TouchableOpacity key={props.field + '-' + props.value}
+                        style={[props.style]}
+                        onPress={() => props.set(props.field, props.value)} >
+        <Animated.View style={{width: '100%', height: '100%', opacity: props.fade}}>
+        <Animated.Text style={[style.cornLabel, {opacity: this._labelOpacity}]}>{props.label}</Animated.Text>
+        {props.children}
+        </Animated.View>
+      </TouchableOpacity>
+    )
+  }
+}
+
+class CornSelector extends Component {
+  constructor(props) {
+    super(props)
+    this._menOpacity = new Animated.Value(0)
+    this._womenOpacity = new Animated.Value(0)
+    this._allOpacity = new Animated.Value(0)
+
+    this.state = {
+      render: false
+    }
+
+    this.fadeInCorns = this.fadeInCorns.bind(this)
+  }
+
+  componentWillUpdate(nextProps) {
+    if (nextProps.render) {
+      this.fadeInCorns()
+    }
+  }
+
+  fadeInCorns() {
+    Animated.parallel([
+      Animated.timing(this._womenOpacity, {
+        delay: 0,
+        toValue: 1,
+        duration: 666,
+        useNativeDriver: true,
+      }),
+      Animated.timing(this._menOpacity, {
+        delay: 444,
+        toValue: 1,
+        duration: 666,
+        useNativeDriver: true,
+      }),
+      Animated.timing(this._allOpacity, {
+        delay: 888,
+        toValue: 1,
+        duration: 666,
+        useNativeDriver: true,
+      }),
+    ]).start()
+  }
+
+  render() {
+    const {props,state} = this
+    return(
+      <Animated.View style={[style.cornCont, {opacity: props.fade}]}>
+        <Text style={style.heading}>{`I'm interested in:`}</Text>
+        <Unicorn {...props} field="orientation" value="null"
+                 label="EVERYONE" fade={this._allOpacity}
+                 style={[style.corn, {right: em(8), bottom: em(9)}]}>
+        <Image source={require('../images/unicorn-all-white.png')}
+               style={{width: em(8), height: em(8), transform: [{scaleY: 0.66}, {scaleX:-0.66}]}}
+               resizeMode='contain' />
+        </Unicorn>
+        <Unicorn {...props} field="orientation" value="male"
+                 label="MEN" fade={this._menOpacity}
+                style={[style.corn, {left: em(1), bottom: em(4.5)}]}>
+          <Image source={require('../images/unicorn-male-white.png')}
+                 style={{width: '100%', height: '100%'}}
+                 resizeMode='contain' />
+        </Unicorn>
+        <Unicorn {...props} field="orientation" value="female"
+                 label="WOMEN" fade={this._womenOpacity}
+                style={[style.corn, {right: em(1), bottom: em(3)}]}>
+          <Image source={require('../images/unicorn-female-white.png')}
+                  style={{width: '100%', height: '100%', transform: [{scaleX:-1.1},{scaleY:1.1}]}}
+                  resizeMode='contain' />
+        </Unicorn>
+      </Animated.View>
+    )
+  }
+}
 
 export default class GenderSelector extends Component {
   constructor(props) {
@@ -332,7 +402,7 @@ export default class GenderSelector extends Component {
         <View style={style.container}>
           <Environment {...props} starFade={this._starFade} />
           <SelfSelector {...props} fade={this._idFade} />
-          <CornSelector {...props} fade={this._interestFade} />
+          <CornSelector {...props} render={state.interest} fade={this._interestFade} />
           <Animated.View style={[style.mask, {
               transform: [{translateY: this._mask}]
             }]} />
