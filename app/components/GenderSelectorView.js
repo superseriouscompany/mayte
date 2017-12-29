@@ -161,7 +161,7 @@ class SelfOption extends Component {
     var interpolatedRotateAnimation = this._rotation.interpolate({
       inputRange: [0, 100],
       outputRange: ['0deg', '360deg']
-    });
+    })
 
     return (
       <TouchableOpacity key={props.field + '-' + props.value} onPress={() => props.set(props.field, props.value)}
@@ -189,10 +189,13 @@ class Unicorn extends Component {
   constructor(props) {
     super(props)
     this._labelOpacity = new Animated.Value(0)
+    this._rotate = new Animated.Value(0)
+    this._jumpman = new Animated.Value(0)
+    this.doALittleJump = this.doALittleJump.bind(this)
   }
 
   componentWillReceiveProps(nextProps) {
-    const selected = nextProps[nextProps.field] == nextProps.value
+    const selected = nextProps[nextProps.field] == this.props.value
     if (selected || !nextProps[nextProps.field]) {
       Animated.timing(this._labelOpacity, {
         toValue: 1,
@@ -206,19 +209,59 @@ class Unicorn extends Component {
         useNativeDriver: true,
       }).start()
     }
+
+    if (selected && this.props[this.props.field] != this.props.value) {
+      this.doALittleJump()
+    }
+  }
+
+  doALittleJump() {
+    Animated.parallel([
+      Animated.timing(this._rotate, {
+        toValue: 100,
+        duration: 200,
+        useNativeDriver: true,
+      }),
+      Animated.sequence([
+        Animated.delay(100),
+        Animated.timing(this._jumpman, {
+          toValue: -10,
+          duration: 200,
+          useNativeDriver: true,
+        }),
+        Animated.parallel([
+          Animated.timing(this._jumpman, {
+            toValue: 0,
+            duration: 200,
+            useNativeDriver: true,
+          }),
+          Animated.timing(this._rotate, {
+            toValue: 0,
+            duration: 200,
+            delay: 100,
+            useNativeDriver: true,
+          })
+        ])
+      ]),
+    ]).start()
   }
 
   render() {
     const {props,state} = this
     const selected = props[props.field] == props.value
 
+    var interpolatedRotateAnimation = this._rotate.interpolate({
+      inputRange: [0, 100],
+      outputRange: ['0deg', `${(props.flipped ? 1 : -1) * 6}deg`]
+    })
+
     return (
       <TouchableOpacity key={props.field + '-' + props.value}
                         style={[props.style]}
                         onPress={() => props.set(props.field, props.value)} >
-        <Animated.View style={{width: '100%', height: '100%', opacity: props.fade}}>
-        <Animated.Text style={[style.cornLabel, {opacity: this._labelOpacity}]}>{props.label}</Animated.Text>
-        {props.children}
+        <Animated.Text style={[style.cornLabel, {opacity: Animated.multiply(this._labelOpacity, props.fade)}]}>{props.label}</Animated.Text>
+        <Animated.View style={{width: '100%', height: '100%', opacity: props.fade, transform: [{translateY: this._jumpman}, {rotate: interpolatedRotateAnimation}]}}>
+          {props.children}
         </Animated.View>
       </TouchableOpacity>
     )
@@ -274,7 +317,7 @@ class CornSelector extends Component {
       <Animated.View style={[style.cornCont, {opacity: props.fade}]}>
         <Text style={style.heading}>{`I'm interested in:`}</Text>
         <Unicorn {...props} field="orientation" value="null"
-                 label="EVERYONE" fade={this._allOpacity}
+                 label="EVERYONE" fade={this._allOpacity} flipped={true}
                  style={[style.corn, {right: em(8), bottom: em(9)}]}>
         <Image source={require('../images/unicorn-all-white.png')}
                style={{width: em(8), height: em(8), transform: [{scaleY: 0.66}, {scaleX:-0.66}]}}
@@ -282,13 +325,13 @@ class CornSelector extends Component {
         </Unicorn>
         <Unicorn {...props} field="orientation" value="male"
                  label="MEN" fade={this._menOpacity}
-                style={[style.corn, {left: em(1), bottom: em(4.5)}]}>
+                 style={[style.corn, {left: em(1), bottom: em(4.5)}]}>
           <Image source={require('../images/unicorn-male-white.png')}
                  style={{width: '100%', height: '100%'}}
                  resizeMode='contain' />
         </Unicorn>
         <Unicorn {...props} field="orientation" value="female"
-                 label="WOMEN" fade={this._womenOpacity}
+                 label="WOMEN" fade={this._womenOpacity} flipped={true}
                 style={[style.corn, {right: em(1), bottom: em(3)}]}>
           <Image source={require('../images/unicorn-female-white.png')}
                   style={{width: '100%', height: '100%', transform: [{scaleX:-1.1},{scaleY:1.1}]}}
