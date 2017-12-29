@@ -12,9 +12,9 @@ import {
 export default class MaytePicker extends Component {
   constructor(props) {
     super(props)
-    console.log(props)
 
     this.vals = props.options.map(o => o.value)
+    this._bgX = new Animated.Value(0)
 
     this.state = {
       idx: this.vals.indexOf(props.selected),
@@ -27,9 +27,10 @@ export default class MaytePicker extends Component {
     if (nextProps.selected !== this.props.selected) {
       const idx = this.vals.indexOf(nextProps.selected)
       this.setState({idx: idx})
-      Animated.timing(this.state.bgLeft, {
+      Animated.timing(this._bgX, {
         toValue: this.state.optionLayout.width * idx,
         duration: 150,
+        useNativeDriver: true,
       }).start()
     }
   }
@@ -44,8 +45,9 @@ export default class MaytePicker extends Component {
       <View style={style.container}>
         { state.optionLayout ?
           <Animated.View style={[style.bg, {
-            left: state.bgLeft,
+            left: 0,
             width: state.optionLayout.width,
+            transform: [{translateX: this._bgX}],
           }]}></Animated.View> : null }
         {
           props.options.map((o,i,a) => {
@@ -55,9 +57,9 @@ export default class MaytePicker extends Component {
                 onPress={() => this.selectOption(i)}
                 onLayout={
                   (e) => {
+                    this._bgX = new Animated.Value(e.nativeEvent.layout.width * state.idx)
                     this.setState({
                       optionLayout: e.nativeEvent.layout,
-                      bgLeft: new Animated.Value(e.nativeEvent.layout.width * state.idx),
                     })
                   }
                 }>

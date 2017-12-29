@@ -61,11 +61,13 @@ class Star extends Component {
           duration: 200,
           delay: this.props.twinkleDelay || 1000,
           easing: Easing.linear,
+          useNativeDriver: true,
         }),
         Animated.timing(this._twinkle, {
           toValue: 0,
           duration: 300,
           easing: Easing.linear,
+          useNativeDriver: true,
         })
       ])
     ).start()
@@ -182,6 +184,7 @@ class SelfOption extends Component {
       Animated.timing(this._rotation, {
         toValue: 100,
         duration: 1000,
+        useNativeDriver: true,
       })
     )
     this.loop.start()
@@ -234,14 +237,17 @@ export default class GenderSelector extends Component {
     }) : Animated.timing(this._interestFade, {
       toValue: 0,
       duration: 0,
+      useNativeDriver: true,
     })
 
     this._continueAnim = props.gender && props.orientation ? Animated.timing(this._continueFade, {
       toValue: 1,
       duration: 1000,
+      useNativeDriver: true,
     }) : Animated.timing(this._continueFade, {
       toValue: 0,
       duration: 0,
+      useNativeDriver: true,
     })
 
     this.state = {
@@ -259,6 +265,7 @@ export default class GenderSelector extends Component {
       Animated.timing(this._interestFade, {
         toValue: 1,
         duration: 1000,
+        useNativeDriver: true,
       }).start()
     }
 
@@ -267,6 +274,7 @@ export default class GenderSelector extends Component {
       Animated.timing(this._continueFade, {
         toValue: 1,
         duration: 1000,
+        useNativeDriver: true,
       }).start()
     }
   }
@@ -277,14 +285,17 @@ export default class GenderSelector extends Component {
         toValue: screenHeight,
         delay: 1000,
         duration: 1000,
+        useNativeDriver: true,
       }),
       Animated.timing(this._starFade, {
         toValue: 1,
         duration: 1000,
+        useNativeDriver: true,
       }),
       Animated.timing(this._idFade, {
         toValue: 1,
         duration: 1000,
+        useNativeDriver: true,
       }),
       this._interestAnim,
       this._continueAnim,
@@ -294,11 +305,11 @@ export default class GenderSelector extends Component {
   complete() {
     Animated.sequence([
       Animated.parallel([
-        Animated.timing(this._idFade, {toValue: 0, duration: 1000}),
-        Animated.timing(this._interestFade, {toValue: 0, duration: 1000}),
-        Animated.timing(this._continueFade, {toValue: 0, duration: 1000}),
+        Animated.timing(this._idFade, {toValue: 0, duration: 1000, useNativeDriver: true}),
+        Animated.timing(this._interestFade, {toValue: 0, duration: 1000, useNativeDriver: true}),
+        Animated.timing(this._continueFade, {toValue: 0, duration: 1000, useNativeDriver: true}),
       ]),
-      Animated.timing(this._mask, {toValue: 0, duration: 666})
+      Animated.timing(this._mask, {toValue: 0, duration: 666, useNativeDriver: true})
     ]).start(this.props.select)
   }
 
@@ -316,7 +327,7 @@ export default class GenderSelector extends Component {
           <SelfSelector {...props} fade={this._idFade} />
           <CornSelector {...props} fade={this._interestFade} />
           <Animated.View style={[style.mask, {
-              top: this._mask
+              transform: [{translateY: this._mask}]
             }]} />
 
           {this.state.continue ?
