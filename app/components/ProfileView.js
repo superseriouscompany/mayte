@@ -192,10 +192,13 @@ export default class ProfileView extends Component {
                 {props.user.fullName.split(' ')[0].toUpperCase()}
               </Text>
               <View style={[style.stats, {paddingBottom: props.hideButtons ? em(1) : 0}]}>
-                <Text style={style.age}>
-                  {props.user.dob ? moment().diff(moment(props.user.dob, ['MMM Do YYYY']), 'years') : 25}
-                </Text>
-                <Image style={style.pin} resizeMode='contain' source={require('../images/pin.png')} />
+                {
+                  props.user.dob ?
+                  <Text style={style.age}>
+                    {moment().diff(moment(props.user.dob, ['MMM Do YYYY']), 'years')}
+                  </Text> : null
+                }
+                <Image style={[style.pin, {marginLeft: props.user.dob ? em(0.66) : 0}]} resizeMode='contain' source={require('../images/pin.png')} />
                 <Text style={style.location}>
                   {props.user.distance || 1}
                 </Text>
@@ -316,7 +319,6 @@ const style = StyleSheet.create({
   pin: {
     width: em(1),
     height: em(1),
-    marginLeft: em(0.66),
     marginTop: em(0.1),
   },
 

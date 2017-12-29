@@ -30,6 +30,17 @@ class NightSky extends Component {
         <Star style={{top: em(15), left: em(20)}} twinkleDelay={4500} />
         <Star style={{top: em(23), left: em(2)}} twinkleDelay={5300} />
         <Star style={{top: em(2), left: em(2)}} twinkleDelay={6200} />
+        <Star style={{top: em(33), left: em(18)}} twinkleDelay={6800} />
+
+        {/* make a wish ya rich mothafocker */}
+        <Star twinkleDelay={500}
+              style={{
+                top: em(25), left: em(5),
+                opacity: props.shootingStarFade,
+                transform: [
+                  {translateX: props.shootingStarDrift},
+                  {translateY: Animated.multiply(props.shootingStarDrift, new Animated.Value(-1.33))}
+              ]}} />
       </Animated.View>
     )
   }
@@ -62,7 +73,7 @@ class Star extends Component {
   render() {
     const {props,state} = this
     return(
-      <View style={[style.star, props.style]}>
+      <Animated.View style={[style.star, props.style]}>
         <Animated.View style={[
           style.twinkle,
           {transform: [
@@ -70,7 +81,7 @@ class Star extends Component {
             {rotate: '45deg'}
           ]}
         ]} />
-      </View>
+      </Animated.View>
     )
   }
 }
@@ -350,6 +361,8 @@ export default class GenderSelector extends Component {
     this._idFade = new Animated.Value(0)
     this._interestFade = new Animated.Value(0)
     this._continueFade = new Animated.Value(0)
+    this._shootingStarDrift = new Animated.Value(0)
+    this._shootingStarFade = new Animated.Value(0)
 
     this._interestAnim = props.gender ? Animated.timing(this._interestFade, {
       toValue: 1,
@@ -412,6 +425,23 @@ export default class GenderSelector extends Component {
         duration: 1000,
         useNativeDriver: true,
       }),
+      Animated.sequence([
+        Animated.timing(this._shootingStarFade, {
+          toValue: 1,
+          duration: 200,
+          useNativeDriver: true,
+        }),
+        Animated.timing(this._shootingStarDrift, {
+          toValue: screenWidth * 0.66,
+          duration: 200,
+          useNativeDriver: true,
+        }),
+        Animated.timing(this._shootingStarFade, {
+          toValue: 0,
+          duration: 200,
+          useNativeDriver: true,
+        })
+      ]),
       Animated.timing(this._idFade, {
         toValue: 1,
         duration: 1000,
@@ -443,7 +473,7 @@ export default class GenderSelector extends Component {
         </View>
         :
         <View style={style.container}>
-          <Environment {...props} starFade={this._starFade} />
+          <Environment {...props} starFade={this._starFade} shootingStarDrift={this._shootingStarDrift} shootingStarFade={this._shootingStarFade} />
           <SelfSelector {...props} fade={this._idFade} />
           <CornSelector {...props} render={state.interest} fade={this._interestFade} />
           <Animated.View style={[style.mask, {
