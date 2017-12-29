@@ -124,7 +124,7 @@ class CornSelector extends Component {
                  resizeMode='contain' />
         </Unicorn>
         <Unicorn {...props} field="orientation" value="null" label="EVERYONE"
-                style={[style.corn, {right: em(8.5), bottom: em(9),  transform: [{scale: 0.66}]}]}>
+                style={[style.corn, {right: em(8), bottom: em(9),  transform: [{scale: 0.66}]}]}>
         <Image source={require('../images/unicorn-all-white.png')}
                style={{width: em(8), height: em(8), transform: [{scaleX:-1}]}}
                resizeMode='contain' />
@@ -370,6 +370,7 @@ const style = StyleSheet.create({
     textAlign: 'center',
     color: 'white',
     backgroundColor: 'transparent',
+    fontSize: em(1.33),
   },
 
 

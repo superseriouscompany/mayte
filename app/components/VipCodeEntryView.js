@@ -1,7 +1,7 @@
 'use strict'
 
 import React, {Component} from 'react'
-import {em} from '../constants/dimensions'
+import {em, bottomBoost} from '../constants/dimensions'
 import {mayteBlack} from '../constants/colors'
 import base from '../constants/styles'
 import Text from './Text'
@@ -81,6 +81,6 @@ const style = StyleSheet.create({
     paddingRight: em(1.33),
   },
   cancel: {
-    marginBottom: em(1)
+    marginBottom: em(1) + bottomBoost,
   },
 })

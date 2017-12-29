@@ -2,8 +2,14 @@
 
 import React, {Component} from 'react'
 import Text from './Text'
-import {em, screenWidth, screenHeight} from '../constants/dimensions'
 import base from '../constants/styles'
+import {
+  em,
+  screenWidth,
+  screenHeight,
+  notchHeight,
+  bottomBoost
+} from '../constants/dimensions'
 import {
   ActivityIndicator,
   StyleSheet,
@@ -162,6 +168,7 @@ const style = StyleSheet.create({
     padding: em(1.66),
     fontSize: em(2),
     backgroundColor: 'transparent',
+    marginTop: notchHeight/2,
   },
   loadingCnr: {
     flex:           1,
@@ -183,7 +190,7 @@ const style = StyleSheet.create({
     marginBottom: em(1),
   },
   backdoor: {
-    marginBottom: em(1)
+    marginBottom: em(1) + bottomBoost
   },
   ballooner: {
     position: 'absolute',

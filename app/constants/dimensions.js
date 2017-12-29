@@ -15,4 +15,5 @@ export const isIphoneX         = (() => {
   )
 })()
 export const notchHeight       = isIphoneX ? 30 : 0
+export const bottomBoost       = isIphoneX ? 20 : 0
 export const matchHeaderHeight = 65 * (emBase/16)
