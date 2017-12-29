@@ -484,7 +484,7 @@ const style = StyleSheet.create({
   container: {
     flex: 1,
     alignItems: 'center',
-    backgroundColor: mayteBlack(),
+    backgroundColor: 'rgba(23,20,21,1)',
   },
   loadingCnr: {
     flex: 1,
