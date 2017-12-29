@@ -1,7 +1,7 @@
 'use strict'
 
 import React, {Component} from 'react'
-import {em, bottomBoost} from '../constants/dimensions'
+import {em, bottomBoost, screenWidth, screenHeight} from '../constants/dimensions'
 import {mayteBlack} from '../constants/colors'
 import base from '../constants/styles'
 import Text from './Text'
@@ -11,37 +11,56 @@ import {
   TextInput,
   TouchableOpacity,
   View,
+  Image,
+  Animated,
 } from 'react-native'
 
-export default function(props) {
-  return (
-    <View style={style.container}>
-      <View style={style.inputCnr}>
-        <TextInput
-          style={style.input}
-          onChangeText={props.setVipCode}
-          value={props.vipCode}
-          placeholder="VIP Code" />
-        { props.error ?
-          <Text style={style.error}>
-            {props.error}
-          </Text>
-        : props.loading ?
-          <ActivityIndicator style={style.loading}/>
-        : null }
-      </View>
+export default class VipCodeEntryView extends Component {
+  constructor(props) {
+    super(props)
+    this._fade = new Animated.Value(0)
+  }
 
-      <View style={style.buttonsCnr}>
-        <TouchableOpacity style={[base.button, style.mainButton]} onPress={props.redeem}>
-          <Text style={[base.buttonText]}>Redeem</Text>
-        </TouchableOpacity>
+  componentDidMount() {
+    Animated.timing(this._fade, {
+      toValue: 1,
+      duration: 1000,
+      useNativeDriver: true,
+    }).start()
+  }
 
-        <TouchableOpacity style={style.cancel} onPress={props.visitPaywall}>
-          <Text style={style.cancelText}>Cancel</Text>
-        </TouchableOpacity>
-      </View>
-    </View>
-  )
+  render() {
+    const {props,state} = this
+    return (
+      <Animated.View style={[style.container, {opacity: this._fade}]}>
+        <Image style={[style.bg]} source={require('../images/VipCodeBG.jpg')} resizeMode='cover' />
+        <View style={style.inputCnr}>
+          <TextInput
+            style={style.input}
+            onChangeText={props.setVipCode}
+            value={props.vipCode}
+            placeholder="VIP Code" />
+          { props.error ?
+            <Text style={style.error}>
+              {props.error}
+            </Text>
+          : props.loading ?
+            <ActivityIndicator style={style.loading}/>
+          : null }
+        </View>
+
+        <View style={style.buttonsCnr}>
+          <TouchableOpacity style={[base.button, style.mainButton]} onPress={props.redeem}>
+            <Text style={[base.buttonText]}>Redeem</Text>
+          </TouchableOpacity>
+
+          <TouchableOpacity style={style.cancel} onPress={props.visitPaywall}>
+            <Text style={style.cancelText}>Cancel</Text>
+          </TouchableOpacity>
+        </View>
+      </Animated.View>
+    )
+  }
 }
 
 const style = StyleSheet.create({
@@ -58,7 +77,8 @@ const style = StyleSheet.create({
     borderColor: mayteBlack(),
     width: '80%',
     textAlign: 'center',
-    padding: em(0.66),
+    paddingBottom: em(0.66),
+    // marginTop: em(8),
     fontFamily: 'Futura',
     fontSize: em(2),
   },
@@ -82,5 +102,13 @@ const style = StyleSheet.create({
   },
   cancel: {
     marginBottom: em(1) + bottomBoost,
+    backgroundColor: 'transparent',
+  },
+  bg: {
+    position: 'absolute',
+    top: 0, left: 0,
+    width: screenWidth,
+    height: screenHeight,
+    opacity: 0.5,
   },
 })

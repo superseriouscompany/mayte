@@ -33,29 +33,65 @@ const sparkDiameter = em(1)
 export default class PaywallView extends Component {
   constructor(props) {
     super(props)
-    this._balloonerY = new Animated.Value(screenHeight)
-    this._balloonerX = new Animated.Value(-screenWidth * 0.9)
+    this._balloonerY  = new Animated.Value(screenHeight)
+    this._balloonerX  = new Animated.Value(-screenWidth * 0.9)
+    this._bgOpacity   = new Animated.Value(0)
+    this._contOpacity = new Animated.Value(1)
 
     this.numFetti = 3
+    this.exit = this.exit.bind(this)
   }
 
   componentDidMount() {
-    Animated.parallel([
-      Animated.timing(this._balloonerY, {
-        toValue: 0,
-        duration: 4000,
-        delay: 500,
-        easing: Easing.linear,
-        useNativeDriver: true,
-      }),
-      Animated.timing(this._balloonerX, {
-        toValue: 0,
-        duration: 4000,
-        delay: 500,
-        easing: Easing.linear,
+    Animated.sequence([
+      Animated.delay(800),
+      Animated.parallel([
+        Animated.spring(this._balloonerY, {
+          toValue: 0,
+          damping: 20,
+          useNativeDriver: true,
+        }),
+        Animated.spring(this._balloonerX, {
+          toValue: 0,
+          damping: 20,
+          useNativeDriver: true,
+        })
+      ]),
+      Animated.delay(1500),
+      Animated.parallel([
+        Animated.spring(this._balloonerY, {
+          toValue: -screenHeight/2,
+          damping: 40,
+          useNativeDriver: true,
+        }),
+        Animated.spring(this._balloonerX, {
+          toValue: screenWidth * 0.9/2,
+          damping: 40,
+          useNativeDriver: true,
+        })
+      ]),
+      Animated.timing(this._bgOpacity, {
+        toValue: 0.5,
+        duration: 1000,
         useNativeDriver: true,
       })
     ]).start()
+  }
+
+  exit(cb) {
+    Animated.sequence([
+      Animated.timing(this._contOpacity, {
+        toValue: 0,
+        duration: 333,
+        useNativeDriver: true,
+      }),
+      Animated.delay(333),
+      Animated.timing(this._bgOpacity, {
+        toValue: 0,
+        duration: 333,
+        useNativeDriver: true,
+      }),
+    ]).start(cb)
   }
 
   render() {
@@ -64,47 +100,48 @@ export default class PaywallView extends Component {
 
     return (
       <View style={style.container}>
-      { product ?
-        <View style={[style.container, {alignItems: 'center'}]}>
-          <Animated.View style={[
-                           style.ballooner,
-                           {transform: [{translateX: this._balloonerX}, {translateY: this._balloonerY}]},
-                         ]}>
-            <Image source={require('../images/balloons-black.png')} resizeMode='contain'
-                   style={style.balloons} />
-            <Image source={ // no conditional strings in require :[
-                     props.gender == 'male' ? require('../images/unicorn-male-black.png') :
-                     props.gender == 'female' ? require('../images/unicorn-female-black.png') :
-                     require('../images/unicorn-all-black.png')
-                   }
-                   resizeMode='contain'
-                   style={style.unicorn} />
-          </Animated.View>
+        <Animated.Image style={[style.bg, {opacity: this._bgOpacity}]} resizeMode='cover' source={require('../images/PaywallBG.jpg')} />
+        { product ?
+          <Animated.View style={[style.container, {alignItems: 'center', opacity: this._contOpacity}]}>
+            <Animated.View style={[
+                             style.ballooner,
+                             {transform: [{translateX: this._balloonerX}, {translateY: this._balloonerY}]},
+                           ]}>
+              <Image source={require('../images/balloons-black.png')} resizeMode='contain'
+                     style={style.balloons} />
+              <Image source={ // no conditional strings in require :[
+                       props.gender == 'male' ? require('../images/unicorn-male-black.png') :
+                       props.gender == 'female' ? require('../images/unicorn-female-black.png') :
+                       require('../images/unicorn-all-black.png')
+                     }
+                     resizeMode='contain'
+                     style={style.unicorn} />
+            </Animated.View>
 
-          <Firework color='pink' delay={0} style={[calculateFireworkOffset(-em(2),-em(2))]} fireworkDiameter={fireworkDiameter} sparkDiameter={em(1)} numSparks={10} />
-          <Firework color='lightblue' delay={1000} style={[calculateFireworkOffset(em(1),0)]} fireworkDiameter={fireworkDiameter} sparkDiameter={em(1)} numSparks={10} />
-          <Firework color='gold' delay={2000} style={[calculateFireworkOffset(-em(1),em(2))]} fireworkDiameter={fireworkDiameter} sparkDiameter={em(1)} numSparks={10} />
+            <Firework color='pink' delay={0} style={[calculateFireworkOffset(-em(2),-em(2))]} fireworkDiameter={fireworkDiameter} sparkDiameter={em(0.6)} numSparks={14} />
+            <Firework color='lightblue' delay={1000} style={[calculateFireworkOffset(em(1),0)]} fireworkDiameter={fireworkDiameter} sparkDiameter={em(0.8)} numSparks={12} />
+            <Firework color='gold' delay={2000} style={[calculateFireworkOffset(-em(1),em(2))]} fireworkDiameter={fireworkDiameter} sparkDiameter={em(0.6)} numSparks={14} />
 
-          <Text style={[style.teaser, base.text]}>
-            There are only 100 spots available for our first members only party in LA.
-          </Text>
+            <Text style={[style.teaser, base.text]}>
+              There are only 100 spots available for our first members only party in LA.
+            </Text>
 
-          <View style={style.payBtnCont}>
-            <TouchableOpacity style={[base.button, style.mainButton]} onPress={() => props.buy(product.identifier)}>
-              <Text style={[base.buttonText, style.payBtn]}>Join for {product.priceString}/month</Text>
+            <View style={style.payBtnCont}>
+              <TouchableOpacity style={[base.button, style.mainButton]} onPress={() => props.buy(product.identifier)}>
+                <Text style={[base.buttonText, style.payBtn]}>Join for {product.priceString}/month</Text>
+              </TouchableOpacity>
+              <Text style={[base.text]}>{`Payment starts Valentine's Day.`}</Text>
+            </View>
+
+            <TouchableOpacity style={[style.backdoor]} onPress={() => this.exit(props.visitVipWall)}>
+              <Text style={[{backgroundColor:'transparent'}, base.text]}>I have a VIP Code</Text>
             </TouchableOpacity>
-            <Text style={[base.text]}>{`Payment starts Valentine's Day.`}</Text>
+          </Animated.View>
+          :
+          <View style={style.loadingCnr}>
+            <ActivityIndicator size="large" />
           </View>
-
-          <TouchableOpacity style={[style.backdoor]} onPress={props.visitVipWall}>
-            <Text style={[{backgroundColor:'transparent'}, base.text]}>I have a VIP Code</Text>
-          </TouchableOpacity>
-        </View>
-        :
-        <View style={style.loadingCnr}>
-          <ActivityIndicator size="large" />
-        </View>
-      }
+        }
       </View>
     )
 
@@ -161,4 +198,11 @@ const style = StyleSheet.create({
     left: '10%',
     top: em(5),
   },
+
+  bg: {
+    position: 'absolute',
+    width: screenWidth,
+    height: screenHeight,
+    top: 0, left: 0,
+  }
 })
