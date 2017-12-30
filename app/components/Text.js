@@ -1,4 +1,5 @@
 import React, { Component } from 'react'
+import {em} from '../constants/dimensions'
 import {
   Text
 } from 'react-native'
@@ -6,7 +7,7 @@ import {
 export default class AppText extends Component {
   constructor(props) {
     super(props)
-    this.style = [{fontFamily: 'Futura', fontSize: 16}];
+    this.style = [{fontFamily: 'Futura', fontSize: em(1)}];
     if( props.style ) {
       if( Array.isArray(props.style) ) {
         this.style = this.style.concat(props.style)
