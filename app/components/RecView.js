@@ -19,19 +19,18 @@ import {
 export default class RecView extends Component {
   constructor(props) {
     super(props)
-    this.state = {
-      leftValue: new Animated.Value(0),
-      opacity: new Animated.Value(1),
-    }
+    this._opacity = new Animated.Value(1)
+    this._x = new Animated.Value(0)
+    this.state = {infoOpen: false}
   }
 
   animateLike() {
     Animated.parallel([
-      Animated.timing(this.state.leftValue, {
+      Animated.timing(this._x, {
         toValue: screenWidth,
         duration: recLike,
       }),
-      Animated.timing(this.state.opacity, {
+      Animated.timing(this._opacity, {
         toValue: 0,
         duration: recLike,
       })
@@ -40,13 +39,15 @@ export default class RecView extends Component {
 
   animatePass() {
     Animated.parallel([
-      Animated.timing(this.state.leftValue, {
+      Animated.timing(this._x, {
         toValue: -screenWidth,
         duration: recPass,
+        useNativeDriver: true,
       }),
-      Animated.timing(this.state.opacity, {
+      Animated.timing(this._opacity, {
         toValue: 0,
         duration: recPass,
+        useNativeDriver: true,
       })
     ]).start()
   }
@@ -54,7 +55,10 @@ export default class RecView extends Component {
   render() {
     const {props, state} = this
     return (
-      <Animated.View style={[{left: state.leftValue, opacity: state.opacity}, style.wrapper]}>
+      <Animated.View style={[
+                      {left: 0, opacity: this._opacity, transform: [{translateX: this._x}]},
+                      style.wrapper
+                    ]}>
         { props.error ?
           <View style={style.centered}>
             <Text style={style.error}>{props.error}</Text>

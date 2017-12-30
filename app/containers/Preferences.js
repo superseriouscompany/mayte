@@ -15,12 +15,12 @@ class Preferences extends Component {
     const ps = props.user.preferences || {}
     const ageRange = ps.ageRange ? [ps.ageRange[0], ps.ageRange[1]] : [minAge, maxAge]
     const distance = ps.distance ? ps.distance : maxDistance
-    const sexual = ps.sexual ? ps.sexual : 'WOMEN'
 
     this.state = {
       ageRange: ageRange,
       distance: distance,
-      sexual: sexual,
+      orientation: ps.orientation,
+      gender: ps.gender,
     }
 
     this.updatePreferences = this.updatePreferences.bind(this)
@@ -38,7 +38,8 @@ class Preferences extends Component {
         preferences: {
           ageRange: this.state.ageRange,
           distance: this.state.distance,
-          sexual: this.state.sexual,
+          orientation: this.state.orientation,
+          gender: this.state.gender,
           ...prefs,
         }
       }
@@ -61,9 +62,10 @@ class Preferences extends Component {
                        minDistance={minDistance}
                        maxDistance={maxDistance}
                        updatePreferences={this.updatePreferences}
+                       updateGender={(p) => this.setState({gender: p})}
                        updateDistance={(d) => this.setState({distance: d})}
                        updateAgeRange={(vals) => this.setState({ageRange: vals})}
-                       updateSexual={(p) => this.setState({sexual: p})} />
+                       updateOrientation={(p) => this.setState({orientation: p})} />
     )
   }
 }

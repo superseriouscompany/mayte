@@ -3,94 +3,162 @@
 import React, {Component} from 'react'
 import Text from './Text'
 import base from '../constants/styles'
-import {em} from '../constants/dimensions'
+import {em, screenWidth, screenHeight} from '../constants/dimensions'
+import Environment from './Environment'
+import SelfSelector from './SelfSelector'
+import CornSelector from './CornSelector'
 import {
   ActivityIndicator,
+  Animated,
   StyleSheet,
   TouchableOpacity,
   View,
 } from 'react-native'
 
-// TODO: use Picker component https://streetsmartdev.com/creating-form-select-component-in-react-native/
+export default class GenderSelector extends Component {
+  constructor(props) {
+    super(props)
+    this._mask = new Animated.Value(0)
+    this._starFade = new Animated.Value(0)
+    this._idFade = new Animated.Value(0)
+    this._interestFade = new Animated.Value(0)
+    this._continueFade = new Animated.Value(0)
+    this._shootingStarDrift = new Animated.Value(0)
+    this._shootingStarFade = new Animated.Value(0)
 
-export default function(props) {
-  return (
-    <View style={styles.container}>
+    // TODO: Account for preselection?
+
+    this.state = {
+      mask: true,
+      interest: !!(props.gender),
+      continue: props.gender && props.orientation,
+    }
+
+    this.complete = this.complete.bind(this)
+  }
+
+  componentWillUpdate(nextProps) {
+    if (nextProps.gender && !this.state.interest) {
+      this.setState({interest: true})
+      Animated.timing(this._interestFade, {
+        toValue: 1,
+        duration: 1000,
+        useNativeDriver: true,
+      }).start()
+    }
+
+    if (nextProps.gender && nextProps.orientation && !this.state.continue) {
+      this.setState({continue: true})
+      Animated.timing(this._continueFade, {
+        toValue: 1,
+        duration: 1000,
+        useNativeDriver: true,
+      }).start()
+    }
+  }
+
+  componentDidMount() {
+    Animated.sequence([
+      Animated.timing(this._mask, {
+        toValue: screenHeight,
+        delay: 1000,
+        duration: 1000,
+        useNativeDriver: true,
+      }),
+      Animated.timing(this._starFade, {
+        toValue: 1,
+        duration: 1000,
+        useNativeDriver: true,
+      }),
+      Animated.sequence([
+        Animated.timing(this._shootingStarFade, {
+          toValue: 1,
+          duration: 200,
+          useNativeDriver: true,
+        }),
+        Animated.timing(this._shootingStarDrift, {
+          toValue: screenWidth * 0.66,
+          duration: 200,
+          useNativeDriver: true,
+        }),
+        Animated.timing(this._shootingStarFade, {
+          toValue: 0,
+          duration: 200,
+          useNativeDriver: true,
+        })
+      ]),
+      Animated.timing(this._idFade, {
+        toValue: 1,
+        duration: 1000,
+        useNativeDriver: true,
+      })
+    ]).start()
+  }
+
+  complete() {
+    Animated.sequence([
+      Animated.parallel([
+        Animated.timing(this._idFade, {toValue: 0, duration: 1000, useNativeDriver: true}),
+        Animated.timing(this._interestFade, {toValue: 0, duration: 1000, useNativeDriver: true}),
+        Animated.timing(this._continueFade, {toValue: 0, duration: 1000, useNativeDriver: true}),
+      ]),
+      Animated.timing(this._mask, {toValue: 0, duration: 666, useNativeDriver: true})
+    ]).start(this.props.select)
+  }
+
+  render() {
+    const {props,state} = this
+    return(
+      <View style={style.container}>
       { props.loading ?
-        <View style={styles.loadingCnr}>
-          <ActivityIndicator size="large"/>
+        <View style={style.loadingCnr}>
+        <ActivityIndicator size="large"/>
         </View>
-      :
-        <View style={styles.container}>
-          <View style={styles.optionsCnr}>
-            <View style={styles.options}>
-              <Text style={styles.heading}>I identify as:</Text>
+        :
+        <View style={style.container}>
+          <Environment {...props} starFade={this._starFade} shootingStarDrift={this._shootingStarDrift} shootingStarFade={this._shootingStarFade} />
+          <SelfSelector {...props} fade={this._idFade} />
+          <CornSelector {...props} render={state.interest} fade={this._interestFade} />
+          <Animated.View style={[style.mask, {
+              transform: [{translateY: this._mask}]
+            }]} />
 
-              <Option {...props} field="gender" value="female">A Woman</Option>
-              <Option {...props} field="gender" value="male">A Man</Option>
-              <Option {...props} field="gender" value="null">Other</Option>
-            </View>
-
-            <View style={styles.options}>
-              <Text style={styles.heading}>I am interested in:</Text>
-
-              <Option {...props} field="orientation" value="male">Men</Option>
-              <Option {...props} field="orientation" value="female">Women</Option>
-              <Option {...props} field="orientation" value="null">Everyone</Option>
-            </View>
-          </View>
-          <TouchableOpacity style={[base.button, styles.continue]} onPress={props.select}>
-            <Text style={[base.buttonText]}>Continue</Text>
-          </TouchableOpacity>
+          {this.state.continue ?
+          <Animated.View style={{opacity: this._continueFade, width: screenWidth, alignItems: 'center'}}>
+            <TouchableOpacity style={[base.button,style.continue]}
+                              onPress={this.complete}>
+              <Text style={[base.buttonText]}>Continue</Text>
+            </TouchableOpacity>
+          </Animated.View> : null}
         </View>
       }
-    </View>
-  )
+      </View>
+    )
+  }
 }
 
-function Option(props) {
-  const selected = props[props.field] == props.value
-
-  return (
-    <TouchableOpacity style={[styles.option, selected ? styles.selected : null]} key={props.field + '-' + props.value} onPress={() => props.set(props.field, props.value)}>
-      <Text style={selected ? styles.selectedText : null}>
-        {props.children}
-      </Text>
-    </TouchableOpacity>
-  )
-}
-
-const styles = StyleSheet.create({
+const style = StyleSheet.create({
   container: {
     flex: 1,
     alignItems: 'center',
+    backgroundColor: 'rgba(23,20,21,1)',
   },
   loadingCnr: {
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
   },
-  selected: {
-    borderWidth: 1,
-  },
-  selectedText: {
-  },
-  optionsCnr: {
-    flex: 1,
-    padding: em(2),
-    width: em(20),
-  },
   continue: {
     marginTop: em(1),
     marginBottom: em(1),
+    position: 'absolute',
+    bottom: em(0.33),
   },
-  heading: {
-    marginBottom: em(1),
+  mask: {
+    position: 'absolute',
+    left: 0,
+    width: screenWidth,
+    height: screenHeight,
+    backgroundColor: 'rgba(23,20,21,1)',
   },
-  options: {
-    marginBottom: em(2),
-  },
-  option: {
-    padding: em(1),
-  }
 })

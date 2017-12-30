@@ -62,7 +62,7 @@ class Stage extends PureComponent {
       : props.vipCode ?
         <VipCodeStatus />
       :
-        <Paywall />
+        <Paywall gender={props.gender} />
     }
 
     if( sceneName == 'PromoMaker' ) {
