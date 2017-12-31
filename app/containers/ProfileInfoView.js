@@ -39,7 +39,6 @@ export default class ProfileInfoView extends Component {
 
     this.state = {
       interacting: false,
-      open: false,
     }
 
     this.animateTo = this.animateTo.bind(this)
@@ -67,8 +66,7 @@ export default class ProfileInfoView extends Component {
   }
 
   componentWillReceiveProps(nextProps) {
-    if (nextProps.openInfo) {
-      this.props.respond()
+    if (nextProps.open && !this.props.open) {
       this.animateOpen()
     }
   }
@@ -87,7 +85,7 @@ export default class ProfileInfoView extends Component {
   }
 
   animateOpen() {
-    this.setState({open: true})
+    this.props.setOpen(true)
     this._dynamicY = new Animated.Value(0)
     Animated.parallel([
       Animated.spring(this._staticY, {
@@ -116,7 +114,7 @@ export default class ProfileInfoView extends Component {
   }
 
   animateClosed() {
-    this.setState({open: false})
+    this.props.setOpen(false)
     this._dynamicY = new Animated.Value(this.infoClosedTop)
     Animated.parallel([
       Animated.spring(this._staticY, {
