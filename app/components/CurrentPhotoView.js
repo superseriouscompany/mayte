@@ -11,10 +11,11 @@ import {
 export default class CurrentPhotoView extends Component {
   constructor(props) {
     super(props)
+
+    this._offset = new Animated.ValueXY(props.targetPosition)
+    this._scale = new Animated.Value(1)
+
     this.state = {
-      offset: new Animated.ValueXY(props.targetPosition),
-      scale: new Animated.Value(1),
-      size: new Animated.Value(props.thumbWidth),
       trashable: false,
       active: false,
     }
@@ -24,7 +25,7 @@ export default class CurrentPhotoView extends Component {
 
   springToNewTarget(target) {
     if (this.state.active) {return}
-    Animated.spring(this.state.offset, {
+    Animated.spring(this._offset, {
       toValue: target,
       stiffness: 250,
       overshootClamping: true,
@@ -36,14 +37,6 @@ export default class CurrentPhotoView extends Component {
       })
     })
   }
-
-  // componentDidUpdate(prevProps) {
-  //   if (prevProps.targetPosition != this.props.targetPosition) {
-  //     // if (!this.state.active) {
-  //       this.springToNewTarget(this.props.targetPosition)
-  //     // }
-  //   }
-  // }
 
   componentWillReceiveProps(nextProps) {
     if (nextProps.targetPosition != this.props.targetPosition) {
@@ -61,7 +54,7 @@ export default class CurrentPhotoView extends Component {
       onMoveShouldSetPanResponderCapture: (evt, gestureState) => true,
 
       onPanResponderGrant: (evt, gestureState) => {
-        this.props.toggleActive()
+        this.props.toggleActive(true)
         this.startX = this.props.targetPosition.x
         this.startY = this.props.targetPosition.y
         this.setState({
@@ -88,15 +81,15 @@ export default class CurrentPhotoView extends Component {
           if (!this.state.trashable) {
             this.setState({trashable: true})
             this.props.toggleTrashReady(true)
-            Animated.timing(this.state.scale, {toValue: 0, duration: 500}).start()
+            Animated.timing(this._scale, {toValue: 0, duration: 500}).start()
           }
         } else if (this.state.trashable) {
           this.setState({trashable: false})
-          Animated.timing(this.state.scale, {toValue: 1, duration: 500}).start()
+          Animated.timing(this._scale, {toValue: 1, duration: 500}).start()
           this.props.toggleTrashReady(false)
         }
 
-        Animated.spring(this.state.offset, {
+        Animated.spring(this._offset, {
           toValue: {
             x: this.startX + gestureState.dx,
             y: this.startY + gestureState.dy,
@@ -113,12 +106,13 @@ export default class CurrentPhotoView extends Component {
         //
         // console.log("release me", px, py, this.props.idx)
         if (this.state.trashable) {
-          return this.props.trashPhoto(this.props.photo)
+          this.props.trashPhoto(this.props.photo)
+          this._scale = new Animated.Value(1)
         }
 
         this.props.handleRelease(px, py, this.props.idx)
 
-        Animated.spring(this.state.offset, {
+        Animated.spring(this._offset, {
           toValue: this.props.targetPosition
         }).start(() => this.setState({active: false}))
       },
@@ -133,17 +127,17 @@ export default class CurrentPhotoView extends Component {
 
   render() {
     const { props, state } = this
-    // console.log("i'm photo", props.id, state.offset.x)
+    // console.log("i'm photo", props.id,this._offset.x)
     return (
         <Animated.Image source={{uri: props.source}}
                {...this._panResponder.panHandlers}
                style={[
                  props.style,
                  {
-                   left: state.offset.x,
-                   top: state.offset.y,
+                   left:this._offset.x,
+                   top:this._offset.y,
                    transform: [
-                     // {scale: state.scale},
+                     {scale:this._scale},
                      {scale: 1},
                    ],
                    zIndex: state.active ? 1 : 0,

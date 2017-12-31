@@ -39,8 +39,8 @@ export default class SettingsEditorPhotos extends Component {
     this.pushToPhotoBin = this.pushToPhotoBin.bind(this)
     this.trashPhoto = this.trashPhoto.bind(this)
     this.reorder = this.reorder.bind(this)
-    this.toggleActive = this.toggleActive.bind(this)
     this.fadeTrash = this.fadeTrash.bind(this)
+    this.toggleActive = this.toggleActive.bind(this)
   }
 
   componentDidUpdate(prevProps, prevState) {
@@ -64,9 +64,9 @@ export default class SettingsEditorPhotos extends Component {
     Alert.alert("Limit Reached!", "Remove photos to add new ones", {text: "Ok"})
   }
 
-  toggleActive() {
-    this.setState({rearrangingPhotos: !this.state.rearrangingPhotos})
-    this.props.toggleScroll()
+  toggleActive(boo) {
+    this.setState({rearrangingPhotos: boo})
+    this.props.toggleScroll(!boo)
   }
 
   cropImage(img) {
@@ -201,7 +201,7 @@ export default class SettingsEditorPhotos extends Component {
                   ref={(el) => trash = el}
                   onLayout={(e) => {
                     trash.measure((x, y, width, height, pageX, pageY) => {
-                      this.setState({trashArea: {pageX, pageY, width, height}})
+                      this.setState({trashArea: {pageX: pageX - em(1), pageY, width: width + em(2), height}})
                     })
                   }}>
               <Animated.Image source={state.trashReady ?

@@ -89,7 +89,7 @@ export default class CurrentPhotos extends Component {
           break
       }
     }
-    this.props.toggleActive()
+    this.props.toggleActive(false)
   }
 
   updateTargetPosition(index, target) {
