@@ -58,7 +58,7 @@ export default class PreferencesView extends Component {
                                  orbRadius={orbitLoaderRadius/4} /> : null }
                 </View>
                 <Text style={style.preferenceSetting}>
-                  {props.ageRange[0]} - {`${props.ageRange[1]}${props.ageRange[1] === props.maxAge ? '+' : ''}`}
+                  {props.ageRange[0]} {`\u2014`} {`${props.ageRange[1]}${props.ageRange[1] === props.maxAge ? '+' : ''}`}
                 </Text>
               </View>
               <RangeSlider onUpdate={(pcts) =>
@@ -78,7 +78,7 @@ export default class PreferencesView extends Component {
             <View style={[style.preference]}>
               <View style={style.preferenceHeader}>
                 <View style={{flexDirection: 'row'}}>
-                  <Text style={[style.preferenceLabel]}>Distance</Text>
+                  <Text style={[style.preferenceLabel]}>Max Distance</Text>
                   { state.savingDistance ?
                     <OrbitLoader color={mayteBlack()}
                                  radius={orbitLoaderRadius}

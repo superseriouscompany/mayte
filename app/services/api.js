@@ -1,7 +1,7 @@
 import { Linking } from 'react-native'
 
 export const baseUrl = __DEV__ ?
-  'https://superserious.ngrok.io' :
+  'https://mayte.ngrok.io' :
   'https://obscure-tundra-93213.herokuapp.com';
 
 function request(path, options = {}) {
