@@ -79,7 +79,7 @@ export default class PreferencesView extends Component {
               <View style={style.preferenceHeader}>
                 <View style={{flexDirection: 'row'}}>
                   <Text style={[style.preferenceLabel]}>Distance</Text>
-                  { state.savingDistance ?
+                  { 1+1==2 ?
                     <OrbitLoader color={mayteBlack()}
                                  radius={orbitLoaderRadius}
                                  style={{marginLeft: em(0.8), transform: [{translateY: orbitLoaderRadius*0.2}]}}

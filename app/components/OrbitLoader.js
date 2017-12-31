@@ -39,10 +39,10 @@ export default class OrbitLoader extends Component {
         }, this.props.style]}>
         <Animated.View // rail
           style={{
-            width: radius*2-trackWidth,
-            height: radius*2-trackWidth,
+            width: radius*2,
+            height: radius*2,
             position: 'absolute',
-            top: 0, left: 0,
+            top: -trackWidth, left: -trackWidth,
             transform: [{rotate: interpolatedOrbit}]
           }}>
           <View
@@ -52,7 +52,7 @@ export default class OrbitLoader extends Component {
               borderRadius: orbRadius,
               backgroundColor: orbColor ? orbColor : color,
               position: 'absolute',
-              top: -orbRadius, left: radius - orbRadius,
+              top: -(orbRadius-trackWidth/2), left: radius - orbRadius,
             }} />
         </Animated.View>
       </View>
@@ -63,7 +63,7 @@ export default class OrbitLoader extends Component {
 OrbitLoader.defaultProps = {
   radius: 50,
   color: 'black',
-  trackWidth: 1,
+  trackWidth: 1.5,
   orbRadius: 10,
   trackColor: null,
   orbColor: null,
