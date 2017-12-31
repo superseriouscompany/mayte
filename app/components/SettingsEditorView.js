@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 import moment from 'moment'
 import { mayteBlack } from '../constants/colors'
 import DatePicker from 'react-native-datepicker'
+import OrbitLoader from './OrbitLoader'
 import SettingsEditorPhotos from '../containers/SettingsEditorPhotos'
 import {
   em,
@@ -21,6 +22,8 @@ import {
   Text,
 } from 'react-native'
 
+const orbitLoaderRadius = em(0.8)
+
 export default (props) => {
   const oldest   = moment().subtract(100, 'years')
   const youngest = moment().subtract(18, 'years')
@@ -34,8 +37,13 @@ export default (props) => {
         <TouchableOpacity onPress={props.cancelEdit}>
           <Text style={[style.headerBtn]}>CANCEL</Text>
         </TouchableOpacity>
+
         <TouchableOpacity onPress={props.saving ? null : props.save}>
-          <Text style={[style.headerBtn]}>{props.saving ? '...' : 'SAVE'}</Text>
+          <Text style={[style.headerBtn, {opacity: props.saving ? 0 : 1}]}>SAVE</Text>
+          { props.saving ?
+            <View style={{position: 'absolute', right: orbitLoaderRadius/2, top: -(orbitLoaderRadius/2)}}>
+              <OrbitLoader color='white' radius={orbitLoaderRadius} orbRadius={orbitLoaderRadius/4} />
+            </View> : null }
         </TouchableOpacity>
       </View>
 

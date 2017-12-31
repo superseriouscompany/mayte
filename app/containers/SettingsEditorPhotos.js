@@ -196,7 +196,7 @@ export default class SettingsEditorPhotos extends Component {
         <View style={[style.padded, {zIndex: 100}]}>
           <View style={[style.sectionHeader]}>
             <Text style={[style.sectionHeaderLabel]}>PHOTOS</Text>
-            <Text style={[style.sectionHeaderSublabel]}>{state.photoBin.length}/10</Text>
+            <Text style={[style.sectionHeaderSublabel]}>{state.photoBin.length}/{props.photoLimit}</Text>
             <View style={[style.trashBin, {/*transform: [{scale: props.trashReady ? 1 : 0.8}]*/}]}
                   ref={(el) => trash = el}
                   onLayout={(e) => {

@@ -137,8 +137,9 @@ export default class CurrentPhotoView extends Component {
                    left:this._offset.x,
                    top:this._offset.y,
                    transform: [
-                     {scale:this._scale},
-                     {scale: 1},
+                     {scale:this._scale}
+                     // {translateX: this._offset.x},
+                     // {translateY: this._offset.y},
                    ],
                    zIndex: state.active ? 1 : 0,
                    borderColor: 'red',
