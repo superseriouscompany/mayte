@@ -144,16 +144,19 @@ const style = StyleSheet.create({
   },
   sectionHeaderLabel: {
     color: 'white',
-    fontSize: em(1.2),
+    fontSize: em(1.1),
     letterSpacing: em(0.1),
-    fontFamily: 'Gotham-Black',
+    fontFamily: 'Futura',
+    fontWeight: '700',
+
   },
   sectionHeaderSublabel: {
     color: 'white',
     fontFamily: 'Gotham-Book',
+    fontSize: em(0.8),
     letterSpacing: em(0.1),
-    marginLeft: em(0.66),
-    marginTop: em(0.33),
+    marginLeft: em(0.4),
+    marginTop: em(0.3),
   },
 
   cameraRollBtn: {
@@ -174,7 +177,7 @@ const style = StyleSheet.create({
     paddingTop: em(0.8),
     paddingBottom: em(0.8),
     borderRadius: em(0.33),
-    marginBottom: em(1),
+    marginBottom: em(1.33),
     fontFamily: 'Gotham-Book',
     fontSize: em(0.9),
     letterSpacing: em(0.1),
@@ -183,7 +186,7 @@ const style = StyleSheet.create({
   dobInput: {
     backgroundColor: 'white',
     width: '100%',
-    marginBottom: em(1),
+    marginBottom: em(1.5),
   },
 
   occupationInput: {
@@ -208,7 +211,7 @@ const style = StyleSheet.create({
   optionLabel: {
     color: 'white',
     fontSize: em(1),
-    fontFamily: 'Gotham-Bold',
+    fontFamily: 'Futura',
     letterSpacing: em(0.1),
   },
   optionSwitch: {},

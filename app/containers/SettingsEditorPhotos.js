@@ -302,16 +302,17 @@ const style = StyleSheet.create({
   },
   sectionHeaderLabel: {
     color: 'white',
-    fontSize: em(1.2),
+    fontSize: em(1.1),
     letterSpacing: em(0.1),
-    fontFamily: 'Gotham-Black',
+    fontFamily: 'Futura',
+    fontWeight: '700',
   },
   sectionHeaderSublabel: {
     color: 'white',
     fontFamily: 'Gotham-Book',
     letterSpacing: em(0.1),
-    marginLeft: em(0.66),
-    marginTop: em(0.33),
+    marginLeft: em(0.4),
+    marginTop: em(0.3),
   },
   photoSelect: {
     flexDirection: 'row',
@@ -320,7 +321,8 @@ const style = StyleSheet.create({
   },
   photoSelectLabel: {
     fontSize: em(1),
-    fontFamily: 'Gotham-Black',
+    fontFamily: 'Futura',
+    fontWeight: '500',
     letterSpacing: em(0.1),
     paddingTop: em(2),
     paddingBottom: em(1),
@@ -347,6 +349,7 @@ const style = StyleSheet.create({
     height: em(1.66),
     width: em(1.66),
     marginLeft: em(0.33),
+    // transform: [{translateY: -(em(33))}],
   },
   trashBinIcon: {
     width: '100%',
