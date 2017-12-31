@@ -8,6 +8,7 @@ import {
   Text,
   Image,
   Alert,
+  Animated,
   ScrollView,
   StyleSheet,
   CameraRoll,
@@ -18,6 +19,9 @@ import {
 export default class SettingsEditorPhotos extends Component {
   constructor(props) {
     super(props)
+
+    this._trashOp = new Animated.Value(0)
+
     this.state = {
       cameraRollOpen: false,
       cameraRollEdges: [],
@@ -36,12 +40,24 @@ export default class SettingsEditorPhotos extends Component {
     this.trashPhoto = this.trashPhoto.bind(this)
     this.reorder = this.reorder.bind(this)
     this.toggleActive = this.toggleActive.bind(this)
+    this.fadeTrash = this.fadeTrash.bind(this)
   }
 
   componentDidUpdate(prevProps, prevState) {
     if (prevState.photoBin !== this.state.photoBin) {
       this.props.setPhotos(this.state.photoBin)
     }
+    if (prevState.rearrangingPhotos !== this.state.rearrangingPhotos) {
+      this.fadeTrash(this.state.rearrangingPhotos)
+    }
+  }
+
+  fadeTrash(ready) {
+    Animated.timing(this._trashOp, {
+      toValue: ready ? 1 : 0,
+      duration: 200,
+      useNativeDriver: true,
+    }).start()
   }
 
   alertLimitReached() {
@@ -181,18 +197,18 @@ export default class SettingsEditorPhotos extends Component {
           <View style={[style.sectionHeader]}>
             <Text style={[style.sectionHeaderLabel]}>PHOTOS</Text>
             <Text style={[style.sectionHeaderSublabel]}>{state.photoBin.length}/10</Text>
-            <View style={[style.trashBin, {opacity: state.rearrangingPhotos ? 1 : 0, /*transform: [{scale: props.trashReady ? 1 : 0.8}]*/}]}
+            <View style={[style.trashBin, {/*transform: [{scale: props.trashReady ? 1 : 0.8}]*/}]}
                   ref={(el) => trash = el}
                   onLayout={(e) => {
                     trash.measure((x, y, width, height, pageX, pageY) => {
                       this.setState({trashArea: {pageX, pageY, width, height}})
                     })
                   }}>
-              <Image source={state.trashReady ?
-                             require('../images/trash-open-white.png') :
-                             require('../images/trash-closed-white.png') }
-                     style={[style.trashBinIcon]}
-                     resizeMode='contain' />
+              <Animated.Image source={state.trashReady ?
+                              require('../images/trash-open-white.png') :
+                              require('../images/trash-closed-white.png') }
+                              style={[style.trashBinIcon, {opacity: this._trashOp}]}
+                              resizeMode='contain' />
             </View>
           </View>
           <CurrentPhotos photoBin={state.photoBin}
