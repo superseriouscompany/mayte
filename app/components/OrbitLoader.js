@@ -30,13 +30,13 @@ export default class OrbitLoader extends Component {
     })
     return (
       <View // track
-        style={{
+        style={[{
           width: radius*2,
           height: radius*2,
           borderRadius: radius,
           borderWidth: trackWidth,
           borderColor: trackColor ? trackColor : color,
-        }}>
+        }, this.props.style]}>
         <Animated.View // rail
           style={{
             width: radius*2-trackWidth,

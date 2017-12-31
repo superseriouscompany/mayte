@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 import { BlurView } from 'react-native-blur'
 import RangeSlider from '../containers/RangeSlider'
 import MaytePicker from '../containers/MaytePicker'
+import OrbitLoader from './OrbitLoader'
 import { em, tabNavHeight, screenHeight, notchHeight } from '../constants/dimensions'
 import { mayteBlack, mayteRed } from '../constants/colors'
 import {
@@ -16,12 +17,15 @@ import {
 } from 'react-native'
 
 const bubbleDiameter = 200
+const orbitLoaderRadius = em(0.8)
 
 export default class PreferencesView extends Component {
   constructor(props) {
     super(props)
     this.state = {
-      scrollEnabled: true
+      scrollEnabled: true,
+      savingAge: false,
+      savingDistance: false,
     }
   }
 
@@ -45,7 +49,14 @@ export default class PreferencesView extends Component {
           <View style={style.preferences}>
             <View style={[style.preference]}>
               <View style={style.preferenceHeader}>
-                <Text style={style.preferenceLabel}>Age Preference</Text>
+                <View style={{flexDirection: 'row'}}>
+                  <Text style={[style.preferenceLabel]}>Age Preference</Text>
+                  { state.savingAge ?
+                    <OrbitLoader color={mayteBlack()}
+                                 radius={orbitLoaderRadius}
+                                 style={{marginLeft: em(0.8), transform: [{translateY: orbitLoaderRadius*0.2}]}}
+                                 orbRadius={orbitLoaderRadius/4} /> : null }
+                </View>
                 <Text style={style.preferenceSetting}>
                   {props.ageRange[0]} - {`${props.ageRange[1]}${props.ageRange[1] === props.maxAge ? '+' : ''}`}
                 </Text>
@@ -59,14 +70,21 @@ export default class PreferencesView extends Component {
                            markerDiameter={em(1.33)}
                            onGestureStart={() => this.setState({scrollEnabled: false})}
                            onGestureEnd={() => {
-                             this.setState({scrollEnabled: true})
-                             this.props.updatePreferences()
+                             this.setState({scrollEnabled: true, savingAge: true})
+                             this.props.updatePreferences().then(() => this.setState({savingAge: false}))
                            }} />
             </View>
 
             <View style={[style.preference]}>
               <View style={style.preferenceHeader}>
-                <Text style={style.preferenceLabel}>Distance</Text>
+                <View style={{flexDirection: 'row'}}>
+                  <Text style={[style.preferenceLabel]}>Distance</Text>
+                  { state.savingDistance ?
+                    <OrbitLoader color={mayteBlack()}
+                                 radius={orbitLoaderRadius}
+                                 style={{marginLeft: em(0.8), transform: [{translateY: orbitLoaderRadius*0.2}]}}
+                                 orbRadius={orbitLoaderRadius/4} /> : null }
+                </View>
                 <Text style={style.preferenceSetting}>
                   {`${props.distance}${props.distance === props.maxDistance ? '+' : ''}`} miles away
                 </Text>
@@ -83,8 +101,8 @@ export default class PreferencesView extends Component {
                            values={[props.distance]}
                            onGestureStart={() => this.setState({scrollEnabled: false})}
                            onGestureEnd={() => {
-                             this.setState({scrollEnabled: true})
-                             this.props.updatePreferences()
+                             this.setState({scrollEnabled: true, savingDistance: true})
+                             this.props.updatePreferences().then(() => this.setState({savingDistance: false}))
                            }} />
             </View>
           </View>
