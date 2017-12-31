@@ -199,12 +199,13 @@ const style = StyleSheet.create({
   },
   preferenceLabel: {
     fontSize: em(1.33),
-    fontFamily: 'Gotham-Medium',
+    fontFamily: 'Futura',
     backgroundColor: 'transparent',
   },
   preferenceSetting: {
     backgroundColor: 'transparent',
     fontFamily: 'Gotham-Book',
+    marginTop: em(0.6),
   },
   button: {
     paddingTop: em(1.2),
