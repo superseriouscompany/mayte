@@ -121,7 +121,15 @@ export default class ProfileView extends Component {
                   </Text> : null }
                 </TouchableOpacity>
                 { props.user.occupation ?
-                  <Text style={style.occupation}>{(props.user.occupation).toUpperCase()}</Text> : null}
+                  <Text
+                    style={[
+                      style.occupation,
+                      (props.user.occupation.length > 15 ? {
+                        fontSize: screenWidth / props.user.occupation.length * 1.2
+                      } : {})
+                    ]}>
+                    {(props.user.occupation).toUpperCase()}
+                  </Text> : null }
               </View>
               <View>
                 <Text style={style.bio}>
