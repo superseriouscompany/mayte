@@ -151,9 +151,9 @@ export default class ProfileInfoView extends Component {
 
       onPanResponderRelease: (evt, gestureState) => {
         this._staticY = new Animated.Value(this.newY)
+        this._dynamicY = new Animated.Value(this.newY)
         this.setState({interacting: false})
         if (this.newY > this._panStartY + 50) {
-          console.log("FORKS")
           this.animateClosed()
         } else if (this.newY < this._panStartY - 50) {
           this.animateOpen()
