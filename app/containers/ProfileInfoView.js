@@ -7,6 +7,7 @@ import {mayteBlack}       from '../constants/colors'
 import moment             from 'moment'
 import {
   em,
+  screenWidth,
   screenHeight,
   notchHeight,
   tabNavHeight,
@@ -36,8 +37,7 @@ export default class ProfileInfoView extends Component {
                              em(1) * 11.25 : em(1) * 11.25 + matchHeaderHeight + notchHeight :
                            em(1) * 15 )
 
-    this._dynamicY = new Animated.Value(this.infoClosedTop) // THIS IS HACKY AS FUCK
-    this._staticY = new Animated.Value(this.infoClosedTop)
+    this._y = new Animated.Value(this.infoClosedTop)
     this._height = new Animated.Value(this.computeHeight(this.infoClosedTop))
     this._opacity = new Animated.Value(1),
     this.state = {
@@ -49,6 +49,7 @@ export default class ProfileInfoView extends Component {
     this.animateTo = this.animateTo.bind(this)
     this.animateOpen = this.animateOpen.bind(this)
     this.animateClosed = this.animateClosed.bind(this)
+    this.forceOpen = this.forceOpen.bind(this)
   }
 
   computeScale(top) {
@@ -60,38 +61,37 @@ export default class ProfileInfoView extends Component {
     return screenHeight - top - tabNavHeight - bottomBoost
   }
 
-  // componentWillReceiveProps(nextProps) {
-  //   if (nextProps.open && !this.props.open) {
-  //     this.animateOpen()
-  //   }
-  //   if (!nextProps.open && this.props.open) {
-  //     this.animateClosed()
-  //   }
-  // }
+  forceOpen() {
+    this.animateOpen()
+  }
 
   animateTo(loc) {
-    Animated.timing(this._dynamicY, {
+    if (!this.props.mask) {
+      this.props.maskOn()
+    }
+    if (loc < this.infoClosedTop) {
+      this.props.incrementMask(1 - loc / this.infoClosedTop)
+    }
+    Animated.timing(this._y, {
       toValue: loc,
       duration: 0,
+      useNativeDriver: true,
     }).start()
   }
 
   animateOpen() {
     this.props.setOpen(true)
     this.setState({scrollEnabled: true})
-    this._dynamicY = new Animated.Value(this.infoOpenTop)
-    Animated.parallel([
-      Animated.spring(this._staticY, {
-        toValue: this.infoOpenTop,
-        velocity: 200,
-        useNativeDriver: true,
-      }),
-      Animated.spring(this._height, {
-        toValue: this.computeHeight(0),
-        velocity: 200,
-        overshootClamping: true,
-      })
-    ]).start()
+
+    if (!this.props.mask) {
+      this.props.maskOn()
+    }
+    this.props.fadeInMask()
+    Animated.spring(this._y, {
+      toValue: this.infoOpenTop,
+      velocity: 200,
+      useNativeDriver: true,
+    }).start()
   }
 
   animateSub() {
@@ -106,23 +106,13 @@ export default class ProfileInfoView extends Component {
     this.props.setOpen(false)
     this.node._component.scrollTo({y:0, animated: true})
     this.setState({scrollEnabled: false})
-    // this._dynamicY = new Animated.Value(this.infoClosedTop)
-    Animated.parallel([
-      Animated.spring(this._dynamicY, {
-        toValue: this.infoClosedTop,
-        velocity: 200,
-      }),
-      Animated.spring(this._staticY, {
-        toValue: this.infoClosedTop,
-        velocity: 200,
-        useNativeDriver: true,
-      }),
-      Animated.spring(this._height, {
-        toValue: this.computeHeight(this.infoClosedTop),
-        velocity: 200,
-        overshootClamping: true,
-      })
-    ]).start()
+
+    this.props.fadeOutMask()
+    Animated.spring(this._y, {
+      toValue: this.infoClosedTop,
+      velocity: 200,
+      useNativeDriver: true,
+    }).start()
   }
 
   componentWillMount() {
@@ -139,7 +129,7 @@ export default class ProfileInfoView extends Component {
 
       onPanResponderGrant: (evt, gestureState) => {
         this.setState({interacting: true})
-        this._panStartY = this._dynamicY._value
+        this._panStartY = this.props.open ? this.infoOpenTop : this.infoClosedTop
       },
 
       onPanResponderMove: (evt, gestureState) => {
@@ -150,8 +140,7 @@ export default class ProfileInfoView extends Component {
       onPanResponderTerminationRequest: (evt, gestureState) => true,
 
       onPanResponderRelease: (evt, gestureState) => {
-        this._staticY = new Animated.Value(this.newY)
-        this._dynamicY = new Animated.Value(this.newY)
+        this._y = new Animated.Value(this.newY)
         this.setState({interacting: false})
         if (this.newY > this._panStartY + 50) {
           this.animateClosed()
@@ -209,8 +198,8 @@ export default class ProfileInfoView extends Component {
         style={[
           style.container,
           style.content,
-          {backgroundColor: mayteBlack(0.33), overflow: 'visible'},
-          {transform: [{translateY: state.interacting ? this._dynamicY : this._staticY}]}
+          {backgroundColor: 'transparent', overflow: 'visible'},
+          {transform: [{translateY: this._y}]}
         ]}
         {...(state.contPermission ? this._panResponder.panHandlers: {})}>
         <Text style={style.name}>
@@ -269,11 +258,7 @@ export default class ProfileInfoView extends Component {
         </View>
         <View>
           <Text style={style.bio}>
-            {props.user.bio || `Lorem ipsum dolor amet banjo letterpress gluten-free deep v shaman mixtape waistcoat vaporware fanny pack jianbing williamsburg cray godard you probably haven't heard of them. Squid umami street art offal pour-over. Post-ironic irony farm-to-table art party gluten-free, pitchfork keytar truffaut messenger bag jianbing chartreuse cray. Synth try-hard brunch retro. Yuccie brooklyn irony four dollar toast butcher cred flannel green juice XOXO franzen unicorn meggings fixie skateboard.
-
-  Post-ironic echo park wolf, gentrify hexagon aesthetic microdosing pabst XOXO single-origin coffee swag bicycle rights. Chartreuse shaman next level organic copper mug roof party before they sold out portland quinoa adaptogen hammock butcher 8-bit biodiesel squid. Kickstarter craft beer iPhone authentic tousled. Microdosing direct trade hella coloring book taiyaki venmo normcore shaman wolf master cleanse affogato tattooed. Hexagon viral whatever meditation, vape austin offal williamsburg shoreditch. Cardigan sriracha fanny pack enamel pin VHS semiotics prism vice single-origin coffee letterpress intelligentsia. Tote bag fanny pack bushwick chicharrones beard vinyl XOXO stumptown ramps cloud bread you probably haven't heard of them. Tacos normcore chartreuse migas vice, jianbing tote bag tofu vaporware sustainable poutine waistcoat XOXO roof party af.
-
-Tousled craft beer ennui, live-edge literally locavore squid waistcoat farm-to-table echo park skateboard tacos readymade 3 wolf moon taiyaki. Bitters photo booth live-edge cornhole, chambray banh mi hammock polaroid pitchfork lo-fi dreamcatcher literally. Before they sold out gentrify semiotics kale chips affogato migas sartorial bitters pabst tote bag williamsburg paleo. Wolf retro blog occupy letterpress ugh direct trade mustache edison bulb lo-fi humblebrag pitchfork. YOLO you probably haven't heard of them asymmetrical aesthetic street art. Blog palo santo coloring book sriracha mumblecore asymmetrical gochujang gentrify la croix. Hell of tattooed normcore YOLO schlitz lumbersexual cronut tbh put a bird on it man bun viral edison bulb shabby chic kitsch 8-bit.`}
+            {props.user.bio || ``}
           </Text>
         </View>
       </Animated.ScrollView>
