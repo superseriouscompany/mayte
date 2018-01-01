@@ -3,13 +3,10 @@ import moment             from 'moment'
 import LinearGradient     from 'react-native-linear-gradient'
 import Icon               from 'react-native-vector-icons/Ionicons'
 import { mayteBlack }     from '../constants/colors'
-import ProfileInfoView    from '../containers/ProfileInfoView'
 
 import {
   screenWidth,
   screenHeight,
-  tabNavHeight,
-  bottomBoost,
   matchHeaderHeight,
   notchHeight,
   em,
@@ -32,9 +29,70 @@ export default class ProfileView extends Component {
   constructor(props) {
     super(props)
 
-    this.state = {infoOpen: false, infoPermission: true}
+    this.infoClosedTop = screenHeight - notchHeight*2 -
+                       ( props.hideButtons ?
+                           props.myProfile ?
+                             em(1) * 11.25 : em(1) * 11.25 + matchHeaderHeight + notchHeight :
+                           em(1) * 15 )
 
+    this._y = new Animated.Value(this.infoClosedTop)
+    this._height = new Animated.Value(screenHeight * 0.3),
+
+    this.state = {}
+
+    this.animateOpen = this.animateOpen.bind(this)
+    this.animateClosed = this.animateClosed.bind(this)
     this.linkToInstagram = this.linkToInstagram.bind(this)
+  }
+
+  animateOpen(time) {
+    Animated.parallel([
+      Animated.timing(this._y, {
+        toValue: 0,
+        duration: time || 100,
+        // useNativeDriver: true,
+      }),
+      Animated.timing(this._height, {
+        toValue: screenHeight,
+        duration: time || 100,
+      })
+    ]).start()
+  }
+
+
+  animateSub() {
+    Animated.parallel([
+      Animated.timing(this._y, {
+        toValue: this.infoClosedTop,
+        duration: profileSwitch,
+        // useNativeDriver: true,
+      }),
+
+      Animated.timing(this._height, {
+        toValue: screenHeight * 0.3,
+        duration: profileSwitch,
+      }),
+
+      Animated.timing(this.state.opacity, {
+        toValue: 1,
+        duration: profileOpen,
+        // useNativeDriver: true,
+      })
+    ]).start()
+  }
+
+  animateClosed() {
+    Animated.parallel([
+      Animated.timing(this._y, {
+        toValue: this.infoClosedTop,
+        duration: 100,
+        // useNativeDriver: true,
+      }),
+      Animated.timing(this._height, {
+        toValue: screenHeight * 0.3,
+        duration: 100,
+      }),
+    ]).start()
   }
 
   linkToInstagram(url) {
@@ -44,6 +102,56 @@ export default class ProfileView extends Component {
       } else {
         Linking.openURL(url)
       }
+    })
+  }
+
+  componentWillMount() {
+    this._panResponder = PanResponder.create({
+      onStartShouldSetPanResponder: (evt, gestureState) => false,
+      onStartShouldSetPanResponderCapture: (evt, gestureState) => false,
+      onMoveShouldSetPanResponder: (evt, gestureState) => {
+        // https://github.com/facebook/react-native/issues/3082
+        if (gestureState.dx !== 0 || gestureState.dy !== 0) {
+          return true
+        }
+        return false
+      },
+      onMoveShouldSetPanResponderCapture: (evt, gestureState) => false,
+
+      onPanResponderGrant: (evt, gestureState) => {
+        this.panStartY = this._y._value
+      },
+
+      onPanResponderMove: (evt, gestureState) => {
+        const newTop = this.panStartY + gestureState.dy
+        Animated.parallel([
+          Animated.timing(this._y, {
+            toValue: newTop,
+            duration: 0,
+            // useNativeDriver: true,
+          }),
+          Animated.timing(this._height, {
+            toValue: screenHeight - newTop,
+            duration: 0,
+          })
+        ]).start()
+      },
+
+      onPanResponderTerminationRequest: (evt, gestureState) => true,
+
+      onPanResponderRelease: (evt, gestureState) => {
+          if (this._y._value < this.panStartY * 0.9) {
+            this.animateOpen()
+          } else {
+            this.animateClosed()
+          }
+      },
+
+      onShouldBlockNativeResponder: (evt, gestureState) => {
+        // Returns whether this component should block native components from becoming the JS
+        // responder. Returns true by default. Is currently only supported on android.
+        return true;
+      },
     })
   }
 
@@ -60,7 +168,7 @@ export default class ProfileView extends Component {
                     const {contentOffset, layoutMeasurement, contentSize} = e.nativeEvent
                     if (contentOffset.y + layoutMeasurement.height > contentSize.height) {
                       e.preventDefault()
-                      this.setState({infoOpen: true})
+                      this.animateOpen()
                     }
                   }}
                   showsVerticalScrollIndicator={false}
@@ -72,15 +180,14 @@ export default class ProfileView extends Component {
                            resizeMode="cover"
                            source={{url: item.url}} />
                   } />
-          <ProfileInfoView {...props}
-                           style={[style.infoCont]}
-                           open={state.infoOpen}
-                           permission={state.infoPermission}
-                           setOpen={(boo) => this.setState({
-                             infoOpen: boo,
-                             infoPermission: true,
-                           })}>
+        <Animated.View style={[{top: 0, height: this._height, transform: [{translateY: this._y}]}, style.info]}>
+          <LinearGradient colors={['rgba(0,0,0,0)', 'rgba(0,0,0,0.7)']}
+                          style={style.gradient}>
+            <ScrollView style={style.content}
+                        {...this._panResponder.panHandlers}
+                        scrollEventThrottle={100}
 
+                        scrollEnabled={props.infoOpen ? true : false}>
               <Text style={style.name}>
                 {props.user.fullName.split(' ')[0].toUpperCase()}
               </Text>
@@ -140,7 +247,9 @@ export default class ProfileView extends Component {
                   {props.user.bio || ``}
                 </Text>
               </View>
-        </ProfileInfoView>
+            </ScrollView>
+          </LinearGradient>
+        </Animated.View>
       </View>
     )
   }
@@ -152,7 +261,7 @@ const style = StyleSheet.create({
     flex: 1,
   },
 
-  infoCont: {
+  info: {
     position: 'absolute',
     left: 0,
     width: '100%',
@@ -163,6 +272,14 @@ const style = StyleSheet.create({
     position: 'relative',
     width: '100%',
     height: '100%',
+  },
+
+  content: {
+    flex: 1,
+    paddingLeft: 20,
+    paddingRight: 20,
+    width: '100%',
+    backgroundColor: 'transparent',
   },
 
   cv: {
@@ -193,7 +310,6 @@ const style = StyleSheet.create({
     color: 'rgba(255,255,255,1)',
     fontSize: 18,
     paddingTop: 40,
-    paddingBottom: em(3),
   },
 
   name: {
@@ -201,8 +317,7 @@ const style = StyleSheet.create({
     color: 'rgba(255,255,255,1)',
     textAlign: 'center',
     fontSize: em(1.5),
-    fontFamily: 'Futura',
-    fontWeight: '700',
+    fontFamily: 'Gotham-Black',
     letterSpacing: em(0.1),
     paddingTop: 40,
   },
