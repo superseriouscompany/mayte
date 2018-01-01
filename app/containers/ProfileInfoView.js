@@ -3,6 +3,7 @@
 import React, {Component} from 'react'
 import LinearGradient     from 'react-native-linear-gradient'
 import transformUtil      from '../util/transform'
+import {mayteBlack}       from '../constants/colors'
 import {
   em,
   screenHeight,
@@ -13,8 +14,12 @@ import {
 import {
   Animated,
   PanResponder,
+  ScrollView,
+  StyleSheet,
   View,
 } from 'react-native'
+
+const fullHeight = screenHeight - tabNavHeight - bottomBoost
 
 export default class ProfileInfoView extends Component {
   constructor(props) {
@@ -30,10 +35,7 @@ export default class ProfileInfoView extends Component {
     this._dynamicY = new Animated.Value(this.infoClosedTop)
     this._staticY = new Animated.Value(this.infoClosedTop)
 
-    this._dynamicOp = new Animated.Value(0)
-    this._staticOp = new Animated.Value(0)
-
-    this._scale = new Animated.Value(this.computeScale(this.infoClosedTop))
+    this._height = new Animated.Value(this.computeHeight(this.infoClosedTop))
 
     this._opacity = new Animated.Value(1),
 
@@ -55,19 +57,12 @@ export default class ProfileInfoView extends Component {
     return screenHeight - top - tabNavHeight - bottomBoost
   }
 
-  componentDidUpdate(prevProps, prevState) {
-    // if (this.state.open && !prevState.open) {
-    //   this.animateOpen()
-    // }
-    //
-    // if (!this.state.open && prevState.open) {
-    //   this.animateClosed()
-    // }
-  }
-
   componentWillReceiveProps(nextProps) {
     if (nextProps.open && !this.props.open) {
       this.animateOpen()
+    }
+    if (!nextProps.open && this.props.open) {
+      this.animateClosed()
     }
   }
 
@@ -77,8 +72,8 @@ export default class ProfileInfoView extends Component {
         toValue: loc,
         duration: 0,
       }),
-      Animated.timing(this._scale, {
-        toValue: this.computeScale(loc),
+      Animated.timing(this._height, {
+        toValue: this.computeHeight(loc),
         duration: 0,
       })
     ]).start()
@@ -93,17 +88,13 @@ export default class ProfileInfoView extends Component {
         velocity: 200,
         useNativeDriver: true,
       }),
-      Animated.spring(this._scale, {
-        toValue: this.computeScale(0),
+      Animated.spring(this._height, {
+        toValue: this.computeHeight(0),
         velocity: 200,
         overshootClamping: true,
       })
-    ]).start(
-      // () => this.flushTransform(this.grad, 0)
-    )
-
+    ]).start()
   }
-
 
   animateSub() {
     Animated.timing(this._y, {
@@ -115,6 +106,7 @@ export default class ProfileInfoView extends Component {
 
   animateClosed() {
     this.props.setOpen(false)
+    this.node._component.scrollTo({y:0, animated: true})
     this._dynamicY = new Animated.Value(this.infoClosedTop)
     Animated.parallel([
       Animated.spring(this._staticY, {
@@ -122,14 +114,12 @@ export default class ProfileInfoView extends Component {
         velocity: 200,
         useNativeDriver: true,
       }),
-      Animated.spring(this._scale, {
-        toValue: this.computeScale(this.infoClosedTop),
+      Animated.spring(this._height, {
+        toValue: this.computeHeight(this.infoClosedTop),
         velocity: 200,
         overshootClamping: true,
       })
-    ]).start(
-      // () => this.flushTransform(this.grad, this.infoClosedTop)
-    )
+    ]).start()
   }
 
   componentWillMount() {
@@ -138,6 +128,11 @@ export default class ProfileInfoView extends Component {
       onStartShouldSetPanResponderCapture: (evt, gestureState) => false,
       onMoveShouldSetPanResponder: (evt, gestureState) => {
         // https://github.com/facebook/react-native/issues/3082
+        // console.log("granting")
+        // if (this.props.open) {
+        //   console.log("bish open")
+        //   return false
+        // }
         if (gestureState.dx !== 0 || gestureState.dy !== 0) {
           return true
         }
@@ -193,24 +188,42 @@ export default class ProfileInfoView extends Component {
   }
 
   componentDidMount() {
-    // this.flushTransform(this.grad, this.infoClosedTop)
+    console.log(this.node)
   }
 
   render() {
     const {props,state} = this
     return (
-      <Animated.View
+      <Animated.ScrollView
+        ref={n => this.node = n}
+        scrollEventThrottle={100}
+        bounces={true}
+        // scrollEnabled={props.open ? true : false}
+        scrollEnabled={false}
+        onScroll={(e) => {
+          const {contentOffset} = e.nativeEvent
+          if (contentOffset.y < 0) {
+            this.props.setOpen(false)
+          }
+        }}
         style={[
           props.style,
-          {backgroundColor: 'rgba(40,40,40,0.4)'},
+          style.content,
+          {backgroundColor: mayteBlack(0.33), overflow: 'visible'},
           {transform: [{translateY: state.interacting ? this._dynamicY : this._staticY}]}
         ]}
         {...this._panResponder.panHandlers}>
-        {props.children}
-      </Animated.View>
+
+          {props.children}
+
+      </Animated.ScrollView>
     )
   }
 }
 
-// <LinearGradient colors={['rgba(0,0,0,0)', 'rgba(0,0,0,0.66)']}
-//                 style={{width: '100%', height: '100%', position: 'absolute', top: 0, left: 0}} />
+const style = StyleSheet.create({
+  content: {
+    width: '100%',
+    height: fullHeight + em(2), // TEMP: prevent awkward overflow on spring
+  },
+})

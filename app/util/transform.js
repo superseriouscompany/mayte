@@ -1,3 +1,5 @@
+// https://github.com/jmurzy/react-native-foldview/blob/master/src/FoldView.js
+
 import MatrixMath from 'react-native/Libraries/Utilities/MatrixMath';
 
 function transformOrigin(matrix, origin) {

@@ -8,6 +8,8 @@ import ProfileInfoView    from '../containers/ProfileInfoView'
 import {
   screenWidth,
   screenHeight,
+  tabNavHeight,
+  bottomBoost,
   matchHeaderHeight,
   notchHeight,
   em,
@@ -30,7 +32,7 @@ export default class ProfileView extends Component {
   constructor(props) {
     super(props)
 
-    this.state = {infoOpen: false}
+    this.state = {infoOpen: false, infoPermission: true}
 
     this.linkToInstagram = this.linkToInstagram.bind(this)
   }
@@ -73,10 +75,12 @@ export default class ProfileView extends Component {
           <ProfileInfoView {...props}
                            style={[style.infoCont]}
                            open={state.infoOpen}
-                           setOpen={(boo) => this.setState({infoOpen: boo})}>
-            <ScrollView style={[style.infoContent]}
-                        scrollEventThrottle={100}
-                        scrollEnabled={props.infoOpen ? true : false}>
+                           permission={state.infoPermission}
+                           setOpen={(boo) => this.setState({
+                             infoOpen: boo,
+                             infoPermission: true,
+                           })}>
+
               <Text style={style.name}>
                 {props.user.fullName.split(' ')[0].toUpperCase()}
               </Text>
@@ -136,7 +140,6 @@ export default class ProfileView extends Component {
                   {props.user.bio || ``}
                 </Text>
               </View>
-            </ScrollView>
         </ProfileInfoView>
       </View>
     )
@@ -156,22 +159,10 @@ const style = StyleSheet.create({
     paddingTop: notchHeight,
   },
 
-  infoContent: {
-    minHeight: screenHeight,
-  },
-
   gradient: {
     position: 'relative',
     width: '100%',
     height: '100%',
-  },
-
-  content: {
-    flex: 1,
-    paddingLeft: 20,
-    paddingRight: 20,
-    width: '100%',
-    backgroundColor: 'transparent',
   },
 
   cv: {
@@ -202,6 +193,7 @@ const style = StyleSheet.create({
     color: 'rgba(255,255,255,1)',
     fontSize: 18,
     paddingTop: 40,
+    paddingBottom: em(3),
   },
 
   name: {
