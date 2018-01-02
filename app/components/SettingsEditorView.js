@@ -1,9 +1,10 @@
-import React, { Component } from 'react'
-import moment from 'moment'
-import { mayteBlack } from '../constants/colors'
-import DatePicker from 'react-native-datepicker'
-import OrbitLoader from './OrbitLoader'
-import SettingsEditorPhotos from '../containers/SettingsEditorPhotos'
+import React, { Component }      from 'react'
+import moment                    from 'moment'
+import DatePicker                from 'react-native-datepicker'
+import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view'
+import { mayteBlack }            from '../constants/colors'
+import SettingsEditorPhotos      from '../containers/SettingsEditorPhotos'
+import OrbitLoader               from './OrbitLoader'
 import {
   em,
   statusBarHeight,
@@ -31,7 +32,7 @@ export default (props) => {
   let trash
 
   return(
-    <ScrollView style={[style.container, {backgroundColor: mayteBlack()}]}
+    <KeyboardAwareScrollView style={[style.container, {backgroundColor: mayteBlack()}]}
                 scrollEnabled={props.scrollEnabled}>
       <View style={[style.header, style.padded]}>
         <TouchableOpacity onPress={props.cancelEdit}>
@@ -112,7 +113,7 @@ export default (props) => {
       }
       </View>
 
-    </ScrollView>
+    </KeyboardAwareScrollView>
   )
 }
 

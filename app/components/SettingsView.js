@@ -19,7 +19,7 @@ export default class SettingsView extends Component {
       {
         props.loading ?
           <View style={style.centered}>
-            <ActivityIndicator />
+            <ActivityIndicator size="large"/>
           </View>
         : props.scene.view === 'Profile' ?
           <SettingsProfile {...props} />
