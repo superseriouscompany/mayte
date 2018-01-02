@@ -80,13 +80,13 @@ export default (props) => {
                     }}
                     date={props.dob}
                     mode="date"
-                    placeholder="select date"
+                    placeholder="Select Date"
                     format="MMM Do YYYY"
                     minDate={oldest.format('MMM Do YYYY')}
                     maxDate={youngest.format('MMM Do YYYY')}
                     showIcon={false}
-                    confirmBtnText="confirm"
-                    cancelBtnText="cancel"
+                    confirmBtnText="Confirm"
+                    cancelBtnText="Cancel"
                     onDateChange={date => props.setDob(date)} />
 
         <View style={[style.sectionHeader]}>
