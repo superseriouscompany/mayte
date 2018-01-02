@@ -1,8 +1,8 @@
-import React, { Component } from 'react'
-import SettingsEditorView from '../components/SettingsEditorView'
+import React, { Component }          from 'react'
+import SettingsEditorView            from '../components/SettingsEditorView'
 import { screenWidth, screenHeight } from '../constants/dimensions'
-import api, { baseUrl } from '../services/api'
-import { Linking } from 'react-native'
+import api, { baseUrl }              from '../services/api'
+import { Linking }                   from 'react-native'
 
 const photoLimit = 8
 
@@ -89,6 +89,7 @@ class SettingsEditor extends Component {
       this.props.hydrateUser()
       this.props.viewSettingsPage('Profile')
     }).catch((err) => {
+      this.setState({saving: false})
       alert(err.message || err)
       console.error(err)
     })
