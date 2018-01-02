@@ -45,6 +45,7 @@ const styles = StyleSheet.create({
   },
   webview: {
     flex: 1,
+    // https://stackoverflow.com/questions/41188362/react-native-webview-rendering-unexpected-border-at-bottom
     backgroundColor: 'transparent',
   },
   buttonsCnr: {
