@@ -65,7 +65,8 @@ export default class VipCodeEntryView extends Component {
 
 const style = StyleSheet.create({
   container: {
-    flex:           1,
+    flex:    1,
+    opacity: 0, // prevent FOUC...
   },
   inputCnr: {
     flex: 1,
@@ -78,7 +79,6 @@ const style = StyleSheet.create({
     width: '80%',
     textAlign: 'center',
     paddingBottom: em(0.66),
-    // marginTop: em(8),
     fontFamily: 'Futura',
     fontSize: em(2),
   },

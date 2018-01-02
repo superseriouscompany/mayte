@@ -31,7 +31,7 @@ class Preferences extends Component {
   }
 
   updatePreferences(prefs={}) {
-    api('/users/me', {
+    return api('/users/me', {
       method: 'PATCH',
       accessToken: this.props.accessToken,
       body: {

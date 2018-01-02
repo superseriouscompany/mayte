@@ -57,16 +57,16 @@ export default class PaywallView extends Component {
           useNativeDriver: true,
         })
       ]),
-      Animated.delay(1500),
+      Animated.delay(1800),
       Animated.parallel([
         Animated.spring(this._balloonerY, {
-          toValue: -screenHeight/2,
-          damping: 40,
+          toValue: -screenHeight / 2,
+          damping: 180,
           useNativeDriver: true,
         }),
         Animated.spring(this._balloonerX, {
-          toValue: screenWidth * 0.9/2,
-          damping: 40,
+          toValue: screenWidth * 0.9 / 2,
+          damping: 180,
           useNativeDriver: true,
         })
       ]),
@@ -118,9 +118,9 @@ export default class PaywallView extends Component {
                      style={style.unicorn} />
             </Animated.View>
 
-            <Firework color='pink' delay={0} style={[calculateFireworkOffset(-em(2),-em(2))]} fireworkDiameter={fireworkDiameter} sparkDiameter={em(0.6)} numSparks={14} />
-            <Firework color='lightblue' delay={1000} style={[calculateFireworkOffset(em(1),0)]} fireworkDiameter={fireworkDiameter} sparkDiameter={em(0.8)} numSparks={12} />
-            <Firework color='gold' delay={2000} style={[calculateFireworkOffset(-em(1),em(2))]} fireworkDiameter={fireworkDiameter} sparkDiameter={em(0.6)} numSparks={14} />
+            <Firework color='#D42456' delay={0} style={[calculateFireworkOffset(-em(2),-em(2))]} fireworkDiameter={fireworkDiameter} sparkDiameter={em(0.6)} numSparks={16} />
+            <Firework color='#2755A8' delay={1000} style={[calculateFireworkOffset(em(1),0)]} fireworkDiameter={fireworkDiameter} sparkDiameter={em(0.8)} numSparks={10} />
+            <Firework color='#FFCC00' delay={2000} style={[calculateFireworkOffset(-em(1),em(2))]} fireworkDiameter={fireworkDiameter} sparkDiameter={em(0.6)} numSparks={16} />
 
             <Text style={[style.teaser, base.text]}>
               There are only 100 spots available for our first members only party in LA.

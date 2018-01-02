@@ -17,20 +17,35 @@ const bg = require('../images/LoginBG.jpg')
 export default class LoginView extends Component {
   constructor(props) {
     super(props)
+    this._bgOpacity   = new Animated.Value(0)
+    this._igOpacity   = new Animated.Value(0)
+    this._liOpacity   = new Animated.Value(0)
     this._logoOpacity = new Animated.Value(0)
-    this._igOpacity = new Animated.Value(0)
-    this._liOpacity = new Animated.Value(0)
-    this._igDriftY = new Animated.Value(em(1))
-    this._liDriftY = new Animated.Value(em(1))
+    this._igDriftY    = new Animated.Value(em(0.8))
+    this._liDriftY    = new Animated.Value(em(0.8))
+    this._bgScale     = new Animated.Value(1.1)
   }
 
   componentDidMount() {
     Animated.sequence([
+      Animated.parallel([
+        Animated.timing(this._bgOpacity, {
+          toValue: 1,
+          duration: 666,
+          useNativeDriver: true,
+        }),
+        Animated.timing(this._bgScale, {
+          toValue: 1,
+          duration: 666,
+          useNativeDriver: true,
+        })
+      ]),
       Animated.timing(this._logoOpacity, {
         toValue: 1,
         duration: 666,
         useNativeDriver: true,
       }),
+      Animated.delay(333),
       Animated.parallel([
         Animated.timing(this._igOpacity, {
           toValue: 1,
@@ -45,13 +60,13 @@ export default class LoginView extends Component {
         Animated.timing(this._liOpacity, {
           toValue: 1,
           duration: 333,
-          delay: 111,
+          delay: 222,
           useNativeDriver: true,
         }),
         Animated.timing(this._liDriftY, {
           toValue: 1,
           duration: 333,
-          delay: 111,
+          delay: 222,
           useNativeDriver: true,
         })
       ]),
@@ -62,15 +77,15 @@ export default class LoginView extends Component {
     const {props,state} = this
     return (
       <View style={style.container}>
-        <Image style={[style.cover]}
-               resizeMode="cover"
-               source={require('../images/login.jpg')} />
+        <Animated.Image style={[style.cover, {opacity: this._bgOpacity, transform: [{scale: this._bgScale}]}]}
+                        resizeMode="cover"
+                        source={require('../images/LoginBG.jpg')} />
         <View style={style.overlay} />
 
         { props.loading ?
           <ActivityIndicator size="large"/>
         :
-          <View style={style.container}>
+          <View>
             <Animated.View style={{alignItems: 'center', opacity: this._logoOpacity}}>
               <Image style={[style.icon]}
                      source={require('../images/icon-trans.png')}
@@ -102,6 +117,7 @@ const style = StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
+    backgroundColor: mayteBlack(),
   },
 
   cover: {
