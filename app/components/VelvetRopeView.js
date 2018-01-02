@@ -1,9 +1,10 @@
 'use strict'
 
 import React, {Component} from 'react'
-import Text from './Text'
-import base from '../constants/styles'
-import {em} from '../constants/dimensions'
+import Text               from './Text'
+import {webUrl}           from '../services/api'
+import base               from '../constants/styles'
+import {em}               from '../constants/dimensions'
 import {
   ActivityIndicator,
   StyleSheet,
@@ -21,7 +22,7 @@ export default function(props) {
         </View>
       :
         <View style={styles.container}>
-          <WebView style={styles.webview} source={{uri: 'https://dateunicorn.com/velvetrope/'}} scrollEnabled={false} scalesPageToFit={false}/>
+          <WebView style={styles.webview} source={{uri: `${webUrl}/velvetrope/`}} scrollEnabled={false} scalesPageToFit={false}/>
           <View style={styles.buttonsCnr}>
             <TouchableOpacity style={[base.button, styles.button]} onPress={props.addPass}>
               <Text style={[base.buttonText]}>Entry Ticket</Text>
@@ -44,6 +45,7 @@ const styles = StyleSheet.create({
   },
   webview: {
     flex: 1,
+    backgroundColor: 'transparent',
   },
   buttonsCnr: {
     alignItems: 'center',
