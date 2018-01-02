@@ -9,7 +9,8 @@ import api                from '../services/api'
 class VipCodeStatus extends Component {
   constructor(props) {
     super(props)
-    this.share = this.share.bind(this)
+    this.share    = this.share.bind(this)
+    this.pollSelf = this.pollSelf.bind(this)
   }
 
   componentDidMount() {
@@ -23,7 +24,7 @@ class VipCodeStatus extends Component {
       if( u.active ) {
         this.props.updateUser(u)
       } else {
-        setTimeout(this.pollSelf, 2000)        
+        setTimeout(this.pollSelf, 2000)
       }
     }).catch((err) => {
       console.error(err)
