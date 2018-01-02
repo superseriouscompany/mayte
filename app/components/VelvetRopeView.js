@@ -15,17 +15,25 @@ import {
 export default function(props) {
   return (
     <View style={styles.container}>
-      <WebView style={styles.webview} source={{uri: 'https://dateunicorn.com/velvetrope/'}} scrollEnabled={false} scalesPageToFit={false}/>
-      <View style={styles.buttonsCnr}>
-        <TouchableOpacity style={[base.button, styles.button]} onPress={props.addPass}>
-          <Text style={[base.buttonText]}>Entry Ticket</Text>
-        </TouchableOpacity>
-        { props.isAdmin ?
-          <TouchableOpacity style={[base.button, styles.button]} onPress={props.visitPromoMaker}>
-            <Text style={[base.buttonText]}>VIP Codes</Text>
-          </TouchableOpacity>
-        : null }
-      </View>
+      { props.loading ?
+        <View style={styles.centered}>
+          <ActivityIndicator size="large" />
+        </View>
+      :
+        <View style={styles.container}>
+          <WebView style={styles.webview} source={{uri: 'https://dateunicorn.com/velvetrope/'}} scrollEnabled={false} scalesPageToFit={false}/>
+          <View style={styles.buttonsCnr}>
+            <TouchableOpacity style={[base.button, styles.button]} onPress={props.addPass}>
+              <Text style={[base.buttonText]}>Entry Ticket</Text>
+            </TouchableOpacity>
+            { props.isAdmin ?
+              <TouchableOpacity style={[base.button, styles.button]} onPress={props.visitPromoMaker}>
+                <Text style={[base.buttonText]}>VIP Codes</Text>
+              </TouchableOpacity>
+            : null }
+          </View>
+        </View>
+      }
     </View>
   )
 }
@@ -38,6 +46,11 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   buttonsCnr: {
+    alignItems: 'center',
+  },
+  centered: {
+    flex: 1,
+    justifyContent: 'center',
     alignItems: 'center',
   },
   button: {

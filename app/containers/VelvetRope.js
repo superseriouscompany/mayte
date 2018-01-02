@@ -17,22 +17,21 @@ class VelvetRope extends Component {
 
   addPass() {
     Wallet.canAddPasses((ok) => {
-      if( !ok ) { return console.error('Unable to add passes') }
+      if( !ok ) {
+        console.error('Unable to add passes');
+        return alert('Unable to add pass. Please enable Apple Wallet.')
+      }
+
+      this.setState({loading: true})
 
       Wallet.showAddPassController(`${baseUrl}/nope.pkpass`).then((ok) => {
-        console.log('added pass', ok)
+        this.setState({loading: false})
+        if( ok ) { alert('Pass added to Wallet.') }
       }).catch((err) => {
+        this.setState({loading: false})
         console.warn(err)
       })
     })
-  }
-
-  loadStart() {
-    this.setState({loading: true})
-  }
-
-  loadEnd() {
-    this.setState({loading: false})
   }
 
   deleteAccount() {
