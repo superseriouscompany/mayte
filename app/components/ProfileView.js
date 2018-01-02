@@ -219,14 +219,22 @@ export default class ProfileView extends Component {
                 </View>
               }
               <View style={style.cv}>
-                <TouchableOpacity onPress={() => this.linkToInstagram(`https:\/\/instagram.com/${props.user.instagramHandle || 'treatsmag'}`)}>
-                  <Text style={style.handle}>@{props.user.instagramHandle || 'treatsmag'}</Text>
-                </TouchableOpacity>
-                <Text style={style.occupation}>{(props.user.occupation || 'Model').toUpperCase()}</Text>
+                { props.user.instagramHandle ?
+                  <TouchableOpacity onPress={() => this.linkToInstagram(`https:\/\/instagram.com/${props.user.instagramHandle}`)}>
+                    <Text style={style.handle}>@{props.user.instagramHandle}</Text>
+                  </TouchableOpacity>
+                :
+                  null
+                }
+                { props.user.occupation ?
+                  <Text style={style.occupation}>{props.user.occupation.toUpperCase()}</Text>
+                :
+                  null
+                }
               </View>
               <View>
                 <Text style={style.bio}>
-                  {props.user.bio || ``}
+                  {props.user.bio}
                 </Text>
               </View>
             </ScrollView>
