@@ -123,7 +123,7 @@ class SettingsEditor extends Component {
                           setPhotos={(bin) => this.setState({photos: bin})}
                           setBio={text => this.setState({bio: text})}
                           setDob={date => this.setState({dob: date})}
-                          toggleScroll={() => this.setState({scrollEnabled: !state.scrollEnabled})}
+                          toggleScroll={(boo) => this.setState({scrollEnabled: boo})}
                           setOccupation={text => this.setState({occupation: text})}
                           setPrivacyOption={this.setPrivacyOption} />
     )

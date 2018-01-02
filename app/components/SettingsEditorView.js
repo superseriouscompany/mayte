@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 import moment from 'moment'
 import { mayteBlack } from '../constants/colors'
 import DatePicker from 'react-native-datepicker'
+import OrbitLoader from './OrbitLoader'
 import SettingsEditorPhotos from '../containers/SettingsEditorPhotos'
 import {
   em,
@@ -21,6 +22,8 @@ import {
   Text,
 } from 'react-native'
 
+const orbitLoaderRadius = em(0.8)
+
 export default (props) => {
   const oldest   = moment().subtract(100, 'years')
   const youngest = moment().subtract(18, 'years')
@@ -34,8 +37,13 @@ export default (props) => {
         <TouchableOpacity onPress={props.cancelEdit}>
           <Text style={[style.headerBtn]}>CANCEL</Text>
         </TouchableOpacity>
+
         <TouchableOpacity onPress={props.saving ? null : props.save}>
-          <Text style={[style.headerBtn]}>{props.saving ? '...' : 'SAVE'}</Text>
+          <Text style={[style.headerBtn, {opacity: props.saving ? 0 : 1}]}>SAVE</Text>
+          { props.saving ?
+            <View style={{position: 'absolute', right: orbitLoaderRadius/2, top: -(orbitLoaderRadius/2)}}>
+              <OrbitLoader color='white' radius={orbitLoaderRadius} orbRadius={orbitLoaderRadius/4} />
+            </View> : null }
         </TouchableOpacity>
       </View>
 
@@ -72,13 +80,13 @@ export default (props) => {
                     }}
                     date={props.dob}
                     mode="date"
-                    placeholder="select date"
+                    placeholder="Select Date"
                     format="MMM Do YYYY"
                     minDate={oldest.format('MMM Do YYYY')}
                     maxDate={youngest.format('MMM Do YYYY')}
                     showIcon={false}
-                    confirmBtnText="confirm"
-                    cancelBtnText="cancel"
+                    confirmBtnText="Confirm"
+                    cancelBtnText="Cancel"
                     onDateChange={date => props.setDob(date)} />
 
         <View style={[style.sectionHeader]}>
@@ -144,16 +152,19 @@ const style = StyleSheet.create({
   },
   sectionHeaderLabel: {
     color: 'white',
-    fontSize: em(1.2),
+    fontSize: em(1.1),
     letterSpacing: em(0.1),
-    fontFamily: 'Gotham-Black',
+    fontFamily: 'Futura',
+    fontWeight: '700',
+
   },
   sectionHeaderSublabel: {
     color: 'white',
     fontFamily: 'Gotham-Book',
+    fontSize: em(0.8),
     letterSpacing: em(0.1),
-    marginLeft: em(0.66),
-    marginTop: em(0.33),
+    marginLeft: em(0.4),
+    marginTop: em(0.3),
   },
 
   cameraRollBtn: {
@@ -174,7 +185,7 @@ const style = StyleSheet.create({
     paddingTop: em(0.8),
     paddingBottom: em(0.8),
     borderRadius: em(0.33),
-    marginBottom: em(1),
+    marginBottom: em(1.33),
     fontFamily: 'Gotham-Book',
     fontSize: em(0.9),
     letterSpacing: em(0.1),
@@ -183,7 +194,7 @@ const style = StyleSheet.create({
   dobInput: {
     backgroundColor: 'white',
     width: '100%',
-    marginBottom: em(1),
+    marginBottom: em(1.5),
   },
 
   occupationInput: {
@@ -208,7 +219,7 @@ const style = StyleSheet.create({
   optionLabel: {
     color: 'white',
     fontSize: em(1),
-    fontFamily: 'Gotham-Bold',
+    fontFamily: 'Futura',
     letterSpacing: em(0.1),
   },
   optionSwitch: {},

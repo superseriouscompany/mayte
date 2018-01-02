@@ -8,6 +8,7 @@ import {
   Text,
   Image,
   Alert,
+  Animated,
   ScrollView,
   StyleSheet,
   CameraRoll,
@@ -18,6 +19,9 @@ import {
 export default class SettingsEditorPhotos extends Component {
   constructor(props) {
     super(props)
+
+    this._trashOp = new Animated.Value(0)
+
     this.state = {
       cameraRollOpen: false,
       cameraRollEdges: [],
@@ -35,6 +39,7 @@ export default class SettingsEditorPhotos extends Component {
     this.pushToPhotoBin = this.pushToPhotoBin.bind(this)
     this.trashPhoto = this.trashPhoto.bind(this)
     this.reorder = this.reorder.bind(this)
+    this.fadeTrash = this.fadeTrash.bind(this)
     this.toggleActive = this.toggleActive.bind(this)
   }
 
@@ -42,15 +47,26 @@ export default class SettingsEditorPhotos extends Component {
     if (prevState.photoBin !== this.state.photoBin) {
       this.props.setPhotos(this.state.photoBin)
     }
+    if (prevState.rearrangingPhotos !== this.state.rearrangingPhotos) {
+      this.fadeTrash(this.state.rearrangingPhotos)
+    }
+  }
+
+  fadeTrash(ready) {
+    Animated.timing(this._trashOp, {
+      toValue: ready ? 1 : 0,
+      duration: 200,
+      useNativeDriver: true,
+    }).start()
   }
 
   alertLimitReached() {
     Alert.alert("Limit Reached!", "Remove photos to add new ones", {text: "Ok"})
   }
 
-  toggleActive() {
-    this.setState({rearrangingPhotos: !this.state.rearrangingPhotos})
-    this.props.toggleScroll()
+  toggleActive(boo) {
+    this.setState({rearrangingPhotos: boo})
+    this.props.toggleScroll(!boo)
   }
 
   cropImage(img) {
@@ -180,19 +196,19 @@ export default class SettingsEditorPhotos extends Component {
         <View style={[style.padded, {zIndex: 100}]}>
           <View style={[style.sectionHeader]}>
             <Text style={[style.sectionHeaderLabel]}>PHOTOS</Text>
-            <Text style={[style.sectionHeaderSublabel]}>{state.photoBin.length}/10</Text>
-            <View style={[style.trashBin, {opacity: state.rearrangingPhotos ? 1 : 0, /*transform: [{scale: props.trashReady ? 1 : 0.8}]*/}]}
+            <Text style={[style.sectionHeaderSublabel]}>{state.photoBin.length}/{props.photoLimit}</Text>
+            <View style={[style.trashBin]}
                   ref={(el) => trash = el}
                   onLayout={(e) => {
                     trash.measure((x, y, width, height, pageX, pageY) => {
-                      this.setState({trashArea: {pageX, pageY, width, height}})
+                      this.setState({trashArea: {pageX: pageX - em(1), pageY, width: width + em(2), height}})
                     })
                   }}>
-              <Image source={state.trashReady ?
-                             require('../images/trash-open-white.png') :
-                             require('../images/trash-closed-white.png') }
-                     style={[style.trashBinIcon]}
-                     resizeMode='contain' />
+              <Animated.Image source={state.trashReady ?
+                              require('../images/trash-open-white.png') :
+                              require('../images/trash-closed-white.png') }
+                              style={[style.trashBinIcon, {opacity: this._trashOp}]}
+                              resizeMode='contain' />
             </View>
           </View>
           <CurrentPhotos photoBin={state.photoBin}
@@ -302,16 +318,17 @@ const style = StyleSheet.create({
   },
   sectionHeaderLabel: {
     color: 'white',
-    fontSize: em(1.2),
+    fontSize: em(1.1),
     letterSpacing: em(0.1),
-    fontFamily: 'Gotham-Black',
+    fontFamily: 'Futura',
+    fontWeight: '700',
   },
   sectionHeaderSublabel: {
     color: 'white',
     fontFamily: 'Gotham-Book',
     letterSpacing: em(0.1),
-    marginLeft: em(0.66),
-    marginTop: em(0.33),
+    marginLeft: em(0.4),
+    marginTop: em(0.3),
   },
   photoSelect: {
     flexDirection: 'row',
@@ -320,7 +337,8 @@ const style = StyleSheet.create({
   },
   photoSelectLabel: {
     fontSize: em(1),
-    fontFamily: 'Gotham-Black',
+    fontFamily: 'Futura',
+    fontWeight: '500',
     letterSpacing: em(0.1),
     paddingTop: em(2),
     paddingBottom: em(1),
