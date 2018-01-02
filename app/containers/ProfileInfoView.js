@@ -273,12 +273,10 @@ const style = StyleSheet.create({
     left: 0,
     width: '100%',
     paddingTop: notchHeight,
-    paddingLeft: em(1),
-    paddingRight: em(1),
   },
 
   cv: {
-    paddingTop: 30,
+    paddingTop: em(2),
   },
 
   handle: {
@@ -303,8 +301,11 @@ const style = StyleSheet.create({
   bio: {
     textAlign: 'center',
     color: 'rgba(255,255,255,1)',
-    fontSize: 18,
-    paddingTop: 40,
+    fontSize: em(1),
+    paddingTop: em(2),
+    paddingLeft: em(1.33),
+    paddingRight: em(1.33),
+    fontFamily: 'Gotham-Book',
     paddingBottom: tabNavHeight + bottomBoost,
   },
 
