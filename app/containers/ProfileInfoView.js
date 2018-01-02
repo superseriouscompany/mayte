@@ -233,18 +233,21 @@ export default class ProfileInfoView extends Component {
           </View>
         }
         <View style={style.cv}>
-          <TouchableOpacity onPress={() => props.linkToInstagram(`https:\/\/instagram.com/${props.user.instagramHandle || 'treatsmag'}`)}>
           { props.user.instagramHandle ?
-            <Text
-              style={[
-                style.handle,
-                (props.user.instagramHandle.length > 15 ? {
-                  fontSize: screenWidth / props.user.instagramHandle.length * 1.2
-                } : {})
-              ]}>
-              @{props.user.instagramHandle}
-            </Text> : null }
-          </TouchableOpacity>
+            <TouchableOpacity onPress={() => props.linkToInstagram(`https:\/\/instagram.com/${props.user.instagramHandle}`)}>
+              <Text
+                style={[
+                  style.handle,
+                  (props.user.instagramHandle.length > 15 ? {
+                    fontSize: screenWidth / props.user.instagramHandle.length * 1.2
+                  } : {})
+                ]}>
+                @{props.user.instagramHandle}
+              </Text>
+            </TouchableOpacity>
+          :
+            null
+          }
           { props.user.occupation ?
             <Text
               style={[

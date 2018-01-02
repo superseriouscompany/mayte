@@ -127,7 +127,6 @@ export default class CurrentPhotoView extends Component {
 
   render() {
     const { props, state } = this
-    // console.log("i'm photo", props.id,this._offset.x)
     return (
         <Animated.Image source={{uri: props.source}}
                {...this._panResponder.panHandlers}
@@ -138,8 +137,6 @@ export default class CurrentPhotoView extends Component {
                    top:this._offset.y,
                    transform: [
                      {scale:this._scale}
-                     // {translateX: this._offset.x},
-                     // {translateY: this._offset.y},
                    ],
                    zIndex: state.active ? 1 : 0,
                    borderColor: 'red',
