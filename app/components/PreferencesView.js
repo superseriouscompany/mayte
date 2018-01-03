@@ -109,6 +109,22 @@ export default class PreferencesView extends Component {
 
           <View style={[style.preference]}>
             <View style={[style.preferenceHeader, {justifyContent: 'flex-start'}]}>
+              <Text style={style.preferenceLabel}>I am</Text>
+            </View>
+            <MaytePicker options={[
+                           {label: 'MALE', value: 'male'},
+                           {label: 'FEMALE', value: 'female'},
+                           {label: 'OTHER', value: 'null'},
+                         ]}
+                         selected={props.gender}
+                         onUpdate={(o) => {
+                           props.updateGender(o)
+                           props.updatePreferences({gender: o})
+                         }} />
+          </View>
+
+          <View style={[style.preference]}>
+            <View style={[style.preferenceHeader, {justifyContent: 'flex-start'}]}>
               <Text style={style.preferenceLabel}>Interested In</Text>
             </View>
             <MaytePicker options={[
@@ -123,30 +139,16 @@ export default class PreferencesView extends Component {
                          }} />
           </View>
 
-          <View style={[style.preference]}>
-            <View style={[style.preferenceHeader, {justifyContent: 'flex-start'}]}>
-              <Text style={style.preferenceLabel}>Identify As</Text>
-            </View>
-            <MaytePicker options={[
-                           {label: 'MALE', value: 'male'},
-                           {label: 'FEMALE', value: 'female'},
-                           {label: 'OTHER', value: 'null'},
-                         ]}
-                         selected={props.gender}
-                         onUpdate={(o) => {
-                           props.updateGender(o)
-                           props.updatePreferences({gender: o})
-                         }} />
-          </View>
-
           <TouchableOpacity onPress={props.logout} style={[style.button]}>
             <Text style={style.logout}>SIGN OUT</Text>
           </TouchableOpacity>
 
-          <Image style={style.logo}
+          <Image style={style.icon}
                  resizeMode='contain'
-                 source={require('../images/icon-trans-black.png')} />
-          <Text style={style.appName}>UNICORN</Text>
+                 source={require('../images/unicorn-icon-black.png')} />
+          <Image style={style.logo}
+                 source={require('../images/unicorn-logo-black.png')}
+                 resizeMode="contain" />
 
           <TouchableOpacity style={style.deleteBtn}
                             onPress={() => {
@@ -245,18 +247,14 @@ const style = StyleSheet.create({
     color: 'white',
     marginTop: em(0.1),
   },
-  logo: {
+  icon: {
     marginTop: em(3),
     height: em(3.33),
   },
-  appName: {
-    fontSize: em(0.8),
-    color: mayteBlack(0.66),
-    fontFamily: 'Gotham-Book',
-    letterSpacing: em(0.1),
+  logo: {
+    height: em(1.2),
+    width: em(6),
     marginTop: em(0.66),
-    marginLeft: em(0.1),
-    backgroundColor: 'transparent',
   },
   deleteBtn: {
     marginTop: em(2.66),
