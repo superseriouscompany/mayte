@@ -75,7 +75,6 @@ function mapStateToProps(state) {
     vipCode:     state.vip.code,
     userId:      state.user.id,
     unlockCount: state.vip.unlockCount,
-    accessToken: state.user.accessToken,
   }
 }
 
