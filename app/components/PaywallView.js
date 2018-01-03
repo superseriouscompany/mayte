@@ -3,7 +3,7 @@
 import React, {Component} from 'react'
 import Text from './Text'
 import base from '../constants/styles'
-import {ButtonBlack} from './ButtonBlack'
+import ButtonBlack from './ButtonBlack'
 import Firework from './Firework'
 import {
   em,
