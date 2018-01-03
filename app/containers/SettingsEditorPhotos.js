@@ -197,7 +197,7 @@ export default class SettingsEditorPhotos extends Component {
           <View style={[style.sectionHeader]}>
             <Text style={[style.sectionHeaderLabel]}>PHOTOS</Text>
             <Text style={[style.sectionHeaderSublabel]}>{state.photoBin.length}/{props.photoLimit}</Text>
-            <View style={[style.trashBin, {/*transform: [{scale: props.trashReady ? 1 : 0.8}]*/}]}
+            <View style={[style.trashBin]}
                   ref={(el) => trash = el}
                   onLayout={(e) => {
                     trash.measure((x, y, width, height, pageX, pageY) => {
@@ -365,7 +365,6 @@ const style = StyleSheet.create({
     height: em(1.66),
     width: em(1.66),
     marginLeft: em(0.33),
-    // transform: [{translateY: -(em(33))}],
   },
   trashBinIcon: {
     width: '100%',
