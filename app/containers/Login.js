@@ -4,6 +4,7 @@ import React, {Component}               from 'react'
 import { connect }                      from 'react-redux'
 import LoginView                        from '../components/LoginView'
 import api, { baseUrl, oauthInstagram } from '../services/api'
+import request                          from '../actions/request'
 import {
   Linking,
 } from 'react-native'
@@ -36,10 +37,10 @@ class Login extends Component {
 
     this.setState({loading: true})
 
-    api('/users/me', {accessToken: matches[1]}).then((u) => {
-      u.accessToken = matches[1]
-      this.props.onLogin(u)
-    }).catch(console.error)
+    props.hydrate(matches[1]).catch((err) => {
+      console.error(err)
+      alert(err.message || JSON.stringify(err))
+    })
   }
 
   instagramLogin() { return oauthInstagram() }
@@ -78,9 +79,19 @@ function mapStateToProps(state) {
 
 function mapDispatchToProps(dispatch) {
   return {
-    onLogin: function(user) {
-      dispatch({type: 'user:set', user: user})
-      dispatch({type: 'scene:change', scene: 'Recs'})
+    hydrate: function(accessToken) {
+      dispatch(request({
+        url: '/users/me',
+        accessToken
+      })).then((u) => {
+        u.accessToken = accessToken
+        dispatch({type: 'user:set', user: user})
+        dispatch({type: 'scene:change', scene: 'Recs'})
+      }).catch((err) => {
+        // TODO: display error/retry in component instead of catching here
+        console.error(err)
+        alert(err.message || JSON.stringify(err))
+      })
     },
   }
 }

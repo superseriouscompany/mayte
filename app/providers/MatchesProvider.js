@@ -1,5 +1,6 @@
 import React, {Component} from 'react'
 import {connect}          from 'react-redux'
+import request            from '../actions/request'
 import api                from '../services/api'
 
 class MatchesProvider extends Component {
