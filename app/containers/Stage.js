@@ -72,7 +72,7 @@ class Stage extends PureComponent {
     return (
       <Navigation initialSceneName="VelvetRope">
         <Settings sceneName="Settings"
-          tabLabel="Profile"
+          tabLabel="Settings"
           tabIcon={({tintColor, focused}) => (
             <Icon name={focused ? 'ios-person' : 'ios-person-outline'}
                   size={26}

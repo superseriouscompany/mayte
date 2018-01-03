@@ -1,10 +1,13 @@
 import React, { Component } from 'react'
 import { BlurView } from 'react-native-blur'
+import LinearGradient from 'react-native-linear-gradient'
 import RangeSlider from '../containers/RangeSlider'
 import MaytePicker from '../containers/MaytePicker'
 import OrbitLoader from './OrbitLoader'
 import { em, tabNavHeight, screenHeight, notchHeight } from '../constants/dimensions'
-import { mayteBlack, mayteRed } from '../constants/colors'
+import { mayteBlack, mayteWhite, mayteRed } from '../constants/colors'
+import { ButtonBlack } from './ButtonBlack'
+import { Star } from './Environment'
 import {
   StyleSheet,
   ScrollView,
@@ -42,9 +45,7 @@ export default class PreferencesView extends Component {
           <TouchableOpacity onPress={() => props.viewSettingsPage('Profile')}>
             <Image style={style.bubble} source={{uri: props.user.photos[0].url}} />
           </TouchableOpacity>
-          <TouchableOpacity onPress={() => props.viewSettingsPage('Editor')}>
-            <Text style={style.editCTA}>EDIT PROFILE</Text>
-          </TouchableOpacity>
+          <ButtonBlack text={`EDIT PROFILE`} onPress={() => props.viewSettingsPage('Editor')} style={style.editBtn} />
 
           <View style={style.preferences}>
             <View style={[style.preference]}>
@@ -109,6 +110,22 @@ export default class PreferencesView extends Component {
 
           <View style={[style.preference]}>
             <View style={[style.preferenceHeader, {justifyContent: 'flex-start'}]}>
+              <Text style={style.preferenceLabel}>I am</Text>
+            </View>
+            <MaytePicker options={[
+                           {label: 'MALE', value: 'male'},
+                           {label: 'FEMALE', value: 'female'},
+                           {label: 'OTHER', value: 'null'},
+                         ]}
+                         selected={props.gender}
+                         onUpdate={(o) => {
+                           props.updateGender(o)
+                           props.updatePreferences({gender: o})
+                         }} />
+          </View>
+
+          <View style={[style.preference]}>
+            <View style={[style.preferenceHeader, {justifyContent: 'flex-start'}]}>
               <Text style={style.preferenceLabel}>Interested In</Text>
             </View>
             <MaytePicker options={[
@@ -123,30 +140,14 @@ export default class PreferencesView extends Component {
                          }} />
           </View>
 
-          <View style={[style.preference]}>
-            <View style={[style.preferenceHeader, {justifyContent: 'flex-start'}]}>
-              <Text style={style.preferenceLabel}>Identify As</Text>
-            </View>
-            <MaytePicker options={[
-                           {label: 'MALE', value: 'male'},
-                           {label: 'FEMALE', value: 'female'},
-                           {label: 'OTHER', value: 'null'},
-                         ]}
-                         selected={props.gender}
-                         onUpdate={(o) => {
-                           props.updateGender(o)
-                           props.updatePreferences({gender: o})
-                         }} />
-          </View>
+          <ButtonBlack text={`SIGN OUT`} onPress={props.logout} style={style.logout} />
 
-          <TouchableOpacity onPress={props.logout} style={[style.button]}>
-            <Text style={style.logout}>SIGN OUT</Text>
-          </TouchableOpacity>
-
-          <Image style={style.logo}
+          <Image style={style.icon}
                  resizeMode='contain'
-                 source={require('../images/icon-trans-black.png')} />
-          <Text style={style.appName}>UNICORN</Text>
+                 source={require('../images/unicorn-icon-black.png')} />
+          <Image style={style.logo}
+                 source={require('../images/unicorn-logo-black.png')}
+                 resizeMode="contain" />
 
           <TouchableOpacity style={style.deleteBtn}
                             onPress={() => {
@@ -190,12 +191,12 @@ const style = StyleSheet.create({
     height: bubbleDiameter,
     borderRadius: bubbleDiameter * 0.5,
   },
-  editCTA: {
-    paddingTop: em(1.66),
-    fontSize: em(1),
-    fontFamily: 'Gotham-Medium',
-    letterSpacing: em(0.1),
-    backgroundColor: 'transparent',
+  editBtn: {
+    marginTop: em(1.66),
+    paddingTop: em(0.66),
+    paddingBottom: em(0.66),
+    paddingLeft: em(1.2),
+    paddingRight: em(1.1),
   },
   preferences: {
     width: '100%',
@@ -226,37 +227,29 @@ const style = StyleSheet.create({
     marginTop: em(0.6),
   },
   button: {
-    paddingTop: em(1.2),
-    paddingBottom: em(1.2),
-    paddingLeft: em(3.66),
-    paddingRight: em(3.66),
+    paddingTop: em(0.66),
+    paddingBottom: em(0.66),
+    paddingLeft: em(2),
+    paddingRight: em(2),
     borderRadius: em(0.33),
     shadowRadius: 4,
     shadowOffset: {width: 2, height: 2},
     shadowColor: 'rgba(0,0,0,1)',
-    backgroundColor: mayteBlack(0.9),
     marginTop: em(1),
   },
   logout: {
-    textAlign: 'center',
-    fontFamily: 'Gotham-Book',
-    fontSize: em(1),
-    letterSpacing: em(0.1),
-    color: 'white',
-    marginTop: em(0.1),
+    marginTop: em(1),
+    paddingLeft: em(1.8),
+    paddingRight: em(1.8),
   },
-  logo: {
+  icon: {
     marginTop: em(3),
     height: em(3.33),
   },
-  appName: {
-    fontSize: em(0.8),
-    color: mayteBlack(0.66),
-    fontFamily: 'Gotham-Book',
-    letterSpacing: em(0.1),
+  logo: {
+    height: em(1.2),
+    width: em(6),
     marginTop: em(0.66),
-    marginLeft: em(0.1),
-    backgroundColor: 'transparent',
   },
   deleteBtn: {
     marginTop: em(2.66),

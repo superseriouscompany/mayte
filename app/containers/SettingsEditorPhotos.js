@@ -195,8 +195,8 @@ export default class SettingsEditorPhotos extends Component {
       <View>
         <View style={[style.padded, {zIndex: 100}]}>
           <View style={[style.sectionHeader]}>
-            <Text style={[style.sectionHeaderLabel]}>PHOTOS</Text>
-            <Text style={[style.sectionHeaderSublabel]}>{state.photoBin.length}/{props.photoLimit}</Text>
+            <Text style={[style.text, style.sectionHeaderLabel]}>PHOTOS</Text>
+            <Text style={[style.text, style.sectionHeaderSublabel]}>{state.photoBin.length}/{props.photoLimit}</Text>
             <View style={[style.trashBin]}
                   ref={(el) => trash = el}
                   onLayout={(e) => {
@@ -222,7 +222,7 @@ export default class SettingsEditorPhotos extends Component {
                          toggleActive={this.toggleActive} />
         </View>
         <View>
-          <Text style={[style.photoSelectLabel, {textAlign: 'center', color: 'white'}]}>
+          <Text style={[style.text, style.photoSelectLabel, {textAlign: 'center', color: 'white'}]}>
             SELECT FROM INSTAGRAM
           </Text>
           {
@@ -267,7 +267,7 @@ export default class SettingsEditorPhotos extends Component {
             </ScrollView> :
             <View style={style.centered}>
               <TouchableOpacity style={style.connectIgBtn} onPress={() => oauthInstagram({connect: props.user.id})}>
-                <Text style={style.connectIgText}>Connect Instagram</Text>
+                <Text style={[style.text, style.connectIgText]}>Connect Instagram</Text>
                  <Image style={style.connectIgLogo}
                         resizeMode='contain'
                         source={require('../images/ig-logo-black.png')} />
@@ -277,7 +277,7 @@ export default class SettingsEditorPhotos extends Component {
         </View>
 
         <View style={{alignItems: 'center'}}>
-          <Text style={[style.photoSelectLabel, {textAlign: 'center', color: 'white'}]}>
+          <Text style={[style.text, style.photoSelectLabel, {textAlign: 'center', color: 'white'}]}>
             SELECT FROM CAMERA ROLL
           </Text>
           <TouchableOpacity onPress={() => {
@@ -286,7 +286,7 @@ export default class SettingsEditorPhotos extends Component {
                               this.getFromCameraRoll()
                             }}>
             <View style={[style.cameraRollBtn]}>
-              <Text style={{fontSize: em(1.5), color: 'white', height: em(2)}}>+</Text>
+              <Text style={[style.text, {fontSize: em(1.5), color: 'white', height: em(2)}]}>+</Text>
             </View>
           </TouchableOpacity>
         </View>
@@ -301,6 +301,7 @@ const style = StyleSheet.create({
   },
   text: {
     color: 'white',
+    backgroundColor: 'transparent',
   },
   centered: {
     flex:           1,
@@ -317,14 +318,12 @@ const style = StyleSheet.create({
     flexDirection: 'row',
   },
   sectionHeaderLabel: {
-    color: 'white',
     fontSize: em(1.1),
     letterSpacing: em(0.1),
     fontFamily: 'Futura',
     fontWeight: '700',
   },
   sectionHeaderSublabel: {
-    color: 'white',
     fontFamily: 'Gotham-Book',
     letterSpacing: em(0.1),
     marginLeft: em(0.4),

@@ -88,14 +88,16 @@ export default class LoginView extends Component {
           <View>
             <Animated.View style={{alignItems: 'center', opacity: this._logoOpacity}}>
               <Image style={[style.icon]}
-                     source={require('../images/icon-trans.png')}
+                     source={require('../images/unicorn-icon-white.png')}
                      resizeMode="contain" />
-              <Text style={[style.name]}>UNICORN</Text>
+              <Image style={[style.logo]}
+                     source={require('../images/unicorn-logo-white.png')}
+                     resizeMode="contain" />
             </Animated.View>
 
             <Animated.View style={{opacity: this._igOpacity, transform: [{translateY: this._igDriftY}]}}>
               <TouchableOpacity onPress={props.instagramLogin}
-                                style={[style.button, {marginBottom: 40}]}>
+                                style={[style.button, {marginBottom: em(2.33)}]}>
                 <Text style={[style.buttonText]}>LOGIN WITH INSTAGRAM</Text>
               </TouchableOpacity>
             </Animated.View>
@@ -136,17 +138,14 @@ const style = StyleSheet.create({
 
   icon: {
     height: em(5),
-    width: em(13.33),
+    width: em(5),
     marginBottom: em(1),
   },
 
-  name: {
-    backgroundColor: 'transparent',
-    marginBottom: 40,
-    fontSize: em(1),
-    fontFamily: 'Gotham-Book',
-    color: 'white',
-    letterSpacing: em(0.1),
+  logo: {
+    marginBottom: em(3),
+    height: em(1.2),
+    width: em(6),
   },
 
   button: {
