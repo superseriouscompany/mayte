@@ -32,7 +32,6 @@ class NotificationProvider extends Component {
 function mapStateToProps(state) {
   return {
     isAuthenticated: !!state.user.id,
-    accessToken: state.user.accessToken,
   }
 }
 
