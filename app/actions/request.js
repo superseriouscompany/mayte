@@ -1,5 +1,5 @@
-import api from '../services/api'
-
+import api    from '../services/api'
+import branch from 'react-native-branch'
 /**
  * request is a dispatched thunk action that makes an http request to the api and stores
  * dispatches a loading event followed by a success event or failure event.
@@ -34,7 +34,11 @@ export default function request(args, force) {
     }).catch((err) => {
       if( err.statusCode && err.statusCode == 401 ) {
         console.warn('Logging out because we got a 401')
-        return dispatch({type: 'user:destroy'})
+        // TODO: move logout to its own action
+        branch.logout()
+        dispatch({type: 'user:destroy'})
+        dispatch({type: 'vip:destroy'})
+        return
       }
       dispatch({type: 'api:no', error: err, key})
       throw err
