@@ -73,7 +73,7 @@ export default class extends Component {
                   viewRef={null/* required for Android */} />
         { props.loading ?
           <View style={style.centered}>
-            <ActivityIndicator />
+            <ActivityIndicator size="large"/>
           </View>
         : props.error ?
           <View style={style.centered}>

@@ -19,6 +19,8 @@ export default function(state=initialState, action) {
           error: null,
           body: action.payload,
           time,
+          // TODO: only keep history of responses if it's requested
+          // to avoid unbounded storage growth. possibly only keep GET responses?
           responses: [{
             body: action.payload,
             time,

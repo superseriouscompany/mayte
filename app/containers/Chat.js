@@ -3,8 +3,8 @@
 import React, {Component} from 'react'
 import {connect}          from 'react-redux'
 import ChatView           from '../components/ChatView'
-import api                from '../services/api'
 import PropTypes          from 'prop-types'
+import request            from '../actions/request'
 import { GiftedChat }     from 'react-native-gifted-chat'
 
 class Chat extends Component {
@@ -14,29 +14,14 @@ class Chat extends Component {
 
   constructor(props) {
     super(props)
-    this.state  = { messages: [], loading: true }
-    this.onSend = this.onSend.bind(this)
+    this.state            = { messages: [] }
+    this.onSend           = this.onSend.bind(this)
   }
 
-  onSend(messages = []) {
-    api(`/matches/${this.props.user.id}/messages`, {
-      method: 'POST',
-      accessToken: this.props.accessToken,
-      body: { text: messages[0].text}
-    }).then(() => {
-      this.setState((previousState) => ({
-        messages: GiftedChat.append(previousState.messages, messages),
-      }))
-    }).catch((err) => {
-      alert(err.message || err)
-    })
-  }
-
-  componentDidMount() {
-    api(`/matches/${this.props.user.id}/messages`, {
-      accessToken: this.props.accessToken
-    }).then((r) => {
-      const messages = r.messages.map((m) => {
+  componentWillReceiveProps(props) {
+    if( props.messages.length == this.state.messages.length ) { return }
+    this.setState({
+      messages: props.messages.map((m) => {
         m._id = m.id,
         m.user = {
           _id:    m.userId,
@@ -45,32 +30,60 @@ class Chat extends Component {
         }
         return m
       })
-
-      this.setState({messages: r.messages, loading: false})
-    }).catch((err) => {
-      this.setState({error: err.message || err, loading: false})
     })
+  }
+
+  onSend(messages = []) {
+    this.props.sendMessage(this.props.user.id, messages[0].text).then(() => {
+      this.setState((previousState) => ({
+        messages: GiftedChat.append(previousState.messages, messages),
+      }))
+    }).catch((err) => {
+      // TODO: provide error/retry options in chat
+      console.error(err)
+      alert(err.message || JSON.stringify(err))
+    })
+  }
+
+  componentDidMount() {
+    this.props.loadMessages(this.props.user.id)
   }
 
   render() {
     return (
-      <ChatView {...this.state} {...this.props} onSend={this.onSend}/>
+      <ChatView {...this.props} {...this.state} onSend={this.onSend}/>
     )
   }
 }
 
 function mapStateToProps(state) {
+  const response = state.api[`GET /matches/${state.scene.user.id}/messages`] || {}
+
+  console.log('response is', response)
+
   return {
-    accessToken: state.user.accessToken,
-    myId:        state.user.id,
-    view:        state.scene.view,
+    messages: response.body && response.body.messages || [],
+    loading:  response.loading,
+    myId:     state.user.id,
+    view:     state.scene.view,
+    error:    response.error && response.error.message || response.error,
   }
 }
 
 function mapDispatchToProps(dispatch) {
   return {
-    send: function(text) {
-      dispatch({})
+    sendMessage: function(userId, text) {
+      return dispatch(request({
+        url: `/matches/${userId}/messages`,
+        method: 'POST',
+        body: { text }
+      }))
+    },
+
+    loadMessages: function(userId) {
+      return dispatch(request({
+        url: `/matches/${userId}/messages`,
+      }))
     }
   }
 }
