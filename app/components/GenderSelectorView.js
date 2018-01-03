@@ -4,6 +4,7 @@ import React, {Component} from 'react'
 import Text from './Text'
 import base from '../constants/styles'
 import {em, screenWidth, screenHeight} from '../constants/dimensions'
+import {ButtonBlack} from '../constants/components'
 import Environment from './Environment'
 import SelfSelector from './SelfSelector'
 import CornSelector from './CornSelector'
@@ -125,10 +126,7 @@ export default class GenderSelector extends Component {
 
           {this.state.continue ?
           <Animated.View style={{opacity: this._continueFade, width: screenWidth, alignItems: 'center'}}>
-            <TouchableOpacity style={[base.button,style.continue]}
-                              onPress={this.complete}>
-              <Text style={[base.buttonText]}>Continue</Text>
-            </TouchableOpacity>
+            <ButtonBlack text={`CONTINUE`} onPress={this.complete} style={style.continue} />
           </Animated.View> : null}
         </View>
       }
@@ -153,6 +151,7 @@ const style = StyleSheet.create({
     marginBottom: em(1),
     position: 'absolute',
     bottom: em(0.33),
+    transform: [{scale: 0.85}]
   },
   mask: {
     position: 'absolute',

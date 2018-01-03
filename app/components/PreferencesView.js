@@ -6,6 +6,7 @@ import MaytePicker from '../containers/MaytePicker'
 import OrbitLoader from './OrbitLoader'
 import { em, tabNavHeight, screenHeight, notchHeight } from '../constants/dimensions'
 import { mayteBlack, mayteWhite, mayteRed } from '../constants/colors'
+import { ButtonBlack } from '../constants/components'
 import { Star } from './Environment'
 import {
   StyleSheet,
@@ -44,12 +45,7 @@ export default class PreferencesView extends Component {
           <TouchableOpacity onPress={() => props.viewSettingsPage('Profile')}>
             <Image style={style.bubble} source={{uri: props.user.photos[0].url}} />
           </TouchableOpacity>
-          <TouchableOpacity onPress={() => props.viewSettingsPage('Editor')}>
-            <View style={style.editBtn}>
-              <LinearGradient colors={[mayteBlack(0.85), mayteBlack()]} style={style.editBtnGrad} />
-              <Text style={style.editBtnText}>EDIT PROFILE</Text>
-            </View>
-          </TouchableOpacity>
+          <ButtonBlack text={`EDIT PROFILE`} onPress={() => props.viewSettingsPage('Editor')} style={style.editBtn} />
 
           <View style={style.preferences}>
             <View style={[style.preference]}>
@@ -144,10 +140,7 @@ export default class PreferencesView extends Component {
                          }} />
           </View>
 
-          <TouchableOpacity onPress={props.logout} style={[style.button]}>
-            <LinearGradient colors={[mayteBlack(0.85), mayteBlack()]} style={style.editBtnGrad} />
-            <Text style={style.logout}>SIGN OUT</Text>
-          </TouchableOpacity>
+          <ButtonBlack text={`SIGN OUT`} onPress={props.logout} style={style.logout} />
 
           <Image style={style.icon}
                  resizeMode='contain'
@@ -205,20 +198,6 @@ const style = StyleSheet.create({
     paddingLeft: em(1.2),
     paddingRight: em(1.1),
   },
-  editBtnGrad: {
-    borderRadius: em(0.33),
-    top: 0, bottom: 0,
-    left: 0, right: 0,
-    position: 'absolute',
-  },
-  editBtnText: {
-    fontSize: em(1),
-    fontFamily: 'Gotham-Medium',
-    letterSpacing: em(0.1),
-    marginTop: em(0.33),
-    backgroundColor: 'transparent',
-    color: mayteWhite(),
-  },
   preferences: {
     width: '100%',
     paddingTop: em(3),
@@ -259,13 +238,9 @@ const style = StyleSheet.create({
     marginTop: em(1),
   },
   logout: {
-    textAlign: 'center',
-    fontFamily: 'Gotham-Medium',
-    fontSize: em(1),
-    letterSpacing: em(0.1),
-    color: 'white',
-    marginTop: em(0.2),
-    backgroundColor: 'transparent',
+    marginTop: em(1),
+    paddingLeft: em(1.8),
+    paddingRight: em(1.8),
   },
   icon: {
     marginTop: em(3),

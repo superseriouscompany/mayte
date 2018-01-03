@@ -3,6 +3,7 @@
 import React, {Component} from 'react'
 import Text from './Text'
 import base from '../constants/styles'
+import {ButtonBlack} from '../constants/components'
 import Firework from './Firework'
 import {
   em,
@@ -139,9 +140,7 @@ export default class PaywallView extends Component {
               </View>
 
               <View style={style.payBtnCont}>
-                <TouchableOpacity style={[base.button, style.mainButton]} onPress={() => props.buy(product.identifier)}>
-                  <Text style={[base.buttonText, style.payBtn]}>Join for {product.priceString}/month</Text>
-                </TouchableOpacity>
+                <ButtonBlack text={`Join for ${product.priceString}/month`} onPress={() => props.buy(product.identifier)} style={style.payBtn} />
                 <Text style={[base.text]}>{`Payment starts Valentine's Day.`}</Text>
               </View>
 
@@ -186,12 +185,8 @@ const style = StyleSheet.create({
     backgroundColor: 'transparent',
     marginBottom: screenWidth * 0.2,
   },
-  payBtnText: {
-    textAlign: 'center',
-    backgroundColor: 'transparent',
-  },
-  mainButton: {
-    marginBottom: em(1),
+  payBtn: {
+    marginBottom: em(0.5),
   },
   backdoor: {
     marginBottom: em(1) + bottomBoost

@@ -3,6 +3,7 @@
 import React, {Component} from 'react'
 import {em, bottomBoost, screenWidth, screenHeight} from '../constants/dimensions'
 import {mayteBlack} from '../constants/colors'
+import {ButtonBlack} from '../constants/components'
 import base from '../constants/styles'
 import Text from './Text'
 import {
@@ -50,9 +51,7 @@ export default class VipCodeEntryView extends Component {
         </View>
 
         <View style={style.buttonsCnr}>
-          <TouchableOpacity style={[base.button, style.mainButton]} onPress={props.redeem}>
-            <Text style={[base.buttonText]}>Redeem</Text>
-          </TouchableOpacity>
+          <ButtonBlack text={`Redeem`} onPress={props.redeem} style={style.mainButton} />
 
           <TouchableOpacity style={style.cancel} onPress={props.visitPaywall}>
             <Text style={style.cancelText}>Cancel</Text>
