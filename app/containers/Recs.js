@@ -2,135 +2,110 @@
 
 import React, {Component} from 'react'
 import {connect}          from 'react-redux'
-import RecView            from '../components/RecView'
-import IssaMatchView      from '../components/IssaMatchView'
-import api                from '../services/api'
+import RecsView           from '../components/RecsView'
+import request            from '../actions/request'
 import {
-  ActivityIndicator,
-  Image,
-  View,
-  Text,
+  Image
 } from 'react-native'
 
 class Recs extends Component {
   constructor(props) {
     super(props)
-    this.like   = this.like.bind(this)
-    this.pass  = this.pass.bind(this)
+    this.like     = this.like.bind(this)
+    this.pass     = this.pass.bind(this)
+    this.decorate = this.decorate.bind(this)
     this.state = {
-      loading: true,
       viewHeight: 0,
       index: 0,
     }
   }
 
   componentDidMount() {
-    api('/recs', {accessToken: this.props.accessToken}).then((r) => {
-      // TEMP: PLACING THIS HERE TO AVOID CHANGES ON VIEW RERENDERS //
-      r.recs.forEach(u => {
-        Image.prefetch(u.photos[0].url)
-        u.distance = Math.ceil(Math.random() * 5)
-      })
-      ///////////////////////////////////////////////////////////////
-      this.setState({
-        recs: r.recs,
-        loading: false,
-      })
-    }).catch((err) => {
-      if( err.statusCode === 401 ) {
-        return this.props.logout()
-      }
-      if( err.statusCode === 410 ) {
-        return this.setState({loading: false, exhausted: true})
-      }
-      this.setState({error: err.message || err, loading: false})
+    this.props.loadRecs()
+    this.decorate(this.props.recs)
+  }
+
+  componentWillReceiveProps(props) {
+    if( props.recs.length == this.props.recs.length ) { return }
+    this.decorate(props.recs)
+  }
+
+  decorate(recs) {
+    recs.forEach(u => {
+      Image.prefetch(u.photos[0].url)
     })
   }
 
   like(u) {
-    api(`/ratings/${u.id}/like`, {
-      method: 'POST',
-      accessToken: this.props.accessToken
-    }).then((r) => {
+    this.props.like(u.id).then((r) => {
       if ( r.match ) {
         this.props.itsAMatch()
         this.setState({match: u})
       }
       this.setState({index: this.state.index + 1})
     }).catch((err) => {
+      // TODO: retry likes on queue without interrupting user flow
       console.error(err)
       alert(err.message || err)
     })
   }
 
   pass(u) {
-    api(`/ratings/${u.id}/pass`, {
-      method: 'POST',
-      accessToken: this.props.accessToken
-    }).then((r) => {
+    this.props.pass(u.id).then((r) => {
       this.setState({index: this.state.index + 1})
     }).catch((err) => {
+      // TODO: retry failed passes on queue without interrupting user flow
       console.error(err)
       alert(err.message || err)
     })
   }
 
   render() {
-    const {props, state} = this
     return (
-      !state.loading
-      ?
-      <View style={{flex: 1}}>
-        {
-          state.recs[state.index + 1] ?
-          <RecView {...state}
-                   key={state.recs[state.index + 1].id}
-                   rec={state.recs[state.index + 1]}
-                   setHeight={(h) => this.setState({viewHeight: h})}
-                   like={this.like}
-                   pass={this.pass} /> :
-          state.recs[state.index] ?
-          <View style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}>
-            <Text style={{color: 'black'}}>{`There's no one new around you`}</Text>
-          </View> : null
-        }
-        {
-          state.recs[state.index] ?
-          <RecView {...state}
-                   key={state.recs[state.index].id}
-                   rec={state.recs[state.index]}
-                   setHeight={(h) => this.setState({viewHeight: h})}
-                   like={this.like}
-                   pass={this.pass} /> :
-          <View style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}>
-            <Text style={{color: 'black'}}>{`There's no one new around you`}</Text>
-          </View>
-        }
-        {
-          state.match ?
-          <IssaMatchView viewHeight={state.viewHeight}
-                         otherUser={state.match}
-                         dismiss={() => this.setState({match: null})} /> : null
-        }
-      </View>
-      :
-      <View style={{flex: 1, alignItems: 'center', justifyContent: 'center'}}>
-        <ActivityIndicator size="large"/>
-      </View>
+      <RecsView {...this.props}
+        like={this.like}
+        pass={this.pass}
+        setHeight={(h) => this.setState({viewHeight: h})}
+        viewHeight={this.state.viewHeight}
+        index={this.state.index}
+        match={this.state.match}
+        dismiss={() => this.setState({match: null})}
+        />
     )
   }
 }
 
 function mapStateToProps(state) {
+  const response = state.api['GET /recs'] || {}
+
   return {
+    // TODO: display actual error and retry options
+    error:       response.error && "Something went wrong",
+    recs:        response.body && response.body.recs || [],
+    loading:     !response.body && response.loading,
+    exhausted:   response.error && response.error.statusCode == 410,
     accessToken: state.user.accessToken,
   }
 }
 
 function mapDispatchToProps(dispatch) {
   return {
-    logout: () => {
-      dispatch({type: 'user:destroy'})
+    loadRecs: () => {
+      return dispatch(request({
+        url: '/recs'
+      }))
+    },
+    like: (userId) => {
+      return dispatch(request({
+        url: `/ratings/${userId}/pass`,
+        method: 'POST',
+      }))
+    },
+    pass: (userId) => {
+      return dispatch(request({
+        url: `/ratings/${userId}/pass`,
+        method: 'POST',
+      }))
     },
     itsAMatch: () => {
       dispatch({type: 'matches:invalidate'})

@@ -3,6 +3,7 @@ import moment             from 'moment'
 import LinearGradient     from 'react-native-linear-gradient'
 import Icon               from 'react-native-vector-icons/Ionicons'
 import {mayteBlack}       from '../constants/colors'
+// TODO: rename this to containers/ProfileInfo
 import ProfileInfoView    from '../containers/ProfileInfoView'
 
 import {
@@ -84,6 +85,7 @@ export default class ProfileView extends Component {
 
   render() {
     const { props, state } = this
+
     return(
       <View style={[style.container]}>
         <FlatList style={[style.container, {backgroundColor: mayteBlack()}]}

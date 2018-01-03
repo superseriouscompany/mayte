@@ -32,6 +32,10 @@ export default function request(args, force) {
       dispatch({type: 'api:yes', payload: json, key})
       return json
     }).catch((err) => {
+      if( err.statusCode && err.statusCode == 401 ) {
+        console.warn('Logging out because we got a 401')
+        return dispatch({type: 'user:destroy'})
+      }
       dispatch({type: 'api:no', error: err, key})
       throw err
     })
