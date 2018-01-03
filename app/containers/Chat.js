@@ -16,12 +16,22 @@ class Chat extends Component {
     super(props)
     this.state            = { messages: [] }
     this.onSend           = this.onSend.bind(this)
+    this.decorateMessages = this.decorateMessages.bind(this)
   }
 
   componentWillReceiveProps(props) {
     if( props.messages.length == this.state.messages.length ) { return }
+    this.decorateMessages(props.messages)
+  }
+
+  componentDidMount() {
+    this.props.loadMessages(this.props.user.id)
+    this.decorateMessages(this.props.messages)
+  }
+
+  decorateMessages(messages) {
     this.setState({
-      messages: props.messages.map((m) => {
+      messages: messages.map((m) => {
         m._id = m.id,
         m.user = {
           _id:    m.userId,
@@ -45,10 +55,6 @@ class Chat extends Component {
     })
   }
 
-  componentDidMount() {
-    this.props.loadMessages(this.props.user.id)
-  }
-
   render() {
     return (
       <ChatView {...this.props} {...this.state} onSend={this.onSend}/>
@@ -63,7 +69,7 @@ function mapStateToProps(state) {
 
   return {
     messages: response.body && response.body.messages || [],
-    loading:  response.loading,
+    loading:  !response.body && response.loading,
     myId:     state.user.id,
     view:     state.scene.view,
     error:    response.error && response.error.message || response.error,
