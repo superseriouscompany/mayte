@@ -3,7 +3,7 @@
 import React, {Component} from 'react'
 import {connect}          from 'react-redux'
 import VipCodeEntryView   from '../components/VipCodeEntryView'
-import api                from '../services/api'
+import request            from '../actions/request'
 
 class VipCodeEntry extends Component {
   constructor(props) {
@@ -26,19 +26,14 @@ class VipCodeEntry extends Component {
 
     this.setState({loading: true, error: null})
 
-    api(`/promos/${this.state.vipCode}`, {
-      method:      'PUT',
-      accessToken: this.props.accessToken,
-    }).then((body) => {
+    this.props.redeem(this.state.vipCode).then((body) => {
       if( body.unlockCount ) {
         this.props.dispatchCode({
           code: this.state.vipCode,
           unlockCount: body.unlockCount
         })
       } else if( body === true ) { // 204 means the door is unlocked
-        return api(`/users/me`, {
-          accessToken: this.props.accessToken
-        }).then(this.props.updateUser)
+        return this.props.hydrateUser()
       }
     }).catch((err) => {
       this.setState({error: err.message, loading: false})
@@ -59,13 +54,19 @@ class VipCodeEntry extends Component {
 
 function mapStateToProps(state) {
   return {
-    accessToken: state.user.accessToken,
     vipCode:     state.vip.pendingCode,
   }
 }
 
 function mapDispatchToProps(dispatch) {
   return {
+    redeem: (code) => {
+      return dispatch(request({
+        url:    `/promos/${code}`,
+        method: 'PUT',
+      }))
+    },
+
     visitPaywall: () => {
       dispatch({type: 'vip:destroy'})
       dispatch({type: 'scene:change', scene: 'Paywall'})
@@ -76,9 +77,13 @@ function mapDispatchToProps(dispatch) {
       dispatch({type: 'scene:change', scene: 'VipCodeStatus'})
     },
 
-    updateUser: (user) => {
-      dispatch({type: 'user:set', user})
-      dispatch({type: 'scene:change', scene: 'Home'})
+    hydrateUser: () => {
+      return dispatch(request({
+        url: `/users/me`
+      })).then((user) => {
+        dispatch({type: 'user:set', user})
+        dispatch({type: 'scene:change', scene: 'Home'})
+      })
     },
   }
 }
