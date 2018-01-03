@@ -113,9 +113,9 @@ export default class GenderSelector extends Component {
       <View style={style.container}>
       { props.loading ?
         <View style={style.loadingCnr}>
-        <ActivityIndicator size="large"/>
+          <ActivityIndicator size="large" />
         </View>
-        :
+      :
         <View style={style.container}>
           <Environment {...props} starFade={this._starFade} shootingStarDrift={this._shootingStarDrift} shootingStarFade={this._shootingStarFade} />
           <SelfSelector {...props} fade={this._idFade} />
@@ -124,10 +124,11 @@ export default class GenderSelector extends Component {
               transform: [{translateY: this._mask}]
             }]} />
 
-          {this.state.continue ?
-          <Animated.View style={{opacity: this._continueFade, width: screenWidth, alignItems: 'center'}}>
-            <ButtonBlack text={`CONTINUE`} onPress={this.complete} style={style.continue} />
-          </Animated.View> : null}
+          { !this.state.continue ? null :
+            <Animated.View style={{opacity: this._continueFade, width: screenWidth, alignItems: 'center'}}>
+              <ButtonBlack text={`CONTINUE`} onPress={this.complete} style={style.continue} />
+            </Animated.View>
+          }
         </View>
       }
       </View>
