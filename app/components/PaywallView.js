@@ -36,6 +36,7 @@ export default class PaywallView extends Component {
     this._balloonerY  = new Animated.Value(screenHeight)
     this._balloonerX  = new Animated.Value(-screenWidth * 0.9)
     this._bgOpacity   = new Animated.Value(0)
+    this._infoOpacity = new Animated.Value(0)
     this._contOpacity = new Animated.Value(1)
 
     this.numFetti = 3
@@ -57,7 +58,7 @@ export default class PaywallView extends Component {
           useNativeDriver: true,
         })
       ]),
-      Animated.delay(1800),
+      Animated.delay(1200),
       Animated.parallel([
         Animated.spring(this._balloonerY, {
           toValue: -screenHeight / 2,
@@ -70,11 +71,19 @@ export default class PaywallView extends Component {
           useNativeDriver: true,
         })
       ]),
-      Animated.timing(this._bgOpacity, {
-        toValue: 0.5,
-        duration: 1000,
-        useNativeDriver: true,
-      })
+      Animated.parallel([
+        Animated.timing(this._bgOpacity, {
+          toValue: 0.4,
+          duration: 1000,
+          useNativeDriver: true,
+        }),
+        Animated.timing(this._infoOpacity, {
+          toValue: 1,
+          duration: 1000,
+          delay: 500,
+          useNativeDriver: true,
+        })
+      ])
     ]).start()
   }
 
@@ -102,7 +111,7 @@ export default class PaywallView extends Component {
       <View style={style.container}>
         <Animated.Image style={[style.bg, {opacity: this._bgOpacity}]} resizeMode='cover' source={require('../images/PaywallBG.jpg')} />
         { product ?
-          <Animated.View style={[style.container, {alignItems: 'center', opacity: this._contOpacity}]}>
+          <Animated.View style={[style.container, {opacity: this._contOpacity}]}>
             <Animated.View style={[
                              style.ballooner,
                              {transform: [{translateX: this._balloonerX}, {translateY: this._balloonerY}]},
@@ -122,20 +131,24 @@ export default class PaywallView extends Component {
             <Firework color='#2755A8' delay={1000} style={[calculateFireworkOffset(em(1),0)]} fireworkDiameter={fireworkDiameter} sparkDiameter={em(0.8)} numSparks={10} />
             <Firework color='#FFCC00' delay={2000} style={[calculateFireworkOffset(-em(1),em(2))]} fireworkDiameter={fireworkDiameter} sparkDiameter={em(0.6)} numSparks={16} />
 
-            <Text style={[style.teaser, base.text]}>
-              There are only 100 spots available for our first members only party in LA.
-            </Text>
+            <Animated.View style={[style.container, {opacity: this._infoOpacity}]}>
+              <View style={[style.teaser]}>
+                <Text style={[base.text, style.teaserText]}>
+                  {`Invitations are limited. Sign up now and join us for our exclusive Valentine's Day launch party.`}
+                </Text>
+              </View>
 
-            <View style={style.payBtnCont}>
-              <TouchableOpacity style={[base.button, style.mainButton]} onPress={() => props.buy(product.identifier)}>
-                <Text style={[base.buttonText, style.payBtn]}>Join for {product.priceString}/month</Text>
+              <View style={style.payBtnCont}>
+                <TouchableOpacity style={[base.button, style.mainButton]} onPress={() => props.buy(product.identifier)}>
+                  <Text style={[base.buttonText, style.payBtn]}>Join for {product.priceString}/month</Text>
+                </TouchableOpacity>
+                <Text style={[base.text]}>{`Payment starts Valentine's Day.`}</Text>
+              </View>
+
+              <TouchableOpacity style={[style.backdoor]} onPress={() => this.exit(props.visitVipWall)}>
+                <Text style={[{backgroundColor:'transparent'}, base.text]}>I have a VIP Code</Text>
               </TouchableOpacity>
-              <Text style={[base.text]}>{`Payment starts Valentine's Day.`}</Text>
-            </View>
-
-            <TouchableOpacity style={[style.backdoor]} onPress={() => this.exit(props.visitVipWall)}>
-              <Text style={[{backgroundColor:'transparent'}, base.text]}>I have a VIP Code</Text>
-            </TouchableOpacity>
+            </Animated.View>
           </Animated.View>
           :
           <View style={style.loadingCnr}>
@@ -151,12 +164,15 @@ export default class PaywallView extends Component {
 const style = StyleSheet.create({
   container: {
     flex: 1,
+    alignItems: 'center',
   },
   teaser: {
     padding: em(1.66),
-    fontSize: em(2),
     backgroundColor: 'transparent',
     marginTop: notchHeight/2,
+  },
+  teaserText: {
+    fontSize: em(2),
   },
   loadingCnr: {
     flex:           1,
