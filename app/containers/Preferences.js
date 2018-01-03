@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import PreferencesView      from '../components/PreferencesView'
 import {connect}            from 'react-redux'
-import api                  from '../services/api'
+import request              from '../actions/request'
 
 const minAge = 18
 const maxAge = 50
@@ -31,20 +31,13 @@ class Preferences extends Component {
   }
 
   updatePreferences(prefs={}) {
-    return api('/users/me', {
-      method: 'PATCH',
-      accessToken: this.props.accessToken,
-      body: {
-        preferences: {
-          ageRange: this.state.ageRange,
-          distance: this.state.distance,
-          orientation: this.state.orientation,
-          gender: this.state.gender,
-          ...prefs,
-        }
-      }
+    return this.props.updatePreferences({
+      ageRange: this.state.ageRange,
+      distance: this.state.distance,
+      orientation: this.state.orientation,
+      gender: this.state.gender,
+      ...prefs,
     }).then(() => {
-      console.log("updated preferences")
       this.props.hydrateUser(false)
     }).catch(err => {
       alert(err.message || err)
@@ -76,6 +69,13 @@ function mapStateToProps() {
 
 function mapDispatchToProps(dispatch) {
   return {
+    updatePreferences: function(preferences) {
+      return dispatch(request({
+        url: '/users/me',
+        method: 'PATCH',
+        body: { preferences }
+      }))
+    }
   }
 }
 
