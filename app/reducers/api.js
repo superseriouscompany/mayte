@@ -32,7 +32,7 @@ export default function(state=initialState, action) {
         [action.key]: {
           ...state[action.key],
           loading: false,
-          body: null, 
+          body: null,
           error: action.error,
           time,
           errors: [{

@@ -37,10 +37,7 @@ class Login extends Component {
 
     this.setState({loading: true})
 
-    props.hydrate(matches[1]).catch((err) => {
-      console.error(err)
-      alert(err.message || JSON.stringify(err))
-    })
+    this.props.hydrate(matches[1])
   }
 
   instagramLogin() { return oauthInstagram() }
@@ -69,12 +66,14 @@ class Login extends Component {
     <LoginView {...this.props}
                linkedinLogin={this.linkedinLogin}
                instagramLogin={this.instagramLogin}
-               loading={this.state.loading} />
+               />
   )}
 }
 
 function mapStateToProps(state) {
-  return {}
+  return {
+    loading: (state.api['GET /users/me'] || {}).loading
+  }
 }
 
 function mapDispatchToProps(dispatch) {
@@ -83,9 +82,9 @@ function mapDispatchToProps(dispatch) {
       dispatch(request({
         url: '/users/me',
         accessToken
-      })).then((u) => {
-        u.accessToken = accessToken
-        dispatch({type: 'user:set', user: user})
+      })).then((user) => {
+        user.accessToken = accessToken
+        dispatch({type: 'user:set', user})
         dispatch({type: 'scene:change', scene: 'Recs'})
       }).catch((err) => {
         // TODO: display error/retry in component instead of catching here

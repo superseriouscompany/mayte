@@ -18,7 +18,7 @@ import api from '../services/api'
  * @param  {boolean} force:            whether we should do the request even if it's in progress
  * @return {promise}:                  result of fetch (error is not thrown)
  */
-export function request(args, force) {
+export default function request(args, force) {
   return function(dispatch, getState) {
     const accessToken = (getState().user || {}).accessToken
     // TODO: handle querystring order
@@ -28,8 +28,9 @@ export function request(args, force) {
     if( isLoading && !force ) { return console.warn(`Not going to load ${key} twice`) }
 
     dispatch({type: 'api:loading', key})
-    return api(args.url, {...args, accessToken}).then((json) => {
+    return api(args.url, {accessToken, ...args}).then((json) => {
       dispatch({type: 'api:yes', payload: json, key})
+      return json
     }).catch((err) => {
       dispatch({type: 'api:no', error: err, key})
       throw err
