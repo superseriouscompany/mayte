@@ -1,5 +1,7 @@
 import React, { Component } from 'react'
 import ProfileView from '../components/ProfileView'
+import LinearGradient from 'react-native-linear-gradient'
+import {mayteWhite, mayteBlack} from '../constants/colors'
 import { em, matchHeaderHeight, statusBarHeight } from '../constants/dimensions'
 import {
   TouchableOpacity,
@@ -21,13 +23,15 @@ export default class SettingsProfile extends Component {
         <View style={[style.header]}>
           <TouchableOpacity onPress={() => props.viewSettingsPage('Preferences')}
                             style={[style.headerBtn, {marginLeft: em(1)}]}>
-            <Image source={require('../images/gear.png')}
+            <LinearGradient colors={[mayteWhite(0.9), mayteWhite()]} style={style.btnGrad} />
+            <Image source={require('../images/settings-black.png')}
                    resizeMode='contain'
                    style={[style.headerIcon]} />
           </TouchableOpacity>
           <TouchableOpacity onPress={() => props.viewSettingsPage('Editor')}
                             style={[style.headerBtn, {marginRight: em(1)}]}>
-            <Image source={require('../images/edit.png')}
+            <LinearGradient colors={[mayteWhite(0.9), mayteWhite()]} style={style.btnGrad} />
+            <Image source={require('../images/edit-black.png')}
                    resizeMode='contain'
                    style={[style.headerIcon]} />
           </TouchableOpacity>
@@ -58,10 +62,8 @@ const style = StyleSheet.create({
     zIndex: 1,
   },
   headerBtn: {
-    backgroundColor: 'rgba(255,255,255,0.9)',
-    width: 50,
-    height: 50,
-    borderRadius: 25,
+    width: em(3),
+    height: em(3),
     justifyContent: 'center',
     alignItems: 'center',
   },
@@ -73,5 +75,12 @@ const style = StyleSheet.create({
     flex:           1,
     alignItems:     'center',
     justifyContent: 'center',
+  },
+  btnGrad: {
+    position: 'absolute',
+    top: 0, bottom: 0,
+    left: 0, right: 0,
+    borderRadius: em(1.5),
+    backgroundColor: mayteBlack(),
   },
 })

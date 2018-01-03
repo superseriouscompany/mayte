@@ -5,6 +5,7 @@ import Text               from './Text'
 import {webUrl}           from '../services/api'
 import base               from '../constants/styles'
 import {em}               from '../constants/dimensions'
+import {ButtonBlack}      from './ButtonBlack'
 import {
   ActivityIndicator,
   StyleSheet,
@@ -24,13 +25,9 @@ export default function(props) {
         <View style={styles.container}>
           <WebView style={styles.webview} source={{uri: `${webUrl}/velvetrope/`}} scrollEnabled={false} scalesPageToFit={false}/>
           <View style={styles.buttonsCnr}>
-            <TouchableOpacity style={[base.button, styles.button]} onPress={props.addPass}>
-              <Text style={[base.buttonText]}>Entry Ticket</Text>
-            </TouchableOpacity>
+            <ButtonBlack text={`Entry Ticket`} onPress={props.addPass} style={styles.button} />
             { props.isAdmin ?
-              <TouchableOpacity style={[base.button, styles.button]} onPress={props.visitPromoMaker}>
-                <Text style={[base.buttonText]}>VIP Codes</Text>
-              </TouchableOpacity>
+              <ButtonBlack text={`VIP Codes`} onPress={props.visitPromoMaker} style={styles.button} />
             : null }
           </View>
         </View>
@@ -58,7 +55,7 @@ const styles = StyleSheet.create({
   },
   button: {
     marginBottom: em(1),
-    width: 140,
+    width: 150,
     alignItems: 'center',
   },
 })

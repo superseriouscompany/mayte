@@ -21,7 +21,7 @@ export default class SelfSelector extends Component {
     const {props,state} = this
     return(
       <Animated.View style={[style.identityCont, {opacity: props.fade}]}>
-        <Text style={style.heading}>I identify as:</Text>
+        <Text style={style.heading}>I am:</Text>
         <SelfOption {...props} field="gender" value="female"
                     style={{top: em(6), right: em(2.5)}}>
           <Text style={style.identityText}>FEMALE</Text>

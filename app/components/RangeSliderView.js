@@ -103,6 +103,10 @@ export default class RangeSliderView extends Component {
               <Animated.View
                 {...this._panHandlers[m].panHandlers}
                 key={i}
+                hitSlop={{
+                  top: (s = props.markerDiameter/2),
+                  bottom: s, left: s, right: s
+                }}
                 ref={(el) => this[`marker${i}`] = el}
                 style={{
                   top: 0,
