@@ -1,10 +1,12 @@
 import React, { Component } from 'react'
 import { BlurView } from 'react-native-blur'
+import LinearGradient from 'react-native-linear-gradient'
 import RangeSlider from '../containers/RangeSlider'
 import MaytePicker from '../containers/MaytePicker'
 import OrbitLoader from './OrbitLoader'
 import { em, tabNavHeight, screenHeight, notchHeight } from '../constants/dimensions'
-import { mayteBlack, mayteRed } from '../constants/colors'
+import { mayteBlack, mayteWhite, mayteRed } from '../constants/colors'
+import { Star } from './Environment'
 import {
   StyleSheet,
   ScrollView,
@@ -43,7 +45,10 @@ export default class PreferencesView extends Component {
             <Image style={style.bubble} source={{uri: props.user.photos[0].url}} />
           </TouchableOpacity>
           <TouchableOpacity onPress={() => props.viewSettingsPage('Editor')}>
-            <Text style={style.editCTA}>EDIT PROFILE</Text>
+            <View style={style.editBtn}>
+              <LinearGradient colors={[mayteBlack(0.85), mayteBlack()]} style={style.editBtnGrad} />
+              <Text style={style.editBtnText}>EDIT PROFILE</Text>
+            </View>
           </TouchableOpacity>
 
           <View style={style.preferences}>
@@ -140,6 +145,7 @@ export default class PreferencesView extends Component {
           </View>
 
           <TouchableOpacity onPress={props.logout} style={[style.button]}>
+            <LinearGradient colors={[mayteBlack(0.85), mayteBlack()]} style={style.editBtnGrad} />
             <Text style={style.logout}>SIGN OUT</Text>
           </TouchableOpacity>
 
@@ -192,12 +198,26 @@ const style = StyleSheet.create({
     height: bubbleDiameter,
     borderRadius: bubbleDiameter * 0.5,
   },
-  editCTA: {
-    paddingTop: em(1.66),
+  editBtn: {
+    marginTop: em(1.66),
+    paddingTop: em(0.66),
+    paddingBottom: em(0.66),
+    paddingLeft: em(1.2),
+    paddingRight: em(1.1),
+  },
+  editBtnGrad: {
+    borderRadius: em(0.33),
+    top: 0, bottom: 0,
+    left: 0, right: 0,
+    position: 'absolute',
+  },
+  editBtnText: {
     fontSize: em(1),
     fontFamily: 'Gotham-Medium',
     letterSpacing: em(0.1),
+    marginTop: em(0.33),
     backgroundColor: 'transparent',
+    color: mayteWhite(),
   },
   preferences: {
     width: '100%',
@@ -228,24 +248,24 @@ const style = StyleSheet.create({
     marginTop: em(0.6),
   },
   button: {
-    paddingTop: em(1.2),
-    paddingBottom: em(1.2),
-    paddingLeft: em(3.66),
-    paddingRight: em(3.66),
+    paddingTop: em(0.66),
+    paddingBottom: em(0.66),
+    paddingLeft: em(2),
+    paddingRight: em(2),
     borderRadius: em(0.33),
     shadowRadius: 4,
     shadowOffset: {width: 2, height: 2},
     shadowColor: 'rgba(0,0,0,1)',
-    backgroundColor: mayteBlack(0.9),
     marginTop: em(1),
   },
   logout: {
     textAlign: 'center',
-    fontFamily: 'Gotham-Book',
+    fontFamily: 'Gotham-Medium',
     fontSize: em(1),
     letterSpacing: em(0.1),
     color: 'white',
-    marginTop: em(0.1),
+    marginTop: em(0.2),
+    backgroundColor: 'transparent',
   },
   icon: {
     marginTop: em(3),

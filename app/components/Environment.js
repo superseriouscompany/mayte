@@ -48,7 +48,7 @@ class NightSky extends Component {
   }
 }
 
-class Star extends Component {
+export class Star extends Component {
   constructor(props) {
     super(props)
     this._twinkle = new Animated.Value(0)
@@ -58,14 +58,14 @@ class Star extends Component {
       Animated.sequence([
         Animated.timing(this._twinkle, {
           toValue: 1,
-          duration: 200,
-          delay: this.props.twinkleDelay || 1000,
+          duration: this.props.loopLength * 0.4,
+          delay: this.props.twinkleDelay,
           easing: Easing.linear,
           useNativeDriver: true,
         }),
         Animated.timing(this._twinkle, {
           toValue: 0,
-          duration: 300,
+          duration: this.props.loopLength * 0.6,
           easing: Easing.linear,
           useNativeDriver: true,
         })
@@ -78,6 +78,7 @@ class Star extends Component {
       <Animated.View style={[style.star, props.style]}>
         <Animated.View style={[
           style.twinkle,
+          props.twinkleStyle,
           {transform: [
             {scale: this._twinkle},
             {rotate: '45deg'}
@@ -88,6 +89,11 @@ class Star extends Component {
   }
 }
 
+Star.defaultProps = {
+  loopLength: 500,
+  twinkleDelay: 100,
+}
+
 export default class Environment extends Component {
   render() {
     const {props,state} = this
@@ -95,6 +101,21 @@ export default class Environment extends Component {
       <View style={style.environment}>
         <NightSky {...props} />
         <View style={style.ground}></View>
+      </View>
+    )
+  }
+}
+
+export class StaticNight extends Component {
+  constructor(props) {
+    super(props)
+  }
+  render() {
+    const {props,state} = this
+    return(
+      <View style={props.style}>
+        <LinearGradient colors={['rgba(0,0,0,1)', '#232037']} style={{position:'absolute', top: 0, bottom: 0, left: 0, right: 0}} />
+        {props.children}
       </View>
     )
   }
