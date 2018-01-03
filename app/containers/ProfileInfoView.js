@@ -12,6 +12,7 @@ import {
   notchHeight,
   tabNavHeight,
   bottomBoost,
+  matchHeaderHeight,
 } from '../constants/dimensions'
 import {
   Animated,
