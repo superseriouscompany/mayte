@@ -6,7 +6,7 @@ import MaytePicker from '../containers/MaytePicker'
 import OrbitLoader from './OrbitLoader'
 import { em, tabNavHeight, screenHeight, notchHeight } from '../constants/dimensions'
 import { mayteBlack, mayteWhite, mayteRed } from '../constants/colors'
-import { ButtonBlack } from '../constants/components'
+import { ButtonBlack } from './ButtonBlack'
 import { Star } from './Environment'
 import {
   StyleSheet,

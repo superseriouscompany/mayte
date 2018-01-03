@@ -1,15 +1,15 @@
 import React, {Component} from 'react'
 import LinearGradient from 'react-native-linear-gradient'
-import base from './styles'
-import {em} from './dimensions'
-import {mayteBlack, mayteWhite} from './colors'
+import base from '../constants/styles'
+import {em} from '../constants/dimensions'
+import {mayteBlack, mayteWhite} from '../constants/colors'
 import {
   TouchableOpacity,
   Text,
   View,
 } from 'react-native'
 
-export class ButtonBlack extends Component {
+export default class ButtonBlack extends Component {
   render() {
     const {props,state} = this
     return(

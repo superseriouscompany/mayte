@@ -4,7 +4,7 @@ import React, {Component} from 'react'
 import Text from './Text'
 import base from '../constants/styles'
 import {em} from '../constants/dimensions'
-import {ButtonBlack} from '../constants/components'
+import {ButtonBlack} from './ButtonBlack'
 import {
   ActivityIndicator,
   StyleSheet,
