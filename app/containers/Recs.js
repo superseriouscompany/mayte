@@ -84,7 +84,6 @@ function mapStateToProps(state) {
     recs:        response.body && response.body.recs || [],
     loading:     !response.body && response.loading,
     exhausted:   response.error && response.error.statusCode == 410,
-    accessToken: state.user.accessToken,
   }
 }
 
