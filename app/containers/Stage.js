@@ -87,7 +87,7 @@ class Stage extends PureComponent {
           )} />
         { props.isAdmin ?
           <Recs sceneName="Recs"
-            tabLabel="Meet"
+            tabLabel="Suggestions"
             tabIcon={({tintColor, focused}) => (
               <Icon name={focused ? 'ios-heart' : 'ios-heart-outline'}
                     size={26}

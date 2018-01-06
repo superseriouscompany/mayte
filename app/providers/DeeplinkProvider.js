@@ -25,6 +25,9 @@ class DeeplinkProvider extends Component {
         if( params['+non_branch_link'] ) { return }
       }
 
+      // this seems to be triggered when doing CMD+R in simulator
+      if( !Object.keys(params).length ) { return }
+
       if( params['~feature'] != 'promo-redemption' ) {
         return console.warn('Unknown deeplink', params)
       }

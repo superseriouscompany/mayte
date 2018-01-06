@@ -78,6 +78,7 @@ function mapDispatchToProps(dispatch) {
 
     updateUser: (user) => {
       dispatch({type: 'user:set', user})
+      dispatch({type: 'scene:change', scene: 'Home'})
     },
   }
 }

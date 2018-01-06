@@ -1,9 +1,10 @@
-import React, { Component } from 'react'
-import moment from 'moment'
-import { mayteBlack } from '../constants/colors'
-import DatePicker from 'react-native-datepicker'
-import OrbitLoader from './OrbitLoader'
-import SettingsEditorPhotos from '../containers/SettingsEditorPhotos'
+import React, { Component }      from 'react'
+import moment                    from 'moment'
+import DatePicker                from 'react-native-datepicker'
+import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view'
+import { mayteBlack }            from '../constants/colors'
+import SettingsEditorPhotos      from '../containers/SettingsEditorPhotos'
+import OrbitLoader               from './OrbitLoader'
 import {StaticNight, Star} from './Environment'
 import {
   em,
@@ -31,8 +32,6 @@ export default (props) => {
   const oldest   = moment().subtract(100, 'years')
   const youngest = moment().subtract(18, 'years')
 
-  let trash
-
   return(
     <View style={style.container}>
       <StaticNight style={style.bg}>
@@ -46,7 +45,7 @@ export default (props) => {
         <Star style={{bottom: em(23), left: em(2)}} twinkleDelay={6900} />
       </StaticNight>
 
-      <ScrollView style={[style.container]}
+      <KeyboardAwareScrollView style={[style.container]}
                   scrollEnabled={props.scrollEnabled}>
         <View style={[style.header, style.padded]}>
           <TouchableOpacity onPress={props.cancelEdit}>
@@ -130,7 +129,7 @@ export default (props) => {
           })
         }
         </View>
-      </ScrollView>
+      </KeyboardAwareScrollView>
     </View>
   )
 }

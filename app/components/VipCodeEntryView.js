@@ -1,7 +1,7 @@
 'use strict'
 
 import React, {Component} from 'react'
-import {em, bottomBoost, screenWidth, screenHeight} from '../constants/dimensions'
+import {em, bottomBoost, screenWidth, screenHeight, notchHeight} from '../constants/dimensions'
 import {mayteBlack} from '../constants/colors'
 import ButtonBlack from './ButtonBlack'
 import base from '../constants/styles'
@@ -84,7 +84,8 @@ const style = StyleSheet.create({
   error: {
     position: 'absolute',
     color: 'red',
-    top: 10,
+    top: notchHeight + 10,
+    backgroundColor: 'transparent',
   },
   loading: {
     position: 'absolute',

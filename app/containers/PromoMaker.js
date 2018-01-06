@@ -10,7 +10,31 @@ class PromoMaker extends Component {
   constructor(props) {
     super(props)
     this.generate = this.generate.bind(this)
+    this.invite   = this.invite.bind(this)
     this.state = {}
+  }
+
+  invite() {
+    return branch.createBranchUniversalObject(
+      `invites`,
+      {
+        metadata: {
+          inviterId: this.props.userId,
+        }
+      }
+    ).then((branchUniversalObject) => {
+      const linkProperties = {
+        feature: 'invite',
+        channel: 'app'
+      }
+      const controlParams = {}
+
+      return branchUniversalObject.showShareSheet({
+        messageHeader: 'Shhhhh...',
+        messageBody:   'Unicorn: Find Yours.',
+        emailSubject:  'Shhhhh...'
+      }, linkProperties, controlParams)
+    })
   }
 
   generate() {
@@ -48,7 +72,11 @@ class PromoMaker extends Component {
 
   render() {
     return (
-      <PromoMakerView {...this.props} url={this.state.url} generate={this.generate}/>
+      <PromoMakerView {...this.props}
+        url={this.state.url}
+        generate={this.generate}
+        invite={this.invite}
+        />
     )
   }
 }

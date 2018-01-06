@@ -4,6 +4,10 @@ export const baseUrl = __DEV__ ?
   'https://mayte.ngrok.io' :
   'https://obscure-tundra-93213.herokuapp.com';
 
+export const webUrl = __DEV__ ?
+  'https://mayte.ngrok.io/webview' :
+  'https://dateunicorn.com'
+
 function request(path, options = {}) {
   if( path[0] != '/' ) path = `/${path}`;
 

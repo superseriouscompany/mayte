@@ -48,7 +48,6 @@ export default class SettingsProfile extends Component {
 const style = StyleSheet.create({
   container: {
     flex: 1,
-    // backgroundColor: mayteBlack(),
   },
   header: {
     marginTop: em(1.33),

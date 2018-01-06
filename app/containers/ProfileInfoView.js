@@ -233,7 +233,7 @@ export default class ProfileInfoView extends Component {
           </View>
         }
         <View style={style.cv}>
-          { props.user.instagramHandle ?
+          { !props.user.instagramHandle ? null :
             <TouchableOpacity onPress={() => props.linkToInstagram(`https:\/\/instagram.com/${props.user.instagramHandle}`)}>
               <Text
                 style={[
@@ -245,10 +245,8 @@ export default class ProfileInfoView extends Component {
                 @{props.user.instagramHandle}
               </Text>
             </TouchableOpacity>
-          :
-            null
           }
-          { props.user.occupation ?
+          { !props.user.occupation ? null :
             <Text
               style={[
                 style.occupation,
@@ -257,11 +255,12 @@ export default class ProfileInfoView extends Component {
                 } : {})
               ]}>
               {(props.user.occupation).toUpperCase()}
-            </Text> : null }
+            </Text>
+          }
         </View>
         <View>
           <Text style={style.bio}>
-            {props.user.bio || ``}
+            {props.user.bio}
           </Text>
         </View>
       </Animated.ScrollView>
