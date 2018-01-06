@@ -1,13 +1,18 @@
-import React, { Component } from 'react'
-import { BlurView } from 'react-native-blur'
-import LinearGradient from 'react-native-linear-gradient'
-import RangeSlider from '../containers/RangeSlider'
-import MaytePicker from '../containers/MaytePicker'
-import OrbitLoader from './OrbitLoader'
-import { em, tabNavHeight, screenHeight, notchHeight } from '../constants/dimensions'
+import React, { Component }                 from 'react'
+import { BlurView }                         from 'react-native-blur'
+import LinearGradient                       from 'react-native-linear-gradient'
+import RangeSlider                          from '../containers/RangeSlider'
+import MaytePicker                          from '../containers/MaytePicker'
+import OrbitLoader                          from './OrbitLoader'
 import { mayteBlack, mayteWhite, mayteRed } from '../constants/colors'
-import { ButtonBlack } from './ButtonBlack'
-import { Star } from './Environment'
+import ButtonBlack                          from './ButtonBlack'
+import { Star }                             from './Environment'
+import {
+  em,
+  tabNavHeight,
+  screenHeight,
+  notchHeight
+} from '../constants/dimensions'
 import {
   StyleSheet,
   ScrollView,
