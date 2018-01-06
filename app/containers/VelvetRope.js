@@ -11,27 +11,7 @@ class VelvetRope extends Component {
   constructor(props) {
     super(props)
     this.state         = {}
-    this.addPass       = this.addPass.bind(this)
     this.deleteAccount = this.deleteAccount.bind(this)
-  }
-
-  addPass() {
-    Wallet.canAddPasses((ok) => {
-      if( !ok ) {
-        console.error('Unable to add passes');
-        return alert('Unable to add pass. Please enable Apple Wallet.')
-      }
-
-      this.setState({loading: true})
-
-      Wallet.showAddPassController(`${baseUrl}/nope.pkpass`).then((ok) => {
-        this.setState({loading: false})
-        if( ok ) { alert('Pass added to Wallet.') }
-      }).catch((err) => {
-        this.setState({loading: false})
-        console.warn(err)
-      })
-    })
   }
 
   deleteAccount() {
@@ -48,8 +28,6 @@ class VelvetRope extends Component {
   render() {
     return (
       <VelvetRopeView {...this.props}
-        addPass={this.addPass}
-        loading={this.state.loading}
         deleteAccount={this.deleteAccount}
         />
     )

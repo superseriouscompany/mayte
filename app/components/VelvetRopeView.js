@@ -6,8 +6,10 @@ import {webUrl}           from '../services/api'
 import base               from '../constants/styles'
 import {em}               from '../constants/dimensions'
 import ButtonBlack        from './ButtonBlack'
+import MembershipCard     from '../containers/MembershipCard'
 import {
   ActivityIndicator,
+  Linking,
   StyleSheet,
   TouchableOpacity,
   View,
@@ -17,21 +19,31 @@ import {
 export default function(props) {
   return (
     <View style={styles.container}>
-      { props.loading ?
-        <View style={styles.centered}>
-          <ActivityIndicator size="large" />
-        </View>
-      :
-        <View style={styles.container}>
-          <WebView style={styles.webview} source={{uri: `${webUrl}/velvetrope/`}} scrollEnabled={false} scalesPageToFit={false}/>
-          <View style={styles.buttonsCnr}>
-            <ButtonBlack text={`Entry Ticket`} onPress={props.addPass} style={styles.button} />
-            { props.isAdmin ?
-              <ButtonBlack text={`VIP Codes`} onPress={props.visitPromoMaker} style={styles.button} />
-            : null }
-          </View>
-        </View>
-      }
+      <MembershipCard />
+      <View style={styles.events}>
+        <Text style={styles.explanation}>
+          This is your entry ticket to all Unicorn events.
+        </Text>
+
+        <Text style={styles.nextEvent}>
+          The next event is:
+        </Text>
+        <TouchableOpacity onPress={() => {}}>
+          { /* TODO: pull title and description from the backend */ }
+          <Text style={styles.title}>
+            Unicorn {"Valentine's"} Day.
+          </Text>
+          <Text style={styles.description}>
+            Feb 14 @ Absolut Elyx House
+          </Text>
+          <ButtonBlack style={styles.inline} text="Details" onPress={() => {Linking.openURL('https://dateunicorn.com')}} />
+        </TouchableOpacity>
+      </View>
+      <View style={styles.buttonsCnr}>
+        { props.isAdmin ?
+          <ButtonBlack text={`VIP Codes`} onPress={props.visitPromoMaker} style={styles.button} />
+        : null }
+      </View>
     </View>
   )
 }
@@ -39,6 +51,7 @@ export default function(props) {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+    paddingTop: em(2),
   },
   webview: {
     flex: 1,
@@ -47,6 +60,10 @@ const styles = StyleSheet.create({
   },
   buttonsCnr: {
     alignItems: 'center',
+  },
+  events: {
+    padding: em(1),
+    flex: 1,
   },
   centered: {
     flex: 1,
@@ -57,5 +74,19 @@ const styles = StyleSheet.create({
     marginBottom: em(1),
     width: 150,
     alignItems: 'center',
+  },
+  nextEvent: {
+    marginBottom: em(1),
+  },
+  title: {
+    fontSize: 18,
+    fontWeight: 'bold',
+    marginBottom: em(1),
+  },
+  description: {
+    marginBottom: em(.5),
+  },
+  inline: {
+    width: em(6),
   },
 })
