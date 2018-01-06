@@ -3,7 +3,7 @@
 import React, {Component} from 'react'
 import {connect}          from 'react-redux'
 import GenderSelectorView from '../components/GenderSelectorView'
-import api                from '../services/api'
+import request            from '../actions/request'
 
 class GenderSelector extends Component {
   constructor(props) {
@@ -37,33 +37,20 @@ class GenderSelector extends Component {
     if( !gender || !orientation ) { return }
 
     this.setState({loading: true})
-    // TODO: do this optimistically
-    api('/users/me', {
-      method: 'PATCH',
-      accessToken: this.props.accessToken,
-      body: {
-        preferences: {
-          gender,
-          orientation,
-        }
-      }
-    }).then(() => {
-      this.setState({loading: false})
-      this.props.updateUser({gender, orientation})
-    }).catch((err) => {
-      this.setState({loading: false})
+    return this.props.updatePreferences({gender, orientation}).catch((err) => {
       alert(err.message || JSON.stringify(err))
       console.error(err)
+      this.setState({loading: false})
     })
   }
 
   render() {
     return (
       <GenderSelectorView {...this.props}
-        loading={this.state.loading}
         gender={this.state.gender}
         orientation={this.state.orientation}
         set={this.set}
+        loading={this.state.loading}
         select={this.select} />
     )
   }
@@ -71,15 +58,22 @@ class GenderSelector extends Component {
 
 function mapStateToProps(state) {
   return {
-    accessToken: state.user.accessToken,
   }
 }
 
 function mapDispatchToProps(dispatch) {
   return {
-    updateUser: (user) => {
-      dispatch({type: 'user:set', user})
-    }
+    updatePreferences: (preferences) => {
+      return dispatch(request({
+        url: '/users/me',
+        method: 'PATCH',
+        body: {
+          preferences
+        }
+      })).then(() => {
+        dispatch({type: 'user:set', user: preferences})
+      })
+    },
   }
 }
 

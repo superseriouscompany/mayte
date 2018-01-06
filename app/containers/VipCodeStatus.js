@@ -2,9 +2,9 @@
 
 import React, {Component} from 'react'
 import {connect}          from 'react-redux'
-import VipCodeStatusView  from '../components/VipCodeStatusView'
 import branch             from 'react-native-branch'
-import api                from '../services/api'
+import VipCodeStatusView  from '../components/VipCodeStatusView'
+import request            from '../actions/request'
 
 class VipCodeStatus extends Component {
   constructor(props) {
@@ -18,9 +18,7 @@ class VipCodeStatus extends Component {
   }
 
   pollSelf() {
-    return api('/users/me', {
-      accessToken: this.props.accessToken
-    }).then((u) => {
+    return this.props.getSelf().then((u) => {
       if( u.active ) {
         this.props.updateUser(u)
       } else {
@@ -77,12 +75,17 @@ function mapStateToProps(state) {
     vipCode:     state.vip.code,
     userId:      state.user.id,
     unlockCount: state.vip.unlockCount,
-    accessToken: state.user.accessToken,
   }
 }
 
 function mapDispatchToProps(dispatch) {
   return {
+    getSelf: () => {
+      return dispatch(request({
+        url: '/users/me'
+      }))
+    },
+
     reset: () => {
       dispatch({type: 'vip:destroy'})
     },

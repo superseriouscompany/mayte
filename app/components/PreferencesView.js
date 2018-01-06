@@ -124,6 +124,8 @@ export default class PreferencesView extends Component {
                          ]}
                          selected={props.gender}
                          onUpdate={(o) => {
+                           // TODO: do this optimistically in updatePreferences
+                           // with automatic retries
                            props.updateGender(o)
                            props.updatePreferences({gender: o})
                          }} />

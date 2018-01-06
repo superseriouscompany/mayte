@@ -1,8 +1,10 @@
 import React, { Component }          from 'react'
 import SettingsEditorView            from '../components/SettingsEditorView'
 import { screenWidth, screenHeight } from '../constants/dimensions'
-import api, { baseUrl }              from '../services/api'
+import { baseUrl }                   from '../services/api'
 import { Linking }                   from 'react-native'
+import {connect}                     from 'react-redux'
+import request                       from '../actions/request'
 
 const photoLimit = 8
 
@@ -31,17 +33,17 @@ class SettingsEditor extends Component {
     }
 
     this.state = {
-      saving: false,
-      dob: props.user.dob,
-      bio: props.user.bio,
-      photos: props.user.photos,
-      occupation: props.user.occupation,
-      showAge: privacyOptions.showAge || false,
-      showLocation: privacyOptions.showLocation || false,
-      showOccupation: privacyOptions.showOccupation || false,
-      showInstagramFeed: privacyOptions.showInstagramFeed || false,
+      saving:              false,
+      dob:                 props.user.dob,
+      bio:                 props.user.bio,
+      photos:              props.user.photos,
+      occupation:          props.user.occupation,
+      showAge:             privacyOptions.showAge || false,
+      showLocation:        privacyOptions.showLocation || false,
+      showOccupation:      privacyOptions.showOccupation || false,
+      showInstagramFeed:   privacyOptions.showInstagramFeed || false,
       showInstagramHandle: privacyOptions.showInstagramHandle || false,
-      scrollEnabled: true,
+      scrollEnabled:       true,
     }
 
     this.save = this.save.bind(this)
@@ -68,21 +70,17 @@ class SettingsEditor extends Component {
 
   save() {
     this.setState({saving: true})
-    api('/users/me', {
-      method: 'PATCH',
-      accessToken: this.props.user.accessToken,
-      body: {
-        bio: this.state.bio,
-        dob: this.state.dob,
-        photos: this.state.photos,
-        occupation: this.state.occupation,
-        privacyOptions: {
-          showAge: this.state.showAge,
-          showLocation: this.state.showLocation,
-          showOccupation: this.state.showOccupation,
-          showInstagramFeed: this.state.showInstagramFeed,
-          showInstagramHandle: this.state.showInstagramHandle,
-        }
+    this.props.updateUser({
+      bio: this.state.bio,
+      dob: this.state.dob,
+      photos: this.state.photos,
+      occupation: this.state.occupation,
+      privacyOptions: {
+        showAge: this.state.showAge,
+        showLocation: this.state.showLocation,
+        showOccupation: this.state.showOccupation,
+        showInstagramFeed: this.state.showInstagramFeed,
+        showInstagramHandle: this.state.showInstagramHandle,
       }
     }).then(() => {
       this.setState({saving: false})
@@ -131,4 +129,22 @@ class SettingsEditor extends Component {
   }
 }
 
-export default SettingsEditor
+function mapStateToProps(state) {
+  return {
+
+  }
+}
+
+function mapDispatchToProps(dispatch) {
+  return {
+    updateUser: (body) => {
+      return dispatch(request({
+        url: '/users/me',
+        method: 'PATCH',
+        body,
+      }))
+    }
+  }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(SettingsEditor)

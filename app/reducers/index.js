@@ -9,6 +9,7 @@ import {
   combineReducers,
 } from 'redux'
 
+import api      from './api'
 import hydrated from './hydrated'
 import matches  from './matches'
 import scene    from './scene'
@@ -22,6 +23,7 @@ if( __DEV__ ) {
 }
 
 const reducers = combineReducers({
+  api,
   hydrated,
   scene,
   user,
@@ -43,6 +45,7 @@ const persistence = persistStore(store, {storage: AsyncStorage, whitelist: [
   'user',
   'vip',
   'products',
+  'api',
 ]})
 
 export default store

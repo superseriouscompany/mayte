@@ -59,20 +59,13 @@ export default class RecView extends Component {
                       {left: 0, opacity: this._opacity, transform: [{translateX: this._x}]},
                       style.wrapper
                     ]}>
-        { props.error ?
-          <View style={style.centered}>
-            <Text style={style.error}>{props.error}</Text>
-          </View>
-        : props.exhausted || props.recs.length === 0 ?
-          <View style={style.centered}>
-            <Text>{`There's no one new around you.`}</Text>
-          </View>
-        : <ProfileView {...props}
-                       user={props.rec}
-                       infoOpen={state.infoOpen}
-                       like={() => {this.animateLike(); props.like(props.rec)}}
-                       pass={() => {this.animatePass(); props.pass(props.rec)}} />
-        }
+        <ProfileView {...props}
+          user={props.rec}
+          viewHeight={props.viewHeight}
+          setHeight={props.setHeight}
+          infoOpen={state.infoOpen}
+          like={() => {this.animateLike(); props.like(props.rec) /* TODO: do this after the animation to avoid swapping if API call returns too fast*/ }}
+          pass={() => {this.animatePass(); props.pass(props.rec)}} />
       </Animated.View>
     )
   }
@@ -97,9 +90,4 @@ const style = StyleSheet.create({
     alignItems:     'center',
     justifyContent: 'center',
   },
-
-  error: {
-    color: 'red',
-  },
-
 })
