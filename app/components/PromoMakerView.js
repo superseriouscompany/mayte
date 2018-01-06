@@ -4,6 +4,7 @@ import React, {Component} from 'react'
 import Text from './Text'
 import {em} from '../constants/dimensions'
 import base from '../constants/styles'
+import ButtonBlack from './ButtonBlack'
 import {
   StyleSheet,
   TouchableOpacity,
@@ -17,9 +18,9 @@ export default function(props) {
       <TouchableOpacity style={styles.back} onPress={props.visitHome}>
         <Text>Cancel</Text>
       </TouchableOpacity>
-      <TouchableOpacity style={[base.button, styles.topButton]} onPress={props.invite}>
-        <Text style={[base.buttonText]}>Send Invitation</Text>
-      </TouchableOpacity>
+
+      <ButtonBlack text={`Send Invitation`} onPress={props.invite} style={styles.topButton} />
+
       <TouchableHighlight style={[base.button, styles.secretButton]} underlayColor="hotpink" onPress={props.generate}>
         <View>
           <Text style={[base.buttonText, styles.secretButtonText]}>Send VIP Invitation</Text>
