@@ -29,6 +29,7 @@ export default class SettingsEditorPhotos extends Component {
       trashReady: false,
       photoBin: props.user.photos.map(p => new Object({url: p.url})),
       toBeMoved: null,
+      editingCurrent: false,
     }
     this.cropImage = this.cropImage.bind(this)
     this.editImage = this.editImage.bind(this)
@@ -79,19 +80,32 @@ export default class SettingsEditorPhotos extends Component {
 
   editImage(img) {
     var localPath
+    var editingCurrent
     return this.cropImage(img)
-      .then(img => {
-        localPath = img.path
-        this.pushToPhotoBin(localPath)
+      .then(c => {
+        localPath = c.path
+        if (this.state.photoBin.find(p => p.url == img.url)) {
+          editingCurrent = true
+          this.seekAndReplacePath(img.url, c.path)
+        } else {
+          this.pushToPhotoBin(localPath)
+        }
         return this.uploadImage(localPath)
       }).then(payload => {
-        if (!payload || !payload.url) {return this.seekAndDestroyPhoto(localPath)}
-        return this.seekAndReplacePath(localPath, payload.url)
+        if (!payload || !payload.url) {
+          throw new Error('Something went wrong.')
+          return
+        }
+        return this.seekAndReplacePath((editingCurrent ? img.url : localPath), payload.url)
       })
       .catch(err => {
         if (err.code === 'E_PICKER_CANCELLED') {return}
         alert(err)
-        this.seekAndDestroyPhoto(localPath)
+        if (editingCurrent) {
+          this.seekAndReplacePath(img.path, ogPath)
+        } else {
+          this.seekAndDestroyPhoto(localPath)
+        }
         return console.error(err)
       })
   }
@@ -197,6 +211,22 @@ export default class SettingsEditorPhotos extends Component {
           <View style={[style.sectionHeader]}>
             <Text style={[style.text, style.sectionHeaderLabel]}>PHOTOS</Text>
             <Text style={[style.text, style.sectionHeaderSublabel]}>{state.photoBin.length}/{props.photoLimit}</Text>
+            <TouchableOpacity
+              style={[style.trashBin]}
+              onPress={() => this.setState({editingCurrent: !state.editingCurrent})}
+              hitSlop={{
+                top: -20, bottom: -20,
+                left: -20, right: -20,
+              }}>
+              <Animated.Image
+                style={[
+                  style.trashBinIcon,
+                  {opacity: state.editingCurrent ? 0.5 : 1},
+                  {transform: [{scale: state.editingCurrent ? 0.8 : 1}]}
+                ]}
+                source={require('../images/edit-white.png')}
+                resizeMode='contain' />
+            </TouchableOpacity>
             <View style={[style.trashBin]}
                   ref={(el) => trash = el}
                   onLayout={(e) => {
@@ -217,6 +247,8 @@ export default class SettingsEditorPhotos extends Component {
                          trashArea={state.trashArea}
                          trashPhoto={this.trashPhoto}
                          toBeMoved={state.toBeMoved}
+                         editing={state.editingCurrent}
+                         editPhoto={(path) => this.editImage(path)}
                          setToBeMoved={(i) => this.setState({toBeMoved: i})}
                          toggleTrashReady={(boo) => this.setState({trashReady: boo})}
                          toggleActive={this.toggleActive} />
