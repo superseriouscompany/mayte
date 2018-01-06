@@ -89,10 +89,7 @@ export default class CurrentPhotoView extends Component {
       onStartShouldSetPanResponder: (evt, gestureState) => false,
       onStartShouldSetPanResponderCapture: (evt, gestureState) => false,
       onMoveShouldSetPanResponder: (evt, gestureState) => {
-        if (this.props.editing) {
-          console.log("FARTS")
-          return false
-        }
+        if (this.props.editing) {return false}
         return true
       },
       onMoveShouldSetPanResponderCapture: (evt, gestureState) => false,
