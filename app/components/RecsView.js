@@ -24,7 +24,7 @@ export default function(props) {
         </View>
       : !props.recs[props.index] ?
         <View style={[styles.container, styles.centered]}>
-          <Text style={{color: 'black'}}>There's no one new around you</Text>
+          <Text style={{color: 'black'}}>{"There's no one new around you"}</Text>
         </View>
       :
         <View style={styles.container}>
