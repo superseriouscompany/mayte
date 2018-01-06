@@ -15,7 +15,7 @@ export default class ButtonBlack extends Component {
     return(
       <TouchableOpacity style={[base.button, props.style]}
                         onPress={props.onPress}>
-        <LinearGradient colors={[mayteBlack(0.85), mayteBlack()]} style={base.buttonGrad} />
+        <LinearGradient colors={['rgb(68,64,65)', mayteBlack()]} style={base.buttonGrad} />
         <Text style={[base.buttonText]}>{props.text}</Text>
       </TouchableOpacity>
     )
