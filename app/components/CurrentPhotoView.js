@@ -5,6 +5,7 @@ import {
   Animated,
   StyleSheet,
   PanResponder,
+  TouchableOpacity,
   TouchableWithoutFeedback,
 } from 'react-native'
 
@@ -14,6 +15,8 @@ export default class CurrentPhotoView extends Component {
 
     this._offset = new Animated.ValueXY(props.targetPosition)
     this._scale = new Animated.Value(1)
+    this._rotation = new Animated.Value(0)
+    this.wiggleLoop = null
 
     this.state = {
       trashable: false,
@@ -21,6 +24,8 @@ export default class CurrentPhotoView extends Component {
     }
 
     this.springToNewTarget = this.springToNewTarget.bind(this)
+    this.startWiggle = this.startWiggle.bind(this)
+    this.stopWiggle = this.stopWiggle.bind(this)
   }
 
   springToNewTarget(target) {
@@ -44,14 +49,50 @@ export default class CurrentPhotoView extends Component {
         this.springToNewTarget(nextProps.targetPosition)
       // }
     }
+
+    if (nextProps.editing && !this.props.editing) {
+      this.startWiggle()
+    } else if (!nextProps.editing && this.props.editing) {
+      this.stopWiggle()
+    }
+  }
+
+  startWiggle() {
+    this.wiggleLoop = Animated.loop(
+      Animated.sequence([
+        Animated.timing(this._rotation, {
+          toValue: -1,
+          duration: 100,
+          // useNativeDriver: true,
+        }),
+        Animated.timing(this._rotation, {
+          toValue: 1,
+          duration: 100,
+          // useNativeDriver: true,
+        })
+      ])
+    )
+    this.wiggleLoop.start()
+  }
+
+  stopWiggle() {
+    this.wiggleLoop.stop()
+    Animated.timing(this._rotation, {
+      toValue: 0,
+      duration: 0,
+      // useNativeDriver: true,
+    }).start(() => this.wiggleLoop = null)
   }
 
   componentWillMount() {
     this._panResponder = PanResponder.create({
-      onStartShouldSetPanResponder: (evt, gestureState) => true,
-      onStartShouldSetPanResponderCapture: (evt, gestureState) => true,
-      onMoveShouldSetPanResponder: (evt, gestureState) => true,
-      onMoveShouldSetPanResponderCapture: (evt, gestureState) => true,
+      onStartShouldSetPanResponder: (evt, gestureState) => false,
+      onStartShouldSetPanResponderCapture: (evt, gestureState) => false,
+      onMoveShouldSetPanResponder: (evt, gestureState) => {
+        if (this.props.editing) {return false}
+        return true
+      },
+      onMoveShouldSetPanResponderCapture: (evt, gestureState) => false,
 
       onPanResponderGrant: (evt, gestureState) => {
         this.props.toggleActive(true)
@@ -127,26 +168,39 @@ export default class CurrentPhotoView extends Component {
 
   render() {
     const { props, state } = this
+    const interpolatedWiggle = this._rotation.interpolate({
+      inputRange: [0, 100],
+      outputRange: ['0deg', '360deg']
+    })
     return (
-        <Animated.Image source={{uri: props.source}}
-               {...this._panResponder.panHandlers}
-               style={[
-                 props.style,
-                 {
-                   left:this._offset.x,
-                   top:this._offset.y,
-                   transform: [
-                     {scale:this._scale}
-                   ],
-                   zIndex: state.active ? 1 : 0,
-                   borderColor: 'red',
-                   borderWidth: props.willBeMoved ? 1 : 0,
-                 }
-               ]} />
+        <Animated.View
+          {...this._panResponder.panHandlers}
+          style={[
+            {
+              left:this._offset.x,
+              top:this._offset.y,
+              transform: [
+                {scale:this._scale},
+                {rotate:interpolatedWiggle}
+              ],
+              zIndex: state.active ? 1 : 0,
+              borderColor: 'red',
+              borderWidth: props.willBeMoved ? 1 : 0,
+            }
+          ]}>
+          <TouchableOpacity
+            onPress={props.editing ?
+              () => props.editPhoto({url: props.source}) : () => null} >
+            <Image source={{uri: props.source}} style={[props.style]} />
+          </TouchableOpacity>
+        </Animated.View>
     )
   }
 }
 
 const style = StyleSheet.create({
-
+  img: {
+    width: '100%',
+    height: '100%',
+  }
 })
