@@ -3,8 +3,9 @@
 import React, {Component} from 'react'
 import {connect}          from 'react-redux'
 import SettingsView       from '../components/SettingsView'
-import api                from '../services/api'
+import request            from '../actions/request'
 import branch             from 'react-native-branch'
+import {clear}            from '../reducers'
 
 class Settings extends Component {
   constructor(props) {
@@ -32,10 +33,7 @@ class Settings extends Component {
   hydrateUser(reload = true) {
     var user;
     if (reload) this.setState({loading: true});
-    return Promise.all([
-      api('/users/me', { accessToken: this.props.accessToken}),
-    ]).then((v) => {
-      const user = v[0]
+    return this.props.hydrateUser().then((user) => {
       const photos = user.photos
       const bio = user.bio
       const dob = user.dob
@@ -47,12 +45,8 @@ class Settings extends Component {
   }
 
   deleteAccount() {
-    api('/users/me', {
-      method: 'DELETE',
-      accessToken: this.props.accessToken
-    }).then(() => {
-      this.props.logout()
-    }).catch((err) => {
+    return this.props.deleteAccount().catch((err) => {
+      // TODO: nicer error message
       alert(err.message || err)
       console.error(err)
     })
@@ -62,11 +56,10 @@ class Settings extends Component {
     return (
       <SettingsView {...this.state}
                     {...this.props}
-                    // scene={{view:'Editor'}}
                     updateBaseScene={this.updateBaseScene}
                     hydrateUser={this.hydrateUser}
-                    setBio={text => this.setState({bio: text})}
-                    setDob={date => this.setState({dob: date})}
+                    setBio={bio => this.setState({bio})}
+                    setDob={dob => this.setState({dob})}
                     deleteAccount={this.deleteAccount} />
     )
   }
@@ -74,28 +67,46 @@ class Settings extends Component {
 
 function mapStateToProps(state) {
   return {
-    accessToken: state.user.accessToken,
     user: state.user,
     scene: state.scene,
   }
 }
 
 function mapDispatchToProps(dispatch) {
-  return {
+  const dispatchProps = {
+    hydrateUser: () => {
+      return dispatch(request({
+        url: '/users/me'
+      }, true))
+    },
+
+    deleteAccount: () => {
+      return dispatch(request({
+        url: '/users/me',
+        method: 'DELETE',
+      })).then(dispatchProps.logout)
+    },
+
     logout: () => {
       branch.logout()
       dispatch({type: 'user:destroy'})
+      dispatch({type: 'vip:destroy'})
+      clear()
     },
+
     viewSettingsPage: (view) => {
       dispatch({type: 'scene:change', scene: {
         name: 'Settings',
         view: view,
       }})
     },
+
     setUser: (user) => {
       dispatch({type: 'user:set', user: user})
-    }
+    },
   }
+
+  return dispatchProps
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(Settings)

@@ -1,7 +1,7 @@
 import React, {Component} from 'react'
 import {connect}          from 'react-redux'
 import RNFirebase         from 'react-native-firebase'
-import api                from '../services/api'
+import request            from '../actions/request'
 
 const firebase = RNFirebase.initializeApp({
   debug: __DEV__,
@@ -10,37 +10,20 @@ const firebase = RNFirebase.initializeApp({
 class NotificationProvider extends Component {
   constructor(props) {
     super(props)
-    this.saveToken = this.saveToken.bind(this)
   }
 
   componentWillReceiveProps(nextProps) {
     if (nextProps.isAuthenticated && !this.props.isAuthenticated) {
       firebase.messaging().requestPermissions()
-    }
 
-    if (nextProps.accessToken && !this.props.accessToken) {
       firebase.messaging().getToken().then((token) => {
-        this.saveToken(token)
+        this.props.saveToken(token)
       })
 
       firebase.messaging().onTokenRefresh((token) => {
-        this.saveToken(token)
+        this.props.saveToken(token)
       })
     }
-  }
-
-  saveToken(token) {
-    api('/users/me', {
-      method: 'PATCH',
-      accessToken: this.props.accessToken,
-      body: {
-        firebaseToken: token
-      }
-    })
-    .catch((err) => {
-      alert(err.message || err)
-      console.error(err)
-    })
   }
 
   render() { return null }
@@ -49,15 +32,23 @@ class NotificationProvider extends Component {
 function mapStateToProps(state) {
   return {
     isAuthenticated: !!state.user.id,
-    accessToken: state.user.accessToken,
   }
 }
 
 function mapDispatchToProps(dispatch) {
   return {
-
+    saveToken: function(firebaseToken) {
+      return dispatch(request({
+        url: '/users/me',
+        method: 'PATCH',
+        body: { firebaseToken }
+      })).catch((err) => {
+        // TODO: retry this silently until it goes through
+        alert(err.message || err)
+        console.error(err)
+      })
+    }
   }
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(NotificationProvider)
-

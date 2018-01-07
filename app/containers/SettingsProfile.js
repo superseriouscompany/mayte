@@ -11,6 +11,7 @@ import {
   Text,
 } from 'react-native'
 
+// TODO: move view stuff to app/components and make this a proper container
 export default class SettingsProfile extends Component {
   componentDidMount() {
     this.props.updateBaseScene('Profile')

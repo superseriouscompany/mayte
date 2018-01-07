@@ -1,5 +1,6 @@
 import React, {Component} from 'react'
 import {connect}          from 'react-redux'
+import request            from '../actions/request'
 import api                from '../services/api'
 
 class MatchesProvider extends Component {
@@ -27,6 +28,7 @@ function mapStateToProps(state) {
 function mapDispatchToProps(dispatch) {
   return {
     loadMatches: (accessToken) => {
+      // TODO: replace this with standard api requests
       dispatch({type: 'matches:load'})
       api('/matches', {accessToken: accessToken}).then((r) => {
         dispatch({type: 'matches:load:yes', matches: r.matches})
