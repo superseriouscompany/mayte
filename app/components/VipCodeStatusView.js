@@ -19,9 +19,7 @@ export default function(props) {
       </View>
 
       <View style={styles.buttonsCnr}>
-        <TouchableOpacity style={[base.button, styles.mainButton]} onPress={props.share}>
-          <Text style={[base.buttonText]}>Share your code</Text>
-        </TouchableOpacity>
+        <ButtonBlack text={`Share your code`} onPress={props.share} style={styles.mainButton} />
 
         <TouchableOpacity style={[styles.cancel]} onPress={props.reset}>
           <Text style={styles.cancelText}>Use another code</Text>
