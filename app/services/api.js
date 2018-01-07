@@ -43,6 +43,7 @@ function request(path, options = {}) {
 
     console.log(err.message, err.name)
     console.error(err)
+    // TODO: parse error from json, falling back to statusCode if necessary
     throw new Error(statusCode)
   })
 }

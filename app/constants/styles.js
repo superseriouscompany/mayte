@@ -2,7 +2,6 @@ import {em} from './dimensions'
 import {mayteBlack, mayteWhite} from './colors'
 export default {
   button: {
-    backgroundColor: mayteWhite(),
     paddingLeft: em(0.8),
     paddingRight: em(0.8),
     paddingTop: em(0.6),
