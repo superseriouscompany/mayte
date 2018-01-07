@@ -86,7 +86,7 @@ export default class SettingsEditorPhotos extends Component {
         localPath = c.path
         if (this.state.photoBin.find(p => p.url == img.url)) {
           editingCurrent = true
-          this.seekAndReplacePath(img.url, c.path)
+          this.seekAndReplacePath(img.url, localPath)
         } else {
           this.pushToPhotoBin(localPath)
         }
@@ -96,7 +96,7 @@ export default class SettingsEditorPhotos extends Component {
           throw new Error('Something went wrong.')
           return
         }
-        return this.seekAndReplacePath((editingCurrent ? img.url : localPath), payload.url)
+        return this.seekAndReplacePath(localPath, payload.url)
       })
       .catch(err => {
         if (err.code === 'E_PICKER_CANCELLED') {return}
@@ -111,12 +111,16 @@ export default class SettingsEditorPhotos extends Component {
   }
 
   uploadImage(localPath) {
+    this.props.setSaving(true)
     return api.upload({
       path: '/images',
       filePath: localPath,
       fieldName: 'image_file',
       fileName: `${this.props.user.id}_${Date.now()}.jpg`,
       fileType: 'image/jpeg',
+    }).then(p => {
+      this.props.setSaving(false)
+      return p
     })
   }
 

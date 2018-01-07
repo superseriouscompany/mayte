@@ -119,11 +119,12 @@ class SettingsEditor extends Component {
                             return op
                           })()}
                           photoLimit={photoLimit}
-                          setPhotos={(bin) => this.setState({photos: bin})}
-                          setBio={text => this.setState({bio: text})}
-                          setDob={date => this.setState({dob: date})}
-                          toggleScroll={(boo) => this.setState({scrollEnabled: boo})}
-                          setOccupation={text => this.setState({occupation: text})}
+                          setPhotos={photos => this.setState({photos})}
+                          setBio={bio => this.setState({bio})}
+                          setDob={dob => this.setState({dob})}
+                          setSaving={saving => this.setState({saving})}
+                          toggleScroll={scrollEnabled => this.setState({scrollEnabled})}
+                          setOccupation={occupation => this.setState({occupation})}
                           setPrivacyOption={this.setPrivacyOption} />
     )
   }

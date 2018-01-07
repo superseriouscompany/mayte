@@ -94,15 +94,6 @@ class Stage extends PureComponent {
                     style={{color: tintColor}} />
             )} />
         }
-        { !props.isAdmin ? null :
-          <MatchBridge sceneName="Matches"
-            tabLabel="Matches"
-            tabIcon={({tintColor, focused}) => (
-              <Icon name={focused ? 'ios-heart' : 'ios-heart-outline'}
-                    size={26}
-                    style={{color: tintColor}} />
-            )} />
-        }
       </Navigation>
     )
   }
