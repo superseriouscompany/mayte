@@ -3,6 +3,7 @@
 import React, { Component } from 'react'
 import { mayteBlack, mayteWhite }       from '../constants/colors'
 import { em, screenWidth }  from '../constants/dimensions'
+import { ButtonGrey, ButtonBlack } from './Button'
 import {
   Animated,
   ActivityIndicator,
@@ -95,17 +96,28 @@ export default class LoginView extends Component {
                      resizeMode="contain" />
             </Animated.View>
 
-            <Animated.View style={{opacity: this._igOpacity, transform: [{translateY: this._igDriftY}]}}>
-              <TouchableOpacity onPress={props.instagramLogin}
-                                style={[style.button, {marginBottom: em(2.33)}]}>
-                <Text style={[style.buttonText]}>LOGIN WITH INSTAGRAM</Text>
-              </TouchableOpacity>
+            <Animated.View
+              style={{
+                opacity: this._igOpacity,
+                transform: [{translateY: this._igDriftY}]}}>
+              <ButtonGrey
+                text='LOGIN WITH INSTAGRAM'
+                styleGrad={style.buttonGrad}
+                styleText={style.buttonText}
+                style={[style.button, {marginBottom: em(2.33)}]}
+                onPress={props.instagramLogin} />
             </Animated.View>
 
-            <Animated.View style={{opacity: this._liOpacity, transform: [{translateY: this._liDriftY}]}}>
-              <TouchableOpacity onPress={props.linkedinLogin} style={style.button}>
-                <Text style={[style.buttonText]}>LOGIN WITH LINKEDIN</Text>
-              </TouchableOpacity>
+            <Animated.View
+              style={{
+                opacity: this._liOpacity,
+                transform: [{translateY: this._liDriftY}]}}>
+              <ButtonGrey
+                text='LOGIN WITH LINKEDIN'
+                styleGrad={style.buttonGrad}
+                styleText={style.buttonText}
+                style={[style.button]}
+                onPress={props.linkedinLogin} />
             </Animated.View>
           </View>
         }
@@ -151,25 +163,15 @@ const style = StyleSheet.create({
   button: {
     paddingTop: em(1),
     paddingBottom: em(1),
-    paddingLeft: em(1),
-    paddingRight: em(1),
-    borderRadius: 4,
-    shadowRadius: 4,
-    shadowOffset: {width: 2, height: 2},
-    shadowColor: 'rgba(0,0,0,1)',
-    backgroundColor: mayteWhite(0.8),
-    width: screenWidth * 0.8,
-    maxWidth: 280,
+    paddingLeft: em(1.33),
+    paddingRight: em(1.33),
+  },
+
+  buttonGrad: {
+    opacity: 0.8,
   },
 
   buttonText: {
-    width: '100%',
-    textAlign: 'center',
-    fontSize: em(1),
-    fontWeight: 'bold',
-    color: mayteBlack(),
-    letterSpacing: 1,
-    fontFamily: 'Gotham-Medium',
-    marginTop: em(0.1),
+    fontSize: em(0.9),
   }
 })

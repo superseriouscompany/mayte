@@ -19,6 +19,7 @@ export default {
     backgroundColor: 'transparent',
     fontSize: em(1),
     fontFamily: 'Gotham-Medium',
+    textAlign: 'center',
     marginTop: em(0.33),
     marginLeft: em(0.08),
     letterSpacing: em(0.1),

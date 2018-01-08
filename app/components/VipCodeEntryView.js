@@ -3,7 +3,7 @@
 import React, {Component} from 'react'
 import {em, bottomBoost, screenWidth, screenHeight, notchHeight} from '../constants/dimensions'
 import {mayteBlack} from '../constants/colors'
-import ButtonBlack from './ButtonBlack'
+import {ButtonBlack} from './Button'
 import base from '../constants/styles'
 import Text from './Text'
 import {

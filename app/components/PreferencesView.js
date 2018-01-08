@@ -5,7 +5,7 @@ import RangeSlider                          from '../containers/RangeSlider'
 import MaytePicker                          from '../containers/MaytePicker'
 import OrbitLoader                          from './OrbitLoader'
 import { mayteBlack, mayteWhite, mayteRed } from '../constants/colors'
-import ButtonBlack                          from './ButtonBlack'
+import {ButtonBlack}                        from './Button'
 import { Star }                             from './Environment'
 import {
   em,
