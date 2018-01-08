@@ -5,7 +5,7 @@ import Text               from './Text'
 import {webUrl}           from '../services/api'
 import base               from '../constants/styles'
 import {em}               from '../constants/dimensions'
-import ButtonBlack        from './ButtonBlack'
+import {ButtonBlack}      from './Button'
 import MembershipCard     from '../containers/MembershipCard'
 import {
   ActivityIndicator,

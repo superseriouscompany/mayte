@@ -4,7 +4,7 @@ import React, {Component} from 'react'
 import Text from './Text'
 import {em} from '../constants/dimensions'
 import base from '../constants/styles'
-import ButtonBlack from './ButtonBlack'
+import {ButtonBlack} from './Button'
 import {
   StyleSheet,
   TouchableOpacity,
