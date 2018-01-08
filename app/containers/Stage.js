@@ -70,7 +70,7 @@ class Stage extends PureComponent {
     }
 
     return (
-      <Navigation initialSceneName="Settings">
+      <Navigation initialSceneName="VelvetRope">
         <Settings sceneName="Settings"
           tabLabel="Settings"
           tabIcon={({tintColor, focused}) => (
