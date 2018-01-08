@@ -12,6 +12,8 @@ export default class RangeSliderView extends Component {
     super(props)
 
     this._panHandlers = {}
+    this._highlightScale = new Animated.Value(1)
+    this._highlightOffset = new Animated.Value(0)
     this.state = {}
 
     this.calculatePositions = this.calculatePositions.bind(this)
@@ -50,11 +52,33 @@ export default class RangeSliderView extends Component {
           if (value < 0) {value = 0}
           if (value > this.state.trackDims.width) {value = this.state.trackDims.width}
 
-          Animated.spring(this.state[`${i}X`], {
-            toValue: value,
-            stiffness: 250,
-            overshootClamping: true,
-          }).start(() => this.props.onUpdate(this.calculatePositions()))
+          const pcts = this.calculatePositions()
+          const hScale = pcts[pcts.length - 1] - (pcts.length > 1 ? pcts[0] : 0)
+          const hOff = -0.5 * this.state.trackDims.width
+          console.log(hOff)
+          // const hOff = pcts[pcts.length - 1] * this.state.trackDims.width +
+          //              (pcts.length > 1 ? pcts[0] : 0) * this.state.trackDims.width +
+          //              0.5 * this.state.trackDims.width * (pcts.length > 1 ? pcts[0] : 0) * this.state.trackDims.width
+
+          Animated.parallel([
+            Animated.spring(this.state[`${i}X`], {
+              toValue: value,
+              stiffness: 250,
+              overshootClamping: true,
+            }),
+            Animated.spring(this._highlightScale, {
+              toValue: pcts[pcts.length - 1] - (pcts.length > 1 ? pcts[0] : 0),
+              stiffNess: 250,
+              overshootClamping: true,
+              useNativeDriver: true,
+            }),
+            Animated.spring(this._highlightOffset, {
+              toValue: hOff,
+              stiffNess: 250,
+              overshootClamping: true,
+              useNativeDriver: true,
+            }),
+          ]).start(() => this.props.onUpdate(pcts))
         },
 
         onPanResponderTerminationRequest: (evt, gestureState) => true,
@@ -97,6 +121,15 @@ export default class RangeSliderView extends Component {
                 width: '100%',
               }}
               onLayout={(e) => this.setState({trackDims: e.nativeEvent.layout})} />
+          <Animated.View
+            style={{
+            position: 'absolute',
+            top: fullDiameter / 2 - props.trackHeight / 2,
+            left: 0, right: 0,
+            height: props.trackHeight,
+            backgroundColor: props.trackHighlight,
+            transform: [{scaleX: this._highlightScale}, {translateX: this._highlightOffset}],
+          }} />
         { !state.trackDims ? null :
           Object.keys(this._panHandlers).map((m,i) => {
             return( !state[`${i}X`] ? null :

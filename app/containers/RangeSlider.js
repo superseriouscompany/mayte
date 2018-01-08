@@ -25,6 +25,7 @@ RangeSlider.defaultProps = {
   trackColor: '#000',
   markerFill: '#000',
   markerStroke: '#000',
+  trackHighlight: '#FFF',
   markerStrokeWidth: 0,
 }
 
