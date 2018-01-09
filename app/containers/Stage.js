@@ -24,7 +24,7 @@ import {
   TouchableWithoutFeedback,
 } from 'react-native'
 
-const useScratch = true
+const useScratch = false
 
 class Stage extends PureComponent {
   constructor(props) {
