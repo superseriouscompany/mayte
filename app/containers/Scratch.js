@@ -39,6 +39,8 @@ export default class Scratch extends Component {
   }
 
   crash() {
+    var err = new Error('nope')
+    Crashlytics.recordError('halp')
     Crashlytics.crash()
   }
 
