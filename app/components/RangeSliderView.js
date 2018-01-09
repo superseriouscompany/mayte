@@ -17,12 +17,13 @@ export default class RangeSliderView extends Component {
     this.calculatePositions = this.calculatePositions.bind(this)
   }
 
-  componentDidUpdate(prevProps, prevState) {
-    if (!prevState.trackDims && this.state.trackDims) {
+  componentWillUpdate(nextProps, nextState) {
+    if (nextState.trackDims && !this.state.trackDims) {
 
-      let s = this.state
+      const {width} = nextState.trackDims
+      let s = nextState
       for (let i = 0; i < this.props.numMarkers; i++) {
-        s[`${i}X`] = new Animated.Value((this.props.values[i] - this.props.minValue) / (this.props.maxValue - this.props.minValue) * s.trackDims.width)
+        s[`${i}X`] = new Animated.Value((this.props.values[i] - this.props.minValue) / (this.props.maxValue - this.props.minValue) * width)
       }
       this.setState(s)
     }
@@ -46,9 +47,11 @@ export default class RangeSliderView extends Component {
         },
 
         onPanResponderMove: (evt, gestureState) => {
+          const {width} = this.state.trackDims
+
           let value = this.state[`${i}OGX`] + gestureState.dx
           if (value < 0) {value = 0}
-          if (value > this.state.trackDims.width) {value = this.state.trackDims.width}
+          if (value > width) {value = width}
 
           Animated.spring(this.state[`${i}X`], {
             toValue: value,
@@ -83,6 +86,7 @@ export default class RangeSliderView extends Component {
   render() {
     const { props, state } = this
     const fullDiameter = props.markerDiameter + props.markerStrokeWidth
+    const panKeys = Object.keys(this._panHandlers)
     return(
       <View style={{
               width: '100%',
@@ -97,8 +101,21 @@ export default class RangeSliderView extends Component {
                 width: '100%',
               }}
               onLayout={(e) => this.setState({trackDims: e.nativeEvent.layout})} />
+          { !state.trackDims ? null :
+            <Animated.View
+              style={{
+              position: 'absolute',
+              top: fullDiameter / 2 - props.trackHeight / 2,
+              left: (panKeys.length > 1 ? state[`0X`] : props.markerDiameter/2),
+              right: Animated.add(
+                new Animated.Value(state.trackDims.width),
+                Animated.multiply(state[`${panKeys.length-1}X`], new Animated.Value(-1))
+              ),
+              height: props.trackHeight,
+              backgroundColor: props.trackHighlight,
+            }} /> }
         { !state.trackDims ? null :
-          Object.keys(this._panHandlers).map((m,i) => {
+          panKeys.map((m,i) => {
             return( !state[`${i}X`] ? null :
               <Animated.View
                 {...this._panHandlers[m].panHandlers}

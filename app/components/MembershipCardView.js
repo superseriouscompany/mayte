@@ -1,7 +1,7 @@
 'use strict'
 
 import React, {Component} from 'react'
-import {screenWidth, screenHeight, em} from '../constants/dimensions'
+import {screenWidth, screenHeight, em, notchHeight} from '../constants/dimensions'
 import moment from 'moment'
 import Text from './Text'
 import {
@@ -54,6 +54,7 @@ const styles = StyleSheet.create({
     borderRadius: em(3),
     padding: em(1),
     marginBottom: em(1),
+    marginTop: notchHeight,
   },
   mugshot: {
     aspectRatio: screenWidth / screenHeight,

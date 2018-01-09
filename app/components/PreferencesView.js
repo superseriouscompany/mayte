@@ -4,9 +4,14 @@ import LinearGradient                       from 'react-native-linear-gradient'
 import RangeSlider                          from '../containers/RangeSlider'
 import MaytePicker                          from '../containers/MaytePicker'
 import OrbitLoader                          from './OrbitLoader'
-import { mayteBlack, mayteWhite, mayteRed } from '../constants/colors'
 import {ButtonBlack}                        from './Button'
 import { Star }                             from './Environment'
+import {
+  mayteBlack,
+  mayteWhite,
+  mayteGreen,
+  mayteRed,
+} from '../constants/colors'
 import {
   em,
   tabNavHeight,
@@ -74,6 +79,7 @@ export default class PreferencesView extends Component {
                            maxValue={props.maxAge}
                            values={props.ageRange}
                            markerDiameter={em(1.33)}
+                           trackHighlight={mayteGreen()}
                            onGestureStart={() => this.setState({scrollEnabled: false})}
                            onGestureEnd={() => {
                              this.setState({scrollEnabled: true, savingAge: true})
@@ -100,11 +106,11 @@ export default class PreferencesView extends Component {
                              return props.updateDistance(d)
                            }}
                            numMarkers={1}
-                           debug={true}
                            markerDiameter={em(1.33)}
                            minValue={props.minDistance}
                            maxValue={props.maxDistance}
                            values={[props.distance]}
+                           trackHighlight={mayteGreen()}
                            onGestureStart={() => this.setState({scrollEnabled: false})}
                            onGestureEnd={() => {
                              this.setState({scrollEnabled: true, savingDistance: true})
