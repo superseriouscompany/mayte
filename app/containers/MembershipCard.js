@@ -5,6 +5,7 @@ import {connect}          from 'react-redux'
 import MembershipCardView from '../components/MembershipCardView'
 import Wallet             from 'react-native-wallet'
 import {baseUrl}          from '../services/api'
+import log                from '../services/log'
 
 class MembershipCard extends Component {
   constructor(props) {
@@ -16,7 +17,7 @@ class MembershipCard extends Component {
   addPass() {
     Wallet.canAddPasses((ok) => {
       if( !ok ) {
-        console.error('Unable to add passes');
+        log('Unable to add passes');
         return alert('Unable to add pass. Please enable Apple Wallet.')
       }
 

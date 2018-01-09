@@ -5,6 +5,7 @@ import {connect}          from 'react-redux'
 import branch             from 'react-native-branch'
 import VipCodeStatusView  from '../components/VipCodeStatusView'
 import request            from '../actions/request'
+import log                from '../services/log'
 
 class VipCodeStatus extends Component {
   constructor(props) {
@@ -25,7 +26,7 @@ class VipCodeStatus extends Component {
         setTimeout(this.pollSelf, 2000)
       }
     }).catch((err) => {
-      console.error(err)
+      log(err)
       alert(err.message || JSON.stringify(err))
     })
   }
@@ -57,7 +58,7 @@ class VipCodeStatus extends Component {
       const {url} = payload
       this.setState({url})
     }).catch((err) => {
-      console.error(err)
+      log(err)
       alert(err.message || JSON.stringify(err))
     })
   }

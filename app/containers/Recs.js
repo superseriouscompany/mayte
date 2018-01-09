@@ -4,6 +4,7 @@ import React, {Component} from 'react'
 import {connect}          from 'react-redux'
 import RecsView           from '../components/RecsView'
 import request            from '../actions/request'
+import log                from '../services/log'
 import {
   Image
 } from 'react-native'
@@ -45,7 +46,7 @@ class Recs extends Component {
       this.setState({index: this.state.index + 1})
     }).catch((err) => {
       // TODO: retry likes on queue without interrupting user flow
-      console.error(err)
+      log(err)
       alert(err.message || err)
     })
   }
@@ -55,7 +56,7 @@ class Recs extends Component {
       this.setState({index: this.state.index + 1})
     }).catch((err) => {
       // TODO: retry failed passes on queue without interrupting user flow
-      console.error(err)
+      log(err)
       alert(err.message || err)
     })
   }

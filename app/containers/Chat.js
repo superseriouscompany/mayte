@@ -6,6 +6,7 @@ import ChatView           from '../components/ChatView'
 import PropTypes          from 'prop-types'
 import request            from '../actions/request'
 import { GiftedChat }     from 'react-native-gifted-chat'
+import log                from '../services/log'
 
 class Chat extends Component {
   static propTypes = {
@@ -50,7 +51,7 @@ class Chat extends Component {
       }))
     }).catch((err) => {
       // TODO: provide error/retry options in chat
-      console.error(err)
+      log(err)
       alert(err.message || JSON.stringify(err))
     })
   }
