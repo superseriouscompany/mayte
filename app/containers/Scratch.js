@@ -7,6 +7,7 @@ import { GeoLocation } from 'react-native'
 const { InAppUtils } = NativeModules
 import Wallet from 'react-native-wallet'
 import branch from 'react-native-branch'
+import { Client } from 'bugsnag-react-native';
 import {
   Text,
   TouchableOpacity,
@@ -36,6 +37,9 @@ export default class Scratch extends Component {
   }
 
   componentDidMount() {
+    const bugsnag = new Client();
+    bugsnag.notify(new Error('halp'))
+
     branch.createBranchUniversalObject(
       `promos/nice`,
       {

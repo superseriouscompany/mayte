@@ -44,6 +44,7 @@
 		3F0A8A211F6A1FA8004544FE /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 3F0A8A1E1F6A1FA8004544FE /* GoogleService-Info.plist */; };
 		3F0A8A221F6A1FA8004544FE /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 3F0A8A1E1F6A1FA8004544FE /* GoogleService-Info.plist */; };
 		3F26765D1F6B4B2B00615176 /* StoreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3F26765C1F6B4B2B00615176 /* StoreKit.framework */; };
+		3F9228B220057B200048C8AF /* libBugsnagReactNative.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 3F92287F20057B0B0048C8AF /* libBugsnagReactNative.a */; };
 		3F96AE741F6A1D710081E709 /* FirebaseAnalytics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3FE9CC151F6A195A005DD60C /* FirebaseAnalytics.framework */; };
 		3F96AE751F6A1D710081E709 /* FirebaseCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3FE9CC1A1F6A195A005DD60C /* FirebaseCore.framework */; };
 		3F96AE761F6A1D710081E709 /* FirebaseCoreDiagnostics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3FE9CC121F6A195A005DD60C /* FirebaseCoreDiagnostics.framework */; };
@@ -275,6 +276,13 @@
 			remoteGlobalIDString = B3A3CC361C5B0A070016AC52;
 			remoteInfo = RNBranch;
 		};
+		3F92287E20057B0B0048C8AF /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 3F92287920057B0A0048C8AF /* BugsnagReactNative.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 8AD256131D6DE5F600C7D842;
+			remoteInfo = BugsnagReactNative;
+		};
 		3FBB07E71F6A243200794E2B /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 1A374E230A2346F89847942E /* RNFirebase.xcodeproj */;
@@ -485,6 +493,8 @@
 		3F0A8A1E1F6A1FA8004544FE /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		3F26765C1F6B4B2B00615176 /* StoreKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = StoreKit.framework; path = System/Library/Frameworks/StoreKit.framework; sourceTree = SDKROOT; };
 		3F3788291F6B280500E21A50 /* mayte.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; name = mayte.entitlements; path = mayte/mayte.entitlements; sourceTree = "<group>"; };
+		3F92287920057B0A0048C8AF /* BugsnagReactNative.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = BugsnagReactNative.xcodeproj; path = "../node_modules/bugsnag-react-native/cocoa/BugsnagReactNative.xcodeproj"; sourceTree = "<group>"; };
+		3F9228B420057B290048C8AF /* libBugsnagStatic.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; path = libBugsnagStatic.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		3F96AE541F6A1C820081E709 /* Firebase.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Firebase.h; sourceTree = "<group>"; };
 		3FE9CC111F6A195A005DD60C /* GoogleToolboxForMac.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = GoogleToolboxForMac.framework; sourceTree = "<group>"; };
 		3FE9CC121F6A195A005DD60C /* FirebaseCoreDiagnostics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = FirebaseCoreDiagnostics.framework; sourceTree = "<group>"; };
@@ -556,6 +566,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				3F9228B220057B200048C8AF /* libBugsnagReactNative.a in Frameworks */,
 				84E70DB41FDB04880005568E /* libRCTCameraRoll.a in Frameworks */,
 				8428BBC01F9978AD000FDDA7 /* libBVLinearGradient.a in Frameworks */,
 				ADBDB9381DFEBF1600ED6528 /* libRCTBlob.a in Frameworks */,
@@ -765,6 +776,14 @@
 			name = Products;
 			sourceTree = "<group>";
 		};
+		3F92287A20057B0A0048C8AF /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				3F92287F20057B0B0048C8AF /* libBugsnagReactNative.a */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
 		3FBB07C41F6A242F00794E2B /* Recovered References */ = {
 			isa = PBXGroup;
 			children = (
@@ -792,6 +811,7 @@
 		3FE9CBDE1F6A18DA005DD60C /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				3F9228B420057B290048C8AF /* libBugsnagStatic.a */,
 				3F26765C1F6B4B2B00615176 /* StoreKit.framework */,
 				3FE9CC151F6A195A005DD60C /* FirebaseAnalytics.framework */,
 				3FE9CC1A1F6A195A005DD60C /* FirebaseCore.framework */,
@@ -856,6 +876,7 @@
 		832341AE1AAA6A7D00B99B32 /* Libraries */ = {
 			isa = PBXGroup;
 			children = (
+				3F92287920057B0A0048C8AF /* BugsnagReactNative.xcodeproj */,
 				84E70D7E1FDB04510005568E /* RCTCameraRoll.xcodeproj */,
 				84E8F3091F9974BE0058AC0E /* BVLinearGradient.xcodeproj */,
 				5E91572D1DD0AC6500FF2AA8 /* RCTAnimation.xcodeproj */,
@@ -1146,6 +1167,10 @@
 			projectDirPath = "";
 			projectReferences = (
 				{
+					ProductGroup = 3F92287A20057B0A0048C8AF /* Products */;
+					ProjectRef = 3F92287920057B0A0048C8AF /* BugsnagReactNative.xcodeproj */;
+				},
+				{
 					ProductGroup = 84E8F30A1F9974BE0058AC0E /* Products */;
 					ProjectRef = 84E8F3091F9974BE0058AC0E /* BVLinearGradient.xcodeproj */;
 				},
@@ -1422,6 +1447,13 @@
 			fileType = archive.ar;
 			path = "libreact-native-branch.a";
 			remoteRef = 3F8D168F1F6B799B00011281 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		3F92287F20057B0B0048C8AF /* libBugsnagReactNative.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = libBugsnagReactNative.a;
+			remoteRef = 3F92287E20057B0B0048C8AF /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
 		3FBB07E81F6A243200794E2B /* libRNFirebase.a */ = {
