@@ -16,6 +16,9 @@
 #import "RNFirebaseMessaging.h"
 #import "Firebase.h"
 
+#import <Fabric/Fabric.h>
+#import <Crashlytics/Crashlytics.h>
+
 #import <react-native-branch/RNBranch.h>
 
 @implementation AppDelegate
@@ -61,6 +64,8 @@
   
   [[UIApplication sharedApplication] registerForRemoteNotifications];
   
+  [Fabric with:@[[Crashlytics class]]];
+
   return YES;
 }
 

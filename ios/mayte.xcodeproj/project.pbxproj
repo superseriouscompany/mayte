@@ -44,6 +44,8 @@
 		3F0A8A211F6A1FA8004544FE /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 3F0A8A1E1F6A1FA8004544FE /* GoogleService-Info.plist */; };
 		3F0A8A221F6A1FA8004544FE /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 3F0A8A1E1F6A1FA8004544FE /* GoogleService-Info.plist */; };
 		3F26765D1F6B4B2B00615176 /* StoreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3F26765C1F6B4B2B00615176 /* StoreKit.framework */; };
+		3F2C0B3520054B4C000FC3F4 /* Fabric.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3F2C0B3320054B4B000FC3F4 /* Fabric.framework */; };
+		3F2C0B3620054B4C000FC3F4 /* Crashlytics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3F2C0B3420054B4C000FC3F4 /* Crashlytics.framework */; };
 		3F96AE741F6A1D710081E709 /* FirebaseAnalytics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3FE9CC151F6A195A005DD60C /* FirebaseAnalytics.framework */; };
 		3F96AE751F6A1D710081E709 /* FirebaseCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3FE9CC1A1F6A195A005DD60C /* FirebaseCore.framework */; };
 		3F96AE761F6A1D710081E709 /* FirebaseCoreDiagnostics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3FE9CC121F6A195A005DD60C /* FirebaseCoreDiagnostics.framework */; };
@@ -484,6 +486,8 @@
 		37E40E0A98E7E4A5B31D6466 /* Pods-mayte.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-mayte.release.xcconfig"; path = "Pods/Target Support Files/Pods-mayte/Pods-mayte.release.xcconfig"; sourceTree = "<group>"; };
 		3F0A8A1E1F6A1FA8004544FE /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		3F26765C1F6B4B2B00615176 /* StoreKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = StoreKit.framework; path = System/Library/Frameworks/StoreKit.framework; sourceTree = SDKROOT; };
+		3F2C0B3320054B4B000FC3F4 /* Fabric.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Fabric.framework; sourceTree = "<group>"; };
+		3F2C0B3420054B4C000FC3F4 /* Crashlytics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Crashlytics.framework; sourceTree = "<group>"; };
 		3F3788291F6B280500E21A50 /* mayte.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; name = mayte.entitlements; path = mayte/mayte.entitlements; sourceTree = "<group>"; };
 		3F96AE541F6A1C820081E709 /* Firebase.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Firebase.h; sourceTree = "<group>"; };
 		3FE9CC111F6A195A005DD60C /* GoogleToolboxForMac.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = GoogleToolboxForMac.framework; sourceTree = "<group>"; };
@@ -559,6 +563,7 @@
 				84E70DB41FDB04880005568E /* libRCTCameraRoll.a in Frameworks */,
 				8428BBC01F9978AD000FDDA7 /* libBVLinearGradient.a in Frameworks */,
 				ADBDB9381DFEBF1600ED6528 /* libRCTBlob.a in Frameworks */,
+				3F2C0B3520054B4C000FC3F4 /* Fabric.framework in Frameworks */,
 				5E9157361DD0AC6A00FF2AA8 /* libRCTAnimation.a in Frameworks */,
 				146834051AC3E58100842450 /* libReact.a in Frameworks */,
 				5E9157361DD0AC6A00FF2AA8 /* libRCTAnimation.a in Frameworks */,
@@ -583,6 +588,7 @@
 				3F96AE7C1F6A1D710081E709 /* leveldb-library.framework in Frameworks */,
 				3F96AE7D1F6A1D710081E709 /* nanopb.framework in Frameworks */,
 				3F96AE7E1F6A1D710081E709 /* Protobuf.framework in Frameworks */,
+				3F2C0B3620054B4C000FC3F4 /* Crashlytics.framework in Frameworks */,
 				F7818507C6E24560A1AD42B5 /* libRNFirebase.a in Frameworks */,
 				0400A4EC026F4851B6FBABAF /* libInAppUtils.a in Frameworks */,
 				3309E9A2C5154139BCB373C0 /* libRNWalletModule.a in Frameworks */,
@@ -895,6 +901,8 @@
 		83CBB9F61A601CBA00E9B192 = {
 			isa = PBXGroup;
 			children = (
+				3F2C0B3420054B4C000FC3F4 /* Crashlytics.framework */,
+				3F2C0B3320054B4B000FC3F4 /* Fabric.framework */,
 				3FE9CBDE1F6A18DA005DD60C /* Frameworks */,
 				13B07FAE1A68108700A75B9A /* mayte */,
 				832341AE1AAA6A7D00B99B32 /* Libraries */,
@@ -1037,6 +1045,7 @@
 				00DD1BFF1BD5951E006B06BC /* Bundle React Native code and images */,
 				D7905B9672E5A848D336710A /* [CP] Embed Pods Frameworks */,
 				FA366BB424D66609221F77D2 /* [CP] Copy Pods Resources */,
+				3F2C0B0020054B20000FC3F4 /* ShellScript */,
 			);
 			buildRules = (
 			);
@@ -1697,6 +1706,19 @@
 			shellPath = /bin/sh;
 			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-mayte-tvOSTests/Pods-mayte-tvOSTests-frameworks.sh\"\n";
 			showEnvVarsInLog = 0;
+		};
+		3F2C0B0020054B20000FC3F4 /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "./Fabric.framework/run 6421088286a39d1b593400da0ac6819ff6dde0d0 879126e4df20c1addccd76129465972bb34c3beed5e4a6304a4bae12d6dc0195";
 		};
 		45CA6F3053B5896057DB8148 /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
