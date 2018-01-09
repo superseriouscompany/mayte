@@ -40,6 +40,10 @@ export default class VipCodeEntryView extends Component {
             style={style.input}
             onChangeText={props.setVipCode}
             value={props.vipCode}
+            onSubmitEditing={props.redeem}
+            autoCorrect={false}
+            autoFocus={true}
+            returnKeyType="go"
             placeholder="VIP Code" />
           { props.error ?
             <Text style={style.error}>
