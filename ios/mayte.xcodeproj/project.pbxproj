@@ -44,6 +44,9 @@
 		3F0A8A211F6A1FA8004544FE /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 3F0A8A1E1F6A1FA8004544FE /* GoogleService-Info.plist */; };
 		3F0A8A221F6A1FA8004544FE /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 3F0A8A1E1F6A1FA8004544FE /* GoogleService-Info.plist */; };
 		3F26765D1F6B4B2B00615176 /* StoreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3F26765C1F6B4B2B00615176 /* StoreKit.framework */; };
+		3F2C0B3520054B4C000FC3F4 /* Fabric.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3F2C0B3320054B4B000FC3F4 /* Fabric.framework */; };
+		3F2C0B3620054B4C000FC3F4 /* Crashlytics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3F2C0B3420054B4C000FC3F4 /* Crashlytics.framework */; };
+		3F92280F20056E990048C8AF /* libSMXCrashlytics.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 3F92280C20056E7A0048C8AF /* libSMXCrashlytics.a */; };
 		3F96AE741F6A1D710081E709 /* FirebaseAnalytics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3FE9CC151F6A195A005DD60C /* FirebaseAnalytics.framework */; };
 		3F96AE751F6A1D710081E709 /* FirebaseCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3FE9CC1A1F6A195A005DD60C /* FirebaseCore.framework */; };
 		3F96AE761F6A1D710081E709 /* FirebaseCoreDiagnostics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3FE9CC121F6A195A005DD60C /* FirebaseCoreDiagnostics.framework */; };
@@ -275,6 +278,20 @@
 			remoteGlobalIDString = B3A3CC361C5B0A070016AC52;
 			remoteInfo = RNBranch;
 		};
+		3F92280B20056E7A0048C8AF /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 3F9227D420056E7A0048C8AF /* SMXCrashlytics.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = D8D9DB831C6D03DB009FBC0E;
+			remoteInfo = SMXCrashlytics;
+		};
+		3F92280D20056E7A0048C8AF /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 3F9227D420056E7A0048C8AF /* SMXCrashlytics.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 6463C84C1EBA12A60095B8CD;
+			remoteInfo = "SMXCrashlytics-tvOS";
+		};
 		3FBB07E71F6A243200794E2B /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 1A374E230A2346F89847942E /* RNFirebase.xcodeproj */;
@@ -484,7 +501,10 @@
 		37E40E0A98E7E4A5B31D6466 /* Pods-mayte.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-mayte.release.xcconfig"; path = "Pods/Target Support Files/Pods-mayte/Pods-mayte.release.xcconfig"; sourceTree = "<group>"; };
 		3F0A8A1E1F6A1FA8004544FE /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		3F26765C1F6B4B2B00615176 /* StoreKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = StoreKit.framework; path = System/Library/Frameworks/StoreKit.framework; sourceTree = SDKROOT; };
+		3F2C0B3320054B4B000FC3F4 /* Fabric.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Fabric.framework; sourceTree = "<group>"; };
+		3F2C0B3420054B4C000FC3F4 /* Crashlytics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Crashlytics.framework; sourceTree = "<group>"; };
 		3F3788291F6B280500E21A50 /* mayte.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; name = mayte.entitlements; path = mayte/mayte.entitlements; sourceTree = "<group>"; };
+		3F9227D420056E7A0048C8AF /* SMXCrashlytics.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = SMXCrashlytics.xcodeproj; path = "../node_modules/react-native-fabric/ios/SMXCrashlytics.xcodeproj"; sourceTree = "<group>"; };
 		3F96AE541F6A1C820081E709 /* Firebase.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Firebase.h; sourceTree = "<group>"; };
 		3FE9CC111F6A195A005DD60C /* GoogleToolboxForMac.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = GoogleToolboxForMac.framework; sourceTree = "<group>"; };
 		3FE9CC121F6A195A005DD60C /* FirebaseCoreDiagnostics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = FirebaseCoreDiagnostics.framework; sourceTree = "<group>"; };
@@ -556,9 +576,11 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				3F92280F20056E990048C8AF /* libSMXCrashlytics.a in Frameworks */,
 				84E70DB41FDB04880005568E /* libRCTCameraRoll.a in Frameworks */,
 				8428BBC01F9978AD000FDDA7 /* libBVLinearGradient.a in Frameworks */,
 				ADBDB9381DFEBF1600ED6528 /* libRCTBlob.a in Frameworks */,
+				3F2C0B3520054B4C000FC3F4 /* Fabric.framework in Frameworks */,
 				5E9157361DD0AC6A00FF2AA8 /* libRCTAnimation.a in Frameworks */,
 				146834051AC3E58100842450 /* libReact.a in Frameworks */,
 				5E9157361DD0AC6A00FF2AA8 /* libRCTAnimation.a in Frameworks */,
@@ -583,6 +605,7 @@
 				3F96AE7C1F6A1D710081E709 /* leveldb-library.framework in Frameworks */,
 				3F96AE7D1F6A1D710081E709 /* nanopb.framework in Frameworks */,
 				3F96AE7E1F6A1D710081E709 /* Protobuf.framework in Frameworks */,
+				3F2C0B3620054B4C000FC3F4 /* Crashlytics.framework in Frameworks */,
 				F7818507C6E24560A1AD42B5 /* libRNFirebase.a in Frameworks */,
 				0400A4EC026F4851B6FBABAF /* libInAppUtils.a in Frameworks */,
 				3309E9A2C5154139BCB373C0 /* libRNWalletModule.a in Frameworks */,
@@ -765,6 +788,15 @@
 			name = Products;
 			sourceTree = "<group>";
 		};
+		3F9227D520056E7A0048C8AF /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				3F92280C20056E7A0048C8AF /* libSMXCrashlytics.a */,
+				3F92280E20056E7A0048C8AF /* libSMXCrashlytics.a */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
 		3FBB07C41F6A242F00794E2B /* Recovered References */ = {
 			isa = PBXGroup;
 			children = (
@@ -856,6 +888,7 @@
 		832341AE1AAA6A7D00B99B32 /* Libraries */ = {
 			isa = PBXGroup;
 			children = (
+				3F9227D420056E7A0048C8AF /* SMXCrashlytics.xcodeproj */,
 				84E70D7E1FDB04510005568E /* RCTCameraRoll.xcodeproj */,
 				84E8F3091F9974BE0058AC0E /* BVLinearGradient.xcodeproj */,
 				5E91572D1DD0AC6500FF2AA8 /* RCTAnimation.xcodeproj */,
@@ -895,6 +928,8 @@
 		83CBB9F61A601CBA00E9B192 = {
 			isa = PBXGroup;
 			children = (
+				3F2C0B3420054B4C000FC3F4 /* Crashlytics.framework */,
+				3F2C0B3320054B4B000FC3F4 /* Fabric.framework */,
 				3FE9CBDE1F6A18DA005DD60C /* Frameworks */,
 				13B07FAE1A68108700A75B9A /* mayte */,
 				832341AE1AAA6A7D00B99B32 /* Libraries */,
@@ -1037,6 +1072,7 @@
 				00DD1BFF1BD5951E006B06BC /* Bundle React Native code and images */,
 				D7905B9672E5A848D336710A /* [CP] Embed Pods Frameworks */,
 				FA366BB424D66609221F77D2 /* [CP] Copy Pods Resources */,
+				3F2C0B0020054B20000FC3F4 /* ShellScript */,
 			);
 			buildRules = (
 			);
@@ -1237,6 +1273,10 @@
 					ProductGroup = 84F395781FCF6A13000CDA1A /* Products */;
 					ProjectRef = CB25DC0C3B0247B3A0D4F5CA /* Slider.xcodeproj */;
 				},
+				{
+					ProductGroup = 3F9227D520056E7A0048C8AF /* Products */;
+					ProjectRef = 3F9227D420056E7A0048C8AF /* SMXCrashlytics.xcodeproj */;
+				},
 			);
 			projectRoot = "";
 			targets = (
@@ -1422,6 +1462,20 @@
 			fileType = archive.ar;
 			path = "libreact-native-branch.a";
 			remoteRef = 3F8D168F1F6B799B00011281 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		3F92280C20056E7A0048C8AF /* libSMXCrashlytics.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = libSMXCrashlytics.a;
+			remoteRef = 3F92280B20056E7A0048C8AF /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		3F92280E20056E7A0048C8AF /* libSMXCrashlytics.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = libSMXCrashlytics.a;
+			remoteRef = 3F92280D20056E7A0048C8AF /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
 		3FBB07E81F6A243200794E2B /* libRNFirebase.a */ = {
@@ -1697,6 +1751,19 @@
 			shellPath = /bin/sh;
 			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-mayte-tvOSTests/Pods-mayte-tvOSTests-frameworks.sh\"\n";
 			showEnvVarsInLog = 0;
+		};
+		3F2C0B0020054B20000FC3F4 /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "./Fabric.framework/run 6421088286a39d1b593400da0ac6819ff6dde0d0 879126e4df20c1addccd76129465972bb34c3beed5e4a6304a4bae12d6dc0195";
 		};
 		45CA6F3053B5896057DB8148 /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
