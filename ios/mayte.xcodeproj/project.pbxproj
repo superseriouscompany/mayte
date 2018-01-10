@@ -44,6 +44,8 @@
 		3F0A8A211F6A1FA8004544FE /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 3F0A8A1E1F6A1FA8004544FE /* GoogleService-Info.plist */; };
 		3F0A8A221F6A1FA8004544FE /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 3F0A8A1E1F6A1FA8004544FE /* GoogleService-Info.plist */; };
 		3F26765D1F6B4B2B00615176 /* StoreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3F26765C1F6B4B2B00615176 /* StoreKit.framework */; };
+		3F2C0B3520054B4C000FC3F4 /* Fabric.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3F2C0B3320054B4B000FC3F4 /* Fabric.framework */; };
+		3F2C0B3620054B4C000FC3F4 /* Crashlytics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3F2C0B3420054B4C000FC3F4 /* Crashlytics.framework */; };
 		3F9228B220057B200048C8AF /* libBugsnagReactNative.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 3F92287F20057B0B0048C8AF /* libBugsnagReactNative.a */; };
 		3F96AE741F6A1D710081E709 /* FirebaseAnalytics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3FE9CC151F6A195A005DD60C /* FirebaseAnalytics.framework */; };
 		3F96AE751F6A1D710081E709 /* FirebaseCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3FE9CC1A1F6A195A005DD60C /* FirebaseCore.framework */; };
@@ -56,6 +58,7 @@
 		3F96AE7C1F6A1D710081E709 /* leveldb-library.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3FE9CC1B1F6A195A005DD60C /* leveldb-library.framework */; };
 		3F96AE7D1F6A1D710081E709 /* nanopb.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3FE9CC171F6A195A005DD60C /* nanopb.framework */; };
 		3F96AE7E1F6A1D710081E709 /* Protobuf.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3FE9CC161F6A195A005DD60C /* Protobuf.framework */; };
+		3FFEA1162006AD2B00CD9A2A /* libSMXCrashlytics.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 3FFEA1132006AD0C00CD9A2A /* libSMXCrashlytics.a */; };
 		430B1BC0ABEE4CCB81ED9CCB /* libimageCropPicker.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 5CD4855D83E440AB889A1730 /* libimageCropPicker.a */; };
 		50D84F114DC04FC1BCD5507C /* Feather.ttf in Resources */ = {isa = PBXBuildFile; fileRef = A87A92D231F9496E9D8ADD9E /* Feather.ttf */; };
 		55C9EA8A663A497CBA431C59 /* FontAwesome.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 6EBFA3070A304C27B177A872 /* FontAwesome.ttf */; };
@@ -332,6 +335,20 @@
 			remoteGlobalIDString = 5DBEB1501B18CEA900B34395;
 			remoteInfo = RNVectorIcons;
 		};
+		3FFEA1122006AD0C00CD9A2A /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 3F9227D420056E7A0048C8AF /* SMXCrashlytics.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = D8D9DB831C6D03DB009FBC0E;
+			remoteInfo = SMXCrashlytics;
+		};
+		3FFEA1142006AD0C00CD9A2A /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 3F9227D420056E7A0048C8AF /* SMXCrashlytics.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 6463C84C1EBA12A60095B8CD;
+			remoteInfo = "SMXCrashlytics-tvOS";
+		};
 		5E9157321DD0AC6500FF2AA8 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 5E91572D1DD0AC6500FF2AA8 /* RCTAnimation.xcodeproj */;
@@ -492,7 +509,10 @@
 		37E40E0A98E7E4A5B31D6466 /* Pods-mayte.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-mayte.release.xcconfig"; path = "Pods/Target Support Files/Pods-mayte/Pods-mayte.release.xcconfig"; sourceTree = "<group>"; };
 		3F0A8A1E1F6A1FA8004544FE /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		3F26765C1F6B4B2B00615176 /* StoreKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = StoreKit.framework; path = System/Library/Frameworks/StoreKit.framework; sourceTree = SDKROOT; };
+		3F2C0B3320054B4B000FC3F4 /* Fabric.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Fabric.framework; sourceTree = "<group>"; };
+		3F2C0B3420054B4C000FC3F4 /* Crashlytics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Crashlytics.framework; sourceTree = "<group>"; };
 		3F3788291F6B280500E21A50 /* mayte.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; name = mayte.entitlements; path = mayte/mayte.entitlements; sourceTree = "<group>"; };
+		3F9227D420056E7A0048C8AF /* SMXCrashlytics.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = SMXCrashlytics.xcodeproj; path = "../node_modules/react-native-fabric/ios/SMXCrashlytics.xcodeproj"; sourceTree = "<group>"; };
 		3F92287920057B0A0048C8AF /* BugsnagReactNative.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = BugsnagReactNative.xcodeproj; path = "../node_modules/bugsnag-react-native/cocoa/BugsnagReactNative.xcodeproj"; sourceTree = "<group>"; };
 		3F9228B420057B290048C8AF /* libBugsnagStatic.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; path = libBugsnagStatic.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		3F96AE541F6A1C820081E709 /* Firebase.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Firebase.h; sourceTree = "<group>"; };
@@ -566,10 +586,12 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				3FFEA1162006AD2B00CD9A2A /* libSMXCrashlytics.a in Frameworks */,
 				3F9228B220057B200048C8AF /* libBugsnagReactNative.a in Frameworks */,
 				84E70DB41FDB04880005568E /* libRCTCameraRoll.a in Frameworks */,
 				8428BBC01F9978AD000FDDA7 /* libBVLinearGradient.a in Frameworks */,
 				ADBDB9381DFEBF1600ED6528 /* libRCTBlob.a in Frameworks */,
+				3F2C0B3520054B4C000FC3F4 /* Fabric.framework in Frameworks */,
 				5E9157361DD0AC6A00FF2AA8 /* libRCTAnimation.a in Frameworks */,
 				146834051AC3E58100842450 /* libReact.a in Frameworks */,
 				5E9157361DD0AC6A00FF2AA8 /* libRCTAnimation.a in Frameworks */,
@@ -594,6 +616,7 @@
 				3F96AE7C1F6A1D710081E709 /* leveldb-library.framework in Frameworks */,
 				3F96AE7D1F6A1D710081E709 /* nanopb.framework in Frameworks */,
 				3F96AE7E1F6A1D710081E709 /* Protobuf.framework in Frameworks */,
+				3F2C0B3620054B4C000FC3F4 /* Crashlytics.framework in Frameworks */,
 				F7818507C6E24560A1AD42B5 /* libRNFirebase.a in Frameworks */,
 				0400A4EC026F4851B6FBABAF /* libInAppUtils.a in Frameworks */,
 				3309E9A2C5154139BCB373C0 /* libRNWalletModule.a in Frameworks */,
@@ -840,6 +863,15 @@
 			name = Products;
 			sourceTree = "<group>";
 		};
+		3FFEA0DB2006AD0C00CD9A2A /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				3FFEA1132006AD0C00CD9A2A /* libSMXCrashlytics.a */,
+				3FFEA1152006AD0C00CD9A2A /* libSMXCrashlytics.a */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
 		5E91572E1DD0AC6500FF2AA8 /* Products */ = {
 			isa = PBXGroup;
 			children = (
@@ -876,6 +908,7 @@
 		832341AE1AAA6A7D00B99B32 /* Libraries */ = {
 			isa = PBXGroup;
 			children = (
+				3F9227D420056E7A0048C8AF /* SMXCrashlytics.xcodeproj */,
 				3F92287920057B0A0048C8AF /* BugsnagReactNative.xcodeproj */,
 				84E70D7E1FDB04510005568E /* RCTCameraRoll.xcodeproj */,
 				84E8F3091F9974BE0058AC0E /* BVLinearGradient.xcodeproj */,
@@ -916,6 +949,8 @@
 		83CBB9F61A601CBA00E9B192 = {
 			isa = PBXGroup;
 			children = (
+				3F2C0B3420054B4C000FC3F4 /* Crashlytics.framework */,
+				3F2C0B3320054B4B000FC3F4 /* Fabric.framework */,
 				3FE9CBDE1F6A18DA005DD60C /* Frameworks */,
 				13B07FAE1A68108700A75B9A /* mayte */,
 				832341AE1AAA6A7D00B99B32 /* Libraries */,
@@ -1058,6 +1093,7 @@
 				00DD1BFF1BD5951E006B06BC /* Bundle React Native code and images */,
 				D7905B9672E5A848D336710A /* [CP] Embed Pods Frameworks */,
 				FA366BB424D66609221F77D2 /* [CP] Copy Pods Resources */,
+				3F2C0B0020054B20000FC3F4 /* ShellScript */,
 			);
 			buildRules = (
 			);
@@ -1261,6 +1297,10 @@
 				{
 					ProductGroup = 84F395781FCF6A13000CDA1A /* Products */;
 					ProjectRef = CB25DC0C3B0247B3A0D4F5CA /* Slider.xcodeproj */;
+				},
+				{
+					ProductGroup = 3FFEA0DB2006AD0C00CD9A2A /* Products */;
+					ProjectRef = 3F9227D420056E7A0048C8AF /* SMXCrashlytics.xcodeproj */;
 				},
 			);
 			projectRoot = "";
@@ -1505,6 +1545,20 @@
 			remoteRef = 3FF307AE1FACDCE7004F9725 /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
+		3FFEA1132006AD0C00CD9A2A /* libSMXCrashlytics.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = libSMXCrashlytics.a;
+			remoteRef = 3FFEA1122006AD0C00CD9A2A /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		3FFEA1152006AD0C00CD9A2A /* libSMXCrashlytics.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = libSMXCrashlytics.a;
+			remoteRef = 3FFEA1142006AD0C00CD9A2A /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
 		5E9157331DD0AC6500FF2AA8 /* libRCTAnimation.a */ = {
 			isa = PBXReferenceProxy;
 			fileType = archive.ar;
@@ -1729,6 +1783,19 @@
 			shellPath = /bin/sh;
 			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-mayte-tvOSTests/Pods-mayte-tvOSTests-frameworks.sh\"\n";
 			showEnvVarsInLog = 0;
+		};
+		3F2C0B0020054B20000FC3F4 /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "./Fabric.framework/run 6421088286a39d1b593400da0ac6819ff6dde0d0 879126e4df20c1addccd76129465972bb34c3beed5e4a6304a4bae12d6dc0195";
 		};
 		45CA6F3053B5896057DB8148 /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
