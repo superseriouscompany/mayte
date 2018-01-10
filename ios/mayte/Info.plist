@@ -27,7 +27,7 @@
 		<dict>
 			<key>CFBundleURLSchemes</key>
 			<array>
-				<string>mayte</string>
+				<string>unicorn</string>
 			</array>
 		</dict>
 	</array>

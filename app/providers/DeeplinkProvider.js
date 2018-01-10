@@ -22,7 +22,7 @@ class DeeplinkProvider extends Component {
       if( params['+is_first_session'] === false && params['+clicked_branch_link'] === false ) {
         // this seems to be triggered on app open
         if( Object.keys(params).length == 2 ) { return }
-        // this seems to be triggered when we follow mayte:// for login
+        // this seems to be triggered when we follow unicorn:// for login
         if( params['+non_branch_link'] ) { return }
       }
 
