@@ -1,4 +1,5 @@
 import { Linking } from 'react-native'
+import log         from '../services/log'
 
 export const baseUrl = __DEV__ ?
   'https://mayte.ngrok.io' :
@@ -42,7 +43,7 @@ function request(path, options = {}) {
     if( err.name == 'ApiError' ) { throw err }
 
     console.log(err.message, err.name)
-    console.error(err)
+    log(err)
     // TODO: parse error from json, falling back to statusCode if necessary
     throw new Error(statusCode)
   })
@@ -78,7 +79,7 @@ request.upload = (params={}) => {
   }).then(payload => {
     return payload
   }).catch((err) => {
-    console.error(err.message || JSON.stringify(err))
+    log(err.message || JSON.stringify(err))
     alert(err.message || JSON.stringify(err))
   })
 }
@@ -102,7 +103,7 @@ export const oauthInstagram = (params) => {
     } else {
       return Linking.openURL(url)
     }
-  }).catch(console.error)
+  }).catch(log)
 }
 
 export default request

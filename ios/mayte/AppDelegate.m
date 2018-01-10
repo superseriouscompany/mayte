@@ -20,13 +20,14 @@
 #import <Crashlytics/Crashlytics.h>
 
 #import <react-native-branch/RNBranch.h>
+#import <BugsnagReactNative/BugsnagReactNative.h>
 
 @implementation AppDelegate
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
   [RNBranch initSessionWithLaunchOptions:launchOptions isReferrable:YES];
-  
+
   NSURL *jsCodeLocation;
 
   jsCodeLocation = [[RCTBundleURLProvider sharedSettings] jsBundleURLForBundleRoot:@"index.ios" fallbackResource:nil];
@@ -42,9 +43,9 @@
   rootViewController.view = rootView;
   self.window.rootViewController = rootViewController;
   [self.window makeKeyAndVisible];
-  
+
   [FIRApp configure];
-  
+
   if (floor(NSFoundationVersionNumber) <= NSFoundationVersionNumber_iOS_9_x_Max) {
     UIUserNotificationType allNotificationTypes =
     (UIUserNotificationTypeSound | UIUserNotificationTypeAlert | UIUserNotificationTypeBadge);
@@ -57,15 +58,16 @@
     // For iOS 10 display notification (sent via APNS)
     [UNUserNotificationCenter currentNotificationCenter].delegate = self;
 #endif
-    
+
     NSString *fcmToken = [FIRMessaging messaging].FCMToken;
     NSLog(@"FCM registration token: %@", fcmToken);
   }
-  
+
   [[UIApplication sharedApplication] registerForRemoteNotifications];
-  
+
   [Fabric with:@[[Crashlytics class]]];
 
+  [BugsnagReactNative start];
   return YES;
 }
 

@@ -5,6 +5,7 @@ import {connect}          from 'react-redux'
 import PromoMakerView     from '../components/PromoMakerView'
 import branch             from 'react-native-branch'
 import api                from '../services/api'
+import log                from '../services/log'
 
 class PromoMaker extends Component {
   constructor(props) {
@@ -65,7 +66,7 @@ class PromoMaker extends Component {
         this.setState({url})
       })
     }).catch((err) => {
-      console.error(err)
+      log(err)
       alert(err.message || JSON.stringify(err))
     })
   }

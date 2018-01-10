@@ -5,6 +5,7 @@ import Icon               from 'react-native-vector-icons/Ionicons'
 import {mayteBlack}       from '../constants/colors'
 // TODO: rename this to containers/ProfileInfo
 import ProfileInfoView    from '../containers/ProfileInfoView'
+import log                from '../services/log'
 
 import {
   screenWidth,
@@ -76,7 +77,7 @@ export default class ProfileView extends Component {
   linkToInstagram(url) {
     Linking.canOpenURL(url).then(supported => {
       if (!supported) {
-        console.error(`can't handle url: ${url}`)
+        log(`can't handle url: ${url}`)
       } else {
         Linking.openURL(url)
       }

@@ -5,6 +5,7 @@ import { baseUrl }                   from '../services/api'
 import { Linking }                   from 'react-native'
 import {connect}                     from 'react-redux'
 import request                       from '../actions/request'
+import log                           from '../services/log'
 
 const photoLimit = 8
 
@@ -89,7 +90,7 @@ class SettingsEditor extends Component {
     }).catch((err) => {
       this.setState({saving: false})
       alert(err.message || err)
-      console.error(err)
+      log(err)
     })
   }
 

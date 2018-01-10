@@ -4,6 +4,7 @@ import android.app.Application;
 
 import com.facebook.react.ReactApplication;
 import com.smixx.fabric.FabricPackage;
+import com.bugsnag.BugsnagReactNative;
 import com.imagepicker.ImagePickerPackage;
 import com.reactnative.ivpusic.imagepicker.PickerPackage;
 import com.oblador.vectoricons.VectorIconsPackage;
@@ -33,6 +34,7 @@ public class MainApplication extends Application implements ReactApplication {
       return Arrays.<ReactPackage>asList(
           new MainReactPackage(),
             new FabricPackage(),
+            BugsnagReactNative.getPackage(),
             new ImagePickerPackage(),
             new PickerPackage(),
             new VectorIconsPackage(),

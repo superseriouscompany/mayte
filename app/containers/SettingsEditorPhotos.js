@@ -1,8 +1,9 @@
-import React, { Component } from 'react'
-import CurrentPhotos from '../containers/CurrentPhotos'
+import React, { Component }              from 'react'
+import CurrentPhotos                     from '../containers/CurrentPhotos'
 import { em, screenWidth, screenHeight } from '../constants/dimensions'
-import ImagePicker from 'react-native-image-crop-picker'
-import api, {oauthInstagram} from '../services/api'
+import ImagePicker                       from 'react-native-image-crop-picker'
+import api, {oauthInstagram}             from '../services/api'
+import log                               from '../services/log'
 import {
   View,
   Text,
@@ -106,7 +107,7 @@ export default class SettingsEditorPhotos extends Component {
         } else {
           this.seekAndDestroyPhoto(localPath)
         }
-        return console.error(err)
+        return log(err)
       })
   }
 
@@ -141,7 +142,7 @@ export default class SettingsEditorPhotos extends Component {
       if (err.code === 'E_PICKER_CANCELLED') {return}
       alert(err)
       this.seekAndDestroyPhoto(localPath)
-      return console.error(err)
+      return log(err)
     })
   }
 

@@ -5,6 +5,7 @@ import { connect }                      from 'react-redux'
 import LoginView                        from '../components/LoginView'
 import api, { baseUrl, oauthInstagram } from '../services/api'
 import request                          from '../actions/request'
+import log                              from '../services/log'
 import {
   Linking,
 } from 'react-native'
@@ -59,7 +60,7 @@ class Login extends Component {
       } else {
         return Linking.openURL(url)
       }
-    }).catch(console.error)
+    }).catch(log)
   }
 
   render() { return (
@@ -88,7 +89,7 @@ function mapDispatchToProps(dispatch) {
         dispatch({type: 'scene:change', scene: 'Recs'})
       }).catch((err) => {
         // TODO: display error/retry in component instead of catching here
-        console.error(err)
+        log(err)
         alert(err.message || JSON.stringify(err))
       })
     },
