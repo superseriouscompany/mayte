@@ -76,14 +76,14 @@ class Stage extends PureComponent {
           tabIcon={({tintColor, focused}) => (
             <Icon name={focused ? 'ios-person' : 'ios-person-outline'}
                   size={26}
-                  style={{color: tintColor}} />
+                  style={{color: tintColor, backgroundColor: 'transparent'}} />
           )} />
         <VelvetRope sceneName="VelvetRope"
           tabLabel="Membership"
           tabIcon={({tintColor, focused}) => (
             <Icon name={focused ? 'ios-key' : 'ios-key-outline'}
                   size={26}
-                  style={{color: tintColor}} />
+                  style={{color: tintColor, backgroundColor: 'transparent'}} />
           )} />
         { !props.isAdmin ? null :
           <Recs sceneName="Recs"
@@ -91,7 +91,7 @@ class Stage extends PureComponent {
             tabIcon={({tintColor, focused}) => (
               <Icon name={focused ? 'ios-heart' : 'ios-heart-outline'}
                     size={26}
-                    style={{color: tintColor}} />
+                    style={{color: tintColor, backgroundColor: 'transparent'}} />
             )} />
         }
       </Navigation>
