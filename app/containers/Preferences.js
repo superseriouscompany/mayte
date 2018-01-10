@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 import PreferencesView      from '../components/PreferencesView'
 import {connect}            from 'react-redux'
 import request              from '../actions/request'
+import log                  from '../services/log'
 
 const minAge = 18
 const maxAge = 50
@@ -41,7 +42,7 @@ class Preferences extends Component {
       this.props.hydrateUser(false)
     }).catch(err => {
       alert(err.message || err)
-      console.error(err)
+      log(err)
     })
   }
 

@@ -3,6 +3,7 @@
 import React, {Component} from 'react'
 import {connect}          from 'react-redux'
 import branch             from 'react-native-branch'
+import log                from '../services/log'
 
 class DeeplinkProvider extends Component {
   componentWillReceiveProps(props) {
@@ -13,7 +14,7 @@ class DeeplinkProvider extends Component {
     this.unsubscribe = branch.subscribe(({err, params}) => {
       if( err ) {
         alert(err.message || JSON.stringify(err))
-        console.error(err)
+        log(err)
       }
 
       // +clicked_branch_link === false may be safe to ignore across the board

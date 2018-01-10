@@ -2,6 +2,7 @@ import React, {Component} from 'react'
 import {connect}          from 'react-redux'
 import RNFirebase         from 'react-native-firebase'
 import request            from '../actions/request'
+import log                from '../services/log'
 
 const firebase = RNFirebase.initializeApp({
   debug: __DEV__,
@@ -45,7 +46,7 @@ function mapDispatchToProps(dispatch) {
       })).catch((err) => {
         // TODO: retry this silently until it goes through
         alert(err.message || err)
-        console.error(err)
+        log(err)
       })
     }
   }

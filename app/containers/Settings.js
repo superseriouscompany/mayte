@@ -6,6 +6,7 @@ import SettingsView       from '../components/SettingsView'
 import request            from '../actions/request'
 import branch             from 'react-native-branch'
 import {clear}            from '../reducers'
+import log                from '../services/log'
 
 class Settings extends Component {
   constructor(props) {
@@ -48,7 +49,7 @@ class Settings extends Component {
     return this.props.deleteAccount().catch((err) => {
       // TODO: nicer error message
       alert(err.message || err)
-      console.error(err)
+      log(err)
     })
   }
 

@@ -4,6 +4,7 @@ import React, {Component} from 'react'
 import {connect}          from 'react-redux'
 import PaywallView        from '../components/PaywallView'
 import { NativeModules }  from 'react-native'
+import log                from '../services/log'
 const { InAppUtils } = NativeModules
 
 class Paywall extends Component {
@@ -35,7 +36,7 @@ class Paywall extends Component {
       if(!enabled) { return alert('Purchasing disabled') }
 
       InAppUtils.loadProducts(products, (err, products) => {
-        if( err ) { console.error(err) }
+        if( err ) { log(err) }
         this.props.dispatchProducts(products)
       })
     })

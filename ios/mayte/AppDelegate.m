@@ -17,6 +17,7 @@
 #import "Firebase.h"
 
 #import <react-native-branch/RNBranch.h>
+#import <BugsnagReactNative/BugsnagReactNative.h>
 
 @implementation AppDelegate
 
@@ -60,7 +61,7 @@
   }
   
   [[UIApplication sharedApplication] registerForRemoteNotifications];
-  
+  [BugsnagReactNative start];
   return YES;
 }
 

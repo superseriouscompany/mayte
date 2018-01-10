@@ -1,12 +1,14 @@
 'use strict'
 
-import React, {Component} from 'react'
-import RNFirebase from 'react-native-firebase'
+import React, {Component}                    from 'react'
+import RNFirebase                            from 'react-native-firebase'
 import { NativeModules, NativeEventEmitter } from 'react-native'
-import { GeoLocation } from 'react-native'
+import { GeoLocation }                       from 'react-native'
 const { InAppUtils } = NativeModules
-import Wallet from 'react-native-wallet'
-import branch from 'react-native-branch'
+import Wallet                                from 'react-native-wallet'
+import branch                                from 'react-native-branch'
+import { Client }                            from 'bugsnag-react-native';
+import log                                   from '../services/log'
 import {
   Text,
   TouchableOpacity,
@@ -36,6 +38,8 @@ export default class Scratch extends Component {
   }
 
   componentDidMount() {
+    log(new Error('sweet'))
+
     branch.createBranchUniversalObject(
       `promos/nice`,
       {
@@ -54,7 +58,7 @@ export default class Scratch extends Component {
         alert(payload.url)
       })
     }).catch((err) => {
-      console.error(err)
+      log(err)
     })
 
     navigator.geolocation.requestAuthorization()
@@ -74,7 +78,7 @@ export default class Scratch extends Component {
       if(!enabled) { return alert('IAP disabled') }
 
       InAppUtils.loadProducts(products, (err, products) => {
-        if( err ) { console.error(err) }
+        if( err ) { log(err) }
         this.setState({products})
       })
     })

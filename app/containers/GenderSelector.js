@@ -4,6 +4,7 @@ import React, {Component} from 'react'
 import {connect}          from 'react-redux'
 import GenderSelectorView from '../components/GenderSelectorView'
 import request            from '../actions/request'
+import log                from '../services/log'
 
 class GenderSelector extends Component {
   constructor(props) {
@@ -39,7 +40,7 @@ class GenderSelector extends Component {
     this.setState({loading: true})
     return this.props.updatePreferences({gender, orientation}).catch((err) => {
       alert(err.message || JSON.stringify(err))
-      console.error(err)
+      log(err)
       this.setState({loading: false})
     })
   }
