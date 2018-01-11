@@ -4,21 +4,53 @@ import React, {Component} from 'react'
 import {connect}          from 'react-redux'
 import PaywallView        from '../components/PaywallView'
 import { NativeModules }  from 'react-native'
+import request            from '../actions/request'
 import log                from '../services/log'
 const { InAppUtils } = NativeModules
 
 class Paywall extends Component {
   constructor(props) {
     super(props)
+
+    this.buy              = this.buy.bind(this)
+    this.restorePurchases = this.restorePurchases.bind(this)
   }
 
   buy(id) {
     InAppUtils.purchaseProduct(id, (err, response) => {
-      if( err ) { return alert(err.message) }
-      if( response && response.productIdentifier ) {
-        return alert('Purchase Successful: '+response.transactionIdentifier)
+      if( err ) {
+        log(err)
+        return alert(err.message)
       }
-      console.warn('Unknown response', err, response)
+      if( !response || !response.productIdentifier ) {
+        return log(`Unknown purchase response: ${JSON.stringify(response)}`)
+      }
+
+      console.warn(JSON.stringify(response))
+
+
+      this.props.activate(response.transactionIdentifier)
+    })
+  }
+
+  restorePurchases() {
+    InAppUtils.restorePurchases((err, response)=> {
+      if( err ) { return alert(err.message) }
+      if( !response.length ) {
+       const err = new Error('No purchases found');
+       err.name = 'NotFound'
+       return alert(err.message)
+      }
+
+      if( response.length > 1 ) {
+       log(`Unknown purchase restore response: ${JSON.stringify(response)}`)
+      }
+
+      const productIds = response.map((p) => {
+       return p.productIdentifier
+      })
+
+      this.props.activate(response[0].transactionIdentifier)
     })
   }
 
@@ -31,7 +63,6 @@ class Paywall extends Component {
     const products = [
       'com.mayte.dev.monthly'
     ]
-
     InAppUtils.canMakePayments((enabled) => {
       if(!enabled) { return alert('Purchasing disabled') }
 
@@ -64,6 +95,16 @@ function mapDispatchToProps(dispatch) {
 
     dispatchProducts: (products) => {
       dispatch({type: 'products:set', products})
+    },
+
+    activate: (receipt) => {
+      return dispatch(request({
+        method: 'POST',
+        url: '/payments',
+        body: { receipt }
+      })).then(() => {
+        dispatch({type: 'user:set', user: { active: true }})
+      })
     }
   }
 }
