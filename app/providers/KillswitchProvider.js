@@ -4,10 +4,11 @@ import React, {Component} from 'react'
 import {connect}          from 'react-redux'
 import request            from '../actions/request'
 import log                from '../services/log'
+import DeviceInfo         from 'react-native-device-info';
 
 class KillswitchProvider extends Component {
   componentDidMount() {
-    return this.props.checkVersion().catch((err) => {
+    return this.props.checkVersion(DeviceInfo.getVersion()).catch((err) => {
       if( err.statusCode == 426 ) {
         return this.props.kill()
       }
@@ -31,11 +32,11 @@ function mapStateToProps(state) {
 
 function mapDispatchToProps(dispatch) {
   return {
-    checkVersion: function() {
+    checkVersion: function(version) {
       return dispatch(request({
         url: '/version',
         headers: {
-          'X-App-Version': '0.9.0'
+          'X-App-Version': version
         }
       }))
     },

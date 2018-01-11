@@ -15,6 +15,7 @@
     "react-native-blur": "^3.2.0",
     "react-native-branch": "^2.0.0",
     "react-native-datepicker": "^1.6.0",
+    "react-native-device-info": "^0.13.0",
     "react-native-fabric": "^0.5.1",
     "react-native-firebase": "git+https://github.com/superseriouscompany/react-native-firebase.git",
     "react-native-gifted-chat": "^0.2.8",
