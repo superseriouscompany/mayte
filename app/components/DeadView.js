@@ -1,7 +1,9 @@
 'use strict'
 
 import React, {Component} from 'react'
+import {ButtonBlack}      from './Button'
 import {
+  Linking,
   StyleSheet,
   Text,
   View,
@@ -10,7 +12,8 @@ import {
 export default function(props) {
   return (
     <View style={styles.container}>
-      <Text>Ya Burnt</Text>
+      <ButtonBlack text="Ya Burnt"
+        onPress={() => Linking.openURL('https://dateunicorn.com/download')}/>
     </View>
   )
 }
@@ -20,5 +23,6 @@ const styles = StyleSheet.create({
     flex          : 1,
     justifyContent: 'center',
     alignItems    : 'center',
-  }
+  },
+
 })
