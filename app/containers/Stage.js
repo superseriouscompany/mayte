@@ -15,6 +15,7 @@ import VelvetRope             from './VelvetRope'
 import VipCodeEntry           from './VipCodeEntry'
 import VipCodeStatus          from './VipCodeStatus'
 import Icon                   from 'react-native-vector-icons/Ionicons'
+import {em}                   from '../constants/dimensions'
 import {
   StyleSheet,
   View,
@@ -75,25 +76,24 @@ class Stage extends PureComponent {
           tabLabel="Settings"
           tabIcon={({tintColor, focused}) => (
             <Icon name={focused ? 'ios-person' : 'ios-person-outline'}
-                  size={26}
+                  size={em(1.625)}
                   style={{color: tintColor}} />
           )} />
         <VelvetRope sceneName="VelvetRope"
           tabLabel="Membership"
           tabIcon={({tintColor, focused}) => (
             <Icon name={focused ? 'ios-key' : 'ios-key-outline'}
-                  size={26}
+                  size={em(1.625)}
                   style={{color: tintColor}} />
           )} />
-        { !props.isAdmin ? null :
-          <Recs sceneName="Recs"
-            tabLabel="Suggestions"
-            tabIcon={({tintColor, focused}) => (
-              <Icon name={focused ? 'ios-heart' : 'ios-heart-outline'}
-                    size={26}
-                    style={{color: tintColor}} />
-            )} />
-        }
+        <Recs sceneName="Recs"
+          isAdmin={props.isAdmin}
+          tabLabel="Suggestions"
+          tabIcon={({tintColor, focused}) => (
+            <Icon name={focused ? 'ios-heart' : 'ios-heart-outline'}
+                  size={em(1.625)}
+                  style={{color: tintColor}} />
+          )} />
       </Navigation>
     )
   }

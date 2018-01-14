@@ -3,6 +3,7 @@
 import React, {Component} from 'react'
 import {connect}          from 'react-redux'
 import RecsView           from '../components/RecsView'
+import RecsPreview        from '../components/RecsPreview'
 import request            from '../actions/request'
 import log                from '../services/log'
 import {
@@ -62,7 +63,7 @@ class Recs extends Component {
   }
 
   render() {
-    return (
+    return ( this.props.isAdmin ?
       <RecsView {...this.props}
         like={this.like}
         pass={this.pass}
@@ -71,7 +72,8 @@ class Recs extends Component {
         index={this.state.index}
         match={this.state.match}
         dismiss={() => this.setState({match: null})}
-        />
+        /> :
+      <RecsPreview {...this.props} />
     )
   }
 }
