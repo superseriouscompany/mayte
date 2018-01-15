@@ -15,6 +15,7 @@ import Paywall                from './Paywall'
 import VelvetRope             from './VelvetRope'
 import VipCodeEntry           from './VipCodeEntry'
 import VipCodeStatus          from './VipCodeStatus'
+import Dead                   from './Dead'
 import Icon                   from 'react-native-vector-icons/Ionicons'
 import {em}                   from '../constants/dimensions'
 import {
@@ -70,6 +71,9 @@ class Stage extends PureComponent {
     if( sceneName == 'PromoMaker' ) {
       return <PromoMaker />
     }
+    if( sceneName == 'Dead' ) {
+      return <Dead />
+    }
 
     return (
       <Navigation initialSceneName="VelvetRope">
@@ -116,7 +120,7 @@ function mapStateToProps(state) {
   // of Navigation.
   var sceneName = state.scene && state.scene.name
   switch(sceneName) {
-    case 'VipCodeEntry': case 'PromoMaker':
+    case 'VipCodeEntry': case 'PromoMaker': case 'Dead':
       break;
     default:
       sceneName = 'Hack'
