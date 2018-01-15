@@ -30,7 +30,7 @@ export default function(props) {
       activeBackgroundColor:   mayteBlack(1),
       inactiveBackgroundColor: mayteBlack(0.1),
       style:                   {borderTopWidth: 0, height: tabNavHeight},
-      labelStyle:              {fontFamily: 'Gotham-Book', letterSpacing: em(0.1), fontSize: em(0.5), marginBottom: em(0.2)},
+      labelStyle:              {fontFamily: 'Gotham-Book', letterSpacing: em(0.1), fontSize: em(0.5), marginBottom: em(0.33)},
       allowFontScaling:        false,
     },
     initialRouteName: props.initialSceneName,
