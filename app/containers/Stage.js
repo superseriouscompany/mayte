@@ -81,14 +81,14 @@ class Stage extends PureComponent {
           tabLabel="Settings"
           tabIcon={({tintColor, focused}) => (
             <Icon name={focused ? 'ios-person' : 'ios-person-outline'}
-                  style={{color: tintColor, backgroundColor: 'transparent'}} />
+                  style={{color: tintColor, backgroundColor: 'transparent'}}
                   size={em(1.625)} />
           )} />
         <VelvetRope sceneName="VelvetRope"
           tabLabel="Membership"
           tabIcon={({tintColor, focused}) => (
             <Icon name={focused ? 'ios-key' : 'ios-key-outline'}
-                  style={{color: tintColor, backgroundColor: 'transparent'}} />
+                  style={{color: tintColor, backgroundColor: 'transparent'}}
                   size={em(1.625)} />
           )} />
 
@@ -97,7 +97,7 @@ class Stage extends PureComponent {
             tabLabel="Suggestions"
             tabIcon={({tintColor, focused}) => (
               <Icon name={focused ? 'ios-heart' : 'ios-heart-outline'}
-                    style={{color: tintColor, backgroundColor: 'transparent'}} />
+                    style={{color: tintColor, backgroundColor: 'transparent'}}
                     size={em(1.625)} />
             )} />
         :
