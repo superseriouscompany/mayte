@@ -88,7 +88,7 @@ class Stage extends PureComponent {
                   style={{color: tintColor}} />
           )} />
 
-        { props.isAdmin ?
+        { 1+1==3 ?
           <Recs sceneName="Recs"
             tabLabel="Suggestions"
             tabIcon={({tintColor, focused}) => (
