@@ -49,13 +49,11 @@ class RecsPreview extends Component {
         Animated.timing(this._lockOpacity, {
           toValue: 1,
           duration: 333,
-          // delay: 222,
           useNativeDriver: true,
         }),
         Animated.timing(this._lockY, {
           toValue: 0,
           duration: 333,
-          // delay: 222,
           useNativeDriver: true,
         }),
       ]),
