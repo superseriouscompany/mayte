@@ -15,6 +15,7 @@ class RecsPreview extends Component {
     super(props)
     this._bgOpacity = new Animated.Value(0)
     this._headerOpacity = new Animated.Value(0)
+    this._subOpacity = new Animated.Value(0)
     this._lockOpacity = new Animated.Value(0)
 
     this._headerY = new Animated.Value(em(1))
@@ -48,16 +49,21 @@ class RecsPreview extends Component {
         Animated.timing(this._lockOpacity, {
           toValue: 1,
           duration: 333,
-          delay: 222,
+          // delay: 222,
           useNativeDriver: true,
         }),
         Animated.timing(this._lockY, {
           toValue: 0,
           duration: 333,
-          delay: 222,
+          // delay: 222,
           useNativeDriver: true,
         }),
       ]),
+      Animated.timing(this._subOpacity, {
+        toValue: 1,
+        duration: 333,
+        useNativeDriver: true,
+      })
     ]).start()
   }
 
@@ -84,9 +90,11 @@ class RecsPreview extends Component {
             style={[style.lock, {opacity: this._lockOpacity, transform: [{translateY: this._lockY}]}]}
             resizeMode='contain' />
         </Animated.View>
-        <Text style={style.headerSub}>
-          {`Suggestions launch Valentine's Day 2018`}
-        </Text>
+        <Animated.View style={{opacity: this._subOpacity}}>
+          <Text style={[style.headerSub]}>
+            {`Suggestions launch Valentine's Day 2018`}
+          </Text>
+        </Animated.View>
       </View>
     )
   }
