@@ -4,11 +4,13 @@ import React, {Component}                    from 'react'
 import RNFirebase                            from 'react-native-firebase'
 import { NativeModules, NativeEventEmitter } from 'react-native'
 import { GeoLocation }                       from 'react-native'
-const { InAppUtils } = NativeModules
 import Wallet                                from 'react-native-wallet'
 import branch                                from 'react-native-branch'
 import { Client }                            from 'bugsnag-react-native';
 import log                                   from '../services/log'
+const { InAppUtils } = NativeModules
+const Fabric         = require('react-native-fabric')
+const {Crashlytics}  = Fabric
 import {
   Text,
   TouchableOpacity,
@@ -25,6 +27,7 @@ export default class Scratch extends Component {
     super(props)
     this.state = { products: [] }
     this.buy = this.buy.bind(this)
+    this.crash = this.crash.bind(this)
   }
 
   buy(id) {
@@ -35,6 +38,12 @@ export default class Scratch extends Component {
       }
       console.warn('Unknown response', err, response)
     })
+  }
+
+  crash() {
+    var err = new Error('nope')
+    Crashlytics.recordError('halp')
+    Crashlytics.crash()
   }
 
   componentDidMount() {
@@ -125,6 +134,10 @@ export default class Scratch extends Component {
 
     return (
       <View style={{padding: 20}}>
+        <TouchableOpacity onPress={this.crash}>
+          <Text>Crash</Text>
+        </TouchableOpacity>
+
         { this.state.products.map((p, key) => (
           <TouchableOpacity key={key} onPress={() => this.buy(p.identifier)}>
             <Text>
