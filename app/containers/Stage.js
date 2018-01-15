@@ -77,15 +77,15 @@ class Stage extends PureComponent {
           tabLabel="Settings"
           tabIcon={({tintColor, focused}) => (
             <Icon name={focused ? 'ios-person' : 'ios-person-outline'}
-                  size={em(1.625)}
-                  style={{color: tintColor}} />
+                  style={{color: tintColor, backgroundColor: 'transparent'}} />
+                  size={em(1.625)} />
           )} />
         <VelvetRope sceneName="VelvetRope"
           tabLabel="Membership"
           tabIcon={({tintColor, focused}) => (
             <Icon name={focused ? 'ios-key' : 'ios-key-outline'}
-                  size={em(1.625)}
-                  style={{color: tintColor}} />
+                  style={{color: tintColor, backgroundColor: 'transparent'}} />
+                  size={em(1.625)} />
           )} />
 
         { props.isAdmin ?
@@ -93,8 +93,8 @@ class Stage extends PureComponent {
             tabLabel="Suggestions"
             tabIcon={({tintColor, focused}) => (
               <Icon name={focused ? 'ios-heart' : 'ios-heart-outline'}
-                    size={em(1.625)}
-                    style={{color: tintColor}} />
+                    style={{color: tintColor, backgroundColor: 'transparent'}} />
+                    size={em(1.625)} />
             )} />
         :
           <RecsPreview sceneName="Recs"
