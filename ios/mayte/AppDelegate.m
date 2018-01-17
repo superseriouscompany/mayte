@@ -67,7 +67,9 @@
 
   [Fabric with:@[[Crashlytics class]]];
 
+#ifndef DEBUG
   [BugsnagReactNative start];
+#endif
   return YES;
 }
 
