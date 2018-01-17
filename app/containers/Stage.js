@@ -16,6 +16,7 @@ import VelvetRope             from './VelvetRope'
 import VipCodeEntry           from './VipCodeEntry'
 import VipCodeStatus          from './VipCodeStatus'
 import MemberApplication      from './MemberApplication'
+import WaitingRoom            from './WaitingRoom'
 import Dead                   from './Dead'
 import Icon                   from 'react-native-vector-icons/Ionicons'
 import {em}                   from '../constants/dimensions'
@@ -53,6 +54,7 @@ class Stage extends PureComponent {
 
   showScene(sceneName) {
     const {props} = this
+    return <WaitingRoom />
     return <MemberApplication />
 
     if (!props.authenticated) {
