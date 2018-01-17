@@ -1,7 +1,7 @@
 'use strict'
 
-import React, {Component} from 'react'
-import {BlurView} from 'react-native-blur'
+import React, {Component}          from 'react'
+import {BlurView}                  from 'react-native-blur'
 import {screenWidth, screenHeight} from '../constants/dimensions'
 import {
   View,
@@ -48,10 +48,10 @@ export default class WaitingRoomView extends Component {
           })
         }
         {
-          // <BlurView style={style.blur}
-          //         blurType="light"
-          //         blurAmount={5}
-          //         viewRef={null/* required for Android */} />
+          <BlurView style={style.blur}
+                  blurType="light"
+                  blurAmount={10}
+                  viewRef={null/* required for Android */} />
         }
       </View>
       <Text>WAITING</Text>
@@ -179,7 +179,7 @@ Corn.defaultProps = {
   loop: undefined,
 }
 
-const cornWidth = screenWidth * 0.4
+const cornWidth = screenWidth * 0.66
 
 const style = StyleSheet.create({
   container: {

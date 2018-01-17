@@ -3,10 +3,13 @@ import LinearGradient from 'react-native-linear-gradient'
 import DatePicker from 'react-native-datepicker'
 import {StaticNight, Star} from './Environment'
 import {em, screenWidth, tabNavHeight, screenHeight, bottomBoost} from '../constants/dimensions'
+import {mayteWhite} from '../constants/colors'
+import {ButtonGrey} from './Button'
 import {
   View,
   Text,
   Animated,
+  TextInput,
   StyleSheet,
   TouchableOpacity,
 } from 'react-native'
@@ -44,23 +47,8 @@ export default class MemberApplicationView extends Component {
           <Star style={{top: screenHeight * 0.64, right: em(18)}} twinkleDelay={61800} />
         </StaticNight>
 
-        <Scene
-          active={state.active == 'intro'}>
-
-          <Text>uh hi</Text>
-          <TouchableOpacity onPress={() => this.setState({active: 'email'})}>
-            <Text>Next</Text>
-          </TouchableOpacity>
-        </Scene>
-
-        <Scene
-          active={state.active == 'email'}>
-
-          <Text>Email</Text>
-          <TouchableOpacity onPress={() => this.setState({active: 'dob'})}>
-            <Text>Next</Text>
-          </TouchableOpacity>
-        </Scene>
+        <Intro {...props} {...state} next={() => this.setState({active: 'email'})} />
+        <Email {...props} {...state} next={() => this.setState({active: 'dob'})} />
 
         <Scene
           active={state.active == 'dob'}>
@@ -141,6 +129,50 @@ class Scene extends Component {
   }
 }
 
+const Intro = (props) => {
+  return(
+    <Scene
+      active={props.active == 'intro'}
+      style={[style.intro]}>
+
+      <Text style={[style.introText, style.introHeader]}>WELCOME</Text>
+      <Text style={[style.introText, style.introBody]}>
+      {`Welcome to Unicorn, a premium dating service unlike any other. Your membership provides entry to events, dinners, parties, and more within the Unicorn network. Tap the button below to begin your application — see you on the other side!`}
+      </Text>
+
+      <ButtonGrey
+        style={{paddingLeft: em(2), paddingRight: em(2)}}
+        onPress={props.next}
+        text='Begin' />
+    </Scene>
+  )
+}
+
+class Email extends Component {
+  constructor(props) {
+    super(props)
+    this.state = {value: ''}
+  }
+  render() {
+    const {props, state} = this
+    return (
+      <Scene
+        active={props.active == 'email'}>
+
+        <TextInput
+          placeholder='Email'
+          defaultValue={props.user.email}
+          onChangeText={text => this.setState({value: text})}></TextInput>
+
+        <ButtonGrey
+          style={{paddingLeft: em(2), paddingRight: em(2)}}
+          onPress={props.next}
+          text='Next' />
+      </Scene>
+    )
+  }
+}
+
 const style = StyleSheet.create({
   container: {
     flex: 1,
@@ -163,5 +195,10 @@ const style = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     flex: 1,
-  }
+  },
+  intro: {paddingLeft: em(1), paddingRight: em(1)},
+  introText: {backgroundColor: 'transparent', fontFamily: 'Futura', color: mayteWhite(), textAlign: 'center'},
+  introHeader: {fontSize: em(2.5), marginBottom: em(2), letterSpacing: em(0.25), fontWeight: '700'},
+  introBody: {fontSize: em(1.2), marginBottom: em(2)},
+  introButton: {},
 })

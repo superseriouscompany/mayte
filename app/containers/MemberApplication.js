@@ -22,7 +22,7 @@ class MemberApplication extends Component {
 
 const mapStateToProps = (state, ownProps) => {
   return {
-
+    user: state.user,
   }
 }
 

@@ -54,7 +54,7 @@ class Stage extends PureComponent {
 
   showScene(sceneName) {
     const {props} = this
-    return <WaitingRoom />
+    // return <WaitingRoom />
     return <MemberApplication />
 
     if (!props.authenticated) {
