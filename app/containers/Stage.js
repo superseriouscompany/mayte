@@ -15,6 +15,7 @@ import Paywall                from './Paywall'
 import VelvetRope             from './VelvetRope'
 import VipCodeEntry           from './VipCodeEntry'
 import VipCodeStatus          from './VipCodeStatus'
+import MemberApplication      from './MemberApplication'
 import Dead                   from './Dead'
 import Icon                   from 'react-native-vector-icons/Ionicons'
 import {em}                   from '../constants/dimensions'
@@ -52,6 +53,7 @@ class Stage extends PureComponent {
 
   showScene(sceneName) {
     const {props} = this
+    return <MemberApplication />
 
     if (!props.authenticated) {
       return <Login />
