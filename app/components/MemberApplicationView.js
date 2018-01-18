@@ -22,13 +22,12 @@ export default class MemberApplicationView extends Component {
 
   componentDidMount() {
     if (!this.props.step) {
-      this.props.update({step: 'intro'})  
+      this.props.update({step: 'intro'})
     }
   }
 
   render() {
     const {props, state} = this
-    console.log(props.step)
     return(
       <View style={style.container}>
         <StaticNight style={style.bg}>
@@ -199,16 +198,17 @@ class Email extends Component {
 
   render() {
     const {props, state} = this
+    const fontBase = em(2)
     return (
       <Scene
         active={props.step == 'email'}
         onFadeIn={() => {
-          Animated.timing(this._inputScaleX, {
-            toValue: 1,
-            duration: 1000,
-            easing: Easing.easeIn,
-            useNativeDriver: true,
-          }).start(() => this.input.focus())
+            Animated.timing(this._inputScaleX, {
+              toValue: 1,
+              duration: 666,
+              easing: Easing.easeIn,
+              useNativeDriver: true,
+            }).start(() => this.input.focus())
         }}>
 
         <Animated.Text style={[style.emailText, style.emailHeader]}>EMAIL ADDRESS</Animated.Text>
@@ -217,12 +217,14 @@ class Email extends Component {
           <TextInput
             value={state.value}
             ref={el => this.input = el}
+            keyboardType='email-address'
+            autoCapitalize={"none"}
             style={[
               style.emailText,
               style.emailInput,
-              (state.value.length > 15 ? {
-                fontSize: screenWidth / state.value.length * 1.2
-              } : {})
+              (state.value.length > 12 ? {
+                fontSize: fontBase - (1.1 * state.value.length - 12)
+              } : {fontSize: fontBase})
             ]}
             defaultValue={props.user.email}
             placeholderTextColor={mayteWhite(0.66)}
@@ -272,8 +274,8 @@ const style = StyleSheet.create({
 
   email: {},
   emailText: {backgroundColor: 'transparent', color: mayteWhite(), textAlign: 'center', fontFamily: 'Futura'},
-  emailHeader: {fontSize: em(2), marginBottom: em(2), letterSpacing: em(0.25), fontWeight: '700'},
-  emailInputCont: {width: '66%', marginBottom: em(4)},
-  emailInput: {width: '100%', fontSize: em(2), fontFamily: 'futura', letterSpacing: em(0.5), borderBottomWidth: 1, borderColor: mayteWhite(), paddingBottom: em(0.33)},
+  emailHeader: {fontSize: em(1.66), marginBottom: em(4), letterSpacing: em(0.25), fontWeight: '700'},
+  emailInputCont: {width: '66%', marginBottom: em(2), height: em(3), borderBottomWidth: 1, borderColor: mayteWhite(), paddingBottom: em(0.33),  justifyContent: 'flex-end'},
+  emailInput: {width: '100%', fontFamily: 'futura', letterSpacing: em(0.5), overflow: 'visible'},
   emailButton: {},
 })
