@@ -27,6 +27,7 @@ import {
   Text,
   Slider,
   TouchableOpacity,
+  Linking,
 } from 'react-native'
 
 const bubbleDiameter = 200
@@ -162,7 +163,7 @@ export default class PreferencesView extends Component {
                  source={require('../images/unicorn-logo-black.png')}
                  resizeMode="contain" />
 
-          <TouchableOpacity style={style.deleteBtn}
+          <TouchableOpacity style={style.footerBtn}
                             onPress={() => {
                               Alert.alert(
                                 "Delete Account",
@@ -173,7 +174,17 @@ export default class PreferencesView extends Component {
                                 ]
                               )
                             }}>
-            <Text style={style.deleteBtnText}>DELETE ACCOUNT</Text>
+            <Text style={style.footerBtnText}>DELETE ACCOUNT</Text>
+          </TouchableOpacity>
+
+          <TouchableOpacity style={[style.footerBtn, style.legalBtn]}
+            onPress={() => Linking.openURL('https://dateunicorn.com/privacy-policy')}>
+            <Text style={[style.footerBtnText, style.legalText]}>PRIVACY POLICY</Text>
+          </TouchableOpacity>
+
+          <TouchableOpacity style={[style.footerBtn, style.legalBtn]}
+            onPress={() => Linking.openURL('https://dateunicorn.com/terms')}>
+            <Text style={[style.footerBtnText, style.legalText]}>TERMS OF SERVICE</Text>
           </TouchableOpacity>
         </ScrollView>
       </View>
@@ -264,16 +275,22 @@ const style = StyleSheet.create({
     width: em(6),
     marginTop: em(0.66),
   },
-  deleteBtn: {
+  footerBtn: {
     marginTop: em(2.66),
     backgroundColor: 'transparent',
   },
-  deleteBtnText: {
+  legalBtn: {
+    marginTop: em(1.33),
+  },
+  footerBtnText: {
     fontSize: em(0.8),
     backgroundColor: 'transparent',
     color: mayteRed(1),
     fontFamily: 'Gotham-Book',
     letterSpacing: em(0.1),
     marginLeft: em(0.2),
-  }
+  },
+  legalText: {
+    color: mayteBlack(),
+  },
 })

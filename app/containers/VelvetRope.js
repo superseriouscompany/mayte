@@ -23,13 +23,14 @@ class VelvetRope extends Component {
 function mapStateToProps(state) {
   return {
     isAdmin:     !!state.user.isAdmin,
+    isGold:      state.user.tier == 'gold',
   }
 }
 
 function mapDispatchToProps(dispatch) {
   return {
-    visitPromoMaker: () => {
-      dispatch({type: 'scene:change', scene: 'PromoMaker'})
+    visitVipCodeInvite: () => {
+      dispatch({type: 'scene:change', scene: 'VipCodeInvite'})
     },
   }
 }

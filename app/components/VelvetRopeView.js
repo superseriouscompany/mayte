@@ -23,6 +23,12 @@ export default function(props) {
       <View style={styles.events}>
         <Text style={styles.explanation}>
           This is your entry ticket to all Unicorn events.
+
+          { !props.isGold ? null :
+            <Text>
+              {"\n"}As a brand ambassador, you are welcome to attend with a +1.
+            </Text>
+          }
         </Text>
 
         <Text style={styles.nextEvent}>
@@ -40,8 +46,8 @@ export default function(props) {
         </TouchableOpacity>
       </View>
       <View style={styles.buttonsCnr}>
-        { props.isAdmin ?
-          <ButtonBlack text={`VIP Codes`} onPress={props.visitPromoMaker} style={styles.button} />
+        { props.isAdmin || props.isGold ?
+          <ButtonBlack text={`VIP Codes`} onPress={props.visitVipCodeInvite} style={styles.button} />
         : null }
       </View>
     </View>

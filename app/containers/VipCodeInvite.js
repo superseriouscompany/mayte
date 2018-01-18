@@ -2,12 +2,12 @@
 
 import React, {Component} from 'react'
 import {connect}          from 'react-redux'
-import PromoMakerView     from '../components/PromoMakerView'
+import VipCodeInviteView     from '../components/VipCodeInviteView'
 import branch             from 'react-native-branch'
 import api                from '../services/api'
 import log                from '../services/log'
 
-class PromoMaker extends Component {
+class VipCodeInvite extends Component {
   constructor(props) {
     super(props)
     this.generate = this.generate.bind(this)
@@ -73,7 +73,7 @@ class PromoMaker extends Component {
 
   render() {
     return (
-      <PromoMakerView {...this.props}
+      <VipCodeInviteView {...this.props}
         url={this.state.url}
         generate={this.generate}
         invite={this.invite}
@@ -96,4 +96,4 @@ function mapDispatchToProps(dispatch) {
   }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(PromoMaker)
+export default connect(mapStateToProps, mapDispatchToProps)(VipCodeInvite)
