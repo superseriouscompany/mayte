@@ -8,7 +8,7 @@ class Quiz extends Component {
     this.state = {
       email: props.quiz.email,
       dob: props.quiz.dob,
-      photos: props.quiz.photos || [],
+      photos: props.quiz.photos || [null, null, null],
       website: props.quiz.website,
       freeform: props.quiz.freeform,
       step: props.quiz.step,
@@ -16,13 +16,14 @@ class Quiz extends Component {
   }
 
   componentDidUpdate(prevProps, prevState) {
+    console.log("quiz updated", this.state)
     if (prevState != this.state) {
       this.props.setQuiz(this.state)
     }
   }
 
   render() {
-    return <QuizView {...this.props.quiz}
+    return <QuizView {...this.props.quiz} user={this.props.user}
              update={(k) => this.setState(Object.assign({}, this.state, k))} />
   }
 }

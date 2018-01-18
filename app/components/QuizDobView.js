@@ -55,8 +55,6 @@ export default class Dob extends Component {
 
   render() {
     const {props, state} = this
-
-    console.log('render', props.dob)
     return (
       <Scene
         active={props.step == 'dob'}

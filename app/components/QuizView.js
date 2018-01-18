@@ -31,6 +31,7 @@ export default class QuizView extends Component {
     super(props)
     this.state = { zodiac: null }
     this._zodiacOpacity = new Animated.Value(0)
+    this._zodiacScale = new Animated.Value(0)
     this.updateDob = this.updateDob.bind(this)
   }
 
@@ -44,11 +45,17 @@ export default class QuizView extends Component {
 
   componentDidUpdate(prevProps, prevState) {
     if (this.state.zodiac && !prevState.zodiac) {
-      Animated.timing(this._zodiacOpacity, {
-        toValue: 1,
-        duration: zodiacInDuration,
-        useNativeDriver: true,
-      }).start()
+      Animated.parallel([
+        Animated.spring(this._zodiacScale, {
+          toValue: 0.66,
+          useNativeDriver: true,
+        }),
+        Animated.timing(this._zodiacOpacity, {
+          toValue: 0.8,
+          duration: zodiacInDuration,
+          useNativeDriver: true,
+        })
+      ]).start()
     }
   }
 
@@ -100,7 +107,15 @@ export default class QuizView extends Component {
         return null
         break
     }
-    return <Animated.Image style={[style.zodiac, {opacity: this._zodiacOpacity}]} source={src} resizeMode='contain'  />
+    return <Animated.Image
+              style={[
+                style.zodiac,
+                {
+                  opacity: this._zodiacOpacity,
+                  transform: [{scale: this._zodiacScale}, {rotate: '15deg'}]}]
+                }
+                source={src}
+                resizeMode='contain'  />
   }
 
   render() {
@@ -121,10 +136,10 @@ export default class QuizView extends Component {
           <Star style={{bottom: em(23), right: em(2)}} twinkleDelay={51300} />
           <Star style={{bottom: em(2), right: em(2)}} twinkleDelay={61200} />
           <Star style={{top: screenHeight * 0.64, right: em(18)}} twinkleDelay={61800} />
-{
-          // <StarSystem count={600} spiralB={10} spiralA={10} starProps={{size: 0.5, twinkle: false, style: {opacity: 0.8}}}></StarSystem>
-          // <StarSystem count={60} spin={false} spiralA={50} reverse={true} starProps={{size: 0.66, twinkle: false, style: {opacity: 0.9}}}></StarSystem>
-}
+
+          <StarSystem count={100} starProps={{size: 0.5, twinkle: false, style: {opacity: 0.8}}}></StarSystem>
+          <StarSystem count={60} spiralA={50} reverse={true} starProps={{size: 0.66, twinkle: false, style: {opacity: 0.9}}}></StarSystem>
+
           {
             this.renderZodiac()
           }
@@ -140,6 +155,9 @@ export default class QuizView extends Component {
           active={props.step == 'review'}>
 
           <Text>Review</Text>
+          <TouchableOpacity onPress={() => props.update({step: 'photos'})}>
+            <Text>photos</Text>
+          </TouchableOpacity>
         </Scene>
       </View>
     )
@@ -227,6 +245,6 @@ const style = StyleSheet.create({
     width: em(6),
     height: em(6),
     position: 'absolute',
-    top: em(1.66), right: em(1),
+    top: em(1), right: em(1),
   }
 })
