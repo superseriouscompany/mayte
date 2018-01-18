@@ -1,9 +1,16 @@
 'use strict'
 
 import React, {Component} from 'react'
-import {screenWidth, screenHeight, em, notchHeight} from '../constants/dimensions'
-import moment from 'moment'
-import Text from './Text'
+import moment             from 'moment'
+import Text               from './Text'
+import QRCode             from 'react-native-qrcode'
+import {baseUrl}          from '../services/api'
+import {
+  screenWidth,
+  screenHeight,
+  em,
+  notchHeight
+} from '../constants/dimensions'
 import {
   ActivityIndicator,
   Image,
@@ -23,7 +30,11 @@ export default function(props) {
           <Text style={styles.id}>{"\n"}Member ID:{"\n"} {props.user.id}</Text>
         </View>
         <View style={styles.rightCnr}>
-          <Image style={styles.qrCode} source={require('../images/qr-code.jpg')} />
+          <QRCode
+            value={`${baseUrl}/member/${props.user.id}`}
+            bgColor="hotpink"
+            size={80}
+            />
         </View>
       </View>
 
