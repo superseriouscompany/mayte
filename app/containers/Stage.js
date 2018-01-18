@@ -14,7 +14,6 @@ import GenderSelector         from './GenderSelector'
 import Paywall                from './Paywall'
 import VelvetRope             from './VelvetRope'
 import VipCodeEntry           from './VipCodeEntry'
-import VipCodeStatus          from './VipCodeStatus'
 import Dead                   from './Dead'
 import Icon                   from 'react-native-vector-icons/Ionicons'
 import {em}                   from '../constants/dimensions'
@@ -62,8 +61,6 @@ class Stage extends PureComponent {
         <GenderSelector />
       : sceneName == 'VipCodeEntry' ?
         <VipCodeEntry />
-      : props.vipCode ?
-        <VipCodeStatus />
       :
         <Paywall gender={props.gender} />
     }
