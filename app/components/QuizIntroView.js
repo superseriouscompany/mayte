@@ -15,8 +15,8 @@ export default Intro = (props) => {
       active={props.step == 'intro'}
       style={[style.intro]}>
 
-      <Text style={[style.introText, style.introHeader]}>WELCOME</Text>
-      <Text style={[style.introText, style.introBody]}>
+      <Text style={[style.text, style.header]}>WELCOME</Text>
+      <Text style={[style.text, style.body]}>
       {`Welcome to Unicorn, a premium dating service unlike any other. Your membership provides entry to events, dinners, parties, and more within the Unicorn network. Tap the button below to begin your application — see you on the other side!`}
       </Text>
 
@@ -30,8 +30,7 @@ export default Intro = (props) => {
 
 const style = StyleSheet.create({
   intro: {paddingLeft: em(1), paddingRight: em(1)},
-  introText: {backgroundColor: 'transparent', fontFamily: 'Futura', color: mayteWhite(), textAlign: 'center'},
-  introHeader: {fontSize: em(2), marginBottom: em(2), letterSpacing: em(0.25), fontWeight: '700'},
-  introBody: {fontSize: em(1.2), marginBottom: em(3)},
-  introButton: {},
+  text: {backgroundColor: 'transparent', fontFamily: 'Futura', color: mayteWhite(), textAlign: 'center'},
+  header: {fontSize: em(2), marginBottom: em(2), letterSpacing: em(0.25), fontWeight: '700'},
+  body: {fontSize: em(1.2), marginBottom: em(3)},
 })

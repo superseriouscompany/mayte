@@ -6,6 +6,7 @@ import Intro                                                      from './QuizIn
 import Email                                                      from './QuizEmailView'
 import Dob                                                        from './QuizDobView'
 import Website                                                    from './QuizWebsiteView'
+import Photos                                                     from './QuizPhotosView'
 import Firework                                                   from './Firework'
 import {em, screenWidth, tabNavHeight, screenHeight, bottomBoost} from '../constants/dimensions'
 import {mayteWhite}                                               from '../constants/colors'
@@ -133,15 +134,7 @@ export default class QuizView extends Component {
         <Email {...props} next={() => props.update({step: 'dob'})} />
         <Dob {...props} next={() => props.update({step: 'website'})} updateDob={this.updateDob} />
         <Website {...props} next={() => props.update({step: 'photos'})} />
-
-        <Scene
-          active={props.step == 'photos'}>
-
-          <Text>Select Photos</Text>
-          <TouchableOpacity onPress={() => props.update({step: 'website'})}>
-            <Text>Next</Text>
-          </TouchableOpacity>
-        </Scene>
+        <Photos {...props} next={() => props.update({step: 'review'})} />
 
         <Scene
           active={props.step == 'review'}>

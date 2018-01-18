@@ -112,7 +112,7 @@ export default class Website extends Component {
 
 const style = StyleSheet.create({
   text: {backgroundColor: 'transparent', color: mayteWhite(), textAlign: 'center', fontFamily: 'Futura'},
-  header: {fontSize: em(1.66), marginBottom: em(4), letterSpacing: em(0.25), fontWeight: '700'},
+  header: {fontSize: em(1.66), marginBottom: em(2), letterSpacing: em(0.25), fontWeight: '700'},
   inputCont: {width: '66%', marginBottom: em(2), height: em(3), borderBottomWidth: 1, borderColor: mayteWhite(), paddingBottom: em(0.33),  justifyContent: 'flex-end'},
   input: {width: '100%', fontFamily: 'futura', letterSpacing: em(0.5), overflow: 'visible'},
 })
