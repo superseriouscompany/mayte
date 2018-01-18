@@ -42,7 +42,7 @@ export default (props) => {
         onDateChange={props.update} />
 
 
-      <TouchableOpacity onPress={() => props.update({step: 'email'})}>
+      <TouchableOpacity onPress={props.next}>
         <Text>Next</Text>
       </TouchableOpacity>
     </Scene>

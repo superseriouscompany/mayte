@@ -1,7 +1,7 @@
 import React, {Component}                                         from 'react'
 import LinearGradient                                             from 'react-native-linear-gradient'
 import moment                                                     from 'moment'
-import {StaticNight, Star}                                        from './Environment'
+import {StaticNight, Star, StarSystem}                            from './Environment'
 import Intro                                                      from './QuizIntroView'
 import Email                                                      from './QuizEmailView'
 import Dob                                                        from './QuizDobView'
@@ -82,11 +82,13 @@ export default class QuizView extends Component {
           <Star style={{top: screenHeight * 0.64, left: em(18)}} twinkleDelay={6800} />
           <Star style={{bottom: em(2), right: em(2)}} twinkleDelay={21000} />
           <Star style={{bottom: em(10), right: em(10)}} twinkleDelay={21800} />
-          <Star style={{bottom: em(20), right: em(15)}} twinkleDelay={31300} />
           <Star style={{bottom: em(15), right: em(20)}} twinkleDelay={41500} />
           <Star style={{bottom: em(23), right: em(2)}} twinkleDelay={51300} />
           <Star style={{bottom: em(2), right: em(2)}} twinkleDelay={61200} />
           <Star style={{top: screenHeight * 0.64, right: em(18)}} twinkleDelay={61800} />
+
+          <StarSystem count={600} spiralB={10} spiralA={10} starProps={{size: 0.5, twinkle: false, style: {opacity: 0.8}}}></StarSystem>
+          <StarSystem count={60} spin={false} spiralA={50} reverse={true} starProps={{size: 0.66, twinkle: false, style: {opacity: 0.9}}}></StarSystem>
 
           {
             this.renderZodiac()
