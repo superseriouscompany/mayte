@@ -179,7 +179,7 @@ export class StaticNight extends Component {
     const {props,state} = this
     return(
       <View style={props.style}>
-        <LinearGradient colors={['rgba(0,0,0,1)', '#232037']} style={{position:'absolute', top: 0, bottom: 0, left: 0, right: 0}} />
+        <LinearGradient colors={['#201D33', '#3A345B']} style={{position:'absolute', top: 0, bottom: 0, left: 0, right: 0}} />
         {props.children}
       </View>
     )
