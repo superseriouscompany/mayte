@@ -18,17 +18,17 @@ import {
 export default class MemberApplicationView extends Component {
   constructor(props) {
     super(props)
-    this.state = {
-      active: null
-    }
   }
 
   componentDidMount() {
-    this.setState({active: 'intro'})
+    if (!this.props.step) {
+      this.props.update({step: 'intro'})  
+    }
   }
 
   render() {
     const {props, state} = this
+    console.log(props.step)
     return(
       <View style={style.container}>
         <StaticNight style={style.bg}>
@@ -48,11 +48,11 @@ export default class MemberApplicationView extends Component {
           <Star style={{top: screenHeight * 0.64, right: em(18)}} twinkleDelay={61800} />
         </StaticNight>
 
-        <Intro {...props} {...state} next={() => this.setState({active: 'email'})} />
-        <Email {...props} {...state} next={() => this.setState({active: 'dob'})} />
+        <Intro {...props} next={() => props.update({step: 'email'})} />
+        <Email {...props} next={() => props.update({step: 'dob'})} />
 
         <Scene
-          active={state.active == 'dob'}>
+          active={props.step == 'dob'}>
 
           <DatePicker />
           <TouchableOpacity onPress={() => this.setState({active: 'website'})}>
@@ -61,7 +61,7 @@ export default class MemberApplicationView extends Component {
         </Scene>
 
         <Scene
-          active={state.active == 'website'}>
+          active={props.step == 'website'}>
 
           <Text>Website</Text>
           <TouchableOpacity onPress={() => this.setState({active: 'photos'})}>
@@ -70,7 +70,7 @@ export default class MemberApplicationView extends Component {
         </Scene>
 
         <Scene
-          active={state.active == 'photos'}>
+          active={props.step == 'photos'}>
 
           <Text>Select Photos</Text>
           <TouchableOpacity onPress={() => this.setState({active: 'review'})}>
@@ -79,7 +79,7 @@ export default class MemberApplicationView extends Component {
         </Scene>
 
         <Scene
-          active={state.active == 'review'}>
+          active={props.step == 'review'}>
 
           <Text>Review</Text>
         </Scene>
@@ -97,9 +97,13 @@ class Scene extends Component {
     this.fadeOut = this.fadeOut.bind(this)
   }
 
-  componentDidUpdate(prevProps) {
+  componentDidUpdate(prevProps, prevState) {
     if (this.props.active && !prevProps.active) { this.props.enter(); this.fadeIn() }
     if (!this.props.active && prevProps.active) { this.props.exit(); this.fadeOut() }
+  }
+
+  componentDidMount() {
+    if (this.props.active) { this.props.enter(); this.fadeIn() }
   }
 
   fadeIn() {
@@ -140,7 +144,7 @@ Scene.defaultProps = {
 const Intro = (props) => {
   return(
     <Scene
-      active={props.active == 'intro'}
+      active={props.step == 'intro'}
       style={[style.intro]}>
 
       <Text style={[style.introText, style.introHeader]}>WELCOME</Text>
@@ -197,7 +201,7 @@ class Email extends Component {
     const {props, state} = this
     return (
       <Scene
-        active={props.active == 'email'}
+        active={props.step == 'email'}
         onFadeIn={() => {
           Animated.timing(this._inputScaleX, {
             toValue: 1,
@@ -207,11 +211,14 @@ class Email extends Component {
           }).start(() => this.input.focus())
         }}>
 
+        <Animated.Text style={[style.emailText, style.emailHeader]}>EMAIL ADDRESS</Animated.Text>
+
         <Animated.View style={[style.emailInputCont, {transform: [{scaleX: this._inputScaleX}]}]}>
           <TextInput
             value={state.value}
             ref={el => this.input = el}
             style={[
+              style.emailText,
               style.emailInput,
               (state.value.length > 15 ? {
                 fontSize: screenWidth / state.value.length * 1.2
@@ -264,7 +271,9 @@ const style = StyleSheet.create({
   introButton: {},
 
   email: {},
-  emailInputCont: {width: '66%', marginBottom: em(2)},
-  emailInput: {backgroundColor: 'transparent', width: '100%', textAlign: 'center', color: mayteWhite(), fontSize: em(2), fontFamily: 'futura', letterSpacing: em(0.5), borderBottomWidth: 1, borderColor: mayteWhite(), paddingBottom: em(0.33)},
+  emailText: {backgroundColor: 'transparent', color: mayteWhite(), textAlign: 'center', fontFamily: 'Futura'},
+  emailHeader: {fontSize: em(2), marginBottom: em(2), letterSpacing: em(0.25), fontWeight: '700'},
+  emailInputCont: {width: '66%', marginBottom: em(4)},
+  emailInput: {width: '100%', fontSize: em(2), fontFamily: 'futura', letterSpacing: em(0.5), borderBottomWidth: 1, borderColor: mayteWhite(), paddingBottom: em(0.33)},
   emailButton: {},
 })

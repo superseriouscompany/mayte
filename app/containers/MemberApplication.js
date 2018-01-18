@@ -11,12 +11,17 @@ class MemberApplication extends Component {
       photos: [],
       website: null,
       freeform: null,
+      step: props.user.applyStep,
     }
+  }
+
+  componentDidUpdate(prevProps, prevState) {
+    if (this.state.step != prevState.step) { this.props.setStep(this.state.step) }
   }
 
   render() {
     return <MemberApplicationView {...this.props} {...this.state}
-             update={(k) => this.setState(Object.assign(this.state, k))} />
+             update={(k) => this.setState(Object.assign({}, this.state, k))} />
   }
 }
 
@@ -28,7 +33,11 @@ const mapStateToProps = (state, ownProps) => {
 
 const mapDispatchToProps = (dispatch) => {
   return {
-
+    setStep: (name) => {
+      dispatch({type: 'user:set', user: {
+        applyStep: name
+      }})
+    }
   }
 }
 
