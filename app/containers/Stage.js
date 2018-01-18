@@ -9,7 +9,7 @@ import Settings               from './Settings'
 import MatchBridge            from './MatchBridge'
 import Navigation             from './Navigation'
 import Scratch                from './Scratch'
-import PromoMaker             from './PromoMaker'
+import VipCodeInvite             from './VipCodeInvite'
 import GenderSelector         from './GenderSelector'
 import Paywall                from './Paywall'
 import VelvetRope             from './VelvetRope'
@@ -68,8 +68,8 @@ class Stage extends PureComponent {
         <Paywall gender={props.gender} />
     }
 
-    if( sceneName == 'PromoMaker' ) {
-      return <PromoMaker />
+    if( sceneName == 'VipCodeInvite' ) {
+      return <VipCodeInvite />
     }
     if( sceneName == 'Dead' ) {
       return <Dead />
@@ -120,7 +120,7 @@ function mapStateToProps(state) {
   // of Navigation.
   var sceneName = state.scene && state.scene.name
   switch(sceneName) {
-    case 'VipCodeEntry': case 'PromoMaker': case 'Dead':
+    case 'VipCodeEntry': case 'VipCodeInvite': case 'Dead':
       break;
     default:
       sceneName = 'Hack'

@@ -40,8 +40,8 @@ export default function(props) {
         </TouchableOpacity>
       </View>
       <View style={styles.buttonsCnr}>
-        { props.isAdmin ?
-          <ButtonBlack text={`VIP Codes`} onPress={props.visitPromoMaker} style={styles.button} />
+        { props.isAdmin || props.isGold ?
+          <ButtonBlack text={`VIP Codes`} onPress={props.visitVipCodeInvite} style={styles.button} />
         : null }
       </View>
     </View>
