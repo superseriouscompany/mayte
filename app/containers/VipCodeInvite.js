@@ -2,44 +2,20 @@
 
 import React, {Component} from 'react'
 import {connect}          from 'react-redux'
-import VipCodeInviteView     from '../components/VipCodeInviteView'
+import VipCodeInviteView  from '../components/VipCodeInviteView'
 import branch             from 'react-native-branch'
-import api                from '../services/api'
 import log                from '../services/log'
+import request            from '../actions/request'
 
 class VipCodeInvite extends Component {
   constructor(props) {
     super(props)
     this.generate = this.generate.bind(this)
-    this.invite   = this.invite.bind(this)
     this.state = {}
   }
 
-  invite() {
-    return branch.createBranchUniversalObject(
-      `invites`,
-      {
-        metadata: {
-          inviterId: this.props.userId,
-        }
-      }
-    ).then((branchUniversalObject) => {
-      const linkProperties = {
-        feature: 'invite',
-        channel: 'app'
-      }
-      const controlParams = {}
-
-      return branchUniversalObject.showShareSheet({
-        messageHeader: 'Shhhhh...',
-        messageBody:   'Unicorn: Find Yours.',
-        emailSubject:  'Shhhhh...'
-      }, linkProperties, controlParams)
-    })
-  }
-
-  generate() {
-    api('/promos', { method: 'POST', headers: {'X-Server-Secret': 'mayte'}}).then((json) => {
+  generate(tier, message) {
+    this.props.createCode(tier).then((json) => {
       const vipCode = json.code
       return branch.createBranchUniversalObject(
         `promos/${vipCode}`,
@@ -47,18 +23,19 @@ class VipCodeInvite extends Component {
           metadata: {
             inviterId: this.props.userId,
             vipCode,
+            tier,
           }
         }
       ).then((branchUniversalObject) => {
         const linkProperties = {
-          feature: 'promo-redemption',
+          feature: 'vip-code',
           channel: 'app'
         }
         const controlParams = {}
 
         return branchUniversalObject.showShareSheet({
           messageHeader: 'Shhhhh...',
-          messageBody:   'I think you\'re a unicorn',
+          messageBody:   message,
           emailSubject:  'Shhhhh...'
         }, linkProperties, controlParams)
       }).then((payload) => {
@@ -84,7 +61,8 @@ class VipCodeInvite extends Component {
 
 function mapStateToProps(state) {
   return {
-    userId: state.user.id,
+    userId:  state.user.id,
+    isAdmin: !!state.user.isAdmin,
   }
 }
 
@@ -92,6 +70,14 @@ function mapDispatchToProps(dispatch) {
   return {
     visitHome: () => {
       dispatch({type: 'scene:change', scene: 'Home'})
+    },
+
+    createCode: (tier) => {
+      return dispatch(request({
+        url: '/vipCodes',
+        method: 'POST',
+        body: { tier }
+      }))
     }
   }
 }
