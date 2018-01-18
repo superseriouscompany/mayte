@@ -1,13 +1,14 @@
-import React, {Component} from 'react'
-import LinearGradient from 'react-native-linear-gradient'
-import DatePicker from 'react-native-datepicker'
-import {StaticNight, Star} from './Environment'
+import React, {Component}                                         from 'react'
+import LinearGradient                                             from 'react-native-linear-gradient'
+import DatePicker                                                 from 'react-native-datepicker'
+import {StaticNight, Star}                                        from './Environment'
 import {em, screenWidth, tabNavHeight, screenHeight, bottomBoost} from '../constants/dimensions'
-import {mayteWhite} from '../constants/colors'
-import {ButtonGrey} from './Button'
+import {mayteWhite}                                               from '../constants/colors'
+import {ButtonGrey}                                               from './Button'
 import {
   View,
   Text,
+  Easing,
   Animated,
   TextInput,
   StyleSheet,
@@ -97,8 +98,8 @@ class Scene extends Component {
   }
 
   componentDidUpdate(prevProps) {
-    if (this.props.active && !prevProps.active) { this.fadeIn() }
-    if (!this.props.active && prevProps.active) { this.fadeOut() }
+    if (this.props.active && !prevProps.active) { this.props.enter(); this.fadeIn() }
+    if (!this.props.active && prevProps.active) { this.props.exit(); this.fadeOut() }
   }
 
   fadeIn() {
@@ -106,7 +107,7 @@ class Scene extends Component {
       toValue: 1,
       duration: 500,
       useNativeDriver: true,
-    }).start()
+    }).start(() => this.props.onFadeIn())
   }
 
   fadeOut() {
@@ -114,7 +115,7 @@ class Scene extends Component {
       toValue: 0,
       duration: 500,
       useNativeDriver: true,
-    }).start()
+    }).start(() => this.props.onFadeOut())
   }
 
   render() {
@@ -127,6 +128,13 @@ class Scene extends Component {
       </Animated.ScrollView>
     )
   }
+}
+
+Scene.defaultProps = {
+  enter: () => null,
+  exit: () => null,
+  onFadeIn: () => null,
+  onFadeOut: () => null,
 }
 
 const Intro = (props) => {
@@ -151,23 +159,75 @@ const Intro = (props) => {
 class Email extends Component {
   constructor(props) {
     super(props)
-    this.state = {value: ''}
+    this._inputScaleX = new Animated.Value(0)
+    this._buttonOpacity = new Animated.Value(0)
+    this._buttonTranslateY = new Animated.Value(15)
+    this.state = {value: '', ready: false}
+
+    this.animButton = this.animButton.bind(this)
+    this.handleInput = this.handleInput.bind(this)
   }
+
+  componentDidUpdate(prevProps, prevState) {
+    if (this.state.ready && !prevState.ready) { this.animButton(true) }
+    if (!this.state.ready && prevState.ready) { this.animButton(false) }
+  }
+
+  animButton(ready) {
+    Animated.parallel([
+      Animated.timing(this._buttonOpacity, {
+        toValue: ready ? 1 : 0,
+        duration: 333,
+        useNativeDriver: true,
+      }),
+      Animated.timing(this._buttonTranslateY, {
+        toValue: ready ? 0 : 15,
+        duration: 333,
+        useNativeDriver: true,
+      })
+    ]).start()
+  }
+
+  handleInput(text) {
+    const re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
+    this.setState({value: text, ready: re.test(text)})
+  }
+
   render() {
     const {props, state} = this
     return (
       <Scene
-        active={props.active == 'email'}>
+        active={props.active == 'email'}
+        onFadeIn={() => {
+          Animated.timing(this._inputScaleX, {
+            toValue: 1,
+            duration: 1000,
+            easing: Easing.easeIn,
+            useNativeDriver: true,
+          }).start(() => this.input.focus())
+        }}>
 
-        <TextInput
-          placeholder='Email'
-          defaultValue={props.user.email}
-          onChangeText={text => this.setState({value: text})}></TextInput>
+        <Animated.View style={[style.emailInputCont, {transform: [{scaleX: this._inputScaleX}]}]}>
+          <TextInput
+            value={state.value}
+            ref={el => this.input = el}
+            style={[
+              style.emailInput,
+              (state.value.length > 15 ? {
+                fontSize: screenWidth / state.value.length * 1.2
+              } : {})
+            ]}
+            defaultValue={props.user.email}
+            placeholderTextColor={mayteWhite(0.66)}
+            onChangeText={this.handleInput} />
+        </Animated.View>
 
-        <ButtonGrey
-          style={{paddingLeft: em(2), paddingRight: em(2)}}
-          onPress={props.next}
-          text='Next' />
+        <Animated.View style={{opacity: this._buttonOpacity, transform: [{translateY: this._buttonTranslateY}]}}>
+          <ButtonGrey
+            style={{paddingLeft: em(2), paddingRight: em(2)}}
+            onPress={props.next}
+            text='Next' />
+        </Animated.View>
       </Scene>
     )
   }
@@ -196,9 +256,15 @@ const style = StyleSheet.create({
     alignItems: 'center',
     flex: 1,
   },
+
   intro: {paddingLeft: em(1), paddingRight: em(1)},
   introText: {backgroundColor: 'transparent', fontFamily: 'Futura', color: mayteWhite(), textAlign: 'center'},
-  introHeader: {fontSize: em(2.5), marginBottom: em(2), letterSpacing: em(0.25), fontWeight: '700'},
-  introBody: {fontSize: em(1.2), marginBottom: em(2)},
+  introHeader: {fontSize: em(2), marginBottom: em(2), letterSpacing: em(0.25), fontWeight: '700'},
+  introBody: {fontSize: em(1.2), marginBottom: em(3)},
   introButton: {},
+
+  email: {},
+  emailInputCont: {width: '66%', marginBottom: em(2)},
+  emailInput: {backgroundColor: 'transparent', width: '100%', textAlign: 'center', color: mayteWhite(), fontSize: em(2), fontFamily: 'futura', letterSpacing: em(0.5), borderBottomWidth: 1, borderColor: mayteWhite(), paddingBottom: em(0.33)},
+  emailButton: {},
 })
