@@ -7,6 +7,7 @@ import Email                                                      from './QuizEm
 import Dob                                                        from './QuizDobView'
 import Website                                                    from './QuizWebsiteView'
 import Photos                                                     from './QuizPhotosView'
+import Freeform                                                   from './QuizFreeformView'
 import Firework                                                   from './Firework'
 import {em, screenWidth, tabNavHeight, screenHeight, bottomBoost} from '../constants/dimensions'
 import {mayteWhite}                                               from '../constants/colors'
@@ -149,7 +150,8 @@ export default class QuizView extends Component {
         <Email {...props} next={() => props.update({step: 'dob'})} />
         <Dob {...props} next={() => props.update({step: 'website'})} updateDob={this.updateDob} />
         <Website {...props} next={() => props.update({step: 'photos'})} />
-        <Photos {...props} next={() => props.update({step: 'review'})} />
+        <Photos {...props} next={() => props.update({step: 'freeform'})} />
+        <Freeform {...props} next={() => props.update({step: 'review'})} />
 
         <Scene
           active={props.step == 'review'}>
