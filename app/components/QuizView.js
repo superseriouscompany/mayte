@@ -15,7 +15,7 @@ import {
   TouchableOpacity,
 } from 'react-native'
 
-export default class MemberApplicationView extends Component {
+export default class QuizView extends Component {
   constructor(props) {
     super(props)
   }
@@ -54,7 +54,7 @@ export default class MemberApplicationView extends Component {
           active={props.step == 'dob'}>
 
           <DatePicker />
-          <TouchableOpacity onPress={() => this.setState({active: 'website'})}>
+          <TouchableOpacity onPress={() => props.update({step: 'email'})}>
             <Text>Next</Text>
           </TouchableOpacity>
         </Scene>
@@ -162,10 +162,11 @@ const Intro = (props) => {
 class Email extends Component {
   constructor(props) {
     super(props)
-    this._inputScaleX = new Animated.Value(0)
+    this._inputContScaleX = new Animated.Value(0)
+    this._inputOpacity = new Animated.Value(0)
     this._buttonOpacity = new Animated.Value(0)
     this._buttonTranslateY = new Animated.Value(15)
-    this.state = {value: '', ready: false}
+    this.state = {ready: false}
 
     this.animButton = this.animButton.bind(this)
     this.handleInput = this.handleInput.bind(this)
@@ -174,6 +175,11 @@ class Email extends Component {
   componentDidUpdate(prevProps, prevState) {
     if (this.state.ready && !prevState.ready) { this.animButton(true) }
     if (!this.state.ready && prevState.ready) { this.animButton(false) }
+  }
+
+  testInput(text) {
+    const re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
+    return re.test(text)
   }
 
   animButton(ready) {
@@ -192,8 +198,8 @@ class Email extends Component {
   }
 
   handleInput(text) {
-    const re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
-    this.setState({value: text, ready: re.test(text)})
+    this.props.update({email: text})
+    this.setState({ready: this.testInput(text)})
   }
 
   render() {
@@ -203,32 +209,39 @@ class Email extends Component {
       <Scene
         active={props.step == 'email'}
         onFadeIn={() => {
-            Animated.timing(this._inputScaleX, {
+            Animated.timing(this._inputContScaleX, {
               toValue: 1,
               duration: 666,
               easing: Easing.easeIn,
               useNativeDriver: true,
-            }).start(() => this.input.focus())
+            }).start(() => {
+              this.animButton(this.testInput(props.email))
+              Animated.timing(this._inputOpacity, {toValue: 1, duration: 333, useNativeDriver: true}).start()
+              this.input.focus()
+            })
         }}>
 
         <Animated.Text style={[style.emailText, style.emailHeader]}>EMAIL ADDRESS</Animated.Text>
 
-        <Animated.View style={[style.emailInputCont, {transform: [{scaleX: this._inputScaleX}]}]}>
-          <TextInput
-            value={state.value}
-            ref={el => this.input = el}
-            keyboardType='email-address'
-            autoCapitalize={"none"}
-            style={[
-              style.emailText,
-              style.emailInput,
-              (state.value.length > 12 ? {
-                fontSize: fontBase - (1.1 * state.value.length - 12)
-              } : {fontSize: fontBase})
-            ]}
-            defaultValue={props.user.email}
-            placeholderTextColor={mayteWhite(0.66)}
-            onChangeText={this.handleInput} />
+        {/* TODO: commit Animated.TextInput to react-native -__- */}
+        <Animated.View style={[style.emailInputCont, {transform: [{scaleX: this._inputContScaleX}]}]}>
+          <Animated.View style={[{width: '100%', opacity: this._inputOpacity}]}>
+            <TextInput
+              value={state.value}
+              ref={el => this.input = el}
+              keyboardType='email-address'
+              autoCapitalize={"none"}
+              style={[
+                style.emailText,
+                style.emailInput,
+                ((props.email || '').length > 12 ? {
+                  fontSize: fontBase - (1.1 * props.email.length - 12)
+                } : {fontSize: fontBase})
+              ]}
+              defaultValue={props.email}
+              placeholderTextColor={mayteWhite(0.66)}
+              onChangeText={this.handleInput} />
+            </Animated.View>
         </Animated.View>
 
         <Animated.View style={{opacity: this._buttonOpacity, transform: [{translateY: this._buttonTranslateY}]}}>
