@@ -29,7 +29,7 @@ class Paywall extends Component {
       console.warn(JSON.stringify(response))
 
 
-      this.props.activate(response.transactionIdentifier)
+      this.props.activate(response.transactionReceipt)
     })
   }
 
@@ -50,7 +50,7 @@ class Paywall extends Component {
        return p.productIdentifier
       })
 
-      this.props.activate(response[0].transactionIdentifier)
+      this.props.activate(response[0].transactionReceipt)
     })
   }
 
