@@ -26,10 +26,10 @@ class Paywall extends Component {
         return log(`Unknown purchase response: ${JSON.stringify(response)}`)
       }
 
-      console.warn(JSON.stringify(response))
-
-
-      this.props.activate(response.transactionReceipt)
+      __DEV__ && console.warn(JSON.stringify(response))
+      this.props.activate(response.transactionReceipt).catch((err) => {
+        alert(err.message || JSON.stringify(err))
+      })
     })
   }
 
@@ -50,7 +50,10 @@ class Paywall extends Component {
        return p.productIdentifier
       })
 
-      this.props.activate(response[0].transactionReceipt)
+      __DEV__ && console.warn(JSON.stringify(response))
+      this.props.activate(response[0].transactionReceipt).catch((err) => {
+        alert(err.message || JSON.stringify(err))
+      })
     })
   }
 
@@ -75,7 +78,9 @@ class Paywall extends Component {
 
   render() {
     return (
-      <PaywallView {...this.props} buy={this.buy}/>
+      <PaywallView {...this.props}
+        buy={this.buy}
+        restorePurchases={this.restorePurchases} />
     )
   }
 }
