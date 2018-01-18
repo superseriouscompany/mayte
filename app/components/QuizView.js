@@ -1,5 +1,6 @@
 import React, {Component}                                         from 'react'
 import LinearGradient                                             from 'react-native-linear-gradient'
+import moment                                                     from 'moment'
 import {StaticNight, Star}                                        from './Environment'
 import Intro                                                      from './QuizIntroView'
 import Email                                                      from './QuizEmailView'
@@ -27,10 +28,21 @@ export default class QuizView extends Component {
 
   componentDidMount() {
     if (!this.props.step) {
-      this.props.update({step: 'intro'})
+      this.props.update({step: 'dob'})
     }
 
-    this.setState({zodiac: 'pisces'})
+    this.setState({zodiac: this.computeZodiac(this.props.dob)})
+  }
+
+  computeZodiac(date) {
+    console.log('computing zodiac')
+    // this.setState({zodiac: 'pisces'})
+    return null
+  }
+
+  updateDob(date) {
+    this.setState({zodiac: this.computeZodiac(this.props.dob)})
+    this.props.update({dob: date})
   }
 
   renderZodiac() {
@@ -83,7 +95,7 @@ export default class QuizView extends Component {
 
         <Intro {...props} next={() => props.update({step: 'email'})} />
         <Email {...props} next={() => props.update({step: 'dob'})} />
-        <Dob {...props} next={() => props.update({step: 'email'})} />
+        <Dob {...props} next={() => props.update({step: 'email'})} update={(date) => this.updateDob} />
 
         <Scene
           active={props.step == 'website'}>

@@ -39,7 +39,7 @@ export default (props) => {
         showIcon={false}
         confirmBtnText="Confirm"
         cancelBtnText="Cancel"
-        onDateChange={date => props.update({dob: date})} />
+        onDateChange={props.update} />
 
 
       <TouchableOpacity onPress={() => props.update({step: 'email'})}>
