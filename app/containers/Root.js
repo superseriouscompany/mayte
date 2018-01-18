@@ -9,6 +9,7 @@ import NotificationProvider from '../providers/NotificationProvider'
 import MatchesProvider      from '../providers/MatchesProvider'
 import DeeplinkProvider     from '../providers/DeeplinkProvider'
 import KillswitchProvider   from '../providers/KillswitchProvider'
+import log                  from '../services/log'
 import {
   StatusBar,
   View
