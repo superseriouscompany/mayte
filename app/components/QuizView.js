@@ -5,6 +5,7 @@ import {StaticNight, Star, StarSystem}                            from './Enviro
 import Intro                                                      from './QuizIntroView'
 import Email                                                      from './QuizEmailView'
 import Dob                                                        from './QuizDobView'
+import Website                                                    from './QuizWebsiteView'
 import Firework                                                   from './Firework'
 import {em, screenWidth, tabNavHeight, screenHeight, bottomBoost} from '../constants/dimensions'
 import {mayteWhite}                                               from '../constants/colors'
@@ -130,22 +131,14 @@ export default class QuizView extends Component {
 
         <Intro {...props} next={() => props.update({step: 'email'})} />
         <Email {...props} next={() => props.update({step: 'dob'})} />
-        <Dob {...props} next={() => props.update({step: 'email'})} updateDob={this.updateDob} />
-
-        <Scene
-          active={props.step == 'website'}>
-
-          <Text>Website</Text>
-          <TouchableOpacity onPress={() => this.setState({active: 'photos'})}>
-            <Text>Next</Text>
-          </TouchableOpacity>
-        </Scene>
+        <Dob {...props} next={() => props.update({step: 'website'})} updateDob={this.updateDob} />
+        <Website {...props} next={() => props.update({step: 'photos'})} />
 
         <Scene
           active={props.step == 'photos'}>
 
           <Text>Select Photos</Text>
-          <TouchableOpacity onPress={() => this.setState({active: 'review'})}>
+          <TouchableOpacity onPress={() => props.update({step: 'website'})}>
             <Text>Next</Text>
           </TouchableOpacity>
         </Scene>
