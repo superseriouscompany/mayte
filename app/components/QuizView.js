@@ -205,6 +205,7 @@ export class Scene extends Component {
     const {props, state} = this
     return(
       <Animated.ScrollView
+        overScrollMode='never'
         style={[style.scene, props.style, {opacity: this._opacity, zIndex: props.active ? 420 : 0}]}
         contentContainerStyle={style.sceneCont}>
         {props.children}

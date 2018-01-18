@@ -105,7 +105,7 @@ export default class Dob extends Component {
         <Animated.View style={{opacity: this._buttonOpacity, transform: [{translateY: this._buttonTranslateY}]}}>
           <ButtonGrey
             style={{paddingLeft: em(2), paddingRight: em(2)}}
-            onPress={props.next}
+            onPress={state.ready ? props.next : () => null}
             text='Next' />
         </Animated.View>
       </Scene>

@@ -79,6 +79,7 @@ export default class Freeform extends Component {
           <Animated.View style={[{width: '100%', opacity: this._inputOpacity}]}>
             <TextInput
               value={state.value}
+              multiline={true}
               ref={el => this.input = el}
               style={[
                 style.text,
@@ -94,7 +95,7 @@ export default class Freeform extends Component {
         <Animated.View style={{opacity: this._buttonOpacity, transform: [{translateY: this._buttonTranslateY}]}}>
           <ButtonGrey
             style={{paddingLeft: em(2), paddingRight: em(2)}}
-            onPress={props.next}
+            onPress={state.ready ? props.next : () => null}
             text='Next' />
         </Animated.View>
       </Scene>
@@ -105,6 +106,6 @@ export default class Freeform extends Component {
 const style = StyleSheet.create({
   text: {backgroundColor: 'transparent', color: mayteWhite(), textAlign: 'center', fontFamily: 'Futura'},
   header: {fontSize: em(1.33), marginBottom: em(3), letterSpacing: em(0.25), fontWeight: '700'},
-  inputCont: {width: '66%', marginBottom: em(2), height: em(3), borderBottomWidth: 1, borderColor: mayteWhite(), paddingBottom: em(0.33),  justifyContent: 'flex-end'},
+  inputCont: {width: '66%', marginBottom: em(2), borderBottomWidth: 1, borderColor: mayteWhite(), paddingBottom: em(0.33),  justifyContent: 'flex-end'},
   input: {width: '100%', fontFamily: 'Futura', letterSpacing: em(0.5), overflow: 'visible'},
 })

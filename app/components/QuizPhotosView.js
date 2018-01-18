@@ -111,7 +111,9 @@ export default class Photos extends Component {
         style={[style.container]}
         active={props.step == 'photos'}
         onFadeIn={() => {
-          this.animButton(props.photos.filter(i => i).length)
+          if (props.photos.filter(i => i).length) {
+            this.setState({ready: true})
+          }
         }}>
         <Text style={[style.text, style.header]}>PHOTOS</Text>
         <Text style={[style.text, style.body]}>
@@ -134,7 +136,7 @@ export default class Photos extends Component {
         <Animated.View style={{opacity: this._buttonOpacity, transform: [{translateY: this._buttonTranslateY}]}}>
           <ButtonGrey
             style={{paddingLeft: em(2), paddingRight: em(2)}}
-            onPress={props.next}
+            onPress={state.ready ? props.next : () => null}
             text='Next' />
         </Animated.View>
       </Scene>
