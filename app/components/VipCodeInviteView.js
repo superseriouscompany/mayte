@@ -19,13 +19,17 @@ export default function(props) {
         <Text>Cancel</Text>
       </TouchableOpacity>
 
-      <ButtonBlack text={`Send Invitation`} onPress={props.invite} style={styles.topButton} />
+      <ButtonBlack text={`Send Invitation`} style={styles.topButton}
+        onPress={() => props.generate('silver', 'Find your unicorn')} />
 
-      <TouchableHighlight style={[base.button, styles.secretButton]} underlayColor="hotpink" onPress={props.generate}>
-        <View>
-          <Text style={[base.buttonText, styles.secretButtonText]}>Send VIP Invitation</Text>
-        </View>
-      </TouchableHighlight>
+      { !props.isAdmin ? null :
+        <TouchableHighlight underlayColor="hotpink" style={[base.button, styles.secretButton]}
+          onPress={() => props.generate('gold', 'I think you\'re a unicorn')}>
+          <View>
+            <Text style={[base.buttonText, styles.secretButtonText]}>Send VIP Invitation</Text>
+          </View>
+        </TouchableHighlight>
+      }
     </View>
   )
 }

@@ -62,7 +62,7 @@ function mapDispatchToProps(dispatch) {
   return {
     redeem: (code) => {
       return dispatch(request({
-        url:    `/promos/${code}`,
+        url:    `/vipCodes/${code}`,
         method: 'PUT',
       }))
     },
