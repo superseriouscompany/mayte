@@ -17,4 +17,14 @@
 
     react-native run-android
 
-Note: when running in development, this expects https://github.com/superseriouscompany/api.mayte.com to be running at https://mayte.ngrok.io
+## Development API
+
+When running in development, this expects https://github.com/superseriouscompany/api.mayte.com to be running at https://mayte.ngrok.io
+
+## Linking libraries
+
+For some reason, cocoapod installation of react pods is not working. If `react-native link` doesn't work for you, link manually:
+
+1. `open node_modules/new-thing`
+1. Find the `.xcodeproj`, drag it in to `Libraries` in XCode
+1. Go to `Build Phases > Link Binary With Libraries` and add the `.a` file

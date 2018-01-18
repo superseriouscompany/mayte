@@ -42,10 +42,9 @@ function request(path, options = {}) {
   }).catch((err) => {
     if( err.name == 'ApiError' ) { throw err }
 
-    console.log(err.message, err.name)
+    err.statusCode = statusCode
     log(err)
-    // TODO: parse error from json, falling back to statusCode if necessary
-    throw new Error(statusCode)
+    throw err
   })
 }
 

@@ -1,6 +1,8 @@
-import { Client } from 'bugsnag-react-native';
+import { Client, Configuration } from "bugsnag-react-native";
 
-const bugsnag = new Client();
+const configuration = new Configuration();
+configuration.notifyReleaseStages = ['production'];
+const bugsnag = new Client(configuration);
 
 // TODO: allow overloading with multiple arguments like console.error
 export default function(err) {

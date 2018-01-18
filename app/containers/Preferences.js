@@ -14,7 +14,7 @@ class Preferences extends Component {
     super(props)
 
     const ps = props.user.preferences || {}
-    const ageRange = ps.ageRange ? [ps.ageRange[0], ps.ageRange[1]] : [minAge + maxAge*.1, maxAge*.9]
+    const ageRange = ps.ageRange ? [ps.ageRange[0], ps.ageRange[1]] : [minAge, maxAge]
     const distance = ps.distance ? ps.distance : maxDistance*.5
 
     this.state = {

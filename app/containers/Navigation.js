@@ -22,15 +22,15 @@ export default function(props) {
   const TabNav = TabNavigator(scenes, {
     animationEnabled: true,
     swipeEnabled: false,
-    lazy: true,
     tabBarPosition: 'bottom',
+    lazy: true,
     tabBarOptions: {
       activeTintColor:         'gainsboro',
       inactiveTintColor:       mayteBlack(1),
       activeBackgroundColor:   mayteBlack(1),
       inactiveBackgroundColor: mayteBlack(0.1),
       style:                   {borderTopWidth: 0, height: tabNavHeight},
-      labelStyle:              {fontFamily: 'Gotham-Book', letterSpacing: em(0.1), fontSize: em(0.66)},
+      labelStyle:              {fontFamily: 'Gotham-Book', letterSpacing: em(0.1), fontSize: em(0.5), marginBottom: em(0.33)},
       allowFontScaling:        false,
     },
     initialRouteName: props.initialSceneName,

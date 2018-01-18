@@ -3,7 +3,7 @@
 <plist version="1.0">
 <dict>
 	<key>BugsnagAPIKey</key>
-	<string>725fca7ce9286e9c2c86f7715e5d1098</string>
+	<string>e7acb2cc6438a6b8ae1d2124e193c73d</string>
 	<key>CFBundleDevelopmentRegion</key>
 	<string>en</string>
 	<key>CFBundleDisplayName</key>
@@ -27,12 +27,12 @@
 		<dict>
 			<key>CFBundleURLSchemes</key>
 			<array>
-				<string>mayte</string>
+				<string>unicorn</string>
 			</array>
 		</dict>
 	</array>
 	<key>CFBundleVersion</key>
-	<string>107</string>
+	<string>109</string>
 	<key>Fabric</key>
 	<dict>
 		<key>APIKey</key>

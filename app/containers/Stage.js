@@ -4,17 +4,20 @@ import React, {PureComponent} from 'react'
 import {connect}              from 'react-redux'
 import Login                  from './Login'
 import Recs                   from './Recs'
+import RecsPreview            from './RecsPreview'
 import Settings               from './Settings'
 import MatchBridge            from './MatchBridge'
 import Navigation             from './Navigation'
 import Scratch                from './Scratch'
-import PromoMaker             from './PromoMaker'
+import VipCodeInvite             from './VipCodeInvite'
 import GenderSelector         from './GenderSelector'
 import Paywall                from './Paywall'
 import VelvetRope             from './VelvetRope'
 import VipCodeEntry           from './VipCodeEntry'
 import VipCodeStatus          from './VipCodeStatus'
+import Dead                   from './Dead'
 import Icon                   from 'react-native-vector-icons/Ionicons'
+import {em}                   from '../constants/dimensions'
 import {
   StyleSheet,
   View,
@@ -65,8 +68,11 @@ class Stage extends PureComponent {
         <Paywall gender={props.gender} />
     }
 
-    if( sceneName == 'PromoMaker' ) {
-      return <PromoMaker />
+    if( sceneName == 'VipCodeInvite' ) {
+      return <VipCodeInvite />
+    }
+    if( sceneName == 'Dead' ) {
+      return <Dead />
     }
 
     return (
@@ -75,22 +81,31 @@ class Stage extends PureComponent {
           tabLabel="Settings"
           tabIcon={({tintColor, focused}) => (
             <Icon name={focused ? 'ios-person' : 'ios-person-outline'}
-                  size={26}
-                  style={{color: tintColor}} />
+                  style={{color: tintColor, backgroundColor: 'transparent'}}
+                  size={em(1.625)} />
           )} />
         <VelvetRope sceneName="VelvetRope"
           tabLabel="Membership"
           tabIcon={({tintColor, focused}) => (
             <Icon name={focused ? 'ios-key' : 'ios-key-outline'}
-                  size={26}
-                  style={{color: tintColor}} />
+                  style={{color: tintColor, backgroundColor: 'transparent'}}
+                  size={em(1.625)} />
           )} />
-        { !props.isAdmin ? null :
+
+        { props.isAdmin ?
           <Recs sceneName="Recs"
             tabLabel="Suggestions"
             tabIcon={({tintColor, focused}) => (
               <Icon name={focused ? 'ios-heart' : 'ios-heart-outline'}
-                    size={26}
+                    style={{color: tintColor, backgroundColor: 'transparent'}}
+                    size={em(1.625)} />
+            )} />
+        :
+          <RecsPreview sceneName="Recs"
+            tabLabel="Suggestions"
+            tabIcon={({tintColor, focused}) => (
+              <Icon name={focused ? 'ios-heart' : 'ios-heart-outline'}
+                    size={em(1.625)}
                     style={{color: tintColor}} />
             )} />
         }
@@ -105,7 +120,7 @@ function mapStateToProps(state) {
   // of Navigation.
   var sceneName = state.scene && state.scene.name
   switch(sceneName) {
-    case 'VipCodeEntry': case 'PromoMaker':
+    case 'VipCodeEntry': case 'VipCodeInvite': case 'Dead':
       break;
     default:
       sceneName = 'Hack'

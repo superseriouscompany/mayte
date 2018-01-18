@@ -63,7 +63,7 @@ class SettingsEditor extends Component {
 
   handleConnect(event) {
     if( !event.url ||
-        (!event.url.match(/mayte:\/\/ig/) && !event.url.match(/mayte:\/\/li/)) ) {
+        (!event.url.match(/unicorn:\/\/ig/) && !event.url.match(/unicorn:\/\/li/)) ) {
       return console.warn('Unknown event url', event && event.url)
     }
     this.props.hydrateUser()
