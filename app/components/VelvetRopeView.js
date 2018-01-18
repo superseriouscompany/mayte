@@ -23,6 +23,12 @@ export default function(props) {
       <View style={styles.events}>
         <Text style={styles.explanation}>
           This is your entry ticket to all Unicorn events.
+
+          { !props.isGold ? null :
+            <Text>
+              {"\n"}As a brand ambassador, you are welcome to attend with a +1.
+            </Text>
+          }
         </Text>
 
         <Text style={styles.nextEvent}>
