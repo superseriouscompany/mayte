@@ -1,15 +1,17 @@
 import React, {Component}                                         from 'react'
 import LinearGradient                                             from 'react-native-linear-gradient'
-import DatePicker                                                 from 'react-native-datepicker'
 import {StaticNight, Star}                                        from './Environment'
 import Intro                                                      from './QuizIntroView'
 import Email                                                      from './QuizEmailView'
+import Dob                                                        from './QuizDobView'
+import Firework                                                   from './Firework'
 import {em, screenWidth, tabNavHeight, screenHeight, bottomBoost} from '../constants/dimensions'
 import {mayteWhite}                                               from '../constants/colors'
 import {ButtonGrey}                                               from './Button'
 import {
   View,
   Text,
+  Image,
   Easing,
   Animated,
   TextInput,
@@ -20,12 +22,38 @@ import {
 export default class QuizView extends Component {
   constructor(props) {
     super(props)
+    this.state = { zodiac: null }
   }
 
   componentDidMount() {
     if (!this.props.step) {
       this.props.update({step: 'intro'})
     }
+
+    this.setState({zodiac: 'pisces'})
+  }
+
+  renderZodiac() {
+    if (!this.state.zodiac) {return}
+    let src
+    switch (this.state.zodiac) {
+      case 'aquarius': src = require('../images/zodiac-aquarius-white.png'); break;
+      case 'aries': src = require('../images/zodiac-aries-white.png'); break;
+      case 'cancer': src = require('../images/zodiac-cancer-white.png'); break;
+      case 'capricorn': src = require('../images/zodiac-capricorn-white.png'); break;
+      case 'gemini': src = require('../images/zodiac-gemini-white.png'); break;
+      case 'leo': src = require('../images/zodiac-leo-white.png'); break;
+      case 'libra': src = require('../images/zodiac-libra-white.png'); break;
+      case 'pisces': src = require('../images/zodiac-pisces-white.png'); break;
+      case 'sagittarius': src = require('../images/zodiac-sagittarius-white.png'); break;
+      case 'scorpio': src = require('../images/zodiac-scorpio-white.png'); break;
+      case 'taurus': src = require('../images/zodiac-taurus-white.png'); break;
+      case 'virgo': src = require('../images/zodiac-virgo-white.png'); break;
+      default:
+        return null
+        break
+    }
+    return <Image style={[style.zodiac]} source={src} resizeMode='contain'  />
   }
 
   render() {
@@ -47,19 +75,15 @@ export default class QuizView extends Component {
           <Star style={{bottom: em(23), right: em(2)}} twinkleDelay={51300} />
           <Star style={{bottom: em(2), right: em(2)}} twinkleDelay={61200} />
           <Star style={{top: screenHeight * 0.64, right: em(18)}} twinkleDelay={61800} />
+
+          {
+            this.renderZodiac()
+          }
         </StaticNight>
 
         <Intro {...props} next={() => props.update({step: 'email'})} />
         <Email {...props} next={() => props.update({step: 'dob'})} />
-
-        <Scene
-          active={props.step == 'dob'}>
-
-          <DatePicker />
-          <TouchableOpacity onPress={() => props.update({step: 'email'})}>
-            <Text>Next</Text>
-          </TouchableOpacity>
-        </Scene>
+        <Dob {...props} next={() => props.update({step: 'email'})} />
 
         <Scene
           active={props.step == 'website'}>
@@ -165,4 +189,10 @@ const style = StyleSheet.create({
     alignItems: 'center',
     flex: 1,
   },
+  zodiac: {
+    width: 100,
+    height: 100,
+    position: 'absolute',
+    top: 20, right: 20,
+  }
 })
