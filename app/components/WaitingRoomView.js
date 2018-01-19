@@ -107,20 +107,12 @@ class Corn extends Component {
   }
 
   walk(to) {
-    // this.isWalking = true
-    // this.hop()
-    // return new Promise((resolve) => {
-      return Animated.timing(this._translateX, {
-        toValue: to,
-        duration: Math.abs(this._translateX._value - 50) / this.walkRate,
-        easing: Easing.linear,
-        useNativeDriver: true,
-      })
-      // .start(() => {
-      //   this.isWalking = false
-      //   resolve()
-      // })
-    // })
+    return Animated.timing(this._translateX, {
+      toValue: to,
+      duration: Math.abs(this._translateX._value - 50) / this.walkRate,
+      easing: Easing.linear,
+      useNativeDriver: true,
+    })
   }
 
   hop() {
@@ -140,14 +132,11 @@ class Corn extends Component {
   }
 
   turn(direction) {
-    // return new Promise((resolve) => {
-      return Animated.timing(this._direction, {
-        toValue: direction,
-        duration: 0,
-        useNativeDriver: true,
-      })
-    //   .start(() => resolve())
-    // })
+    return Animated.timing(this._direction, {
+      toValue: direction,
+      duration: 0,
+      useNativeDriver: true,
+    })
   }
 
   render() {
