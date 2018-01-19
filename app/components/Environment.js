@@ -54,6 +54,7 @@ export class Star extends Component {
     this._twinkle = new Animated.Value(0)
   }
   componentDidMount() {
+    if (!this.props.twinkle) {return}
     Animated.loop(
       Animated.sequence([
         Animated.timing(this._twinkle, {
@@ -75,7 +76,7 @@ export class Star extends Component {
   render() {
     const {props,state} = this
     return(
-      <Animated.View style={[style.star, props.style]}>
+      <Animated.View style={[style.star, props.style, {transform: [{scale: props.size}]}]}>
         <Animated.View style={[
           style.twinkle,
           props.twinkleStyle,
@@ -89,9 +90,73 @@ export class Star extends Component {
   }
 }
 
+export class StarSystem extends Component {
+  constructor(props) {
+    super(props)
+
+    this.stars = []
+    const coords = []
+    const offset = props.spiralLength / props.count
+
+    const centerx = screenWidth / 2 - starDiameter / 2
+    const centery = screenHeight / 2 - starDiameter / 2
+
+    for (let i = 0; i < props.spiralLength; i++) { // https://stackoverflow.com/questions/6824391/drawing-a-spiral-on-an-html-canvas-using-javascript
+        let angle = 0.5 * i;
+        let x = centerx + (props.spiralA + props.spiralB * angle) * Math.cos(angle);
+        let y = centery + (props.spiralA + props.spiralB * angle) * Math.sin(angle);
+
+        coords.push({top: y, left: x})
+    }
+
+    for (let i = 0; i < props.count; i++) {
+      this.stars.push(
+        <Star {...props.starProps} key={i}
+          style={[props.starProps.style, coords[i * offset]]} />
+      )
+    }
+
+    this._rot = new Animated.Value(0)
+  }
+
+  componentDidMount() {
+    if (!this.props.spin) {return}
+    Animated.loop(
+      Animated.timing(this._rot, {
+        toValue: 100,
+        duration: this.props.rotationDuration,
+        easing: Easing.linear,
+        useNativeDriver: true,
+      })
+    ).start()
+  }
+
+  render() {
+    const {props, state} = this
+    const interpolatedRot = this._rot.interpolate({
+      inputRange: [0, 100],
+      outputRange: props.reverse ? ['360deg', '0deg'] : ['0deg', '360deg']
+    })
+    return (
+      <Animated.View style={[style.starSystem, props.style, {transform: [{rotate: interpolatedRot}]}]}>{this.stars}</Animated.View>
+    )
+  }
+}
+
 Star.defaultProps = {
   loopLength: 500,
   twinkleDelay: 100,
+  twinkle: true,
+  size: 1,
+}
+
+StarSystem.defaultProps = {
+  spiralLength: 1440,
+  spiralA: 1, spiralB: 1,
+  rotationDuration: 300000,
+  count: 100,
+  reverse: false,
+  spin: true,
 }
 
 export default class Environment extends Component {
@@ -114,7 +179,7 @@ export class StaticNight extends Component {
     const {props,state} = this
     return(
       <View style={props.style}>
-        <LinearGradient colors={['rgba(0,0,0,1)', '#232037']} style={{position:'absolute', top: 0, bottom: 0, left: 0, right: 0}} />
+        <LinearGradient colors={['#201D33', '#3A345B']} style={{position:'absolute', top: 0, bottom: 0, left: 0, right: 0}} />
         {props.children}
       </View>
     )
@@ -155,5 +220,11 @@ const style = StyleSheet.create({
     height: 185,
     bottom: 0,
     left: 0,
+  },
+  starSystem: {
+    position: 'absolute',
+    top: 0, left: 0,
+    height: screenHeight,
+    width: screenWidth,
   },
 })

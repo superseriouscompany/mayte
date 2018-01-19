@@ -1,9 +1,9 @@
-import React, {Component} from 'react'
-import { withNavigation } from 'react-navigation'
-import { connect } from 'react-redux'
+import React, {Component}                from 'react'
+import { withNavigation }                from 'react-navigation'
+import { connect }                       from 'react-redux'
+import timing                            from '../constants/timing'
+import { mayteBlack }                    from '../constants/colors'
 import { screenWidth, screenHeight, em } from '../constants/dimensions'
-import { issaMatchOpen, issaMatchClose } from '../constants/timings'
-import { mayteBlack } from '../constants/colors'
 import {
   StyleSheet,
   Animated,
@@ -32,7 +32,7 @@ class IssaMatchView extends Component {
     Animated.parallel([
       Animated.timing(this.state.opacity, {
         toValue: 1,
-        duration: issaMatchOpen
+        duration: timing.issaMatchOpen
       })
     ]).start()
   }
@@ -41,7 +41,7 @@ class IssaMatchView extends Component {
     Animated.parallel([
       Animated.timing(this.state.opacity, {
         toValue: 0,
-        duration: issaMatchClose
+        duration: timing.issaMatchClose
       })
     ]).start(this.props.dismiss)
   }

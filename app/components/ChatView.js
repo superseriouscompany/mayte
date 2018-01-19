@@ -3,7 +3,7 @@
 import React, {Component}                  from 'react'
 import { GiftedChat, Bubble }              from 'react-native-gifted-chat'
 import { BlurView }                        from 'react-native-blur'
-import { chatOpen, chatClose }             from '../constants/timings'
+import timing                              from '../constants/timing'
 import {
   screenHeight,
   matchHeaderHeight,
@@ -40,11 +40,11 @@ export default class extends Component {
     Animated.parallel([
       Animated.timing(this.state.topValue, {
         toValue: matchHeaderHeight,
-        duration: chatOpen,
+        duration: timing.chatOpen,
       }),
       Animated.timing(this.state.opacity, {
         toValue: 1,
-        duration: chatOpen,
+        duration: timing.chatOpen,
       })
     ]).start()
   }
@@ -53,11 +53,11 @@ export default class extends Component {
     Animated.parallel([
       Animated.timing(this.state.topValue, {
         toValue: screenHeight,
-        duration: chatClose,
+        duration: timing.chatClose,
       }),
       Animated.timing(this.state.opacity, {
         toValue: 0,
-        duration: chatClose,
+        duration: timing.chatClose,
       })
     ]).start()
   }
