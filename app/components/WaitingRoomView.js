@@ -6,6 +6,7 @@ import {screenWidth, screenHeight} from '../constants/dimensions'
 import {
   View,
   Text,
+  TouchableOpacity,
   Easing,
   Animated,
   StyleSheet,
@@ -33,30 +34,38 @@ export default class WaitingRoomView extends Component {
     })
   }
 
-  render() { return (
-    <View style={style.container}>
-      <View style={style.pen}>
-        {
-          this.corns.map((c,i) => {
-            const posX = cornWidth * 1.1 * i
-            return <Corn
-                     key={i}
-                     gender={c.gender}
-                     direction={c.direction}
-                     posX={posX}
-                     loop={c.loop} />
-          })
-        }
-        {
-          <BlurView style={style.blur}
-                  blurType="light"
-                  blurAmount={10}
-                  viewRef={null/* required for Android */} />
-        }
+  render() {
+    const {props} = this
+
+    return (
+      <View style={style.container}>
+        <View style={style.pen}>
+          {
+            this.corns.map((c,i) => {
+              const posX = cornWidth * 1.1 * i
+              return <Corn
+                       key={i}
+                       gender={c.gender}
+                       direction={c.direction}
+                       posX={posX}
+                       loop={c.loop} />
+            })
+          }
+          {
+            <BlurView style={style.blur}
+                    blurType="light"
+                    blurAmount={10}
+                    viewRef={null/* required for Android */} />
+          }
+        </View>
+        <Text>WAITING</Text>
+
+        <TouchableOpacity onPress={props.deleteAccount}>
+          <Text style={{color: 'red'}}>Delete Account</Text>
+        </TouchableOpacity>
       </View>
-      <Text>WAITING</Text>
-    </View>
-  )}
+    )
+  }
 }
 
 class Corn extends Component {
