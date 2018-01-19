@@ -29,7 +29,7 @@ class DeeplinkProvider extends Component {
       // this seems to be triggered when doing CMD+R in simulator
       if( !Object.keys(params).length ) { return }
 
-      if( params['~feature'] != 'promo-redemption' ) {
+      if( params['~feature'] != 'vip-code' ) {
         return console.warn('Unknown deeplink', params)
       }
 
