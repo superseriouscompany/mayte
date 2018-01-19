@@ -9,11 +9,13 @@ import Settings               from './Settings'
 import MatchBridge            from './MatchBridge'
 import Navigation             from './Navigation'
 import Scratch                from './Scratch'
-import VipCodeInvite             from './VipCodeInvite'
+import VipCodeInvite          from './VipCodeInvite'
 import GenderSelector         from './GenderSelector'
 import Paywall                from './Paywall'
 import VelvetRope             from './VelvetRope'
 import VipCodeEntry           from './VipCodeEntry'
+import Quiz                   from './Quiz'
+import WaitingRoom            from './WaitingRoom'
 import Dead                   from './Dead'
 import Icon                   from 'react-native-vector-icons/Ionicons'
 import {em}                   from '../constants/dimensions'
@@ -37,12 +39,10 @@ class Stage extends PureComponent {
   render() {
     const {props} = this
 
-    return !props.hydrated ?
+    return !props.isHydrated ?
       null
     : useScratch ?
       <Scratch />
-    : !props.authenticated ?
-      <Login />
     :
       <View style={[style.container]}>
         { this.showScene(props.sceneName) }
@@ -52,19 +52,6 @@ class Stage extends PureComponent {
   showScene(sceneName) {
     const {props} = this
 
-    if (!props.authenticated) {
-      return <Login />
-    }
-
-    if( !props.isActive ) {
-      return !props.gender ?
-        <GenderSelector />
-      : sceneName == 'VipCodeEntry' ?
-        <VipCodeEntry />
-      :
-        <Paywall gender={props.gender} />
-    }
-
     if( sceneName == 'VipCodeInvite' ) {
       return <VipCodeInvite />
     }
@@ -73,6 +60,12 @@ class Stage extends PureComponent {
     }
 
     return (
+      !props.authenticated ? <Login />
+    : !props.hasApplied    ? <Quiz />
+    : !props.isApproved    ? <WaitingRoom />
+    : !props.gender        ? <GenderSelector />
+    : !props.isActive      ? <Paywall gender={props.gender} />
+    :
       <Navigation initialSceneName="VelvetRope">
         <Settings sceneName="Settings"
           tabLabel="Settings"
@@ -126,8 +119,10 @@ function mapStateToProps(state) {
   return {
     authenticated: !!state.user.accessToken,
     isActive:      !!state.user.active,
-    hydrated:      !!state.hydrated,
+    isHydrated:      !!state.hydrated,
     isAdmin:       !!state.user.isAdmin,
+    hasApplied:    !!state.user.appliedAt,
+    isApproved:    !!state.user.approvedAt,
     gender:        state.user.gender,
     sceneName:     sceneName,
     vipCode:       state.vip.code,

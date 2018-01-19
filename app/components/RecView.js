@@ -1,9 +1,12 @@
 'use strict'
 
 import React, {Component} from 'react'
-import ProfileView from './ProfileView'
-import { screenWidth, screenHeight } from '../constants/dimensions'
-import { recLike, recPass } from '../constants/timings'
+import ProfileView        from './ProfileView'
+import timing             from '../constants/timing'
+import { 
+  screenWidth,
+  screenHeight
+} from '../constants/dimensions'
 import {
   Animated,
   Image,
@@ -28,11 +31,11 @@ export default class RecView extends Component {
     Animated.parallel([
       Animated.timing(this._x, {
         toValue: screenWidth,
-        duration: recLike,
+        duration: timing.recLike,
       }),
       Animated.timing(this._opacity, {
         toValue: 0,
-        duration: recLike,
+        duration: timing.recLike,
       })
     ]).start()
   }
@@ -41,12 +44,12 @@ export default class RecView extends Component {
     Animated.parallel([
       Animated.timing(this._x, {
         toValue: -screenWidth,
-        duration: recPass,
+        duration: timing.recPass,
         useNativeDriver: true,
       }),
       Animated.timing(this._opacity, {
         toValue: 0,
-        duration: recPass,
+        duration: timing.recPass,
         useNativeDriver: true,
       })
     ]).start()
