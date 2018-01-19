@@ -288,7 +288,7 @@ const style = StyleSheet.create({
   },
 
   header: {
-    marginTop: em(2) + notchHeight,
+    marginTop: em(2),
   },
   headerPri: {
     flexDirection: 'row',
@@ -345,7 +345,7 @@ const style = StyleSheet.create({
   },
 
   upcomingEvent: {
-    paddingBottom: em(2),
+    paddingBottom: em(2) + bottomBoost,
   },
   eventText: {
     textAlign: 'center',
