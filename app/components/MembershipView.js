@@ -68,7 +68,7 @@ export default class MembershipView extends Component {
 
   fadeOutMask() {
     Animated.parallel([
-      Animated.spring(this._maskOp, {
+      Animated.spring(this._buttonOp, {
         toValue: 1,
         stiffness: 200,
         overshootClamping: true,
@@ -106,12 +106,11 @@ export default class MembershipView extends Component {
                 {opacity: this._maskOp}
               ]} /> : null }
 
-        <View>
+        <Animated.View style={{opacity: this._buttonOp}}>
           <ButtonBlack
-            style={{opacity: this._buttonOp}}
             text='Membership'
             onPress={() => this.info.animateOpen()} />
-        </View>
+        </Animated.View>
         <MembershipInfoView
           ref={i => this.info = i}
           {...props} {...state}
