@@ -29,6 +29,7 @@ export default class MembershipView extends Component {
     super(props)
 
     this._maskOp = new Animated.Value(0)
+    this._buttonOp = new Animated.Value(1)
     this.state = {
       open: false,
       mask: false,
@@ -49,21 +50,37 @@ export default class MembershipView extends Component {
   }
 
   fadeInMask() {
-    Animated.spring(this._maskOp, {
-      toValue: 1,
-      stiffness: 200,
-      overshootClamping: true,
-      useNativeDriver: true,
-    }).start()
+    Animated.parallel([
+      Animated.spring(this._buttonOp, {
+        toValue: 0,
+        stiffness: 200,
+        overshootClamping: true,
+        useNativeDriver: true,
+      }),
+      Animated.spring(this._maskOp, {
+        toValue: 1,
+        stiffness: 200,
+        overshootClamping: true,
+        useNativeDriver: true,
+      })
+    ]).start()
   }
 
   fadeOutMask() {
-    Animated.spring(this._maskOp, {
-      toValue: 0,
-      stiffness: 200,
-      overshootClamping: true,
-      useNativeDriver: true,
-    }).start(() => {
+    Animated.parallel([
+      Animated.spring(this._maskOp, {
+        toValue: 1,
+        stiffness: 200,
+        overshootClamping: true,
+        useNativeDriver: true,
+      }),
+      Animated.spring(this._maskOp, {
+        toValue: 0,
+        stiffness: 200,
+        overshootClamping: true,
+        useNativeDriver: true,
+      })
+    ]).start(() => {
       this.setState({mask: false})
     })
   }
@@ -89,7 +106,12 @@ export default class MembershipView extends Component {
                 {opacity: this._maskOp}
               ]} /> : null }
 
-        <ButtonBlack text='Membership' onPress={() => this.info.animateOpen()} />
+        <View>
+          <ButtonBlack
+            style={{opacity: this._buttonOp}}
+            text='Membership'
+            onPress={() => this.info.animateOpen()} />
+        </View>
         <MembershipInfoView
           ref={i => this.info = i}
           {...props} {...state}
