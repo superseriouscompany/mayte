@@ -1,20 +1,19 @@
 import React, {Component} from 'react'
 import {connect}          from 'react-redux'
 import QuizView           from '../components/QuizView'
-import api                from '../services/api'
 import moment             from 'moment'
+import request            from '../actions/request'
 
 class Quiz extends Component {
   constructor(props) {
     super(props)
     this.state = {
-      email: props.quiz.email,
-      dob: props.quiz.dob,
-      photos: props.quiz.photos || [null, null, null],
-      website: props.quiz.website,
+      email:    props.quiz.email,
+      dob:      props.quiz.dob,
+      photos:   props.quiz.photos || [null, null, null],
+      website:  props.quiz.website,
       freeform: props.quiz.freeform,
-      step: props.quiz.step,
-      submitting: false,
+      step:     props.quiz.step,
     }
     this.submit    = this.submit.bind(this)
     this.updateDob = this.updateDob.bind(this)
@@ -41,17 +40,19 @@ class Quiz extends Component {
   }
 
   submit() {
-    // api call...
-    this.setState({submitting: true})
+    return this.props.sendQuiz(this.props.quiz).then(() => {
+      this.props.updateSelf()
+    })
   }
 
   render() {
-    return <QuizView {...this.props.quiz} user={this.props.user}
+    const props = {...this.props.quiz, ...this.props}
+
+    return <QuizView {...props}
              zodiac={this.state.zodiac}
              update={(k) => this.setState(k)}
              updateDob={this.updateDob}
              submit={this.submit}
-             submitting={this.state.submitting}
              readyForSubmit={
                this.props.quiz.email &&
                this.props.quiz.dob &&
@@ -63,15 +64,33 @@ class Quiz extends Component {
 }
 
 const mapStateToProps = (state, ownProps) => {
+  const apiCall = state.api['POST /applications'] || {}
+
   return {
-    user: state.user,
-    quiz: state.quiz,
+    user:       state.user,
+    quiz:       state.quiz,
+    submitting: !!apiCall.loading,
+    error:      apiCall.error,
   }
 }
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    setQuiz: (k) => dispatch({type: 'quiz:set', quiz: k}),
+    setQuiz: (quiz) => dispatch({type: 'quiz:set', quiz}),
+    sendQuiz: (quiz) => {
+      return dispatch(request({
+        method: 'POST',
+        url:    '/applications',
+        body:   quiz
+      }))
+    },
+    updateSelf: () => {
+      return dispatch(request({
+        url: '/users/me'
+      })).then((user) => {
+        dispatch({type: 'user:set', user})
+      })
+    }
   }
 }
 
