@@ -25,9 +25,6 @@ class SettingsEditor extends Component {
       showOccupation: {
         label: 'SHOW OCCUPATION',
       },
-      showInstagramFeed: {
-        label: 'SHOW INSTAGRAM FEED',
-      },
       showInstagramHandle: {
         label: 'SHOW INSTAGRAM HANDLE',
       },
@@ -39,11 +36,11 @@ class SettingsEditor extends Component {
       bio:                 props.user.bio,
       photos:              props.user.photos,
       occupation:          props.user.occupation,
-      showAge:             privacyOptions.showAge || false,
-      showLocation:        privacyOptions.showLocation || false,
-      showOccupation:      privacyOptions.showOccupation || false,
-      showInstagramFeed:   privacyOptions.showInstagramFeed || false,
-      showInstagramHandle: privacyOptions.showInstagramHandle || false,
+      showAge:             truthify(privacyOptions.showAge),
+      showLocation:        truthify(privacyOptions.showLocation),
+      showOccupation:      truthify(privacyOptions.showOccupation),
+      showInstagramFeed:   truthify(privacyOptions.showInstagramFeed),
+      showInstagramHandle: truthify(privacyOptions.showInstagramHandle),
       scrollEnabled:       true,
     }
 
@@ -147,6 +144,10 @@ function mapDispatchToProps(dispatch) {
       }))
     }
   }
+}
+
+function truthify(value) {
+  return value === undefined ? true : !!value
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(SettingsEditor)
