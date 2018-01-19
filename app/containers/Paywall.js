@@ -20,7 +20,7 @@ class Paywall extends Component {
     InAppUtils.purchaseProduct(id, (err, response) => {
       if( err ) {
         log(err)
-        return alert(err.message)
+        return alert(err.message + ". Please try again or contact support@dateunicorn.com")
       }
       if( !response || !response.productIdentifier ) {
         return log(`Unknown purchase response: ${JSON.stringify(response)}`)
@@ -28,14 +28,17 @@ class Paywall extends Component {
 
       __DEV__ && console.warn(JSON.stringify(response))
       this.props.activate(response.transactionReceipt).catch((err) => {
-        alert(err.message || JSON.stringify(err))
+        alert((err.message || JSON.stringify(err)) + "\n\nPlease try again or contact support@dateunicorn.com")
       })
     })
   }
 
   restorePurchases() {
     InAppUtils.restorePurchases((err, response)=> {
-      if( err ) { return alert(err.message) }
+      if( err ) {
+        log(err)
+        return alert(err.message + ". Please try again or contact support@dateunicorn.com")
+      }
       if( !response.length ) {
        const err = new Error('No purchases found');
        err.name = 'NotFound'
@@ -52,7 +55,7 @@ class Paywall extends Component {
 
       __DEV__ && console.warn(JSON.stringify(response))
       this.props.activate(response[0].transactionReceipt).catch((err) => {
-        alert(err.message || JSON.stringify(err))
+        alert((err.message || JSON.stringify(err)) + "\n\nPlease try again or contact support@dateunicorn.com")
       })
     })
   }
