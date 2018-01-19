@@ -1,19 +1,25 @@
-import React, {Component}                                         from 'react'
-import {KeyboardAwareScrollView}                                  from 'react-native-keyboard-aware-scroll-view'
-import LinearGradient                                             from 'react-native-linear-gradient'
-import moment                                                     from 'moment'
-import {StaticNight, Star, StarSystem}                            from './Environment'
-import Intro                                                      from './QuizIntroView'
-import Email                                                      from './QuizEmailView'
-import Dob                                                        from './QuizDobView'
-import Website                                                    from './QuizWebsiteView'
-import Photos                                                     from './QuizPhotosView'
-import Freeform                                                   from './QuizFreeformView'
-import Review                                                     from './QuizReviewView'
-import Firework                                                   from './Firework'
-import {em, screenWidth, tabNavHeight, screenHeight, bottomBoost} from '../constants/dimensions'
-import {mayteWhite}                                               from '../constants/colors'
-import {ButtonGrey}                                               from './Button'
+import React, {Component}              from 'react'
+import {KeyboardAwareScrollView}       from 'react-native-keyboard-aware-scroll-view'
+import LinearGradient                  from 'react-native-linear-gradient'
+import {StaticNight, Star, StarSystem} from './Environment'
+import Intro                           from './QuizIntroView'
+import Email                           from './QuizEmailView'
+import Dob                             from './QuizDobView'
+import Website                         from './QuizWebsiteView'
+import Photos                          from './QuizPhotosView'
+import Freeform                        from './QuizFreeformView'
+import Review                          from './QuizReviewView'
+import Firework                        from './Firework'
+import {mayteWhite}                    from '../constants/colors'
+import {ButtonGrey}                    from './Button'
+import timing                          from '../constants/timing'
+import {
+  em,
+  screenWidth,
+  tabNavHeight,
+  screenHeight,
+  bottomBoost
+} from '../constants/dimensions'
 import {
   View,
   Text,
@@ -26,92 +32,32 @@ import {
   TouchableOpacity,
 } from 'react-native'
 
-const sceneInDuration = 500
-const sceneOutDuration = 500
-const zodiacInDuration = 500
-
 export default class QuizView extends Component {
   constructor(props) {
     super(props)
-    this.state = { zodiac: null }
     this._zodiacOpacity = new Animated.Value(0)
     this._zodiacScale = new Animated.Value(0)
-    this.updateDob = this.updateDob.bind(this)
   }
 
-  componentDidMount() {
-    if (!this.props.step) {
-      this.props.update({step: 'dob'})
-    }
-
-    this.setState({zodiac: this.computeZodiac(this.props.dob)})
-  }
-
-  componentDidUpdate(prevProps, prevState) {
-    if (this.state.zodiac && !prevState.zodiac) {
+  componentWillReceiveProps(props) {
+    if( props.zodiac && !this.props.zodiac ) {
       Animated.parallel([
         Animated.spring(this._zodiacScale, {
           toValue: 0.66,
-          stifness: 250,
+          stiffness: 250,
           useNativeDriver: true,
         }),
         Animated.timing(this._zodiacOpacity, {
           toValue: 0.66,
-          duration: zodiacInDuration,
+          duration: timing.zodiacInDuration,
           useNativeDriver: true,
         })
       ]).start()
     }
   }
 
-  computeZodiac(date) {
-    const mom   = moment(date, 'MMM Do YYYY')
-    const month = mom.month()
-    const day   = mom.day()
-    let zodiac
-    switch (month) {
-    	case 0:  if(day < 20)zodiac='capricorn';else zodiac='aquarius';break;
-    	case 1:  if(day < 19)zodiac='aquarius';else zodiac='pisces';break;
-    	case 2:  if(day < 21)zodiac='pisces';else zodiac='aries';break;
-    	case 3:  if(day < 20)zodiac='aries';else zodiac='taurus';break;
-    	case 4:  if(day < 21)zodiac='taurus';else zodiac='gemini';break;
-    	case 5:  if(day < 21)zodiac='gemini';else zodiac='cancer';break;
-    	case 6:  if(day < 23)zodiac='cancer';else zodiac='leo';break;
-     	case 7:  if(day < 23)zodiac='leo';else zodiac='virgo';break;
-    	case 8:  if(day < 23)zodiac='virgo';else zodiac='libra';break;
-    	case 9:  if(day < 23)zodiac='libra';else zodiac='scorpio';break;
-    	case 10: if(day < 22)zodiac='scorpio';else zodiac='sagittarius';break;
-    	case 11: if(day < 22)zodiac='sagittarius';else zodiac='capricorn';break;
-      default: return null;
-     }
-    return zodiac
-  }
-
-  updateDob(date) {
-    this.setState({zodiac: this.computeZodiac(date)})
-    this.props.update({dob: date})
-  }
-
   renderZodiac() {
-    if (!this.state.zodiac) {return}
-    let src
-    switch (this.state.zodiac) {
-      case 'aquarius': src = require('../images/zodiac-aquarius-white.png'); break;
-      case 'aries': src = require('../images/zodiac-aries-white.png'); break;
-      case 'cancer': src = require('../images/zodiac-cancer-white.png'); break;
-      case 'capricorn': src = require('../images/zodiac-capricorn-white.png'); break;
-      case 'gemini': src = require('../images/zodiac-gemini-white.png'); break;
-      case 'leo': src = require('../images/zodiac-leo-white.png'); break;
-      case 'libra': src = require('../images/zodiac-libra-white.png'); break;
-      case 'pisces': src = require('../images/zodiac-pisces-white.png'); break;
-      case 'sagittarius': src = require('../images/zodiac-sagittarius-white.png'); break;
-      case 'scorpio': src = require('../images/zodiac-scorpio-white.png'); break;
-      case 'taurus': src = require('../images/zodiac-taurus-white.png'); break;
-      case 'virgo': src = require('../images/zodiac-virgo-white.png'); break;
-      default:
-        return null
-        break
-    }
+    if (!this.props.zodiac) {return null }
     return <Animated.Image
               style={[
                 style.zodiac,
@@ -119,7 +65,7 @@ export default class QuizView extends Component {
                   opacity: this._zodiacOpacity,
                   transform: [{scale: this._zodiacScale}, {rotate: '15deg'}]}]
                 }
-                source={src}
+                source={zodiacImage(this.props.zodiac)}
                 resizeMode='contain'  />
   }
 
@@ -153,13 +99,31 @@ export default class QuizView extends Component {
 
         <Intro {...props} next={() => props.update({step: rfs ? 'review' : 'email'})} />
         <Email {...props} next={() => props.update({step: rfs ? 'review' : 'dob'})} />
-        <Dob {...props} next={() => props.update({step: rfs ? 'review' : 'website'})} updateDob={this.updateDob} />
+        <Dob {...props} next={() => props.update({step: rfs ? 'review' : 'website'})} updateDob={props.updateDob} />
         <Website {...props} next={() => props.update({step: rfs ? 'review' : 'photos'})} />
         <Photos {...props} next={() => props.update({step: rfs ? 'review' : 'freeform'})} />
         <Freeform {...props} next={() => props.update({step: rfs ? 'review' : 'review'})} />
         <Review {...props} />
       </View>
     )
+  }
+}
+
+function zodiacImage(zodiac) {
+  switch(zodiac) {
+    case 'aquarius': return require('../images/zodiac-aquarius-white.png')
+    case 'aries': return require('../images/zodiac-aries-white.png')
+    case 'cancer': return require('../images/zodiac-cancer-white.png')
+    case 'capricorn': return require('../images/zodiac-capricorn-white.png')
+    case 'gemini': return require('../images/zodiac-gemini-white.png')
+    case 'leo': return require('../images/zodiac-leo-white.png')
+    case 'libra': return require('../images/zodiac-libra-white.png')
+    case 'pisces': return require('../images/zodiac-pisces-white.png')
+    case 'sagittarius': return require('../images/zodiac-sagittarius-white.png')
+    case 'scorpio': return require('../images/zodiac-scorpio-white.png')
+    case 'taurus': return require('../images/zodiac-taurus-white.png')
+    case 'virgo': return require('../images/zodiac-virgo-white.png')
+    default: return null
   }
 }
 
@@ -184,8 +148,8 @@ export class Scene extends Component {
   fadeIn() {
     Animated.timing(this._opacity, {
       toValue: 1,
-      duration: sceneInDuration,
-      delay: sceneOutDuration * 2,
+      duration: timing.sceneInDuration,
+      delay: timing.sceneOutDuration * 2,
       useNativeDriver: true,
     }).start(() => this.props.onFadeIn())
   }
@@ -193,7 +157,7 @@ export class Scene extends Component {
   fadeOut() {
     Animated.timing(this._opacity, {
       toValue: 0,
-      duration: sceneOutDuration,
+      duration: timing.sceneOutDuration,
       useNativeDriver: true,
     }).start(() => this.props.onFadeOut())
   }

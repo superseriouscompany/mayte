@@ -1,13 +1,18 @@
 'use strict'
 
-import React, {Component}              from 'react'
-import DatePicker                      from 'react-native-datepicker'
-import {Scene}                         from './QuizView'
-import ImagePicker                     from 'react-native-image-crop-picker'
-import {ButtonGrey}                    from './Button'
-import {mayteWhite, mayteBlack}        from '../constants/colors'
-import {em, screenWidth, screenHeight} from '../constants/dimensions'
-import api                             from '../services/api'
+import React, {Component}       from 'react'
+import DatePicker               from 'react-native-datepicker'
+import {Scene}                  from './QuizView'
+import ImagePicker              from 'react-native-image-crop-picker'
+import {ButtonGrey}             from './Button'
+import {mayteWhite, mayteBlack} from '../constants/colors'
+import api                      from '../services/api'
+import timing                   from '../constants/timing'
+import {
+  em,
+  screenWidth,
+  screenHeight
+} from '../constants/dimensions'
 import {
   View,
   Text,
@@ -18,7 +23,7 @@ import {
   TouchableOpacity,
 } from 'react-native'
 
-export default class Photos extends Component {
+export default class QuizPhotosView extends Component {
   constructor(props) {
     super(props)
     this._buttonOpacity = new Animated.Value(0)
@@ -42,12 +47,12 @@ export default class Photos extends Component {
     Animated.parallel([
       Animated.timing(this._buttonOpacity, {
         toValue: ready ? 1 : 0,
-        duration: 333,
+        duration: timing.quizButtonIn,
         useNativeDriver: true,
       }),
       Animated.timing(this._buttonTranslateY, {
         toValue: ready ? 0 : 15,
-        duration: 333,
+        duration: timing.quizButtonIn,
         useNativeDriver: true,
       })
     ]).start()
@@ -125,7 +130,7 @@ export default class Photos extends Component {
             return(
               <TouchableOpacity style={style.slot} key={idx} onPress={() => this.getFromCameraRoll(idx)}>
                 <View style={style.slotBg}><Text style={[style.text, {fontSize: em(2)}]}>+</Text></View>
-                { props.photos[idx] ?
+                { (props.photos || [])[idx] ?
                     <Image style={style.slotImg} source={{uri: props.photos[idx]}} resizeMode='cover' /> : null }
               </TouchableOpacity>
             )

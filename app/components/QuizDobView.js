@@ -1,11 +1,12 @@
 'use strict'
 
 import React, {Component} from 'react'
-import DatePicker from 'react-native-datepicker'
-import {Scene} from './QuizView'
-import {ButtonGrey} from './Button'
-import {mayteWhite} from '../constants/colors'
-import {em} from '../constants/dimensions'
+import DatePicker         from 'react-native-datepicker'
+import {Scene}            from './QuizView'
+import {ButtonGrey}       from './Button'
+import {mayteWhite}       from '../constants/colors'
+import {em}               from '../constants/dimensions'
+import timing             from '../constants/timing'
 import {
   View,
   Text,
@@ -15,7 +16,7 @@ import {
   TouchableOpacity,
 } from 'react-native'
 
-export default class Dob extends Component {
+export default class QuizDobView extends Component {
   constructor(props) {
     super(props)
     this._inputContScaleX = new Animated.Value(0)
@@ -37,12 +38,12 @@ export default class Dob extends Component {
     Animated.parallel([
       Animated.timing(this._buttonOpacity, {
         toValue: ready ? 1 : 0,
-        duration: 333,
+        duration: timing.quizButtonIn,
         useNativeDriver: true,
       }),
       Animated.timing(this._buttonTranslateY, {
         toValue: ready ? 0 : 15,
-        duration: 333,
+        duration: timing.quizButtonIn,
         useNativeDriver: true,
       })
     ]).start()
@@ -61,7 +62,7 @@ export default class Dob extends Component {
         onFadeIn={() => {
             Animated.timing(this._inputContScaleX, {
               toValue: 1,
-              duration: 666,
+              duration: timing.quizInputScale,
               easing: Easing.easeIn,
               useNativeDriver: true,
             }).start(() => {
@@ -69,7 +70,7 @@ export default class Dob extends Component {
                 this.setState({ready: true})
                 this.animButton(true)
               }
-              Animated.timing(this._inputOpacity, {toValue: 1, duration: 333, useNativeDriver: true}).start()
+              Animated.timing(this._inputOpacity, {toValue: 1, duration: timing.quizInputOpacity, useNativeDriver: true}).start()
             })
         }}>
 

@@ -1,24 +1,32 @@
 var timing = {
-  // login screen
-  loginBgIn:       666,
-  loginBtnIn:      333,
-  loginBtnStagger: 333,
-  loginBtnDelay:   222,
+  // login
+  loginBgIn:        666,
+  loginBtnIn:       333,
+  loginBtnStagger:  333,
+  loginBtnDelay:    222,
+
+  // signup
+  sceneInDuration:  500,
+  sceneOutDuration: 500,
+  zodiacInDuration: 500,
+  quizButtonIn:     333,
+  quizInputScale:   666,
+  quizInputOpacity: 333,
 
   // profile
-  profileOpen:    333,
-  profileClose:   333,
-  profileSwitch:  333,
+  profileOpen:      333,
+  profileClose:     333,
+  profileSwitch:    333,
 
   // recs
-  recLike:        333,
-  recPass:        333,
-  issaMatchOpen:  333,
-  issaMatchClose: 333,
+  recLike:          333,
+  recPass:          333,
+  issaMatchOpen:    333,
+  issaMatchClose:   333,
 
   // chat
-  chatOpen:       333,
-  chatClose:      333,
+  chatOpen:         333,
+  chatClose:        333,
 }
 
 // Swap conditionals to enable animations in dev

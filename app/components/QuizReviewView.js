@@ -23,7 +23,7 @@ import {
 
 const submitLoaderRadius = em(1)
 
-export default class Review extends Component {
+export default class QuizReviewView extends Component {
   render() {
     const {props, state} = this
     return (
@@ -104,7 +104,7 @@ export default class Review extends Component {
           </View>
           <View style={style.slots}>
           {
-            props.photos.filter(p => p).map((p, i) => {
+            (props.photos || []).filter(p => p).map((p, i) => {
               return(
                 <View style={style.slot} key={i}>
                   <View style={style.slotBg}><Text style={[style.text, {fontSize: em(2)}]}>+</Text></View>
