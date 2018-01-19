@@ -29,7 +29,7 @@ export default class MembershipView extends Component {
     super(props)
 
     this._maskOp = new Animated.Value(0)
-    this._buttonOp = new Animated.Value(1)
+    this._hideOp = new Animated.Value(1)
     this.state = {
       open: false,
       mask: false,
@@ -51,7 +51,7 @@ export default class MembershipView extends Component {
 
   fadeInMask() {
     Animated.parallel([
-      Animated.spring(this._buttonOp, {
+      Animated.spring(this._hideOp, {
         toValue: 0,
         stiffness: 200,
         overshootClamping: true,
@@ -68,7 +68,7 @@ export default class MembershipView extends Component {
 
   fadeOutMask() {
     Animated.parallel([
-      Animated.spring(this._buttonOp, {
+      Animated.spring(this._hideOp, {
         toValue: 1,
         stiffness: 200,
         overshootClamping: true,
@@ -99,6 +99,8 @@ export default class MembershipView extends Component {
     const {props, state} = this
     return (
       <View style={style.container}>
+        <MembershipDeckView hideOpacity={this._hideOp} />
+
         { state.mask ?
             <Animated.View
               style={[
@@ -106,9 +108,10 @@ export default class MembershipView extends Component {
                 {opacity: this._maskOp}
               ]} /> : null }
 
-        <Animated.View style={{opacity: this._buttonOp}}>
+        <Animated.View style={{opacity: this._hideOp}}>
           <ButtonBlack
-            text='Membership'
+            style={style.button}
+            text='View Pass'
             onPress={() => this.info.animateOpen()} />
         </Animated.View>
         <MembershipInfoView
@@ -132,7 +135,7 @@ export default class MembershipView extends Component {
 const style = StyleSheet.create({
   container: {
     flex: 1,
-    justifyContent: 'center',
+    justifyContent: 'flex-end',
     alignItems: 'center',
   },
   mask: {
@@ -142,4 +145,9 @@ const style = StyleSheet.create({
     height: screenHeight,
     backgroundColor: mayteBlack(0.9),
   },
+  button: {
+    marginBottom: em(2),
+    paddingLeft: em(1),
+    paddingRight: em(1),
+  }
 })

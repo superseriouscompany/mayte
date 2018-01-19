@@ -197,6 +197,7 @@ export default class MembershipInfoView extends Component {
       <Animated.ScrollView
         ref={n => this.node = n}
         scrollEventThrottle={100}
+        showsVerticalScrollIndicator={false}
         bounces={true}
         scrollEnabled={state.scrollEnabled}
         onMomentumScrollBegin={(e) => {
@@ -287,7 +288,7 @@ const style = StyleSheet.create({
   },
 
   header: {
-    marginTop: em(2),
+    marginTop: em(2) + notchHeight,
   },
   headerPri: {
     flexDirection: 'row',
