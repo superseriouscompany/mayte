@@ -1,4 +1,5 @@
 import React, {Component}                                         from 'react'
+import {KeyboardAwareScrollView}                                  from 'react-native-keyboard-aware-scroll-view'
 import LinearGradient                                             from 'react-native-linear-gradient'
 import moment                                                     from 'moment'
 import {StaticNight, Star, StarSystem}                            from './Environment'
@@ -201,14 +202,13 @@ export class Scene extends Component {
     const {props, state} = this
     return(
       <Animated.View
-        // overScrollMode='never'
         style={[style.scene, props.style, {opacity: this._opacity, zIndex: props.active ? 420 : 0}]}>
-        <ScrollView
+        <KeyboardAwareScrollView
           style={{height:screenHeight}}
           showsVerticalScrollIndicator={false}
           contentContainerStyle={[style.sceneCont, props.contStyle]}>
           {props.children}
-        </ScrollView>
+        </KeyboardAwareScrollView>
       </Animated.View>
     )
   }

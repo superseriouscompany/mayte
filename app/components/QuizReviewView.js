@@ -3,8 +3,10 @@
 import React, {Component}                           from 'react'
 import DatePicker                                   from 'react-native-datepicker'
 import {Scene}                                      from './QuizView'
+import Vip                                          from './QuizReviewVipView'
 import ImagePicker                                  from 'react-native-image-crop-picker'
 import {ButtonGrey}                                 from './Button'
+import OrbitLoader                                  from './OrbitLoader'
 import {mayteWhite, mayteBlack}                     from '../constants/colors'
 import {em, screenWidth, screenHeight, notchHeight} from '../constants/dimensions'
 import api                                          from '../services/api'
@@ -14,32 +16,23 @@ import {
   Image,
   Easing,
   Animated,
+  TextInput,
   StyleSheet,
   TouchableOpacity,
 } from 'react-native'
 
-export default class Photos extends Component {
-  constructor(props) {
-    super(props)
-  }
+const vipOrbitLoaderRadius = em(0.8)
 
-  componentDidUpdate(prevProps, prevState) {
-  }
-
+export default class Review extends Component {
   render() {
     const {props, state} = this
     return (
       <Scene
         style={[style.container, {height: 'auto'}]}
         contStyle={{justifyContent: 'flex-start', paddingTop: em(3) + notchHeight, paddingBottom: em(3)}}
-        active={props.step == 'review'}
-        onFadeIn={() => {
-          if (props.photos.filter(i => i).length) {
-            this.setState({ready: true})
-          }
-        }}>
-        <Text style={[style.text, style.header]}>REVIEW</Text>
+        active={props.step == 'review'}>
 
+        <Text style={[style.text, style.header]}>REVIEW</Text>
         <View style={[style.section]}>
           <View style={style.sectionHeader}>
             <Text style={[style.text, style.sectionTitle]}>EMAIL</Text>
@@ -142,6 +135,8 @@ export default class Photos extends Component {
           <Text style={[style.text, style.valueText]}>{props.freeform}</Text>
         </View>
 
+        <Vip {...props} />
+
         <Animated.View>
           <ButtonGrey
             style={{paddingLeft: em(2), paddingRight: em(2)}}
@@ -170,4 +165,7 @@ const style = StyleSheet.create({
   slotBg: {position: 'absolute', top: 0, left: 0, width: '100%', height: '100%', justifyContent: 'center', alignItems: 'center'},
   slotImg: {position: 'absolute', top: 0, left: 0, width: '100%', height: '100%', borderRadius: em(0.5)},
   section: {width: '100%', marginBottom: em(2)},
+  vipInput: {borderBottomWidth: 2, borderColor: mayteWhite(), width: '66%', paddingBottom: em(0.5), fontSize: em(2), fontFamily: 'Gotham-Medium', color: mayteWhite(), marginRight: em(0.66)},
+  vipCaveat: {fontSize: em(0.9), fontFamily: 'Gotham-Book', marginTop: em(0.66), textAlign: 'left'},
+  vipLoader: {position: 'absolute', left: em(1), top: em(0.66), transform: [{translateX: -(vipOrbitLoaderRadius / 2)}]}
 })

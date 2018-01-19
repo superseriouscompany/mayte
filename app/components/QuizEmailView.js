@@ -80,10 +80,10 @@ export default class Email extends Component {
             })
         }}>
 
-        <Animated.Text style={[style.emailText, style.emailHeader]}>EMAIL ADDRESS</Animated.Text>
+        <Animated.Text style={[style.text, style.header]}>EMAIL ADDRESS</Animated.Text>
 
         {/* TODO: commit Animated.TextInput to react-native -__- */}
-        <Animated.View style={[style.emailInputCont, {transform: [{scaleX: this._inputContScaleX}]}]}>
+        <Animated.View style={[style.inputCont, {transform: [{scaleX: this._inputContScaleX}]}]}>
           <Animated.View style={[{width: '100%', opacity: this._inputOpacity}]}>
             <TextInput
               value={state.value}
@@ -91,8 +91,8 @@ export default class Email extends Component {
               keyboardType='email-address'
               autoCapitalize={"none"}
               style={[
-                style.emailText,
-                style.emailInput,
+                style.text,
+                style.input,
                 ((props.email || '').length > 12 ? {
                   fontSize: fontBase - (1.1 * props.email.length - 12)
                 } : {fontSize: fontBase})
@@ -115,10 +115,8 @@ export default class Email extends Component {
 }
 
 const style = StyleSheet.create({
-  email: {},
-  emailText: {backgroundColor: 'transparent', color: mayteWhite(), textAlign: 'center', fontFamily: 'Futura'},
-  emailHeader: {fontSize: em(1.66), marginBottom: em(4), letterSpacing: em(0.25), fontWeight: '700'},
-  emailInputCont: {width: '66%', marginBottom: em(2), height: em(3), borderBottomWidth: 1, borderColor: mayteWhite(), paddingBottom: em(0.33),  justifyContent: 'flex-end'},
-  emailInput: {width: '100%', fontFamily: 'futura', letterSpacing: em(0.5), overflow: 'visible'},
-  emailButton: {},
+  text: {backgroundColor: 'transparent', color: mayteWhite(), textAlign: 'center', fontFamily: 'Futura'},
+  header: {fontSize: em(1.66), marginBottom: em(4), letterSpacing: em(0.25), fontWeight: '700'},
+  inputCont: {width: '66%', marginBottom: em(2), height: em(3), borderBottomWidth: 1, borderColor: mayteWhite(), paddingBottom: em(0.33),  justifyContent: 'flex-end'},
+  input: {width: '100%', fontFamily: 'futura', letterSpacing: em(0.5), overflow: 'visible'},
 })

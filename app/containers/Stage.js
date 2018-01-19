@@ -9,7 +9,7 @@ import Settings               from './Settings'
 import MatchBridge            from './MatchBridge'
 import Navigation             from './Navigation'
 import Scratch                from './Scratch'
-import VipCodeInvite             from './VipCodeInvite'
+import VipCodeInvite          from './VipCodeInvite'
 import GenderSelector         from './GenderSelector'
 import Paywall                from './Paywall'
 import VelvetRope             from './VelvetRope'
@@ -54,6 +54,50 @@ class Stage extends PureComponent {
 
   showScene(sceneName) {
     const {props} = this
+
+    return ( props.isActive ?
+        <Navigation initialSceneName="VelvetRope">
+          <Settings sceneName="Settings"
+            tabLabel="Settings"
+            tabIcon={({tintColor, focused}) => (
+              <Icon name={focused ? 'ios-person' : 'ios-person-outline'}
+                    style={{color: tintColor, backgroundColor: 'transparent'}}
+                    size={em(1.625)} />
+            )} />
+          <VelvetRope sceneName="VelvetRope"
+            tabLabel="Membership"
+            tabIcon={({tintColor, focused}) => (
+              <Icon name={focused ? 'ios-key' : 'ios-key-outline'}
+                    style={{color: tintColor, backgroundColor: 'transparent'}}
+                    size={em(1.625)} />
+            )} />
+
+          { props.isAdmin ?
+            <Recs sceneName="Recs"
+              tabLabel="Suggestions"
+              tabIcon={({tintColor, focused}) => (
+                <Icon name={focused ? 'ios-heart' : 'ios-heart-outline'}
+                      style={{color: tintColor, backgroundColor: 'transparent'}}
+                      size={em(1.625)} />
+              )} />
+          :
+            <RecsPreview sceneName="Recs"
+              tabLabel="Suggestions"
+              tabIcon={({tintColor, focused}) => (
+                <Icon name={focused ? 'ios-heart' : 'ios-heart-outline'}
+                      size={em(1.625)}
+                      style={{color: tintColor}} />
+              )} />
+          }
+        </Navigation> :
+
+        !props.applied ? <Quiz /> :
+        !props.approved ? <WaitingRoom /> :
+        !props.gender ? <GenderSelector /> :
+        !props.gold ? <Paywall gender={props.gender} /> :
+        <VipCodeInvite />
+      )
+
     // return <WaitingRoom />
     return <Quiz />
 
@@ -78,43 +122,6 @@ class Stage extends PureComponent {
     if( sceneName == 'Dead' ) {
       return <Dead />
     }
-
-    return (
-      <Navigation initialSceneName="VelvetRope">
-        <Settings sceneName="Settings"
-          tabLabel="Settings"
-          tabIcon={({tintColor, focused}) => (
-            <Icon name={focused ? 'ios-person' : 'ios-person-outline'}
-                  style={{color: tintColor, backgroundColor: 'transparent'}}
-                  size={em(1.625)} />
-          )} />
-        <VelvetRope sceneName="VelvetRope"
-          tabLabel="Membership"
-          tabIcon={({tintColor, focused}) => (
-            <Icon name={focused ? 'ios-key' : 'ios-key-outline'}
-                  style={{color: tintColor, backgroundColor: 'transparent'}}
-                  size={em(1.625)} />
-          )} />
-
-        { props.isAdmin ?
-          <Recs sceneName="Recs"
-            tabLabel="Suggestions"
-            tabIcon={({tintColor, focused}) => (
-              <Icon name={focused ? 'ios-heart' : 'ios-heart-outline'}
-                    style={{color: tintColor, backgroundColor: 'transparent'}}
-                    size={em(1.625)} />
-            )} />
-        :
-          <RecsPreview sceneName="Recs"
-            tabLabel="Suggestions"
-            tabIcon={({tintColor, focused}) => (
-              <Icon name={focused ? 'ios-heart' : 'ios-heart-outline'}
-                    size={em(1.625)}
-                    style={{color: tintColor}} />
-            )} />
-        }
-      </Navigation>
-    )
   }
 }
 
