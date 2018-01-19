@@ -1,9 +1,10 @@
 'use strict'
 
-import React, { Component } from 'react'
-import { mayteBlack, mayteWhite }       from '../constants/colors'
-import { em, screenWidth }  from '../constants/dimensions'
+import React, { Component }        from 'react'
+import { mayteBlack, mayteWhite }  from '../constants/colors'
+import { em, screenWidth }         from '../constants/dimensions'
 import { ButtonGrey, ButtonBlack } from './Button'
+import timing                      from '../constants/timing'
 import {
   Animated,
   ActivityIndicator,
@@ -32,42 +33,42 @@ export default class LoginView extends Component {
       Animated.parallel([
         Animated.timing(this._bgOpacity, {
           toValue: 1,
-          duration: 666,
+          duration: timing.loginBgIn,
           useNativeDriver: true,
         }),
         Animated.timing(this._bgScale, {
           toValue: 1,
-          duration: 666,
+          duration: timing.loginBgIn,
           useNativeDriver: true,
         })
       ]),
       Animated.timing(this._logoOpacity, {
         toValue: 1,
-        duration: 666,
+        duration: timing.loginBgIn,
         useNativeDriver: true,
       }),
-      Animated.delay(333),
+      Animated.delay(timing.loginBtnDelay),
       Animated.parallel([
         Animated.timing(this._igOpacity, {
           toValue: 1,
-          duration: 333,
+          duration: timing.loginBtnIn,
           useNativeDriver: true,
         }),
         Animated.timing(this._igDriftY, {
           toValue: 1,
-          duration: 333,
+          duration: timing.loginBtnIn,
           useNativeDriver: true,
         }),
         Animated.timing(this._liOpacity, {
           toValue: 1,
-          duration: 333,
-          delay: 222,
+          duration: timing.loginBtnIn,
+          delay: timing.loginBtnStagger,
           useNativeDriver: true,
         }),
         Animated.timing(this._liDriftY, {
           toValue: 1,
-          duration: 333,
-          delay: 222,
+          duration: timing.loginBtnIn,
+          delay: timing.loginBtnStagger,
           useNativeDriver: true,
         })
       ]),

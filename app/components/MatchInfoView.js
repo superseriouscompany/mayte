@@ -7,11 +7,6 @@ import {
   matchHeaderHeight,
 } from '../constants/dimensions'
 import {
-  profileOpen,
-  profileClose,
-  profileSwitch
-} from '../constants/timings'
-import {
   Animated,
   StyleSheet,
   Image,
@@ -55,17 +50,17 @@ class MatchInfoView extends Component {
     Animated.parallel([
       Animated.timing(this.state.topValue, {
         toValue: matchHeaderHeight,
-        duration: profileOpen,
+        duration: timing.profileOpen,
       }),
 
       Animated.timing(this.state.heightValue, {
         toValue: screenHeight,
-        duration: profileOpen,
+        duration: timing.profileOpen,
       }),
 
       Animated.timing(this.state.opacity, {
         toValue: 1,
-        duration: profileOpen,
+        duration: timing.profileOpen,
       })
     ]).start()
   }
@@ -74,17 +69,17 @@ class MatchInfoView extends Component {
     Animated.parallel([
       Animated.timing(this.state.topValue, {
         toValue: screenHeight * 0.65,
-        duration: profileSwitch,
+        duration: timing.profileSwitch,
       }),
 
       Animated.timing(this.state.heightValue, {
         toValue: screenHeight * 0.3,
-        duration: profileSwitch,
+        duration: timing.profileSwitch,
       }),
 
       Animated.timing(this.state.opacity, {
         toValue: 1,
-        duration: profileOpen,
+        duration: timing.profileOpen,
       })
     ]).start()
   }
@@ -93,17 +88,17 @@ class MatchInfoView extends Component {
     Animated.parallel([
       Animated.timing(this.state.topValue, {
         toValue: screenHeight,
-        duration: profileClose,
+        duration: timing.profileClose,
       }),
 
       Animated.timing(this.state.heightValue, {
         toValue: screenHeight * 0.3,
-        duration: profileClose,
+        duration: timing.profileClose,
       }),
 
       Animated.timing(this.state.opacity, {
         toValue: 0,
-        duration: profileOpen,
+        duration: timing.profileOpen,
       })
     ]).start()
   }
