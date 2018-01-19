@@ -146,10 +146,6 @@ export default class PaywallView extends Component {
                   <Text>Restore Purchases</Text>
                 </TouchableOpacity>
               </View>
-
-              <TouchableOpacity style={[style.backdoor]} onPress={() => this.exit(props.visitVipWall)}>
-                <Text style={[{backgroundColor:'transparent'}, base.text]}>I have a VIP Code</Text>
-              </TouchableOpacity>
             </Animated.View>
           </Animated.View>
           :

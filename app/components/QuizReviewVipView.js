@@ -1,14 +1,19 @@
 'use strict'
 
-import React, {Component}                           from 'react'
-import DatePicker                                   from 'react-native-datepicker'
-import {Scene}                                      from './QuizView'
-import ImagePicker                                  from 'react-native-image-crop-picker'
-import {ButtonGrey}                                 from './Button'
-import OrbitLoader                                  from './OrbitLoader'
-import {mayteWhite, mayteBlack, mayteRed}           from '../constants/colors'
-import {em, screenWidth, screenHeight, notchHeight} from '../constants/dimensions'
-import api                                          from '../services/api'
+import React, {Component}                 from 'react'
+import DatePicker                         from 'react-native-datepicker'
+import {Scene}                            from './QuizView'
+import ImagePicker                        from 'react-native-image-crop-picker'
+import {ButtonGrey}                       from './Button'
+import OrbitLoader                        from './OrbitLoader'
+import {mayteWhite, mayteBlack, mayteRed} from '../constants/colors'
+import request                            from '../actions/request'
+import {
+  em,
+  screenWidth,
+  screenHeight,
+  notchHeight
+} from '../constants/dimensions'
 import {
   View,
   Text,
@@ -23,8 +28,8 @@ import {
 const vipOrbitLoaderRadius = em(0.8)
 const isGold = false
 const testClaim = {referral: {
-  fullName: 'Sancho Panza',
-  photos: [{url: 'https://pokewalls.files.wordpress.com/2012/06/2ivysaur1920x1200.jpg'}]
+  fullName: 'Steve Shaw',
+  photos: [{url: 'https://scontent.cdninstagram.com/t51.2885-19/s1024x1024/20759153_1944213009126200_3655765562652360704_a.jpg'}]
 }}
 
 export default class Vip extends Component {
@@ -42,8 +47,6 @@ export default class Vip extends Component {
 
     this.state = {
       claimsVipCode: '',
-      isRedeemingVipCode: false,
-      redemptionError: null,
       active: false,
     }
 
@@ -52,19 +55,24 @@ export default class Vip extends Component {
   }
 
   componentDidMount() {
-    if (this.props.vipCode) {
+    if (this.props.pendingCode || this.props.vipCode) {
       Animated.timing(this._redeemOpacity, {toValue: 1, duration: 333, useNativeDriver: true}).start()
     }
+
+    if( this.props.pendingCode ) { this.setState({active: true})}
   }
 
   componentDidUpdate(prevProps, prevState) {
-    if (this.props.vipCode && !prevProps.vipCode) {
+    // FIXME: don't special case pendingCode
+    if (this.props.pendingCode || (this.props.vipCode && !prevProps.vipCode)) {
       Animated.timing(this._redeemOpacity, {toValue: 1, duration: 333, useNativeDriver: true}).start()
     }
 
     if (!this.props.vipCode && prevProps.vipCode) {
       Animated.timing(this._redeemOpacity, {toValue: 0, duration: 333, useNativeDriver: true}).start()
     }
+
+    if( this.props.pendingCode && !prevProps.pendingCode) { this.setState({active: true})}
   }
 
   handleVipInput(vipCode) {
@@ -72,20 +80,15 @@ export default class Vip extends Component {
   }
 
   redeemVipCode() {
-    this.setState({isRedeemingVipCode: true, error: ''})
-
-    // api call
-    setTimeout(() => {
-      this.props.vipCode.toLowerCase() === 'error' ?
+    return this.props.redeemVipCode(this.props.vipCode || this.props.pendingCode).then(() => {
       this.setState({
-        isRedeemingVipCode: false,
-        error: '**Invalid code'
-      }) :
-      this.setState({
-        isRedeemingVipCode: false,
         claimsVipCode: testClaim
       })
-    }, 1000)
+    }).catch((err) => {
+      this.setState({
+        error: '**Invalid code'
+      })
+    })
   }
 
   render() {
@@ -112,10 +115,10 @@ export default class Vip extends Component {
           { state.active ?
             <View>
               <View style={{flexDirection: 'row'}}>
-                <TextInput style={[style.vipInput]} value={props.vipCode} onChangeText={this.handleVipInput} />
+                <TextInput style={[style.vipInput]} value={props.vipCode || props.pendingCode} onChangeText={this.handleVipInput} />
                 <Animated.View style={{opacity: this._redeemOpacity}}>
                 {
-                  state.isRedeemingVipCode ?
+                  props.redeeming ?
                   <View style={style.vipLoader}>
                     <OrbitLoader
                       color='white'

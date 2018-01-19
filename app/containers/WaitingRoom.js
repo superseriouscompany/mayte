@@ -13,6 +13,10 @@ class WaitingRoom extends Component {
       <WaitingRoomView {...this.props} />
     )
   }
+
+  componentDidMount() {
+    this.props.loadSelf()
+  }
 }
 
 function mapStateToProps(state) {
@@ -23,6 +27,14 @@ function mapStateToProps(state) {
 
 function mapDispatchToProps(dispatch) {
   return {
+    loadSelf: () => {
+      return dispatch(request({
+        url: '/users/me'
+      })).then((user) => {
+        dispatch({type: 'user:set', user})
+      })
+    },
+
     deleteAccount: () => {
       return dispatch(request({
         method: 'DELETE',

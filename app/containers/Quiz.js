@@ -21,10 +21,16 @@ class Quiz extends Component {
 
   componentDidMount() {
     if (!this.props.step) {
-      this.setState({step: 'dob'})
+      this.setState({step: 'email'})
     }
 
     this.setState({zodiac: computeZodiac(this.props.dob)})
+  }
+
+  componentWillReceiveProps(props) {
+    if( props.prefilledCode && !this.props.prefilledCode ) {
+      this.setState({vipCode: props.prefilledCode})
+    }
   }
 
   updateDob(dob) {
@@ -50,6 +56,7 @@ class Quiz extends Component {
 
     return <QuizView {...props}
              zodiac={this.state.zodiac}
+             vipCode={this.state.vipCode}
              update={(k) => this.setState(k)}
              updateDob={this.updateDob}
              submit={this.submit}
@@ -65,12 +72,19 @@ class Quiz extends Component {
 
 const mapStateToProps = (state, ownProps) => {
   const apiCall = state.api['POST /applications'] || {}
+  // TODO: provide some sort of wildcard interface?
+  const redeemKey = Object.keys(state.api).find((k) => k.match(/PUT \/vipCodes\/.+/))
+  const redeemCall = state.api[redeemKey] || {}
+
+  console.log('code is', state.vip.pendingCode)
 
   return {
-    user:       state.user,
-    quiz:       state.quiz,
-    submitting: !!apiCall.loading,
-    error:      apiCall.error,
+    user:        state.user,
+    quiz:        state.quiz,
+    submitting:  !!apiCall.loading,
+    error:       apiCall.error,
+    redeeming:   !!redeemCall.loading,
+    pendingCode: state.vip.pendingCode,
   }
 }
 
@@ -90,6 +104,12 @@ const mapDispatchToProps = (dispatch) => {
       })).then((user) => {
         dispatch({type: 'user:set', user})
       })
+    },
+    redeemVipCode: (code) => {
+      return dispatch(request({
+        method: 'PUT',
+        url:    `/vipCodes/${code}`,
+      }))
     }
   }
 }
