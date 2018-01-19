@@ -54,8 +54,6 @@ class Stage extends PureComponent {
   showScene(sceneName) {
     const {props} = this
 
-    return <Quiz />
-
     return ( props.isActive ?
         <Navigation initialSceneName="VelvetRope">
           <Settings sceneName="Settings"
