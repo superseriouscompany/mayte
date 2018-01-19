@@ -146,7 +146,7 @@ const style = StyleSheet.create({
     backgroundColor: mayteBlack(0.9),
   },
   button: {
-    marginBottom: em(2),
+    marginBottom: em(3),
     paddingLeft: em(1),
     paddingRight: em(1),
   }
