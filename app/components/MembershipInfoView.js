@@ -1,13 +1,13 @@
 'use strict'
 
-import React, {Component} from 'react'
-import LinearGradient     from 'react-native-linear-gradient'
-import transformUtil      from '../util/transform'
-import QRCode             from 'react-native-qrcode'
-import {mayteBlack}       from '../constants/colors'
-import moment             from 'moment'
-import api, {baseUrl}     from '../services/api'
-import {ButtonBlack}      from './Button'
+import React, {Component}       from 'react'
+import LinearGradient           from 'react-native-linear-gradient'
+import transformUtil            from '../util/transform'
+import QRCode                   from 'react-native-qrcode'
+import {mayteBlack, mayteWhite} from '../constants/colors'
+import moment                   from 'moment'
+import api, {baseUrl}           from '../services/api'
+import {ButtonBlack}            from './Button'
 import {
   em,
   screenWidth,
@@ -29,6 +29,13 @@ import {
 } from 'react-native'
 
 const fullHeight = screenHeight - tabNavHeight - bottomBoost
+const upcomingEvents = [
+  {
+    title: 'Unicorn Valentine\'s Day',
+    date: moment('2/14/18'),
+    venue: 'Absolut Elyx House'
+  }
+]
 
 export default class MembershipInfoView extends Component {
   constructor(props) {
@@ -214,62 +221,49 @@ export default class MembershipInfoView extends Component {
           {transform: [{translateY: this._y}]}
         ]}
         {...(state.contPermission ? this._panResponder.panHandlers: {})}>
-        <View style={style.card}>
-          <Image resizeMode="cover" source={{uri: props.user.photos[0].url}} style={style.mugshot}/>
-          <View style={style.middleCnr}>
+
+        <View style={style.header}>
+          <View style={style.headerPri}>
+            <Image resizeMove="cover" source={{uri: props.user.photos[0].url}} style={style.mugshot}/>
             <Text style={style.name}>{props.user.fullName}</Text>
-            <Text style={style.since}>Member since:{"\n"}{moment(props.user.createdAt).format('MMMM Do YYYY')}</Text>
-            <Text style={style.id}>{"\n"}Member ID:{"\n"} {props.user.id}</Text>
           </View>
-          <View style={style.rightCnr}>
-            <QRCode
-              value={`${baseUrl}/member/${props.user.id}`}
-              bgColor="hotpink"
-              size={80}
-              />
+
+          <View style={style.headerSub}>
+            <Text style={style.since}>
+              <Text style={{fontWeight: '700'}}>Member since:</Text>{"\n"}{moment(props.user.createdAt).format('MMMM Do YYYY')}
+            </Text>
+            <Text style={style.id}>
+              <Text style={{fontWeight: '700'}}>Member ID:</Text>{"\n"} {props.user.id}
+            </Text>
           </View>
         </View>
 
-        { props.loading ?
-          <View style={style.centered}>
-            <ActivityIndicator size="large" />
-          </View>
-        :
-          <TouchableOpacity style={style.addToWallet} onPress={props.addPass}>
-            <Image resizeMode="contain" style={style.appleWalletLogo}
-                   source={require('../images/add-to-apple-wallet-logo.png')} />
-          </TouchableOpacity>
-        }
-
-        <View style={style.events}>
-          <Text style={style.explanation}>
-            This is your entry ticket to all Unicorn events.
-
-            { !props.isGold ? null :
-              <Text>
-                {"\n"}As a brand ambassador, you are welcome to attend with a +1.
-              </Text>
-            }
-          </Text>
-
-          <Text style={style.nextEvent}>
-            The next event is:
-          </Text>
-          <TouchableOpacity onPress={() => {}}>
-            { /* TODO: pull title and description from the backend */ }
-            <Text style={style.title}>
-              Unicorn {"Valentine's"} Day.
-            </Text>
-            <Text style={style.description}>
-              Feb 14 @ Absolut Elyx House
-            </Text>
-            <ButtonBlack style={style.inline} text="Details" onPress={() => {Linking.openURL('https://dateunicorn.com')}} />
-          </TouchableOpacity>
+        <View style={style.qrCont}>
+          <QRCode
+            value={`${baseUrl}/member/${props.user.id}`}
+            bgColor={mayteWhite()}
+            fgColor={mayteBlack()}
+            size={screenWidth * 0.9}
+            />
         </View>
-        <View style={style.buttonsCnr}>
-          { props.isAdmin || props.isGold ?
-            <ButtonBlack text={`VIP Codes`} onPress={props.visitVipCodeInvite} style={style.button} />
-          : null }
+
+        <Text style={style.explanation}>
+          This is your entry ticket to all Unicorn events.{ !!props.isGold ? null :
+            <Text> As a brand ambassador, you are welcome to attend with a +1.</Text>
+          }
+        </Text>
+
+        <TouchableOpacity style={style.addToWallet} onPress={props.addPass}>
+          <Image resizeMode="contain" style={style.appleWalletLogo}
+                 source={require('../images/add-to-apple-wallet-logo.png')} />
+        </TouchableOpacity>
+
+        <View style={style.upcomingEvent}>
+          <Text style={[style.eventText, style.eventHeader]}>Upcoming Event:</Text>
+          <View>
+            <Text style={[style.eventText, style.eventTitle]}>{upcomingEvents[0].title}</Text>
+            <Text style={[style.eventText]}>{upcomingEvents[0].date.format('MMM Do')} @ {upcomingEvents[0].venue}</Text>
+          </View>
         </View>
       </Animated.ScrollView>
     )
@@ -283,6 +277,8 @@ const style = StyleSheet.create({
     left: 0,
     width: '100%',
     paddingTop: notchHeight,
+    paddingLeft: screenWidth * 0.05,
+    paddingRight: screenWidth * 0.05,
   },
 
   content: {
@@ -290,41 +286,76 @@ const style = StyleSheet.create({
     height: fullHeight, // TEMP: prevent awkward overflow on spring
   },
 
-
-  card: {
+  header: {
+    marginTop: em(2),
+  },
+  headerPri: {
     flexDirection: 'row',
-    width: em(20),
-    borderColor: 'black',
-    borderWidth: 1,
-    borderRadius: em(3),
-    padding: em(1),
-    marginBottom: em(1),
-    marginTop: notchHeight,
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginBottom: em(1.66),
   },
   mugshot: {
-    aspectRatio: screenWidth / screenHeight,
-    width: '20%',
-    marginLeft: em(1),
+    width: em(5),
+    height: em(5),
+    borderRadius: em(2.5),
     marginRight: em(1),
   },
+  name: {
+    fontFamily: 'Futura',
+    fontSize: em(2),
+    color: mayteWhite(),
+    letterSpacing: em(0.1),
+  },
+  headerSub: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'flex-start',
+    marginBottom: em(1.66),
+  },
   since: {
-    fontSize: 12,
+    fontSize: em(0.8),
+    textAlign: 'left',
+    color: mayteWhite(),
+    fontFamily: 'Futura',
   },
   id: {
-    fontSize: 12,
+    fontSize: em(0.8),
+    textAlign: 'right',
+    color: mayteWhite(),
+    fontFamily: 'Futura',
   },
-  middleCnr: {
-    flex: 1,
+  qrCont: {
+    marginBottom: em(2)
   },
-  rightCnr: {
-    justifyContent: 'center',
-    alignItems: 'flex-end',
+  explanation: {
+    color: mayteWhite(),
+    textAlign: 'center',
+    fontSize: em(1),
+    fontFamily: 'Futura',
+    marginBottom: em(1.66)
   },
-  qrCode: {
-    width: em(6),
-    height: em(6),
+  addToWallet: {
+    alignItems: 'center',
+    marginBottom: em(2),
   },
   appleWalletLogo: {
-    height: 50,
+    height: em(3),
   },
+
+  upcomingEvent: {
+    paddingBottom: em(2),
+  },
+  eventText: {
+    textAlign: 'center',
+    fontFamily: 'futura',
+    color: mayteWhite(),
+    fontSize: em(1),
+  },
+  eventHeader: {
+  },
+  eventTitle: {
+    marginTop: em(1),
+    fontWeight: '700',
+  }
 })

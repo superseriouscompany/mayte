@@ -135,9 +135,6 @@ const style = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
   },
-
-
-
   mask: {
     position: 'absolute',
     top: 0, left: 0,
