@@ -38,6 +38,12 @@ export default class QuizPhotosView extends Component {
     this.seekAndDestroyPhoto = this.seekAndDestroyPhoto.bind(this)
   }
 
+  componentWillReceiveProps(props) {
+    if( props.photos && props.photos.length ) {
+      this.setState({ready: true})
+    }
+  }
+
   componentDidUpdate(prevProps, prevState) {
     if (this.state.ready && !prevState.ready) { this.animButton(true) }
     if (!this.state.ready && prevState.ready) { this.animButton(false) }
