@@ -4,6 +4,7 @@ const configuration = new Configuration();
 configuration.notifyReleaseStages = ['production'];
 const bugsnag = new Client(configuration);
 
+// TODO: allow overloading with multiple arguments like console.error
 export default function(err) {
   if( !(err instanceof Error) )  {
     err = new Error(err)

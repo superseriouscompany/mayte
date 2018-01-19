@@ -62,7 +62,7 @@ function mapDispatchToProps(dispatch) {
   return {
     redeem: (code) => {
       return dispatch(request({
-        url:    `/promos/${code}`,
+        url:    `/vipCodes/${code}`,
         method: 'PUT',
       }))
     },
@@ -74,7 +74,6 @@ function mapDispatchToProps(dispatch) {
 
     dispatchCode: (vip) => {
       dispatch({type: 'vip:set', vip})
-      dispatch({type: 'scene:change', scene: 'VipCodeStatus'})
     },
 
     hydrateUser: () => {

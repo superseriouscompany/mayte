@@ -142,6 +142,9 @@ export default class PaywallView extends Component {
               <View style={style.payBtnCont}>
                 <ButtonBlack text={`Join for ${product.priceString}/month`} onPress={() => props.buy(product.identifier)} style={style.payBtn} />
                 <Text style={[base.text]}>{`Payment starts Valentine's Day.`}</Text>
+                <TouchableOpacity style={style.restorePurchases} onPress={props.restorePurchases}>
+                  <Text>Restore Purchases</Text>
+                </TouchableOpacity>
               </View>
 
               <TouchableOpacity style={[style.backdoor]} onPress={() => this.exit(props.visitVipWall)}>

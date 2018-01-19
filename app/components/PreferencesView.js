@@ -28,6 +28,7 @@ import {
   Slider,
   TouchableOpacity,
   Linking,
+  ActivityIndicator,
 } from 'react-native'
 
 const bubbleDiameter = 200
@@ -163,29 +164,38 @@ export default class PreferencesView extends Component {
                  source={require('../images/unicorn-logo-black.png')}
                  resizeMode="contain" />
 
-          <TouchableOpacity style={style.footerBtn}
-                            onPress={() => {
-                              Alert.alert(
-                                "Delete Account",
-                                "Are you sure?",
-                                [
-                                  {text: 'Cancel'},
-                                  {text: 'Confirm', onPress: () => props.deleteAccount()}
-                                ]
-                              )
-                            }}>
-            <Text style={style.footerBtnText}>DELETE ACCOUNT</Text>
-          </TouchableOpacity>
 
-          <TouchableOpacity style={[style.footerBtn, style.legalBtn]}
-            onPress={() => Linking.openURL('https://dateunicorn.com/privacy-policy')}>
-            <Text style={[style.footerBtnText, style.legalText]}>PRIVACY POLICY</Text>
-          </TouchableOpacity>
+          { props.isDeleting ?
+            <View style={style.buttonsCnr}>
+              <ActivityIndicator size="large" style={style.deleteLoader}/>
+            </View>
+          :
+            <View style={style.buttonsCnr}>
+              <TouchableOpacity style={style.footerBtn}
+                                onPress={() => {
+                                  Alert.alert(
+                                    "Delete Account",
+                                    "Are you sure?",
+                                    [
+                                      {text: 'Cancel'},
+                                      {text: 'Confirm', onPress: () => props.deleteAccount()}
+                                    ]
+                                  )
+                                }}>
+                <Text style={style.footerBtnText}>DELETE ACCOUNT</Text>
+              </TouchableOpacity>
 
-          <TouchableOpacity style={[style.footerBtn, style.legalBtn]}
-            onPress={() => Linking.openURL('https://dateunicorn.com/terms')}>
-            <Text style={[style.footerBtnText, style.legalText]}>TERMS OF SERVICE</Text>
-          </TouchableOpacity>
+              <TouchableOpacity style={[style.footerBtn, style.legalBtn]}
+                onPress={() => Linking.openURL('https://dateunicorn.com/privacy-policy')}>
+                <Text style={[style.footerBtnText, style.legalText]}>PRIVACY POLICY</Text>
+              </TouchableOpacity>
+
+              <TouchableOpacity style={[style.footerBtn, style.legalBtn]}
+                onPress={() => Linking.openURL('https://dateunicorn.com/terms')}>
+                <Text style={[style.footerBtnText, style.legalText]}>TERMS OF SERVICE</Text>
+              </TouchableOpacity>
+            </View>
+          }
         </ScrollView>
       </View>
     )
@@ -274,6 +284,12 @@ const style = StyleSheet.create({
     height: em(1.2),
     width: em(6),
     marginTop: em(0.66),
+  },
+  buttonsCnr: {
+    alignItems: 'center'
+  },
+  deleteLoader: {
+    marginTop: em(2.66)
   },
   footerBtn: {
     marginTop: em(2.66),

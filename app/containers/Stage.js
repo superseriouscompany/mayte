@@ -14,7 +14,6 @@ import GenderSelector         from './GenderSelector'
 import Paywall                from './Paywall'
 import VelvetRope             from './VelvetRope'
 import VipCodeEntry           from './VipCodeEntry'
-import VipCodeStatus          from './VipCodeStatus'
 import Quiz                   from './Quiz'
 import WaitingRoom            from './WaitingRoom'
 import Dead                   from './Dead'
@@ -112,8 +111,6 @@ class Stage extends PureComponent {
         <GenderSelector />
       : sceneName == 'VipCodeEntry' ?
         <VipCodeEntry />
-      : props.vipCode ?
-        <VipCodeStatus />
       :
         <Paywall gender={props.gender} />
     }

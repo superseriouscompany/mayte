@@ -46,7 +46,9 @@ class Settings extends Component {
   }
 
   deleteAccount() {
+    this.setState({isDeleting: true})
     return this.props.deleteAccount().catch((err) => {
+      this.setState({isDeleting: false})
       // TODO: nicer error message
       alert(err.message || err)
       log(err)

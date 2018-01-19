@@ -8,13 +8,13 @@
  * it generates a key for the results of the request and uses the `api` reducer to store
  * responses and errors.
  *
- * @param  {object} args:              args to passthru to fetch
- * @param  {string} args.url:          url specified as relative path of API base url
- * @param  {string} [args.method=GET]: http method
- * @param  {object} [args.headers]:         http headers
- * @param  {object|string} [args.body]:     json body
- * @param  {boolean} force:            whether we should do the request even if it's in progress
- * @return {promise}:                  result of fetch (error is not thrown)
+ * @param  {object} args:               args to passthru to fetch
+ * @param  {string} args.url:           url specified as relative path of API base url
+ * @param  {string} [args.method=GET]:  http method
+ * @param  {object} [args.headers]:     http headers
+ * @param  {object|string} [args.body]: json body
+ * @param  {boolean} force:             whether we should do the request even if it's in progress
+ * @return {promise}:                   result of fetch (error is not thrown)
  */
 
 import api    from '../services/api'
