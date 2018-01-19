@@ -21,7 +21,7 @@ import {
   TouchableOpacity,
 } from 'react-native'
 
-const vipOrbitLoaderRadius = em(0.8)
+const submitLoaderRadius = em(1)
 
 export default class Review extends Component {
   render() {
@@ -137,12 +137,19 @@ export default class Review extends Component {
 
         <Vip {...props} />
 
-        <Animated.View>
-          <ButtonGrey
-            style={{paddingLeft: em(2), paddingRight: em(2)}}
-            onPress={props.submit}
-            text='Submit' />
-        </Animated.View>
+        {
+          props.submitting ?
+          <OrbitLoader
+            color={mayteWhite()}
+            radius={submitLoaderRadius}
+            orbRadius={submitLoaderRadius/4} /> :
+          <Animated.View>
+            <ButtonGrey
+              style={{paddingLeft: em(2), paddingRight: em(2)}}
+              onPress={props.submit}
+              text='Submit' />
+          </Animated.View>
+        }
       </Scene>
     )
   }
@@ -165,7 +172,4 @@ const style = StyleSheet.create({
   slotBg: {position: 'absolute', top: 0, left: 0, width: '100%', height: '100%', justifyContent: 'center', alignItems: 'center'},
   slotImg: {position: 'absolute', top: 0, left: 0, width: '100%', height: '100%', borderRadius: em(0.5)},
   section: {width: '100%', marginBottom: em(2)},
-  vipInput: {borderBottomWidth: 2, borderColor: mayteWhite(), width: '66%', paddingBottom: em(0.5), fontSize: em(2), fontFamily: 'Gotham-Medium', color: mayteWhite(), marginRight: em(0.66)},
-  vipCaveat: {fontSize: em(0.9), fontFamily: 'Gotham-Book', marginTop: em(0.66), textAlign: 'left'},
-  vipLoader: {position: 'absolute', left: em(1), top: em(0.66), transform: [{translateX: -(vipOrbitLoaderRadius / 2)}]}
 })

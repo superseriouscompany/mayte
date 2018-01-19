@@ -1,6 +1,7 @@
 import React, {Component} from 'react'
-import {connect} from 'react-redux'
-import QuizView from '../components/QuizView'
+import {connect}          from 'react-redux'
+import QuizView           from '../components/QuizView'
+import api                from '../services/api'
 
 class Quiz extends Component {
   constructor(props) {
@@ -12,18 +13,28 @@ class Quiz extends Component {
       website: props.quiz.website,
       freeform: props.quiz.freeform,
       step: props.quiz.step,
+      submitting: false,
     }
+    this.submit = this.submit.bind(this)
   }
 
   componentDidUpdate(prevProps, prevState) {
+    var {submitting, ...ts} = this.state
     if (prevState != this.state) {
-      this.props.setQuiz(this.state)
+      this.props.setQuiz(ts)
     }
+  }
+
+  submit() {
+    // api call...
+    this.setState({submitting: true})
   }
 
   render() {
     return <QuizView {...this.props.quiz} user={this.props.user}
              update={(k) => this.setState(Object.assign({}, this.state, k))}
+             submit={this.submit}
+             submitting={this.state.submitting}
              readyForSubmit={
                this.props.quiz.email &&
                this.props.quiz.dob &&
