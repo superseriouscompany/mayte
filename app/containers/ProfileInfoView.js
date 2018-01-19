@@ -175,6 +175,18 @@ export default class ProfileInfoView extends Component {
 
   render() {
     const {props,state} = this
+
+    const privacy = props.user.privacyOptions || {}
+    const showAge = props.myProfile ?
+      privacy.showAge && !!props.user.dob : !!props.user.dob
+    const showLocation = props.myProfile ?
+      privacy.showLocation && true : !!props.user.distance
+    const showInstagramHandle = props.myProfile ?
+      privacy.showInstagramHandle && !!props.user.instagramHandle : !!props.user.instagramHandle
+    const showOccupation = props.myProfile ?
+      privacy.showOccupation && !!props.user.occupation : !!props.user.occupation
+
+
     return(
       <Animated.ScrollView
         ref={n => this.node = n}
@@ -207,19 +219,21 @@ export default class ProfileInfoView extends Component {
           {props.user.fullName.split(' ')[0].toUpperCase()}
         </Text>
         <View style={[style.stats, {paddingBottom: props.hideButtons ? em(1) : 0}]}>
-          {
-            props.user.dob ?
+          { !showAge ? null :
             <Text style={style.age}>
               {moment().diff(moment(props.user.dob, ['MMM Do YYYY']), 'years')}
-            </Text> : null
+            </Text>
           }
-          <Image style={[style.pin, {marginLeft: props.user.dob ? em(0.66) : 0}]} resizeMode='contain' source={require('../images/pin.png')} />
-          <Text style={style.location}>
-            {props.user.distance || 1}
-          </Text>
+          { !showLocation ? null :
+            <Image style={[style.pin, {marginLeft: showAge ? em(0.66) : 0}]} resizeMode='contain' source={require('../images/pin.png')} />
+          }
+          { !showLocation ? null :
+            <Text style={style.location}>
+              {props.user.distance || 1}
+            </Text>
+          }
         </View>
-        {
-          props.hideButtons ? null :
+        { props.hideButtons ? null :
           <View style={[style.tray]}>
             <TouchableOpacity onPress={() => props.pass(props.user.id)}>
               <Image style={style.bubble}
@@ -234,7 +248,7 @@ export default class ProfileInfoView extends Component {
           </View>
         }
         <View style={style.cv}>
-          { !props.user.instagramHandle ? null :
+          { !showInstagramHandle ? null :
             <TouchableOpacity onPress={() => props.linkToInstagram(`https:\/\/instagram.com/${props.user.instagramHandle}`)}>
               <Text
                 style={[
@@ -247,7 +261,7 @@ export default class ProfileInfoView extends Component {
               </Text>
             </TouchableOpacity>
           }
-          { !props.user.occupation ? null :
+          { !showOccupation ? null :
             <Text
               style={[
                 style.occupation,
