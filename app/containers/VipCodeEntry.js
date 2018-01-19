@@ -74,7 +74,6 @@ function mapDispatchToProps(dispatch) {
 
     dispatchCode: (vip) => {
       dispatch({type: 'vip:set', vip})
-      dispatch({type: 'scene:change', scene: 'VipCodeStatus'})
     },
 
     hydrateUser: () => {
