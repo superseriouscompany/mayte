@@ -8,6 +8,7 @@ import Dob                                                        from './QuizDo
 import Website                                                    from './QuizWebsiteView'
 import Photos                                                     from './QuizPhotosView'
 import Freeform                                                   from './QuizFreeformView'
+import Review                                                     from './QuizReviewView'
 import Firework                                                   from './Firework'
 import {em, screenWidth, tabNavHeight, screenHeight, bottomBoost} from '../constants/dimensions'
 import {mayteWhite}                                               from '../constants/colors'
@@ -19,6 +20,7 @@ import {
   Easing,
   Animated,
   TextInput,
+  ScrollView,
   StyleSheet,
   TouchableOpacity,
 } from 'react-native'
@@ -49,10 +51,11 @@ export default class QuizView extends Component {
       Animated.parallel([
         Animated.spring(this._zodiacScale, {
           toValue: 0.66,
+          stifness: 250,
           useNativeDriver: true,
         }),
         Animated.timing(this._zodiacOpacity, {
-          toValue: 0.8,
+          toValue: 0.66,
           duration: zodiacInDuration,
           useNativeDriver: true,
         })
@@ -121,6 +124,7 @@ export default class QuizView extends Component {
 
   render() {
     const {props, state} = this
+    const rfs = props.readyForSubmit
     return(
       <View style={style.container}>
         <StaticNight style={style.bg}>
@@ -146,21 +150,13 @@ export default class QuizView extends Component {
           }
         </StaticNight>
 
-        <Intro {...props} next={() => props.update({step: 'email'})} />
-        <Email {...props} next={() => props.update({step: 'dob'})} />
-        <Dob {...props} next={() => props.update({step: 'website'})} updateDob={this.updateDob} />
-        <Website {...props} next={() => props.update({step: 'photos'})} />
-        <Photos {...props} next={() => props.update({step: 'freeform'})} />
-        <Freeform {...props} next={() => props.update({step: 'review'})} />
-
-        <Scene
-          active={props.step == 'review'}>
-
-          <Text>Review</Text>
-          <TouchableOpacity onPress={() => props.update({step: 'photos'})}>
-            <Text>photos</Text>
-          </TouchableOpacity>
-        </Scene>
+        <Intro {...props} next={() => props.update({step: rfs ? 'review' : 'email'})} />
+        <Email {...props} next={() => props.update({step: rfs ? 'review' : 'dob'})} />
+        <Dob {...props} next={() => props.update({step: rfs ? 'review' : 'website'})} updateDob={this.updateDob} />
+        <Website {...props} next={() => props.update({step: rfs ? 'review' : 'photos'})} />
+        <Photos {...props} next={() => props.update({step: rfs ? 'review' : 'freeform'})} />
+        <Freeform {...props} next={() => props.update({step: rfs ? 'review' : 'review'})} />
+        <Review {...props} />
       </View>
     )
   }
@@ -204,12 +200,16 @@ export class Scene extends Component {
   render() {
     const {props, state} = this
     return(
-      <Animated.ScrollView
-        overScrollMode='never'
-        style={[style.scene, props.style, {opacity: this._opacity, zIndex: props.active ? 420 : 0}]}
-        contentContainerStyle={style.sceneCont}>
-        {props.children}
-      </Animated.ScrollView>
+      <Animated.View
+        // overScrollMode='never'
+        style={[style.scene, props.style, {opacity: this._opacity, zIndex: props.active ? 420 : 0}]}>
+        <ScrollView
+          style={{height:screenHeight}}
+          showsVerticalScrollIndicator={false}
+          contentContainerStyle={[style.sceneCont, props.contStyle]}>
+          {props.children}
+        </ScrollView>
+      </Animated.View>
     )
   }
 }
@@ -242,7 +242,7 @@ const style = StyleSheet.create({
   sceneCont: {
     justifyContent: 'center',
     alignItems: 'center',
-    flex: 1,
+    minHeight: '100%',
   },
   zodiac: {
     width: em(6),

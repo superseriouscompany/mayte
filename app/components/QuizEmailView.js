@@ -71,7 +71,10 @@ export default class Email extends Component {
               easing: Easing.easeIn,
               useNativeDriver: true,
             }).start(() => {
-              this.animButton(this.testInput(props.email))
+              if (this.testInput(props.email)) {
+                this.setState({ready: true})
+                this.animButton(true)
+              }
               Animated.timing(this._inputOpacity, {toValue: 1, duration: 333, useNativeDriver: true}).start()
               this.input.focus()
             })
@@ -104,7 +107,7 @@ export default class Email extends Component {
           <ButtonGrey
             style={{paddingLeft: em(2), paddingRight: em(2)}}
             onPress={state.ready ? props.next : () => null}
-            text='Next' />
+            text={props.readyForSubmit ? 'Review' : 'Next'} />
         </Animated.View>
       </Scene>
     )

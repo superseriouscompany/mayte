@@ -66,7 +66,10 @@ export default class Freeform extends Component {
               easing: Easing.easeIn,
               useNativeDriver: true,
             }).start(() => {
-              this.animButton(props.freeform)
+              if (props.freeform) {
+                this.setState({ready: true})
+                this.animButton(true)
+              }
               Animated.timing(this._inputOpacity, {toValue: 1, duration: 333, useNativeDriver: true}).start()
               this.input.focus()
             })
@@ -96,7 +99,7 @@ export default class Freeform extends Component {
           <ButtonGrey
             style={{paddingLeft: em(2), paddingRight: em(2)}}
             onPress={state.ready ? props.next : () => null}
-            text='Next' />
+            text='Review' />
         </Animated.View>
       </Scene>
     )

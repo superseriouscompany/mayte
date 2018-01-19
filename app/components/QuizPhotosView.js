@@ -137,7 +137,7 @@ export default class Photos extends Component {
           <ButtonGrey
             style={{paddingLeft: em(2), paddingRight: em(2)}}
             onPress={state.ready ? props.next : () => null}
-            text='Next' />
+            text={props.readyForSubmit ? 'Review' : 'Next'} />
         </Animated.View>
       </Scene>
     )

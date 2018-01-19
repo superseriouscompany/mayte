@@ -65,7 +65,10 @@ export default class Dob extends Component {
               easing: Easing.easeIn,
               useNativeDriver: true,
             }).start(() => {
-              this.animButton(!!props.dob)
+              if (!!props.dob) {
+                this.setState({ready: true})
+                this.animButton(true)
+              }
               Animated.timing(this._inputOpacity, {toValue: 1, duration: 333, useNativeDriver: true}).start()
             })
         }}>
@@ -106,7 +109,7 @@ export default class Dob extends Component {
           <ButtonGrey
             style={{paddingLeft: em(2), paddingRight: em(2)}}
             onPress={state.ready ? props.next : () => null}
-            text='Next' />
+            text={props.readyForSubmit ? 'Review' : 'Next'} />
         </Animated.View>
       </Scene>
     )
