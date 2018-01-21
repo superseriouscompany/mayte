@@ -75,20 +75,8 @@ export default class QuizView extends Component {
     return(
       <View style={style.container}>
         <StaticNight style={style.bg}>
-          <Star style={{top: em(2), left: em(2)}} twinkleDelay={2000} />
-          <Star style={{top: em(10), left: em(10)}} twinkleDelay={2800} />
-          <Star style={{top: em(20), left: em(15)}} twinkleDelay={3300} />
-          <Star style={{top: em(15), left: em(20)}} twinkleDelay={4500} />
-          <Star style={{top: em(23), left: em(2)}} twinkleDelay={5300} />
-          <Star style={{top: em(2), left: em(2)}} twinkleDelay={6200} />
-          <Star style={{top: screenHeight * 0.64, left: em(18)}} twinkleDelay={6800} />
-          <Star style={{bottom: em(2), right: em(2)}} twinkleDelay={21000} />
-          <Star style={{bottom: em(10), right: em(10)}} twinkleDelay={21800} />
-          <Star style={{bottom: em(15), right: em(20)}} twinkleDelay={41500} />
-          <Star style={{bottom: em(23), right: em(2)}} twinkleDelay={51300} />
-          <Star style={{bottom: em(2), right: em(2)}} twinkleDelay={61200} />
-          <Star style={{top: screenHeight * 0.64, right: em(18)}} twinkleDelay={61800} />
 
+          <StarSystem count={12} loopLength={240000} starProps={{size: 1, twinkle: true, style: {opacity: 1}}}></StarSystem>
           <StarSystem count={30} loopLength={120000} starProps={{size: 0.66, twinkle: false, style: {opacity: 0.66}}}></StarSystem>
           <StarSystem count={50} starProps={{size: 0.33, twinkle: false, style: {opacity: 0.33}}}></StarSystem>
 

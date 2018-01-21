@@ -62,17 +62,18 @@ export class Star extends Component {
       Animated.sequence([
         Animated.timing(this._twinkle, {
           toValue: 1,
-          duration: this.props.loopLength * 0.4,
+          duration: this.props.twinkleLength * 0.4,
           delay: this.props.twinkleDelay,
           easing: Easing.linear,
           useNativeDriver: true,
         }),
         Animated.timing(this._twinkle, {
           toValue: 0,
-          duration: this.props.loopLength * 0.6,
+          duration: this.props.twinkleLength * 0.6,
           easing: Easing.linear,
           useNativeDriver: true,
-        })
+        }),
+        Animated.delay(this.props.loopLength - this.props.twinkleLength)
       ])
     ).start()
   }
@@ -109,12 +110,16 @@ export class StarSystem extends Component {
       this.stars.push(
         <Star {...props.starProps}
           key={i}
+          twinkleDelay={props.starProps.twinkleDelay || i * 500}
+          loopLength={props.starProps.loopLength || props.count * 500}
           style={[
             props.starProps.style,
             {left: coords.x, top: coords.y}
           ]} />,
         <Star {...props.starProps}
           key={i+1}
+          twinkleDelay={props.starProps.twinkleDelay || i * 500}
+          loopLength={props.starProps.loopLength || props.count * 500}
           style={[
             props.starProps.style, {
             left: coords.x, top: coords.y + screenHeight
@@ -148,7 +153,8 @@ export class StarSystem extends Component {
 }
 
 Star.defaultProps = {
-  loopLength: 500,
+  loopLength: 2000,
+  twinkleLength: 500,
   twinkleDelay: 100,
   twinkle: true,
   size: 1,
