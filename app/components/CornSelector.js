@@ -147,21 +147,21 @@ export default class CornSelector extends Component {
         <Unicorn {...props} field="orientation" value="null" labelStyle={{bottom: '95%'}}
                  label="EVERYONE" fade={this._allOpacity} flipped={true}
                  style={[style.corn, {right: em(8), bottom: em(9)}]}>
-        <Image source={require('../images/unicorn-all-white.png')}
+        <Image source={require('../images/unicorn-all.png')}
                style={{width: em(8), height: em(8), transform: [{scaleY: 0.66}, {scaleX:-0.66}]}}
                resizeMode='contain' />
         </Unicorn>
         <Unicorn {...props} field="orientation" value="male"
                  label="MEN" fade={this._menOpacity}
                  style={[style.corn, {left: em(1), bottom: em(4.5)}]}>
-          <Image source={require('../images/unicorn-male-white.png')}
+          <Image source={require('../images/unicorn-male.png')}
                  style={{width: '100%', height: '100%'}}
                  resizeMode='contain' />
         </Unicorn>
         <Unicorn {...props} field="orientation" value="female"
                  label="WOMEN" fade={this._womenOpacity} flipped={true}
                 style={[style.corn, {right: em(1), bottom: em(3)}]}>
-          <Image source={require('../images/unicorn-female-white.png')}
+          <Image source={require('../images/unicorn-female.png')}
                   style={{width: '100%', height: '100%', transform: [{scaleX:-1.1},{scaleY:1.1}]}}
                   resizeMode='contain' />
         </Unicorn>

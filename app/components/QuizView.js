@@ -89,8 +89,8 @@ export default class QuizView extends Component {
           <Star style={{bottom: em(2), right: em(2)}} twinkleDelay={61200} />
           <Star style={{top: screenHeight * 0.64, right: em(18)}} twinkleDelay={61800} />
 
-          <StarSystem count={100} starProps={{size: 0.5, twinkle: false, style: {opacity: 0.8}}}></StarSystem>
-          <StarSystem count={60} spiralA={50} reverse={true} starProps={{size: 0.66, twinkle: false, style: {opacity: 0.9}}}></StarSystem>
+          <StarSystem count={30} loopLength={120000} starProps={{size: 0.66, twinkle: false, style: {opacity: 0.66}}}></StarSystem>
+          <StarSystem count={50} starProps={{size: 0.33, twinkle: false, style: {opacity: 0.33}}}></StarSystem>
 
           {
             this.renderZodiac()
