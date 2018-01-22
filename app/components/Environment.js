@@ -26,16 +26,10 @@ class NightSky extends Component {
     return(
       <Animated.View style={[style.nightSky, {opacity: props.starFade}]}>
         <LinearGradient colors={['rgba(0,0,0,1)', '#232037']} style={{position:'absolute', top: 0, bottom: 0, left: 0, right: 0}} />
-        <Star style={{top: em(2), left: em(2)}} twinkleDelay={2000} />
-        <Star style={{top: em(10), left: em(10)}} twinkleDelay={2800} />
-        <Star style={{top: em(20), left: em(15)}} twinkleDelay={3300} />
-        <Star style={{top: em(15), left: em(20)}} twinkleDelay={4500} />
-        <Star style={{top: em(23), left: em(2)}} twinkleDelay={5300} />
-        <Star style={{top: em(2), left: em(2)}} twinkleDelay={6200} />
-        <Star style={{top: screenHeight * 0.64, left: em(18)}} twinkleDelay={6800} />
 
-        <StarSystem count={30} loopLength={120000} starProps={{size: 0.66, twinkle: false, style: {opacity: 0.66}}}></StarSystem>
-        <StarSystem count={50} starProps={{size: 0.33, twinkle: false, style: {opacity: 0.33}}}></StarSystem>
+        <StarSystem count={6} loopLength={240000} starProps={{size: 1, twinkle: true, style: {opacity: 1}}}></StarSystem>
+        <StarSystem count={15} loopLength={120000} starProps={{size: 0.66, twinkle: false, style: {opacity: 0.66}}}></StarSystem>
+        <StarSystem count={25} starProps={{size: 0.33, twinkle: false, style: {opacity: 0.33}}}></StarSystem>
 
         {/* make a wish ya rich mothafocker */}
         <Star twinkleDelay={500}
@@ -172,7 +166,9 @@ export default class Environment extends Component {
     return(
       <View style={style.environment}>
         <NightSky {...props} />
-        <View style={style.ground}></View>
+        <View style={style.ground}>
+          <Image source={require('../images/mountains-1.png')} style={style.mountains} resizeMode='cover' />
+        </View>
       </View>
     )
   }
@@ -192,6 +188,8 @@ export class StaticNight extends Component {
     )
   }
 }
+
+const groundHeight = 185
 
 const style = StyleSheet.create({
   environment: {
@@ -224,7 +222,7 @@ const style = StyleSheet.create({
     borderColor: mayteBlack(),
     borderTopWidth: 1,
     width: screenWidth,
-    height: 185,
+    height: groundHeight,
     bottom: 0,
     left: 0,
   },
@@ -234,4 +232,10 @@ const style = StyleSheet.create({
     height: screenHeight,
     width: screenWidth,
   },
+  mountains: {
+    position: 'absolute',
+    bottom: '100%',
+    width: '100%',
+    height: 50,
+  }
 })
