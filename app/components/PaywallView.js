@@ -47,19 +47,6 @@ export default class PaywallView extends Component {
   componentDidMount() {
     Animated.sequence([
       Animated.delay(800),
-      // Animated.parallel([
-      //   Animated.spring(this._balloonerY, {
-      //     toValue: 0,
-      //     damping: 20,
-      //     useNativeDriver: true,
-      //   }),
-      //   Animated.spring(this._balloonerX, {
-      //     toValue: 0,
-      //     damping: 20,
-      //     useNativeDriver: true,
-      //   })
-      // ]),
-      // Animated.delay(1200),
       Animated.parallel([
         Animated.spring(this._balloonerY, {
           toValue: -screenHeight / 2,

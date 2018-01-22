@@ -1,12 +1,12 @@
 'use strict'
 
-import React, {Component} from 'react'
-import DatePicker         from 'react-native-datepicker'
-import {Scene}            from './QuizView'
-import {ButtonGrey}       from './Button'
-import {mayteWhite, mayteBlack}       from '../constants/colors'
-import {em}               from '../constants/dimensions'
-import timing             from '../constants/timing'
+import React, {Component}       from 'react'
+import DatePicker               from 'react-native-datepicker'
+import {Scene}                  from './QuizView'
+import {ButtonGrey}             from './Button'
+import {mayteWhite, mayteBlack} from '../constants/colors'
+import {em}                     from '../constants/dimensions'
+import timing                   from '../constants/timing'
 import {
   View,
   Text,
