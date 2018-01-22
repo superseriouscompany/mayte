@@ -64,7 +64,7 @@ export default class QuizFreeformView extends Component {
 
   render() {
     const {props, state} = this
-    const fontBase = em(1.33)
+    const fontBase = em(1)
     return (
       <Scene
         active={props.step == 'freeform'}
@@ -87,20 +87,21 @@ export default class QuizFreeformView extends Component {
         <Animated.Text style={[style.text, style.header]}>DO YOU BELIEVE IN MAGIC?</Animated.Text>
 
         <Input
-          outerStyle={[style.inputOuter, {transform: [{scaleX: this._inputContScaleX}]}]}
+          outerStyle={[style.inputOuter, {width: '80%', borderWidth: 1, minHeight: fontBase * 8, paddingLeft: em(0.66), paddingRight: em(0.66), borderColor: mayteWhite(0.1)}, {transform: [{scaleX: this._inputContScaleX}]}]}
           innerStyle={[style.inputInner, {width: '100%', opacity: this._inputOpacity}]}
-          inputStyle={[{fontSize: fontBase}]}
+          inputStyle={[{fontSize: fontBase, textAlign: 'left'}]}
           onChangeText={this.handleInput}
           ref={el => this.input = el}
           defaultValue={props.freeform}
           multiline={true}
+          blurOnSubmit={true}
           value={state.value} />
 
         <Animated.View style={{opacity: this._buttonOpacity, transform: [{translateY: this._buttonTranslateY}]}}>
           <ButtonGrey
-            style={{paddingLeft: em(2), paddingRight: em(2)}}
+            style={{paddingLeft: em(1.33), paddingRight: em(1.33)}}
             onPress={state.ready ? props.next : () => null}
-            text='Review' />
+            text='Finish & Submit' />
         </Animated.View>
       </Scene>
     )

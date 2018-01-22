@@ -102,13 +102,19 @@ export default class Website extends Component {
           defaultValue={props.website}
           value={state.value}
           ref={el => this.input = el}
+          returnKeyType='go'
+          onSubmitEditing={() => {
+            if (this.testInput(props.email)) {
+              props.next()
+            }
+          }}
           autoCapitalize='none' />
 
         <Animated.View style={{opacity: this._buttonOpacity, transform: [{translateY: this._buttonTranslateY}]}}>
           <ButtonGrey
             style={{paddingLeft: em(2), paddingRight: em(2)}}
             onPress={state.ready ? props.next : () => null}
-            text={props.readyForSubmit ? 'Review' : 'Next'} />
+            text={props.readyForSubmit ? 'Finish & Submit' : 'Next'} />
         </Animated.View>
       </Scene>
     )

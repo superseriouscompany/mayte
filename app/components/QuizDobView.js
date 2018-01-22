@@ -112,7 +112,7 @@ export default class QuizDobView extends Component {
           <ButtonGrey
             style={{paddingLeft: em(2), paddingRight: em(2)}}
             onPress={state.ready ? props.next : () => null}
-            text={props.readyForSubmit ? 'Review' : 'Next'} />
+            text={props.readyForSubmit ? 'Finish & Submit' : 'Next'} />
         </Animated.View>
       </Scene>
     )

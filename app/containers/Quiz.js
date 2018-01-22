@@ -20,7 +20,7 @@ class Quiz extends Component {
   }
 
   componentDidMount() {
-    this.setState({zodiac: computeZodiac(this.props.dob)})
+    this.setState({zodiac: computeZodiac(this.state.dob)})
   }
 
   updateDob(dob) {
@@ -79,6 +79,9 @@ const mapDispatchToProps = (dispatch) => {
         url:    '/applications',
         body:   quiz
       }))
+    },
+    resetQuiz: () => {
+      return dispatch({type: 'quiz:destroy'})
     },
     updateSelf: () => {
       return dispatch(request({

@@ -37,7 +37,9 @@ export default class QuizEmailView extends Component {
   }
 
   componentDidUpdate(prevProps, prevState) {
-    if (this.state.ready && !prevState.ready) { this.animButton(true) }
+    if (this.state.ready && !prevState.ready) {
+      this.animButton(true)
+    }
     if (!this.state.ready && prevState.ready) { this.animButton(false) }
   }
 
@@ -62,7 +64,7 @@ export default class QuizEmailView extends Component {
   }
 
   handleInput(text) {
-    console.log(this.input.layout)
+    // this.setState({ready: this.testInput(text)})
     this.props.update({email: text})
   }
 
@@ -101,6 +103,12 @@ export default class QuizEmailView extends Component {
           defaultValue={props.email}
           value={state.value}
           keyboardType='email-address'
+          returnKeyType='go'
+          onSubmitEditing={() => {
+            if (this.testInput(props.email)) {
+              props.next()
+            }
+          }}
           autoCapitalize='none' />
 
 
@@ -109,7 +117,7 @@ export default class QuizEmailView extends Component {
           <ButtonGrey
             style={{paddingLeft: em(2), paddingRight: em(2)}}
             onPress={state.ready ? props.next : () => null}
-            text={props.readyForSubmit ? 'Review' : 'Next'} />
+            text={props.readyForSubmit ? 'Finish & Submit' : 'Next'} />
         </Animated.View>
       </Scene>
     )

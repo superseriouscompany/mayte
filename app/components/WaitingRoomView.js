@@ -56,5 +56,5 @@ const style = StyleSheet.create({
   icon: {height: em(5), width: em(5), marginBottom: em(1),},
   logo: {marginBottom: em(3), height: em(1.2), width: em(6),},
   copy: {width: '80%', fontSize: em(1), marginBottom: em(3), fontFamily: 'Gotham-Medium', textAlign: 'center',},
-  button: {paddingLeft: em(1), paddingRight: em(1),}
+  button: {paddingLeft: em(2.66), paddingRight: em(2.66),}
 })

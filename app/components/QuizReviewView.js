@@ -70,7 +70,7 @@ export default class QuizReviewView extends Component {
           </View>
           <View style={style.slots}>
           {
-            ([1,2,3]).filter(p => p).map((p, i) => {
+            props.photos.map((p, i) => {
               return(
                 <TouchableOpacity style={style.slot} key={i} onPress={() => props.update({step: 'photos'})}>
                   <View style={style.slotBg}><Text style={[style.text, {fontSize: em(2)}]}>+</Text></View>

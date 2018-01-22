@@ -48,7 +48,7 @@ export default class QuizView extends Component {
           useNativeDriver: true,
         }),
         Animated.timing(this._zodiacOpacity, {
-          toValue: 0.66,
+          toValue: 0.1,
           duration: timing.zodiacInDuration,
           useNativeDriver: true,
         })
@@ -76,9 +76,9 @@ export default class QuizView extends Component {
       <View style={style.container}>
         <StaticNight style={style.bg}>
 
-          <StarSystem move={false} count={12} loopLength={240000} starProps={{size: 1, twinkle: true, style: {opacity: 1}}}></StarSystem>
-          <StarSystem move={false} count={30} loopLength={120000} starProps={{size: 0.66, twinkle: false, style: {opacity: 0.66}}}></StarSystem>
-          <StarSystem move={false} count={50} starProps={{size: 0.33, twinkle: false, style: {opacity: 0.33}}}></StarSystem>
+          <StarSystem move={true} count={12} loopLength={240000} starProps={{size: 1, twinkle: true, style: {opacity: 1}}}></StarSystem>
+          <StarSystem move={true} count={30} loopLength={120000} starProps={{size: 0.66, twinkle: false, style: {opacity: 0.66}}}></StarSystem>
+          <StarSystem move={true} count={50} starProps={{size: 0.33, twinkle: false, style: {opacity: 0.33}}}></StarSystem>
 
           {
             this.renderZodiac()
@@ -92,6 +92,13 @@ export default class QuizView extends Component {
         <Photos {...props} next={() => props.update({step: rfs ? 'review' : 'freeform'})} />
         <Freeform {...props} next={() => props.update({step: rfs ? 'review' : 'review'})} />
         <Review {...props} />
+
+        <TouchableOpacity
+          style={{position: 'absolute', bottom: em(3), width: '100%', alignItems: 'center', zIndex: 100000}}
+          hitSlop={{top: 20, left: 20, right: 20, bottom: 20}}
+          onPress={() => {props.resetQuiz()}}>
+          <Text style={{backgroundColor: 'transparent', color: 'white'}}>RESET</Text>
+        </TouchableOpacity>
       </View>
     )
   }
@@ -173,9 +180,16 @@ Scene.defaultProps = {
   onFadeOut: () => null,
 }
 
-export class Input extends TextInput {
-  constructor(props){super(props)}
-  focus() {this.input.focus()}
+export class Input extends Component {
+  constructor(props){
+    super(props)
+    this.focus = this.focus.bind(this)
+  }
+
+  focus() {
+    this.input.focus()
+  }
+
   render() {
     const {props,state} = this
     return(
@@ -197,8 +211,9 @@ export class Input extends TextInput {
             defaultValue={props.defaultValue}
             placeholderTextColor={props.placeholderTextColor}
             onChangeText={props.onChangeText}
-            returnKeyType={props.returnKeyType}
             placeholder={props.placeholder}
+            returnKeyType={props.returnKeyType}
+            blurOnSubmit={props.blurOnSubmit}
             onSubmitEditing={props.onSubmitEditing} />
           </Animated.View>
       </Animated.View>
@@ -214,6 +229,8 @@ const inputStyle = StyleSheet.create({
 Input.defaultProps = {
   placeholderTextColor: mayteWhite(0.66),
 }
+
+const zodiacRadius = screenWidth / 2
 
 const style = StyleSheet.create({
   container: {
@@ -239,9 +256,10 @@ const style = StyleSheet.create({
     minHeight: '100%',
   },
   zodiac: {
-    width: em(6),
-    height: em(6),
+    width: zodiacRadius * 2,
+    height: zodiacRadius * 2,
     position: 'absolute',
-    top: em(1), right: em(1),
+    top: screenHeight/2-zodiacRadius,
+    right: screenWidth/2-zodiacRadius,
   }
 })
