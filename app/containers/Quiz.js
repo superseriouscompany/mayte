@@ -72,8 +72,6 @@ const mapStateToProps = (state, ownProps) => {
   const redeemKey = Object.keys(state.api).find((k) => k.match(/PUT \/vipCodes\/.+/))
   const redeemCall = state.api[redeemKey] || {}
 
-  console.log('code is', state.vip.pendingCode)
-
   return {
     user:        state.user,
     quiz:        state.quiz,
