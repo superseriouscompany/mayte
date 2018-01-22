@@ -93,12 +93,13 @@ export default class QuizView extends Component {
         <Freeform {...props} next={() => props.update({step: rfs ? 'review' : 'review'})} />
         <Review {...props} />
 
-        <TouchableOpacity
-          style={{position: 'absolute', bottom: em(3), width: '100%', alignItems: 'center', zIndex: 100000}}
-          hitSlop={{top: 20, left: 20, right: 20, bottom: 20}}
-          onPress={props.reset}>
-          <Text style={{backgroundColor: 'transparent', color: 'white'}}>RESET</Text>
-        </TouchableOpacity>
+        { !__DEV__ ? null :
+          <TouchableOpacity
+            style={{position: 'absolute', bottom: em(3), width: '100%', alignItems: 'center', zIndex: 100000}}
+            hitSlop={{top: 20, left: 20, right: 20, bottom: 20}}
+            onPress={props.reset}>
+            <Text style={{backgroundColor: 'transparent', color: 'white'}}>RESET</Text>
+          </TouchableOpacity> }
       </View>
     )
   }
