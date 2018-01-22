@@ -20,10 +20,6 @@ class Quiz extends Component {
   }
 
   componentDidMount() {
-    if (!this.props.step) {
-      this.setState({step: 'email'})
-    }
-
     this.setState({zodiac: computeZodiac(this.props.dob)})
   }
 
