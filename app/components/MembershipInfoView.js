@@ -217,10 +217,10 @@ export default class MembershipInfoView extends Component {
         }}
         style={[
           style.container,
-          style.content,
           {backgroundColor: 'transparent', overflow: 'visible'},
           {transform: [{translateY: this._y}]}
         ]}
+        contentContainerStyle={style.content}
         {...(state.contPermission ? this._panResponder.panHandlers: {})}>
 
         <View style={style.header}>
@@ -244,7 +244,7 @@ export default class MembershipInfoView extends Component {
             value={`${baseUrl}/member/${props.user.id}`}
             bgColor={mayteWhite()}
             fgColor={mayteBlack()}
-            size={screenWidth * 0.9}
+            size={screenWidth * 0.84}
             />
         </View>
 
@@ -278,13 +278,14 @@ const style = StyleSheet.create({
     left: 0,
     width: '100%',
     paddingTop: notchHeight,
-    paddingLeft: screenWidth * 0.05,
-    paddingRight: screenWidth * 0.05,
+    paddingLeft: screenWidth * 0.08,
+    paddingRight: screenWidth * 0.08,
+    width: '100%',
+    height: fullHeight, // TEMP: prevent awkward overflow on spring
   },
 
   content: {
-    width: '100%',
-    height: fullHeight, // TEMP: prevent awkward overflow on spring
+    alignItems: 'center',
   },
 
   header: {
@@ -327,14 +328,16 @@ const style = StyleSheet.create({
     fontFamily: 'Futura',
   },
   qrCont: {
-    marginBottom: em(2)
+    marginBottom: em(2),
+
   },
   explanation: {
     color: mayteWhite(),
     textAlign: 'center',
     fontSize: em(1),
     fontFamily: 'Futura',
-    marginBottom: em(1.66)
+    marginBottom: em(1.66),
+    width: '90%',
   },
   addToWallet: {
     alignItems: 'center',

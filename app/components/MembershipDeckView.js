@@ -106,7 +106,7 @@ const style = StyleSheet.create({
   slideBlur: {position: 'absolute', top: 0, left: 0, right: 0, bottom: 0, backgroundColor: mayteWhite(0.5)},
   slideText: {color: mayteBlack(), textAlign: 'center', backgroundColor: 'transparent'},
   slideTitle: {fontFamily: 'Futura', fontWeight: '700', fontSize: em(2.33), letterSpacing: em(0.1), marginBottom: em(2)},
-  slideBody: {fontFamily: 'Gotham-Medium', fontSize: em(1.2), lineHeight: em(1.6)},
+  slideBody: {fontFamily: 'Gotham-Book', fontSize: em(1.2), lineHeight: em(1.6)},
   indexes: {position: 'absolute', flexDirection: 'row', justifyContent: 'center', alignItems: 'center', bottom: 0, left: 0, width: '100%', height: em(3)},
   index: {width: idxWidth, height: idxWidth, borderRadius: idxWidth/2, borderWidth: idxBorder, borderColor: mayteBlack()},
   indexMarker: {position: 'absolute', left: 0, width: idxWidth, height: idxWidth, borderRadius: idxWidth/2, backgroundColor: mayteBlack()},
