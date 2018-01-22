@@ -2,6 +2,7 @@
 
 import React, {Component}       from 'react'
 import DatePicker               from 'react-native-datepicker'
+import moment                   from 'moment'
 import {Scene}                  from './QuizView'
 import {ButtonGrey}             from './Button'
 import {mayteWhite, mayteBlack} from '../constants/colors'
@@ -17,6 +18,8 @@ import {
 } from 'react-native'
 
 const buttonHideY = 0
+const oldest   = moment().subtract(100, 'years')
+const youngest = moment().subtract(18, 'years')
 
 export default class QuizDobView extends Component {
   constructor(props) {
@@ -102,6 +105,8 @@ export default class QuizDobView extends Component {
               placeholder="Select Date"
               format="MMM Do YYYY"
               showIcon={false}
+              minDate={oldest.format('MMM Do YYYY')}
+              maxDate={youngest.format('MMM Do YYYY')}
               confirmBtnText="Confirm"
               cancelBtnText="Cancel"
               onDateChange={this.handleInput} />

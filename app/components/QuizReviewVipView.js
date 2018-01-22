@@ -22,10 +22,10 @@ import {
 
 const vipOrbitLoaderRadius = em(0.8)
 const isGold = false
-const testClaim = {referral: {
+const testRef = {
   fullName: 'Sancho Panza',
   photos: [{url: 'https://pokewalls.files.wordpress.com/2012/06/2ivysaur1920x1200.jpg'}]
-}}
+}
 
 export default class Vip extends Component {
   constructor(props) {
@@ -35,7 +35,7 @@ export default class Vip extends Component {
     if (props.deeplink && props.deeplink.vipCode) {
       claimsVipCode = props.deeplink.vipCode
     } else if (isGold) {
-      claimsVipCode = testClaim
+      claimsVipCode = testRef
     }
 
     this._redeemOpacity = new Animated.Value(0)
@@ -83,13 +83,14 @@ export default class Vip extends Component {
       }) :
       this.setState({
         isRedeemingVipCode: false,
-        claimsVipCode: testClaim
+        claimsVipCode: testRef
       })
     }, 1000)
   }
 
   render() {
     const {props, state} = this
+    console.log(props)
     return (
       <View style={[style.section]}>
         {
@@ -168,7 +169,7 @@ const style = StyleSheet.create({
   vipCaveat: {fontSize: em(0.9), fontFamily: 'Gotham-Book', marginTop: em(0.66), textAlign: 'left'},
   vipError: {fontSize: em(0.9), fontFamily: 'Gotham-Book', marginTop: em(0.33), textAlign: 'left', color: mayteRed()},
   vipLoader: {position: 'absolute', left: em(1), top: em(0.66), transform: [{translateX: -(vipOrbitLoaderRadius / 2)}]},
-  ref: {alignItems: 'center', marginTop: em(2), marginBottom: em(1)},
+  ref: {alignItems: 'center', marginTop: em(2), marginBottom: em(4)},
   refHeader: {fontSize: em(1.33), textAlign: 'center', fontWeight: '700', marginBottom: em(2), letterSpacing: em(0.133)},
   refBubble: {width: em(6), height: em(6), borderRadius: em(3), marginRight: em(1)},
   refName: {fontSize: em(2)},

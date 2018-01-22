@@ -3,6 +3,7 @@ import {KeyboardAwareScrollView}       from 'react-native-keyboard-aware-scroll-
 import LinearGradient                  from 'react-native-linear-gradient'
 import {StaticNight, Star, StarSystem} from './Environment'
 import Intro                           from './QuizIntroView'
+import Vip                             from './QuizVipView'
 import Email                           from './QuizEmailView'
 import Dob                             from './QuizDobView'
 import Website                         from './QuizWebsiteView'
@@ -85,20 +86,22 @@ export default class QuizView extends Component {
           }
         </StaticNight>
 
-        <Intro {...props} next={() => props.update({step: rfs ? 'review' : 'email'})} />
+        <Intro {...props} next={() => props.update({step: rfs ? 'review' : 'vip'})} />
+        <Vip {...props} value={props.vip} next={() => props.update({step: rfs ? 'review' : 'email'})} />
         <Email {...props} next={() => props.update({step: rfs ? 'review' : 'dob'})} />
         <Dob {...props} next={() => props.update({step: rfs ? 'review' : 'website'})} updateDob={props.updateDob} />
-        <Website {...props} next={() => props.update({step: rfs ? 'review' : 'photos'})} />
+        <Website {...props} value={props.website} next={() => props.update({step: rfs ? 'review' : 'photos'})} />
         <Photos {...props} next={() => props.update({step: rfs ? 'review' : 'freeform'})} />
         <Freeform {...props} next={() => props.update({step: rfs ? 'review' : 'review'})} />
         <Review {...props} />
 
-        <TouchableOpacity
-          style={{position: 'absolute', bottom: em(3), width: '100%', alignItems: 'center', zIndex: 100000}}
-          hitSlop={{top: 20, left: 20, right: 20, bottom: 20}}
-          onPress={() => {props.resetQuiz()}}>
-          <Text style={{backgroundColor: 'transparent', color: 'white'}}>RESET</Text>
-        </TouchableOpacity>
+        { !__DEV__ ? null :
+          <TouchableOpacity
+            style={{position: 'absolute', bottom: em(1), left: em(1), alignSelf: 'flex-start', zIndex: 100000}}
+            hitSlop={{top: 20, left: 20, right: 20, bottom: 20}}
+            onPress={props.reset}>
+            <Text style={{backgroundColor: 'transparent', color: 'white'}}>RESET</Text>
+          </TouchableOpacity> }
       </View>
     )
   }
@@ -207,6 +210,7 @@ export class Input extends Component {
             }}
             keyboardType={props.keyboardType}
             autoCapitalize={props.autoCapitalize}
+            autoCorrect={props.autoCorrect}
             style={[inputStyle.input, props.inputStyle]}
             defaultValue={props.defaultValue}
             placeholderTextColor={props.placeholderTextColor}
