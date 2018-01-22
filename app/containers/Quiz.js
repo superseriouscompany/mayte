@@ -13,18 +13,14 @@ class Quiz extends Component {
       photos:   props.quiz.photos || [null, null, null],
       website:  props.quiz.website,
       freeform: props.quiz.freeform,
-      step:     props.quiz.step,
+      step:     props.quiz.step || 'intro',
     }
     this.submit    = this.submit.bind(this)
     this.updateDob = this.updateDob.bind(this)
   }
 
   componentDidMount() {
-    if (!this.props.step) {
-      this.setState({step: 'dob'})
-    }
-
-    this.setState({zodiac: computeZodiac(this.props.dob)})
+    this.setState({zodiac: computeZodiac(this.state.dob)})
   }
 
   updateDob(dob) {
@@ -83,6 +79,9 @@ const mapDispatchToProps = (dispatch) => {
         url:    '/applications',
         body:   quiz
       }))
+    },
+    resetQuiz: () => {
+      return dispatch({type: 'quiz:destroy'})
     },
     updateSelf: () => {
       return dispatch(request({

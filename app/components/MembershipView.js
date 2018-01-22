@@ -147,7 +147,7 @@ const style = StyleSheet.create({
   },
   button: {
     marginBottom: em(3),
-    paddingLeft: em(1),
-    paddingRight: em(1),
+    paddingLeft: em(1.66),
+    paddingRight: em(1.66),
   }
 })

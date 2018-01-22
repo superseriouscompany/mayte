@@ -5,7 +5,7 @@ import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view'
 import { mayteBlack }            from '../constants/colors'
 import SettingsEditorPhotos      from '../containers/SettingsEditorPhotos'
 import OrbitLoader               from './OrbitLoader'
-import {StaticNight, Star} from './Environment'
+import {StaticNight, StarSystem} from './Environment'
 import {
   em,
   statusBarHeight,
@@ -35,14 +35,9 @@ export default (props) => {
   return(
     <View style={style.container}>
       <StaticNight style={style.bg}>
-        <Star style={{top: em(3.33), right: em(2)}} twinkleDelay={2000} />
-        <Star style={{top: em(10.2), left: em(10)}} twinkleDelay={2800} />
-        <Star style={{top: em(20), left: em(15)}} twinkleDelay={3300} />
-        <Star style={{top: em(15), left: em(20)}} twinkleDelay={4500} />
-        <Star style={{top: em(26.33), left: em(4)}} twinkleDelay={5300} />
-        <Star style={{bottom: em(2), left: em(15)}} twinkleDelay={1400} />
-        <Star style={{bottom: em(15.2), left: em(20)}} twinkleDelay={4200} />
-        <Star style={{bottom: em(23), left: em(2)}} twinkleDelay={6900} />
+        <StarSystem count={6} loopLength={240000} starProps={{size: 1, twinkle: true, style: {opacity: 1}}}></StarSystem>
+        <StarSystem count={15} loopLength={120000} starProps={{size: 0.66, twinkle: false, style: {opacity: 0.66}}}></StarSystem>
+        <StarSystem count={25} starProps={{size: 0.33, twinkle: false, style: {opacity: 0.33}}}></StarSystem>
       </StaticNight>
 
       <KeyboardAwareScrollView style={[style.container]}

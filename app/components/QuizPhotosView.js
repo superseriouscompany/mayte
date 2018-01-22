@@ -23,11 +23,13 @@ import {
   TouchableOpacity,
 } from 'react-native'
 
+const buttonHideY = 0
+
 export default class QuizPhotosView extends Component {
   constructor(props) {
     super(props)
     this._buttonOpacity = new Animated.Value(0)
-    this._buttonTranslateY = new Animated.Value(15)
+    this._buttonTranslateY = new Animated.Value(buttonHideY)
     this.getFromCameraRoll = this.getFromCameraRoll.bind(this)
 
     this.state = {ready: false}
@@ -39,7 +41,7 @@ export default class QuizPhotosView extends Component {
   }
 
   componentWillReceiveProps(props) {
-    if( props.photos && props.photos.length ) {
+    if( props.photos && props.photos.filter(i => i).length ) {
       this.setState({ready: true})
     }
   }
@@ -57,7 +59,7 @@ export default class QuizPhotosView extends Component {
         useNativeDriver: true,
       }),
       Animated.timing(this._buttonTranslateY, {
-        toValue: ready ? 0 : 15,
+        toValue: ready ? 0 : buttonHideY,
         duration: timing.quizButtonIn,
         useNativeDriver: true,
       })
@@ -148,7 +150,7 @@ export default class QuizPhotosView extends Component {
           <ButtonGrey
             style={{paddingLeft: em(2), paddingRight: em(2)}}
             onPress={state.ready ? props.next : () => null}
-            text={props.readyForSubmit ? 'Review' : 'Next'} />
+            text={props.readyForSubmit ? 'Finish & Submit' : 'Next'} />
         </Animated.View>
       </Scene>
     )

@@ -16,18 +16,18 @@ import {
 const slides = [
   {
     bg: require('../images/membership-deck-0.png'),
-    title: 'YOU’RE IN',
-    body: 'Your membership includes total access to exclusive social events, premium dating, and a world-class concierage service.',
+    title: 'YOU’RE VIP',
+    body: 'Your membership includes full access to all social events, premium dating services and world-class concierge service',
   },
   {
     bg: require('../images/membership-deck-1.png'),
     title: 'FIRST CLASS',
-    body: 'Monthly events include concerts, parties, dinners, and more — all-inclusive with your Unicorn membership.',
+    body: 'Regular events include exclusive events, concerts, dinners and more – all inclusive with your Unicorn membership.',
   },
   {
     bg: require('../images/membership-deck-2.png'),
-    title: 'LIKE MAGIC',
-    body: 'Why wait? Your membership gives you priority reservations with an elite network of establishments.',
+    title: 'MAGIC',
+    body: 'Unicorn Memberships comes with personal concierge getting you instant reservations to the hottest restaurants and clubs',
   }
 ]
 
@@ -68,6 +68,7 @@ export default class MembershipDeckView extends Component {
                     <View style={style.slide}>
                       <Image style={style.slideBg}
                              resizeMode="cover"
+                             prefetch={true}
                              source={item.bg} />
                       <BlurView style={style.slideBlur}
                                 blurType="light"

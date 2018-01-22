@@ -26,13 +26,10 @@ class NightSky extends Component {
     return(
       <Animated.View style={[style.nightSky, {opacity: props.starFade}]}>
         <LinearGradient colors={['rgba(0,0,0,1)', '#232037']} style={{position:'absolute', top: 0, bottom: 0, left: 0, right: 0}} />
-        <Star style={{top: em(2), left: em(2)}} twinkleDelay={2000} />
-        <Star style={{top: em(10), left: em(10)}} twinkleDelay={2800} />
-        <Star style={{top: em(20), left: em(15)}} twinkleDelay={3300} />
-        <Star style={{top: em(15), left: em(20)}} twinkleDelay={4500} />
-        <Star style={{top: em(23), left: em(2)}} twinkleDelay={5300} />
-        <Star style={{top: em(2), left: em(2)}} twinkleDelay={6200} />
-        <Star style={{top: screenHeight * 0.64, left: em(18)}} twinkleDelay={6800} />
+
+        <StarSystem count={6} loopLength={240000} starProps={{size: 1, twinkle: true, style: {opacity: 1}}}></StarSystem>
+        <StarSystem count={15} loopLength={120000} starProps={{size: 0.66, twinkle: false, style: {opacity: 0.66}}}></StarSystem>
+        <StarSystem count={25} starProps={{size: 0.33, twinkle: false, style: {opacity: 0.33}}}></StarSystem>
 
         {/* make a wish ya rich mothafocker */}
         <Star twinkleDelay={500}
@@ -59,17 +56,18 @@ export class Star extends Component {
       Animated.sequence([
         Animated.timing(this._twinkle, {
           toValue: 1,
-          duration: this.props.loopLength * 0.4,
+          duration: this.props.twinkleLength * 0.4,
           delay: this.props.twinkleDelay,
           easing: Easing.linear,
           useNativeDriver: true,
         }),
         Animated.timing(this._twinkle, {
           toValue: 0,
-          duration: this.props.loopLength * 0.6,
+          duration: this.props.twinkleLength * 0.6,
           easing: Easing.linear,
           useNativeDriver: true,
-        })
+        }),
+        Animated.delay(this.props.loopLength - this.props.twinkleLength)
       ])
     ).start()
   }
@@ -96,35 +94,44 @@ export class StarSystem extends Component {
 
     this.stars = []
     const coords = []
-    const offset = props.spiralLength / props.count
 
     const centerx = screenWidth / 2 - starDiameter / 2
     const centery = screenHeight / 2 - starDiameter / 2
 
-    for (let i = 0; i < props.spiralLength; i++) { // https://stackoverflow.com/questions/6824391/drawing-a-spiral-on-an-html-canvas-using-javascript
-        let angle = 0.5 * i;
-        let x = centerx + (props.spiralA + props.spiralB * angle) * Math.cos(angle);
-        let y = centery + (props.spiralA + props.spiralB * angle) * Math.sin(angle);
-
-        coords.push({top: y, left: x})
-    }
-
-    for (let i = 0; i < props.count; i++) {
+    var i = 0
+    while (i < props.count * (this.props.move ? 2 : 1)) {
+      let coords = {x: Math.random() * screenWidth, y: Math.random() * screenHeight}
       this.stars.push(
-        <Star {...props.starProps} key={i}
-          style={[props.starProps.style, coords[i * offset]]} />
+        <Star {...props.starProps}
+          key={i}
+          twinkleDelay={props.starProps.twinkleDelay || i * 500}
+          loopLength={props.starProps.loopLength || props.count * 500}
+          style={[
+            props.starProps.style,
+            {left: coords.x, top: coords.y}
+          ]} />, !this.props.move ? null :
+        <Star {...props.starProps}
+          key={i+1}
+          twinkleDelay={props.starProps.twinkleDelay || i * 500}
+          loopLength={props.starProps.loopLength || props.count * 500}
+          style={[
+            props.starProps.style, {
+            left: coords.x, top: coords.y + screenHeight
+          }]} />
       )
+      i += (this.props.move ? 2 : 1)
     }
 
     this._rot = new Animated.Value(0)
+    this._translateY = new Animated.Value(0)
   }
 
   componentDidMount() {
-    if (!this.props.spin) {return}
+    if (!this.props.move) {return}
     Animated.loop(
-      Animated.timing(this._rot, {
-        toValue: 100,
-        duration: this.props.rotationDuration,
+      Animated.timing(this._translateY, {
+        toValue: -screenHeight,
+        duration: this.props.loopLength,
         easing: Easing.linear,
         useNativeDriver: true,
       })
@@ -133,30 +140,24 @@ export class StarSystem extends Component {
 
   render() {
     const {props, state} = this
-    const interpolatedRot = this._rot.interpolate({
-      inputRange: [0, 100],
-      outputRange: props.reverse ? ['360deg', '0deg'] : ['0deg', '360deg']
-    })
     return (
-      <Animated.View style={[style.starSystem, props.style, {transform: [{rotate: interpolatedRot}]}]}>{this.stars}</Animated.View>
+      <Animated.View style={[style.starSystem, props.style, {transform: [{translateY: this._translateY}]}]}>{this.stars}</Animated.View>
     )
   }
 }
 
 Star.defaultProps = {
-  loopLength: 500,
+  loopLength: 2000,
+  twinkleLength: 500,
   twinkleDelay: 100,
   twinkle: true,
   size: 1,
 }
 
 StarSystem.defaultProps = {
-  spiralLength: 1440,
-  spiralA: 1, spiralB: 1,
-  rotationDuration: 300000,
+  loopLength: 60000,
   count: 100,
-  reverse: false,
-  spin: true,
+  move: true,
 }
 
 export default class Environment extends Component {
@@ -165,7 +166,9 @@ export default class Environment extends Component {
     return(
       <View style={style.environment}>
         <NightSky {...props} />
-        <View style={style.ground}></View>
+        <View style={style.ground}>
+          <Image source={require('../images/mountains-1.png')} style={style.mountains} resizeMode='cover' />
+        </View>
       </View>
     )
   }
@@ -185,6 +188,8 @@ export class StaticNight extends Component {
     )
   }
 }
+
+const groundHeight = 185
 
 const style = StyleSheet.create({
   environment: {
@@ -217,7 +222,7 @@ const style = StyleSheet.create({
     borderColor: mayteBlack(),
     borderTopWidth: 1,
     width: screenWidth,
-    height: 185,
+    height: groundHeight,
     bottom: 0,
     left: 0,
   },
@@ -227,4 +232,10 @@ const style = StyleSheet.create({
     height: screenHeight,
     width: screenWidth,
   },
+  mountains: {
+    position: 'absolute',
+    bottom: '100%',
+    width: '100%',
+    height: 50,
+  }
 })
