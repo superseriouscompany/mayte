@@ -4,7 +4,7 @@ import React, {Component} from 'react'
 import Text from './Text'
 import base from '../constants/styles'
 import {em, screenWidth, screenHeight} from '../constants/dimensions'
-import {ButtonBlack} from './Button'
+import {ButtonBlack, ButtonGrey} from './Button'
 import Environment from './Environment'
 import SelfSelector from './SelfSelector'
 import CornSelector from './CornSelector'
@@ -126,7 +126,7 @@ export default class GenderSelector extends Component {
 
           { !this.state.continue ? null :
             <Animated.View style={{opacity: this._continueFade, width: screenWidth, alignItems: 'center'}}>
-              <ButtonBlack text={`CONTINUE`} onPress={this.complete} style={style.continue} />
+              <ButtonGrey text={`CONTINUE`} onPress={this.complete} style={style.continue} />
             </Animated.View>
           }
         </View>

@@ -141,10 +141,10 @@ const style = StyleSheet.create({
   headerMain: {
     backgroundColor: 'transparent',
     fontFamily: 'Futura',
-    fontSize: em(2.33),
+    fontSize: em(2),
     fontWeight: '700',
     letterSpacing: em(0.33),
-    lineHeight: em(2.33) * 1.5,
+    lineHeight: em(2) * 1.5,
     textAlign: 'center',
     marginBottom: em(0.66),
   },

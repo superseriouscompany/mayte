@@ -2,7 +2,7 @@
 
 import React, {Component} from 'react'
 import {connect}          from 'react-redux'
-import MembershipCardView from '../components/MembershipCardView'
+import MembershipView     from '../components/MembershipView'
 import Wallet             from 'react-native-wallet'
 import {baseUrl}          from '../services/api'
 import log                from '../services/log'
@@ -35,7 +35,7 @@ class MembershipCard extends Component {
 
   render() {
     return (
-      <MembershipCardView {...this.props}
+      <MembershipView {...this.props}
         addPass={this.addPass}
         loading={this.state.loading} />
     )

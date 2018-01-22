@@ -17,20 +17,20 @@ export default Intro = (props) => {
 
       <Text style={[style.text, style.header]}>WELCOME</Text>
       <Text style={[style.text, style.body]}>
-      {`Welcome to Unicorn, a premium dating service unlike any other. Your membership provides entry to events, dinners, parties, and more within the Unicorn network. Tap the button below to begin your application — see you on the other side!`}
+      {`Welcome to Unicorn, a premium dating service. Your membership provides entry to events, dinners, parties, and more within the Unicorn network.`}
       </Text>
 
       <ButtonGrey
-        style={{paddingLeft: em(2), paddingRight: em(2)}}
+        style={{paddingLeft: em(2.66), paddingRight: em(2.66), paddingTop: em(0.66), paddingBottom: em(0.66)}}
         onPress={props.next}
-        text='Begin' />
+        text='Apply' />
     </Scene>
   )
 }
 
 const style = StyleSheet.create({
-  intro: {paddingLeft: em(1), paddingRight: em(1)},
+  intro: {paddingLeft: em(1.33), paddingRight: em(1.33)},
   text: {backgroundColor: 'transparent', fontFamily: 'Futura', color: mayteWhite(), textAlign: 'center'},
   header: {fontSize: em(2), marginBottom: em(2), letterSpacing: em(0.25), fontWeight: '700'},
-  body: {fontSize: em(1.2), marginBottom: em(3)},
+  body: {fontSize: em(1.1), marginBottom: em(3),},
 })

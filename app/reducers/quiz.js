@@ -1,4 +1,12 @@
-const initialState = {}
+const initialState = {
+  email:    null,
+  dob:      null,
+  photos:   [null, null, null],
+  website:  null,
+  freeform: null,
+  step:     'intro',
+}
+
 export default function(state=initialState, action) {
   switch(action.type) {
     case 'quiz:set':

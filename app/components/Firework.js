@@ -27,10 +27,7 @@ export default class Firework extends Component {
       position: 'absolute',
     }
     this.ss = {
-      width: sd,
-      height: sd,
-      borderRadius: sd/2,
-      position: 'absolute',
+
     }
 
     this.renderSparks = this.renderSparks.bind(this)
@@ -65,7 +62,19 @@ export default class Firework extends Component {
     for (let i = 0; i < numSparks; i++) {
       let degrees = 360 / numSparks * i
       let coords = findPointOnCircle(fd/2, fd/2, fd/2, degrees * Math.PI / 180)
-      sparks.push(<View key={i} style={[{top:coords.y-sd/2, right: coords.x-sd/2}, this.ss, {backgroundColor: color}]} />)
+      sparks.push(
+        <View key={i} style={[
+          {
+            backgroundColor: color,
+            width: sd,
+            height: sd,
+            transform: [{scale: i%2==0 ? 1 : 0.66}, {rotate: '45deg'}],
+            borderRadius: i%2==0 ? sd/2 : 0,
+            position: 'absolute',
+            top:coords.y-sd/2, right: coords.x-sd/2,
+          },
+        ]} />
+      )
     }
     return sparks
   }
