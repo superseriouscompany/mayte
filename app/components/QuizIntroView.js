@@ -29,7 +29,7 @@ export default Intro = (props) => {
 }
 
 const style = StyleSheet.create({
-  intro: {paddingLeft: em(1), paddingRight: em(1)},
+  intro: {paddingLeft: em(1.33), paddingRight: em(1.33)},
   text: {backgroundColor: 'transparent', fontFamily: 'Futura', color: mayteWhite(), textAlign: 'center'},
   header: {fontSize: em(2), marginBottom: em(2), letterSpacing: em(0.25), fontWeight: '700'},
   body: {fontSize: em(1.1), marginBottom: em(3),},

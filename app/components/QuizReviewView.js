@@ -116,7 +116,7 @@ export default class QuizReviewView extends Component {
 const slotWidth = em(4)
 
 const style = StyleSheet.create({
-  container: {paddingRight: em(1), paddingLeft: em(1)},
+  container: {paddingRight: em(1.33), paddingLeft: em(1.33)},
   text: {backgroundColor: 'transparent', color: mayteWhite(), textAlign: 'center', fontFamily: 'Futura'},
   header: {fontSize: em(1.66), marginBottom: em(2), letterSpacing: em(0.25), fontWeight: '700'},
   sectionHeader: {flexDirection: 'row', alignItems: 'center', marginBottom: em(0.66),},

@@ -103,6 +103,7 @@ export default class Website extends Component {
           value={state.value}
           ref={el => this.input = el}
           returnKeyType='go'
+          onBlur={() => this.setState({ready: this.testInput(props.website)})}
           onSubmitEditing={() => {
             if (this.testInput(props.email)) {
               props.next()

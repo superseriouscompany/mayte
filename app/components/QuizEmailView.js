@@ -104,6 +104,7 @@ export default class QuizEmailView extends Component {
           value={state.value}
           keyboardType='email-address'
           returnKeyType='go'
+          onBlur={() => this.setState({ready: this.testInput(props.email)})}
           onSubmitEditing={() => {
             if (this.testInput(props.email)) {
               props.next()
