@@ -3,7 +3,7 @@ import log         from '../services/log'
 
 export const baseUrl = __DEV__ ?
   'https://mayte.ngrok.io' :
-  'https://obscure-tundra-93213.herokuapp.com';
+  'https://api.dateunicorn.com';
 
 export const webUrl = __DEV__ ?
   'https://mayte.ngrok.io/webview' :
@@ -14,6 +14,7 @@ function request(path, options = {}) {
 
   options.headers = options.headers || {}
   options.headers['Content-Type'] = 'application/json'
+  options.headers['Accept'] = 'application/json'
   if( options.accessToken ) {
     options.headers['X-Access-Token'] = options.accessToken
     delete options.accessToken
