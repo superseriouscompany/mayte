@@ -6,8 +6,8 @@ var timing = {
   loginBtnDelay:    222,
 
   // signup
-  sceneInDuration:  500,
-  sceneOutDuration: 500,
+  sceneInDuration:  333,
+  sceneOutDuration: 333,
   zodiacInDuration: 500,
   quizButtonIn:     333,
   quizInputScale:   666,

@@ -105,7 +105,7 @@ export class StarSystem extends Component {
     const centery = screenHeight / 2 - starDiameter / 2
 
     var i = 0
-    while (i < props.count * 2) {
+    while (i < props.count * (this.props.move ? 2 : 1)) {
       let coords = {x: Math.random() * screenWidth, y: Math.random() * screenHeight}
       this.stars.push(
         <Star {...props.starProps}
@@ -115,7 +115,7 @@ export class StarSystem extends Component {
           style={[
             props.starProps.style,
             {left: coords.x, top: coords.y}
-          ]} />,
+          ]} />, !this.props.move ? null :
         <Star {...props.starProps}
           key={i+1}
           twinkleDelay={props.starProps.twinkleDelay || i * 500}
@@ -125,7 +125,7 @@ export class StarSystem extends Component {
             left: coords.x, top: coords.y + screenHeight
           }]} />
       )
-      i += 2
+      i += (this.props.move ? 2 : 1)
     }
 
     this._rot = new Animated.Value(0)

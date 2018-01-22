@@ -33,84 +33,50 @@ export default class QuizReviewView extends Component {
         active={props.step == 'review'}>
 
         <Text style={[style.text, style.header]}>REVIEW</Text>
+
         <View style={[style.section]}>
           <View style={style.sectionHeader}>
             <Text style={[style.text, style.sectionTitle]}>EMAIL</Text>
-            <TouchableOpacity
-              style={[style.editBtn]}
-              onPress={() => props.update({step: 'email'})}
-              hitSlop={{top: -20, bottom: -20, left: -20, right: -20,}}>
-              <Image
-                style={[
-                  style.editIcon,
-                ]}
-                source={require('../images/edit-white.png')}
-                resizeMode='contain' />
-            </TouchableOpacity>
           </View>
-          <Text style={[style.text, style.valueText]}>{props.email}</Text>
+          <TouchableOpacity
+            onPress={() => props.update({step: 'email'})}>
+            <Text style={[style.text, style.valueText]}>{props.email}</Text>
+          </TouchableOpacity>
         </View>
 
         <View style={[style.section]}>
           <View style={style.sectionHeader}>
             <Text style={[style.text, style.sectionTitle]}>DATE OF BIRTH</Text>
-            <TouchableOpacity
-              style={[style.editBtn]}
-              onPress={() => props.update({step: 'dob'})}
-              hitSlop={{top: -20, bottom: -20, left: -20, right: -20,}}>
-              <Image
-                style={[
-                  style.editIcon,
-                ]}
-                source={require('../images/edit-white.png')}
-                resizeMode='contain' />
-            </TouchableOpacity>
           </View>
-          <Text style={[style.text, style.valueText]}>{props.dob}</Text>
+          <TouchableOpacity
+            onPress={() => props.update({step: 'dob'})}>
+            <Text style={[style.text, style.valueText]}>{props.dob}</Text>
+          </TouchableOpacity>
         </View>
 
         <View style={[style.section]}>
           <View style={style.sectionHeader}>
             <Text style={[style.text, style.sectionTitle]}>WEBSITE</Text>
-            <TouchableOpacity
-              style={[style.editBtn]}
-              onPress={() => props.update({step: 'website'})}
-              hitSlop={{top: -20, bottom: -20, left: -20, right: -20,}}>
-              <Image
-                style={[
-                  style.editIcon,
-                ]}
-                source={require('../images/edit-white.png')}
-                resizeMode='contain' />
-            </TouchableOpacity>
           </View>
-          <Text style={[style.text, style.valueText]}>{props.website}</Text>
+          <TouchableOpacity
+            onPress={() => props.update({step: 'website'})}>
+            <Text style={[style.text, style.valueText]}>{props.website}</Text>
+          </TouchableOpacity>
         </View>
 
         <View style={[style.section]}>
           <View style={style.sectionHeader}>
             <Text style={[style.text, style.sectionTitle]}>PHOTOS</Text>
-            <TouchableOpacity
-              style={[style.editBtn]}
-              onPress={() => props.update({step: 'photos'})}
-              hitSlop={{top: -20, bottom: -20, left: -20, right: -20,}}>
-              <Image
-                style={[
-                  style.editIcon,
-                ]}
-                source={require('../images/edit-white.png')}
-                resizeMode='contain' />
-            </TouchableOpacity>
           </View>
           <View style={style.slots}>
           {
-            (props.photos || []).filter(p => p).map((p, i) => {
+            ([1,2,3]).filter(p => p).map((p, i) => {
               return(
-                <View style={style.slot} key={i}>
+                <TouchableOpacity style={style.slot} key={i} onPress={() => props.update({step: 'photos'})}>
                   <View style={style.slotBg}><Text style={[style.text, {fontSize: em(2)}]}>+</Text></View>
                   { props.photos[i] ?
                       <Image style={style.slotImg} source={{uri: props.photos[i]}} resizeMode='cover' /> : null }
-                </View>
+                </TouchableOpacity>
               )
             })
           }
@@ -120,19 +86,11 @@ export default class QuizReviewView extends Component {
         <View style={[style.section]}>
           <View style={style.sectionHeader}>
             <Text style={[style.text, style.sectionTitle]}>BELIEVE IN MAGIC?</Text>
-            <TouchableOpacity
-              style={[style.editBtn]}
-              onPress={() => props.update({step: 'freeform'})}
-              hitSlop={{top: -20, bottom: -20, left: -20, right: -20,}}>
-              <Image
-                style={[
-                  style.editIcon,
-                ]}
-                source={require('../images/edit-white.png')}
-                resizeMode='contain' />
-            </TouchableOpacity>
           </View>
-          <Text style={[style.text, style.valueText]}>{props.freeform}</Text>
+          <TouchableOpacity
+            onPress={() => props.update({step: 'freeform'})}>
+            <Text style={[style.text, style.valueText]}>{props.freeform}</Text>
+          </TouchableOpacity>
         </View>
 
         <Vip {...props} />
@@ -160,9 +118,9 @@ const slotWidth = em(4)
 const style = StyleSheet.create({
   container: {paddingRight: em(1), paddingLeft: em(1)},
   text: {backgroundColor: 'transparent', color: mayteWhite(), textAlign: 'center', fontFamily: 'Futura'},
-  header: {fontSize: em(2), marginBottom: em(2), letterSpacing: em(0.25), fontWeight: '700'},
+  header: {fontSize: em(1.66), marginBottom: em(2), letterSpacing: em(0.25), fontWeight: '700'},
   sectionHeader: {flexDirection: 'row', alignItems: 'center', marginBottom: em(0.66),},
-  sectionTitle: {fontSize: em(1.33), textAlign: 'left', fontWeight: '700', letterSpacing: em(0.133)},
+  sectionTitle: {fontSize: em(1), textAlign: 'left', fontWeight: '700', letterSpacing: em(0.133)},
   editBtn: {width: em(2), height: em(2), marginLeft: em(0.66)},
   editIcon: {width: '100%', height: '100%',},
   valueText: {fontFamily: 'Gotham-Book', textAlign: 'left', fontSize: em(1.33)},
