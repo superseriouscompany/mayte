@@ -10,7 +10,7 @@ import Photos                          from './QuizPhotosView'
 import Freeform                        from './QuizFreeformView'
 import Review                          from './QuizReviewView'
 import Firework                        from './Firework'
-import {mayteWhite}                    from '../constants/colors'
+import {mayteWhite, mayteBlack}        from '../constants/colors'
 import {ButtonGrey}                    from './Button'
 import timing                          from '../constants/timing'
 import {
@@ -76,9 +76,9 @@ export default class QuizView extends Component {
       <View style={style.container}>
         <StaticNight style={style.bg}>
 
-          <StarSystem count={12} loopLength={240000} starProps={{size: 1, twinkle: true, style: {opacity: 1}}}></StarSystem>
-          <StarSystem count={30} loopLength={120000} starProps={{size: 0.66, twinkle: false, style: {opacity: 0.66}}}></StarSystem>
-          <StarSystem count={50} starProps={{size: 0.33, twinkle: false, style: {opacity: 0.33}}}></StarSystem>
+          <StarSystem move={false} count={12} loopLength={240000} starProps={{size: 1, twinkle: true, style: {opacity: 1}}}></StarSystem>
+          <StarSystem move={false} count={30} loopLength={120000} starProps={{size: 0.66, twinkle: false, style: {opacity: 0.66}}}></StarSystem>
+          <StarSystem move={false} count={50} starProps={{size: 0.33, twinkle: false, style: {opacity: 0.33}}}></StarSystem>
 
           {
             this.renderZodiac()
@@ -171,6 +171,48 @@ Scene.defaultProps = {
   exit: () => null,
   onFadeIn: () => null,
   onFadeOut: () => null,
+}
+
+export class Input extends TextInput {
+  constructor(props){super(props)}
+  focus() {this.input.focus()}
+  render() {
+    const {props,state} = this
+    return(
+      <Animated.View style={[inputStyle.outer, props.outerStyle]}>
+        {/* TODO: commit Animated.TextInput to react-native -__- */}
+        <Animated.View style={[inputStyle.inner, props.innerStyle]}>
+          <TextInput
+            value={props.value}
+            onFocus={props.onFocus}
+            onBlur={props.onBlur}
+            ref={el => this.input = el}
+            multiline={props.multiline}
+            onLayout={e => {
+              this.layout = e.nativeEvent.layout
+            }}
+            keyboardType={props.keyboardType}
+            autoCapitalize={props.autoCapitalize}
+            style={[inputStyle.input, props.inputStyle]}
+            defaultValue={props.defaultValue}
+            placeholderTextColor={props.placeholderTextColor}
+            onChangeText={props.onChangeText}
+            returnKeyType={props.returnKeyType}
+            placeholder={props.placeholder}
+            onSubmitEditing={props.onSubmitEditing} />
+          </Animated.View>
+      </Animated.View>
+    )
+  }
+}
+
+const inputStyle = StyleSheet.create({
+  outer: {width: '66%', backgroundColor: mayteBlack(0.2), borderBottomWidth: 1, borderColor: mayteWhite(), borderRadius: 4, paddingBottom: em(0.33), paddingTop: em(0.33),},
+  input: {backgroundColor: 'transparent', color: mayteWhite(), textAlign: 'center', fontFamily: 'Futura', width: '100%', letterSpacing: em(0.5), overflow: 'visible', fontSize: em(1.33)},
+})
+
+Input.defaultProps = {
+  placeholderTextColor: mayteWhite(0.66),
 }
 
 const style = StyleSheet.create({

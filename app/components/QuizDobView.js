@@ -4,7 +4,7 @@ import React, {Component} from 'react'
 import DatePicker         from 'react-native-datepicker'
 import {Scene}            from './QuizView'
 import {ButtonGrey}       from './Button'
-import {mayteWhite}       from '../constants/colors'
+import {mayteWhite, mayteBlack}       from '../constants/colors'
 import {em}               from '../constants/dimensions'
 import timing             from '../constants/timing'
 import {
@@ -16,13 +16,15 @@ import {
   TouchableOpacity,
 } from 'react-native'
 
+const buttonHideY = 0
+
 export default class QuizDobView extends Component {
   constructor(props) {
     super(props)
     this._inputContScaleX = new Animated.Value(0)
     this._inputOpacity = new Animated.Value(0)
     this._buttonOpacity = new Animated.Value(0)
-    this._buttonTranslateY = new Animated.Value(15)
+    this._buttonTranslateY = new Animated.Value(buttonHideY)
     this.state = {ready: false}
 
     this.animButton = this.animButton.bind(this)
@@ -42,7 +44,7 @@ export default class QuizDobView extends Component {
         useNativeDriver: true,
       }),
       Animated.timing(this._buttonTranslateY, {
-        toValue: ready ? 0 : 15,
+        toValue: ready ? 0 : buttonHideY,
         duration: timing.quizButtonIn,
         useNativeDriver: true,
       })
@@ -86,12 +88,12 @@ export default class QuizDobView extends Component {
                   borderRadius: em(0.33),
                 },
                 dateText: {
-                  fontFamily: 'Gotham-Book',
+                  fontFamily: 'Futura',
                   fontSize: em(1.33),
                   color: mayteWhite(),
                 },
                 placeholderText: {
-                  fontFamily: 'Gotham-Book',
+                  fontFamily: 'Futura',
                   fontSize: em(1.33),
                 }
               }}
@@ -120,6 +122,6 @@ export default class QuizDobView extends Component {
 const style = StyleSheet.create({
   text: {backgroundColor: 'transparent', color: mayteWhite(), textAlign: 'center', fontFamily: 'Futura'},
   header: {fontSize: em(1.66), marginBottom: em(4), letterSpacing: em(0.25), fontWeight: '700'},
-  pickerCont: {width: 200, marginBottom: em(2), borderBottomWidth: 1, borderColor: mayteWhite(), paddingBottom: em(0.33),  justifyContent: 'flex-end'},
+  pickerCont: {width: 200, marginBottom: em(2), borderBottomWidth: 1, borderColor: mayteWhite(), paddingBottom: em(0.33),  justifyContent: 'flex-end', width: '66%', backgroundColor: mayteBlack(0.2), borderBottomWidth: 1, borderColor: mayteWhite(), borderRadius: 4, paddingBottom: em(0.33), paddingTop: em(0.33),},
   picker: {width: '100%'},
 })

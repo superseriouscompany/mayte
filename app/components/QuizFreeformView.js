@@ -3,7 +3,7 @@
 import React, {Component} from 'react'
 import {mayteWhite}       from '../constants/colors'
 import {ButtonGrey}       from './Button'
-import {Scene}            from './QuizView'
+import {Scene, Input}     from './QuizView'
 import timing             from '../constants/timing'
 import {
   em,
@@ -22,13 +22,15 @@ import {
   TouchableOpacity,
 } from 'react-native'
 
+const buttonHideY = 0
+
 export default class QuizFreeformView extends Component {
   constructor(props) {
     super(props)
     this._inputContScaleX = new Animated.Value(0)
     this._inputOpacity = new Animated.Value(0)
     this._buttonOpacity = new Animated.Value(0)
-    this._buttonTranslateY = new Animated.Value(15)
+    this._buttonTranslateY = new Animated.Value(buttonHideY)
     this.state = {ready: false}
 
     this.animButton = this.animButton.bind(this)
@@ -48,7 +50,7 @@ export default class QuizFreeformView extends Component {
         useNativeDriver: true,
       }),
       Animated.timing(this._buttonTranslateY, {
-        toValue: ready ? 0 : 15,
+        toValue: ready ? 0 : buttonHideY,
         duration: timing.quizButtonIn,
         useNativeDriver: true,
       })
@@ -62,7 +64,7 @@ export default class QuizFreeformView extends Component {
 
   render() {
     const {props, state} = this
-    const fontBase = em(2)
+    const fontBase = em(1.33)
     return (
       <Scene
         active={props.step == 'freeform'}
@@ -84,23 +86,15 @@ export default class QuizFreeformView extends Component {
 
         <Animated.Text style={[style.text, style.header]}>DO YOU BELIEVE IN MAGIC?</Animated.Text>
 
-        {/* TODO: commit Animated.TextInput to react-native -__- */}
-        <Animated.View style={[style.inputCont, {transform: [{scaleX: this._inputContScaleX}]}]}>
-          <Animated.View style={[{width: '100%', opacity: this._inputOpacity}]}>
-            <TextInput
-              value={state.value}
-              multiline={true}
-              ref={el => this.input = el}
-              style={[
-                style.text,
-                style.input,
-                {fontSize: fontBase}
-              ]}
-              defaultValue={props.freeform}
-              placeholderTextColor={mayteWhite(0.66)}
-              onChangeText={this.handleInput} />
-            </Animated.View>
-        </Animated.View>
+        <Input
+          outerStyle={[style.inputOuter, {transform: [{scaleX: this._inputContScaleX}]}]}
+          innerStyle={[style.inputInner, {width: '100%', opacity: this._inputOpacity}]}
+          inputStyle={[{fontSize: fontBase}]}
+          onChangeText={this.handleInput}
+          ref={el => this.input = el}
+          defaultValue={props.freeform}
+          multiline={true}
+          value={state.value} />
 
         <Animated.View style={{opacity: this._buttonOpacity, transform: [{translateY: this._buttonTranslateY}]}}>
           <ButtonGrey
@@ -116,6 +110,5 @@ export default class QuizFreeformView extends Component {
 const style = StyleSheet.create({
   text: {backgroundColor: 'transparent', color: mayteWhite(), textAlign: 'center', fontFamily: 'Futura'},
   header: {fontSize: em(1.33), marginBottom: em(3), letterSpacing: em(0.25), fontWeight: '700'},
-  inputCont: {width: '66%', marginBottom: em(2), borderBottomWidth: 1, borderColor: mayteWhite(), paddingBottom: em(0.33),  justifyContent: 'flex-end'},
-  input: {width: '100%', fontFamily: 'Futura', letterSpacing: em(0.5), overflow: 'visible'},
+  inputOuter: {marginBottom: em(2), paddingLeft: em(0.66), paddingRight: em(0.66)},
 })

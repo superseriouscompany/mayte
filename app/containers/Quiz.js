@@ -13,7 +13,7 @@ class Quiz extends Component {
       photos:   props.quiz.photos || [null, null, null],
       website:  props.quiz.website,
       freeform: props.quiz.freeform,
-      step:     props.quiz.step,
+      step:     props.quiz.step || 'intro',
     }
     this.submit    = this.submit.bind(this)
     this.updateDob = this.updateDob.bind(this)
@@ -21,7 +21,7 @@ class Quiz extends Component {
 
   componentDidMount() {
     if (!this.props.step) {
-      this.setState({step: 'dob'})
+      this.setState({step: 'email'})
     }
 
     this.setState({zodiac: computeZodiac(this.props.dob)})
