@@ -6,7 +6,7 @@ import {webUrl}           from '../services/api'
 import base               from '../constants/styles'
 import {em}               from '../constants/dimensions'
 import {ButtonBlack}      from './Button'
-import MembershipCard     from '../containers/MembershipCard'
+import Membership         from '../containers/Membership'
 import {
   ActivityIndicator,
   Linking,
@@ -19,37 +19,7 @@ import {
 export default function(props) {
   return (
     <View style={styles.container}>
-      <MembershipCard />
-      <View style={styles.events}>
-        <Text style={styles.explanation}>
-          This is your entry ticket to all Unicorn events.
-
-          { !props.isGold ? null :
-            <Text>
-              {"\n"}As a brand ambassador, you are welcome to attend with a +1.
-            </Text>
-          }
-        </Text>
-
-        <Text style={styles.nextEvent}>
-          The next event is:
-        </Text>
-        <TouchableOpacity onPress={() => {}}>
-          { /* TODO: pull title and description from the backend */ }
-          <Text style={styles.title}>
-            Unicorn {"Valentine's"} Day.
-          </Text>
-          <Text style={styles.description}>
-            Feb 14 @ Absolut Elyx House
-          </Text>
-          <ButtonBlack style={styles.inline} text="Details" onPress={() => {Linking.openURL('https://dateunicorn.com')}} />
-        </TouchableOpacity>
-      </View>
-      <View style={styles.buttonsCnr}>
-        { props.isAdmin || props.isGold ?
-          <ButtonBlack text={`VIP Codes`} onPress={props.visitVipCodeInvite} style={styles.button} />
-        : null }
-      </View>
+      <Membership />
     </View>
   )
 }
@@ -57,7 +27,6 @@ export default function(props) {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    paddingTop: em(2),
   },
   webview: {
     flex: 1,
