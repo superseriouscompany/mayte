@@ -207,6 +207,7 @@ export class Input extends Component {
             }}
             keyboardType={props.keyboardType}
             autoCapitalize={props.autoCapitalize}
+            autoCorrect={props.autoCorrect}
             style={[inputStyle.input, props.inputStyle]}
             defaultValue={props.defaultValue}
             placeholderTextColor={props.placeholderTextColor}

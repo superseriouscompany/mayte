@@ -109,7 +109,8 @@ export default class Website extends Component {
               props.next()
             }
           }}
-          autoCapitalize='none' />
+          autoCapitalize='none'
+          autoCorrect={false} />
 
         <Animated.View style={{opacity: this._buttonOpacity, transform: [{translateY: this._buttonTranslateY}]}}>
           <ButtonGrey

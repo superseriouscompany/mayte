@@ -109,7 +109,8 @@ export default class QuizEmailView extends Component {
               props.next()
             }
           }}
-          autoCapitalize='none' />
+          autoCapitalize='none'
+          autoCorrect={false} />
 
 
 
