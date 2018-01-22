@@ -4,6 +4,12 @@ import QuizView           from '../components/QuizView'
 import moment             from 'moment'
 import request            from '../actions/request'
 
+const isGold = false
+const testRef = {
+  fullName: 'Sancho Panza',
+  photos: [{url: 'https://pokewalls.files.wordpress.com/2012/06/2ivysaur1920x1200.jpg'}]
+}
+
 class Quiz extends Component {
   constructor(props) {
     super(props)
@@ -14,6 +20,8 @@ class Quiz extends Component {
       photos:   [null, null, null],
       website:  null,
       freeform: null,
+      vip:      null,
+      referral: null,
       step:     'intro',
     }
 
@@ -28,12 +36,15 @@ class Quiz extends Component {
       photos:   props.quiz.photos || [null, null, null],
       website:  website,
       freeform: props.quiz.freeform,
+      vip:      props.quiz.vip,
+      referral: props.quiz.referral,
       step:     props.quiz.step || 'intro',
     }
 
     this.submit    = this.submit.bind(this)
     this.reset     = this.reset.bind(this)
     this.updateDob = this.updateDob.bind(this)
+    this.verifyVipCode = this.verifyVipCode.bind(this)
   }
 
   componentDidMount() {
@@ -64,6 +75,18 @@ class Quiz extends Component {
     this.props.resetQuiz()
   }
 
+  verifyVipCode() {
+    return new Promise((resolve, reject) => {
+      setTimeout(() => {
+        var r = {code: this.state.vip, referral: testRef}
+        if (this.state.vip == 'error') {
+          reject({error: 'Code invalid.'})
+        }
+        resolve(r)
+      }, 2000)
+    })
+  }
+
   render() {
     const props = {...this.props.quiz, ...this.props}
 
@@ -73,6 +96,7 @@ class Quiz extends Component {
              reset={this.reset}
              updateDob={this.updateDob}
              submit={this.submit}
+             verifyVipCode={this.verifyVipCode}
              readyForSubmit={
                this.props.quiz.email &&
                this.props.quiz.dob &&

@@ -93,8 +93,6 @@ export default class QuizReviewView extends Component {
           </TouchableOpacity>
         </View>
 
-        <Vip {...props} />
-
         {
           props.submitting ?
           <OrbitLoader
