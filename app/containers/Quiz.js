@@ -8,6 +8,15 @@ class Quiz extends Component {
   constructor(props) {
     super(props)
 
+    this.initialState = {
+      email:    null,
+      dob:      null,
+      photos:   [null, null, null],
+      website:  null,
+      freeform: null,
+      step:     'intro',
+    }
+
     var website = props.quiz.website
     if (props.user.instagramHandle && !website) {
       website = `https://instagram.com/${props.user.instagramHandle}`
@@ -21,7 +30,9 @@ class Quiz extends Component {
       freeform: props.quiz.freeform,
       step:     props.quiz.step || 'intro',
     }
+
     this.submit    = this.submit.bind(this)
+    this.reset     = this.reset.bind(this)
     this.updateDob = this.updateDob.bind(this)
   }
 
@@ -36,6 +47,7 @@ class Quiz extends Component {
 
   componentDidUpdate(prevProps, prevState) {
     var {submitting, ...ts} = this.state
+
     if (prevState != this.state) {
       this.props.setQuiz(ts)
     }
@@ -47,12 +59,18 @@ class Quiz extends Component {
     })
   }
 
+  reset() {
+    this.setState(this.initialState)
+    this.props.resetQuiz()
+  }
+
   render() {
     const props = {...this.props.quiz, ...this.props}
 
     return <QuizView {...props}
              zodiac={this.state.zodiac}
              update={(k) => this.setState(k)}
+             reset={this.reset}
              updateDob={this.updateDob}
              submit={this.submit}
              readyForSubmit={
