@@ -7,11 +7,17 @@ import request            from '../actions/request'
 class Quiz extends Component {
   constructor(props) {
     super(props)
+
+    var website = props.quiz.website
+    if (props.user.instagramHandle && !website) {
+      website = `https://instagram.com/${props.user.instagramHandle}`
+    }
+
     this.state = {
       email:    props.quiz.email,
       dob:      props.quiz.dob,
       photos:   props.quiz.photos || [null, null, null],
-      website:  props.quiz.website,
+      website:  website,
       freeform: props.quiz.freeform,
       step:     props.quiz.step || 'intro',
     }
