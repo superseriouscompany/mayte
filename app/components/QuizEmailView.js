@@ -64,7 +64,6 @@ export default class QuizEmailView extends Component {
   }
 
   handleInput(text) {
-    // this.setState({ready: this.testInput(text)})
     this.props.update({email: text})
   }
 
