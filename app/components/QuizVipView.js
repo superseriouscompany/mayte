@@ -109,7 +109,7 @@ export default class Vip extends Component {
               orbRadius={vipOrbitLoaderRadius/4} /> :
             <ButtonGrey
               style={{paddingLeft: em(2), paddingRight: em(2)}}
-              onPress={props.referral ? props.next : this.verify}
+              onPress={props.referral ? () => this.scene.fadeOut(props.next) : this.verify}
               text={props.referral ? props.readyForSubmit ? 'Finish & Submit' : 'Next' : 'Redeem'} />
         }
         </Animated.View>
