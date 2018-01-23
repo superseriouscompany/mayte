@@ -44,6 +44,9 @@ export default function(state=initialState, action) {
           }].concat(state[action.key].errors || []).slice(0, 2),
         }
       }
+
+    case 'api:destroy':
+      return initialState
     // TODO: import the constant
     case 'persist/REHYDRATE':
       const incoming = action.payload.api

@@ -75,7 +75,7 @@ export default class QuizReviewView extends Component {
                 <TouchableOpacity style={style.slot} key={i} onPress={() => props.update({step: 'photos'})}>
                   <View style={style.slotBg}><Text style={[style.text, {fontSize: em(2)}]}>+</Text></View>
                   { props.photos[i] ?
-                      <Image style={style.slotImg} source={{uri: props.photos[i]}} resizeMode='cover' /> : null }
+                      <Image style={style.slotImg} source={{uri: props.photos[i].url}} resizeMode='cover' /> : null }
                 </TouchableOpacity>
               )
             })

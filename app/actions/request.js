@@ -50,6 +50,7 @@ export default function request(args, force) {
         // TODO: move logout to its own action
         branch.logout()
         dispatch({type: 'user:destroy'})
+        dispatch({type: 'api:destroy'})
         dispatch({type: 'vip:destroy'})
         return
       }

@@ -4,6 +4,9 @@ import QuizView           from '../components/QuizView'
 import moment             from 'moment'
 import request            from '../actions/request'
 import api                from '../services/api'
+import {
+  Alert
+} from 'react-native'
 
 const testRef = {
   fullName: 'Sancho Panza',
@@ -38,6 +41,20 @@ class Quiz extends Component {
   }
 
   submit() {
+    if( this.props.photos.find(p => p && p.local) ) {
+      this.setState({photosLoading: true})
+      return setTimeout(this.submit, 250)
+    }
+    if( true || !this.props.photos.filter(p => p).length ) {
+      return Alert.alert(
+        'Photos failed to upload',
+        null,
+        [
+          { text: 'Edit Photos', onPress: () => this.props.setQuiz({step: 'photos'}) }
+        ],
+        { cancelable: false }
+      )
+    }
     return this.props.sendQuiz(this.props.quiz).then(() => {
       this.props.updateSelf()
     })
@@ -92,14 +109,15 @@ class Quiz extends Component {
 }
 
 const mapStateToProps = (state, ownProps) => {
-  const apiCall = state.api['POST /applications'] || {}
+  const apiCall   = state.api['POST /applications'] || {}
+  const photoCall = state.api['POST /images'] || {}
 
   return {
-    user:       state.user,
-    quiz:       state.quiz,
-    submitting: !!apiCall.loading,
-    error:      apiCall.error,
-    photos:     state.quiz.photos,
+    user:          state.user,
+    quiz:          state.quiz,
+    submitting:    !!apiCall.loading,
+    error:         apiCall.error,
+    photos:        state.quiz.photos,
   }
 }
 

@@ -17,21 +17,21 @@ export default function(state=initialState, action) {
       return {
         ...state,
         photos: state.photos.map((p, idx) => {
-          return idx === action.idx ? action.url : p
+          return idx === action.idx ? {url: action.url, local: true} : p
         })
       }
     case 'quiz:destroyPhoto':
       return {
         ...state,
         photos: state.photos.map((p, idx) => {
-          return p === action.url ? null : p
+          return (p && p.url) === action.url ? null : p
         })
       }
     case 'quiz:updatePhoto':
       return {
         ...state,
         photos: state.photos.map((p, idx) => {
-          return p === action.fromUrl ? action.toUrl : p
+          return (p && p.url) === action.fromUrl ? {url: action.toUrl, local: false} : p
         })
       }
     case 'quiz:destroy':

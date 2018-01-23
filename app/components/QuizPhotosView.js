@@ -98,7 +98,7 @@ export default class QuizPhotosView extends Component {
               <TouchableOpacity style={style.slot} key={idx} onPress={() => this.selectPhoto(idx)}>
                 <View style={style.slotBg}><Text style={[style.text, {fontSize: em(2)}]}>+</Text></View>
                 { (props.photos || [])[idx] ?
-                    <Image style={style.slotImg} source={{uri: props.photos[idx]}} resizeMode='cover' /> : null }
+                    <Image style={style.slotImg} source={{uri: props.photos[idx].url}} resizeMode='cover' /> : null }
               </TouchableOpacity>
             )
           })
