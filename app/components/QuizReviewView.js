@@ -98,10 +98,10 @@ export default class QuizReviewView extends Component {
           </View>
           <TouchableOpacity
             onPress={() => this.scene.fadeOut(() => props.update({step: 'vip'}))}>
-            { props.vip ?
+            { props.quiz.vipCode ?
                 <View style={{flexDirection: 'row', alignItems: 'center'}}>
-                  <Image style={style.vipRefBubble} source={props.referral.photos[0]} resizeMode='cover' />
-                  <Text style={[style.text, style.valueText]}>{props.vip}</Text>
+                  <Image style={style.vipRefBubble} source={{url: props.quiz.referer.imageUrl}} resizeMode='cover' />
+                  <Text style={[style.text, style.valueText]}>{props.quiz.vipCode}</Text>
                 </View>
               : <Text style={[style.text, style.valueText, style.vipPlaceholder]}>Enter Code</Text>
             }
@@ -153,7 +153,7 @@ const style = StyleSheet.create({
   slotImg: {position: 'absolute', top: 0, left: 0, width: '100%', height: '100%', borderRadius: em(0.5)},
   section: {width: '100%', marginBottom: em(2)},
   loadingCnr: {alignItems: 'center', },
-  loadingExplanation: { color: mayteWhite(), backgroundColor: 'transparent', marginTop: em(1), }
+  loadingExplanation: { color: mayteWhite(), backgroundColor: 'transparent', marginTop: em(1), },
   vipPlaceholder: {fontStyle: 'italic', opacity: 0.8},
   vipDisclaimer: {textAlign: 'left', marginTop: em(0.66)},
   vipRefBubble: {width: em(2), height: em(2), borderRadius: em(1), marginRight: em(0.66)}

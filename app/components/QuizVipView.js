@@ -6,6 +6,7 @@ import {ButtonGrey}       from './Button'
 import {Scene, Input}     from './QuizView'
 import OrbitLoader        from './OrbitLoader'
 import timing             from '../constants/timing'
+import log                from '../services/log'
 import {
   em,
   screenWidth,
@@ -39,22 +40,17 @@ export default class Vip extends Component {
     this.handleInput = this.handleInput.bind(this)
   }
 
-  handleInput(text) {
-    this.props.update({vip: text})
+  handleInput(vipCode) {
+    this.props.update({vipCode})
   }
 
   verify() {
-    this.setState({verifying: true})
-    return this.props.verifyVipCode()
-      .then(d => {
-        console.log(d)
-        this.setState({verifying: false})
-        this.props.update({referral: d.referral})
-      })
-      .catch(e => {
-        console.error(e)
-        alert(e)
-      })
+    return this.props.redeemVipCode(this.props.quiz.vipCode).then(referer => {
+      this.props.update({referer})
+    }).catch(err => {
+      log(err)
+      alert(err.message || JSON.stringify(err))
+    })
   }
 
   render() {
@@ -88,33 +84,31 @@ export default class Vip extends Component {
           autoCapitalize='none'
           autoCorrect={false} />
 
-          {
-            props.referral ?
+          { !props.quiz.referer ? null :
             <View style={style.ref}>
               <Text style={[style.text, style.refHeader]}>REFERRED BY:</Text>
               <View style={{flexDirection: 'row', alignItems: 'center'}}>
-                <Image style={style.refBubble} source={{url: props.referral.photos[0].url}} />
-                <Text style={[style.text, style.refName]}>{props.referral.fullName}</Text>
+                <Image style={style.refBubble} source={{url: props.quiz.referer.imageUrl}} />
+                <Text style={[style.text, style.refName]}>{props.quiz.referer.fullName}</Text>
               </View>
             </View>
-            : null
           }
 
         <Animated.View style={[style.redeemCont, {opacity: this._buttonOpacity, opacity: 1}]}>
         {
-          state.verifying ?
+          props.redeeming ?
             <OrbitLoader
               color='white'
               radius={vipOrbitLoaderRadius}
               orbRadius={vipOrbitLoaderRadius/4} /> :
             <ButtonGrey
               style={{paddingLeft: em(2), paddingRight: em(2)}}
-              onPress={props.referral ? () => this.scene.fadeOut(props.next) : this.verify}
-              text={props.referral ? props.readyForSubmit ? 'Finish & Submit' : 'Next' : 'Redeem'} />
+              onPress={props.quiz.referer ? () => this.scene.fadeOut(props.next) : this.verify}
+              text={props.quiz.referer ? props.readyForSubmit ? 'Finish & Submit' : 'Next' : 'Redeem'} />
         }
         </Animated.View>
 
-        { props.readyForSubmit ? null : props.referral ? null :
+        { props.readyForSubmit ? null : props.quiz.referer ? null :
           <Animated.View style={style.skip}>
             <ButtonGrey
               style={style.skipBtn}

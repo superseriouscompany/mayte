@@ -8,11 +8,6 @@ import {
   Alert
 } from 'react-native'
 
-const testRef = {
-  fullName: 'Sancho Panza',
-  photos: [{url: 'https://pokewalls.files.wordpress.com/2012/06/2ivysaur1920x1200.jpg'}]
-}
-
 class Quiz extends Component {
   constructor(props) {
     super(props)
@@ -28,6 +23,15 @@ class Quiz extends Component {
 
   componentDidMount() {
     this.setState({zodiac: computeZodiac(this.props.quiz.dob)})
+    if( this.props.pendingCode ) {
+      this.props.update({vipCode: this.props.pendingCode})
+    }
+  }
+
+  componentWillReceiveProps(props) {
+    if( props.pendingCode && !this.props.pendingCode ) {
+      this.props.update({vip: props.pendingCode})
+    }
   }
 
   componentWillReceiveProps(props) {
@@ -97,11 +101,11 @@ class Quiz extends Component {
 
     return <QuizView {...props}
              zodiac={this.state.zodiac}
+             reset={this.reset}
              photosLoading={this.state.photosLoading}
              update={this.props.setQuiz}
              submit={this.submit}
              selectPhoto={this.selectPhoto}
-             verifyVipCode={this.verifyVipCode}
              readyForSubmit={
                this.props.quiz.email &&
                this.props.quiz.dob &&
@@ -113,13 +117,18 @@ class Quiz extends Component {
 }
 
 const mapStateToProps = (state, ownProps) => {
-  const apiCall   = state.api['POST /applications'] || {}
+  const apiCall = state.api['POST /applications'] || {}
+  // TODO: provide some sort of wildcard interface?
+  const redeemKey = Object.keys(state.api).find((k) => k.match(/PUT \/vipCodes\/.+/))
+  const redeemCall = state.api[redeemKey] || {}
 
   return {
-    user:          state.user,
-    quiz:          state.quiz,
-    submitting:    !!apiCall.loading,
-    error:         apiCall.error,
+    user:        state.user,
+    quiz:        state.quiz,
+    submitting:  !!apiCall.loading,
+    error:       apiCall.error,
+    redeeming:   !!redeemCall.loading,
+    pendingCode: state.vip.pendingCode,
     photos:        state.quiz.photos,
   }
 }
@@ -155,6 +164,12 @@ const mapDispatchToProps = (dispatch) => {
         dispatch({type: 'user:set', user})
       })
     },
+    redeemVipCode: (code) => {
+      return dispatch(request({
+        method: 'PUT',
+        url:    `/vipCodes/${code}`,
+      }))
+    },
     uploadPhoto: (filePath, fileName) => {
       return dispatch(request({
         url:       '/images',
@@ -164,7 +179,7 @@ const mapDispatchToProps = (dispatch) => {
         fileName,
         filePath,
       }))
-    }
+    },
   }
 }
 
