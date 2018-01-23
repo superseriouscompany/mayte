@@ -72,7 +72,7 @@ export default class QuizEmailView extends Component {
     const fontBase = em(1.66)
     return (
       <Scene
-        active={props.step == 'email'}
+        ref={el => this.scene = el}
         onFadeIn={() => {
             Animated.timing(this._inputContScaleX, {
               toValue: 1,
@@ -106,7 +106,7 @@ export default class QuizEmailView extends Component {
           onBlur={() => this.setState({ready: this.testInput(props.email)})}
           onSubmitEditing={() => {
             if (this.testInput(props.email)) {
-              props.next()
+              this.scene.fadeOut(props.next)
             }
           }}
           autoCapitalize='none'
@@ -117,7 +117,7 @@ export default class QuizEmailView extends Component {
         <Animated.View style={{opacity: this._buttonOpacity, transform: [{translateY: this._buttonTranslateY}]}}>
           <ButtonGrey
             style={{paddingLeft: em(2), paddingRight: em(2)}}
-            onPress={state.ready ? props.next : () => null}
+            onPress={state.ready ? () => this.scene.fadeOut(props.next) : () => null}
             text={props.readyForSubmit ? 'Finish & Submit' : 'Next'} />
         </Animated.View>
       </Scene>

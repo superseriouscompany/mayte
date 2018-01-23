@@ -62,8 +62,8 @@ export default class Vip extends Component {
     const fontBase = em(1.66)
     return (
       <Scene
-        active={props.step == 'vip'}
         contStyle={style.container}
+        ref={el => this.scene = el}
         onFadeIn={() => {
             Animated.timing(this._inputContScaleX, {
               toValue: 1,
@@ -119,7 +119,7 @@ export default class Vip extends Component {
             <ButtonGrey
               style={style.skipBtn}
               styleText={{fontSize: em(0.8)}}
-              onPress={props.next}
+              onPress={() => this.scene.fadeOut(props.next)}
               text={'Skip'} />
           </Animated.View> }
       </Scene>

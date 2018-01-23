@@ -27,9 +27,9 @@ export default class QuizReviewView extends Component {
     const {props, state} = this
     return (
       <Scene
-        style={[style.container, {height: 'auto'}]}
+        style={[style.container]}
         contStyle={{justifyContent: 'flex-start', paddingTop: em(3) + notchHeight, paddingBottom: em(3)}}
-        active={props.step == 'review'}>
+        ref={el => this.scene = el}>
 
         <Text style={[style.text, style.header]}>REVIEW</Text>
 
@@ -38,7 +38,7 @@ export default class QuizReviewView extends Component {
             <Text style={[style.text, style.sectionTitle]}>EMAIL</Text>
           </View>
           <TouchableOpacity
-            onPress={() => props.update({step: 'email'})}>
+            onPress={() => this.scene.fadeOut(() => props.update({step: 'email'}))}>
             <Text style={[style.text, style.valueText]}>{props.email}</Text>
           </TouchableOpacity>
         </View>
@@ -48,7 +48,7 @@ export default class QuizReviewView extends Component {
             <Text style={[style.text, style.sectionTitle]}>DATE OF BIRTH</Text>
           </View>
           <TouchableOpacity
-            onPress={() => props.update({step: 'dob'})}>
+            onPress={() => this.scene.fadeOut(() => props.update({step: 'dob'}))}>
             <Text style={[style.text, style.valueText]}>{props.dob}</Text>
           </TouchableOpacity>
         </View>
@@ -58,7 +58,7 @@ export default class QuizReviewView extends Component {
             <Text style={[style.text, style.sectionTitle]}>WEBSITE</Text>
           </View>
           <TouchableOpacity
-            onPress={() => props.update({step: 'website'})}>
+            onPress={() => this.scene.fadeOut(() => props.update({step: 'website'}))}>
             <Text style={[style.text, style.valueText]}>{props.website}</Text>
           </TouchableOpacity>
         </View>
@@ -71,7 +71,7 @@ export default class QuizReviewView extends Component {
           {
             props.photos.map((p, i) => {
               return(
-                <TouchableOpacity style={style.slot} key={i} onPress={() => props.update({step: 'photos'})}>
+                <TouchableOpacity style={style.slot} key={i} onPress={() => this.scene.fadeOut(() => props.update({step: 'photos'}))}>
                   <View style={style.slotBg}><Text style={[style.text, {fontSize: em(2)}]}>+</Text></View>
                   { props.photos[i] ?
                       <Image style={style.slotImg} source={{uri: props.photos[i]}} resizeMode='cover' /> : null }
@@ -87,7 +87,7 @@ export default class QuizReviewView extends Component {
             <Text style={[style.text, style.sectionTitle]}>BELIEVE IN MAGIC?</Text>
           </View>
           <TouchableOpacity
-            onPress={() => props.update({step: 'freeform'})}>
+            onPress={() => this.scene.fadeOut(() => props.update({step: 'freeform'}))}>
             <Text style={[style.text, style.valueText]}>{props.freeform}</Text>
           </TouchableOpacity>
         </View>
@@ -97,7 +97,7 @@ export default class QuizReviewView extends Component {
             <Text style={[style.text, style.sectionTitle]}>VIP CODE*</Text>
           </View>
           <TouchableOpacity
-            onPress={() => props.update({step: 'vip'})}>
+            onPress={() => this.scene.fadeOut(() => props.update({step: 'vip'}))}>
             { props.vip ?
                 <View style={{flexDirection: 'row', alignItems: 'center'}}>
                   <Image style={style.vipRefBubble} source={props.referral.photos[0]} resizeMode='cover' />
