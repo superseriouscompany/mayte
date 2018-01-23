@@ -38,6 +38,7 @@ export default class QuizView extends Component {
     super(props)
     this._zodiacOpacity = new Animated.Value(0)
     this._zodiacScale = new Animated.Value(0)
+    this.renderScene = this.renderScene.bind(this)
   }
 
   componentWillReceiveProps(props) {
@@ -70,10 +71,24 @@ export default class QuizView extends Component {
                 resizeMode='contain'  />
   }
 
-  render() {
-    const {props, state} = this
+  renderScene() {
+    const {props} = this
     const rfs = props.readyForSubmit
 
+    switch(props.step) {
+      case 'intro'   : return <Intro {...props} next={() => props.update({step: rfs ? 'review' : 'vip'})} />
+      case 'vip'     : return <Vip {...props} value={props.vip} next={() => props.update({step: rfs ? 'review' : 'email'})} />
+      case 'email'   : return <Email {...props} next={() => props.update({step: rfs ? 'review' : 'dob'})} />
+      case 'dob'     : return <Dob {...props} next={() => props.update({step: rfs ? 'review' : 'website'})} updateDob={props.updateDob} />
+      case 'website' : return <Website {...props} value={props.quiz.website} next={() => props.update({step: rfs ? 'review' : 'photos'})} />
+      case 'photos'  : return <Photos {...props} next={() => props.update({step: rfs ? 'review' : 'freeform'})} />
+      case 'freeform': return <Freeform {...props} next={() => props.update({step: rfs ? 'review' : 'review'})} />
+      case 'review'  : return <Review {...props} />
+    }
+  }
+
+  render() {
+    const {props, state} = this
     return(
       <View style={style.container}>
         <StaticNight style={style.bg}>
@@ -87,14 +102,7 @@ export default class QuizView extends Component {
           }
         </StaticNight>
 
-        <Intro {...props} next={() => props.update({step: rfs ? 'review' : 'vip'})} />
-        <Vip {...props} value={props.vip} next={() => props.update({step: rfs ? 'review' : 'email'})} />
-        <Email {...props} next={() => props.update({step: rfs ? 'review' : 'dob'})} />
-        <Dob {...props} next={() => props.update({step: rfs ? 'review' : 'website'})} updateDob={props.updateDob} />
-        <Website {...props} value={props.quiz.website} next={() => props.update({step: rfs ? 'review' : 'photos'})} />
-        <Photos {...props} next={() => props.update({step: rfs ? 'review' : 'freeform'})} />
-        <Freeform {...props} next={() => props.update({step: rfs ? 'review' : 'review'})} />
-        <Review {...props} />
+        {this.renderScene()}
 
         { !__DEV__ ? null :
           <TouchableOpacity
@@ -135,13 +143,9 @@ export class Scene extends Component {
     this.fadeOut = this.fadeOut.bind(this)
   }
 
-  componentDidUpdate(prevProps, prevState) {
-    if (this.props.active && !prevProps.active) { this.props.enter(); this.fadeIn() }
-    if (!this.props.active && prevProps.active) { this.props.exit(); this.fadeOut() }
-  }
-
   componentDidMount() {
-    if (this.props.active) { this.props.enter(); this.fadeIn() }
+    this.props.enter()
+    this.fadeIn()
   }
 
   fadeIn() {
@@ -153,12 +157,12 @@ export class Scene extends Component {
     }).start(() => this.props.onFadeIn())
   }
 
-  fadeOut() {
+  fadeOut(cb) {
     Animated.timing(this._opacity, {
       toValue: 0,
       duration: timing.sceneOutDuration,
       useNativeDriver: true,
-    }).start(() => this.props.onFadeOut())
+    }).start(cb)
   }
 
   render() {
@@ -167,7 +171,7 @@ export class Scene extends Component {
       <Animated.View
         style={[style.scene, props.style, {opacity: this._opacity, zIndex: props.active ? 420 : 0}]}>
         <KeyboardAwareScrollView
-          style={{height:screenHeight}}
+          style={{flex:1, height: '100%'}}
           showsVerticalScrollIndicator={false}
           contentContainerStyle={[style.sceneCont, props.contStyle]}>
           {props.children}
@@ -250,8 +254,6 @@ const style = StyleSheet.create({
     height: screenHeight,
   },
   scene: {
-    position: 'absolute',
-    top: 0, left: 0,
     width: screenWidth,
     height: screenHeight,
   },

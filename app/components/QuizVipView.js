@@ -62,8 +62,8 @@ export default class Vip extends Component {
     const fontBase = em(1.66)
     return (
       <Scene
-        active={props.step == 'vip'}
         contStyle={style.container}
+        ref={el => this.scene = el}
         onFadeIn={() => {
             Animated.timing(this._inputContScaleX, {
               toValue: 1,
@@ -85,11 +85,6 @@ export default class Vip extends Component {
           defaultValue={props.value}
           value={state.value}
           ref={el => this.input = el}
-          onSubmitEditing={() => {
-            if (this.testInput(props.value)) {
-              props.next()
-            }
-          }}
           autoCapitalize='none'
           autoCorrect={false} />
 
@@ -114,8 +109,8 @@ export default class Vip extends Component {
               orbRadius={vipOrbitLoaderRadius/4} /> :
             <ButtonGrey
               style={{paddingLeft: em(2), paddingRight: em(2)}}
-              onPress={props.referral ? props.next : this.verify}
-              text={props.referral ? 'Next' : 'Redeem'} />
+              onPress={props.referral ? () => this.scene.fadeOut(props.next) : this.verify}
+              text={props.referral ? props.readyForSubmit ? 'Finish & Submit' : 'Next' : 'Redeem'} />
         }
         </Animated.View>
 
@@ -124,7 +119,7 @@ export default class Vip extends Component {
             <ButtonGrey
               style={style.skipBtn}
               styleText={{fontSize: em(0.8)}}
-              onPress={props.next}
+              onPress={() => this.scene.fadeOut(props.next)}
               text={'Skip'} />
           </Animated.View> }
       </Scene>
