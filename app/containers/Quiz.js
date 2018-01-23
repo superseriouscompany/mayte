@@ -101,19 +101,11 @@ class Quiz extends Component {
 
     return <QuizView {...props}
              zodiac={this.state.zodiac}
-<<<<<<< HEAD
-             vipCode={this.state.vipCode}
-             update={(k) => this.setState(k)}
              reset={this.reset}
-             updateDob={this.updateDob}
-             submit={this.submit}
-=======
              photosLoading={this.state.photosLoading}
              update={this.props.setQuiz}
              submit={this.submit}
              selectPhoto={this.selectPhoto}
-             verifyVipCode={this.verifyVipCode}
->>>>>>> master
              readyForSubmit={
                this.props.quiz.email &&
                this.props.quiz.dob &&
