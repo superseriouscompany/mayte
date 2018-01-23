@@ -104,7 +104,7 @@ export default class Vip extends Component {
             <ButtonGrey
               style={{paddingLeft: em(2), paddingRight: em(2)}}
               onPress={props.quiz.referer ? () => this.scene.fadeOut(props.next) : this.verify}
-              text={props.quiz.referer ? props.readyForSubmit ? 'Finish & Submit' : 'Next' : 'Redeem'} />
+              text={props.quiz.referer ? props.readyForSubmit ? 'Review & Submit' : 'Next' : 'Redeem'} />
         }
         </Animated.View>
 

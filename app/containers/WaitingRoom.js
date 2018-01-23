@@ -6,16 +6,24 @@ import WaitingRoomView    from '../components/WaitingRoomView'
 import request            from '../actions/request'
 import branch             from 'react-native-branch'
 import {clear}            from '../reducers'
+import firebase           from '../services/firebase'
 
 class WaitingRoom extends Component {
   constructor(props) {
     super(props)
-    this.pollSelf = this.pollSelf.bind(this)
+    this.pollSelf          = this.pollSelf.bind(this)
+    this.requestNotifPerms = this.requestNotifPerms.bind(this)
+  }
+
+  requestNotifPerms() {
+    firebase.messaging().requestPermissions()
+    this.props.markPerms()
   }
 
   render() {
     return (
-      <WaitingRoomView {...this.props} />
+      <WaitingRoomView {...this.props}
+        requestNotifPerms={this.requestNotifPerms}/>
     )
   }
 
@@ -23,20 +31,20 @@ class WaitingRoom extends Component {
     this.pollSelf()
   }
 
+  componentWillUnmount() {
+    this.timeout && clearTimeout(this.timeout)
+  }
+
   pollSelf() {
     this.props.loadSelf().then(() => {
       this.timeout = setTimeout(this.pollSelf, 2000)
     })
   }
-
-  componentWillUnmount() {
-    this.timeout && clearTimeout(this.timeout)
-  }
 }
 
 function mapStateToProps(state) {
   return {
-
+    hasRequestedPerms: state.quiz.notifPerms,
   }
 }
 
@@ -48,6 +56,10 @@ function mapDispatchToProps(dispatch) {
       })).then((user) => {
         dispatch({type: 'user:set', user})
       })
+    },
+
+    markPerms: () => {
+      return dispatch({type: 'quiz:set', quiz: {notifPerms: true}})
     },
 
     deleteAccount: () => {
