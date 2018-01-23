@@ -74,7 +74,7 @@ export default class QuizReviewView extends Component {
                 <TouchableOpacity style={style.slot} key={i} onPress={() => this.scene.fadeOut(() => props.update({step: 'photos'}))}>
                   <View style={style.slotBg}><Text style={[style.text, {fontSize: em(2)}]}>+</Text></View>
                   { props.photos[i] ?
-                      <Image style={style.slotImg} source={{uri: props.photos[i]}} resizeMode='cover' /> : null }
+                      <Image style={style.slotImg} source={{uri: props.photos[i].url}} resizeMode='cover' /> : null }
                 </TouchableOpacity>
               )
             })
@@ -109,12 +109,20 @@ export default class QuizReviewView extends Component {
           <Text style={[style.text, style.vipDisclaimer]}>*Valid code does not guarantee entry.</Text>
         </View>
 
-        {
-          props.submitting ?
-          <OrbitLoader
-            color={mayteWhite()}
-            radius={submitLoaderRadius}
-            orbRadius={submitLoaderRadius/4} /> :
+
+        { props.submitting || props.photosLoading ?
+          <View style={style.loadingCnr}>
+            <OrbitLoader
+              color={mayteWhite()}
+              radius={submitLoaderRadius}
+              orbRadius={submitLoaderRadius/4} />
+            { !props.photosLoading ? null :
+              <Text style={style.loadingExplanation}>
+                Uploading Photos...
+              </Text>
+            }
+          </View>
+        :
           <Animated.View>
             <ButtonGrey
               style={{paddingLeft: em(2), paddingRight: em(2)}}
@@ -144,6 +152,8 @@ const style = StyleSheet.create({
   slotBg: {position: 'absolute', top: 0, left: 0, width: '100%', height: '100%', justifyContent: 'center', alignItems: 'center'},
   slotImg: {position: 'absolute', top: 0, left: 0, width: '100%', height: '100%', borderRadius: em(0.5)},
   section: {width: '100%', marginBottom: em(2)},
+  loadingCnr: {alignItems: 'center', },
+  loadingExplanation: { color: mayteWhite(), backgroundColor: 'transparent', marginTop: em(1), }
   vipPlaceholder: {fontStyle: 'italic', opacity: 0.8},
   vipDisclaimer: {textAlign: 'left', marginTop: em(0.66)},
   vipRefBubble: {width: em(2), height: em(2), borderRadius: em(1), marginRight: em(0.66)}

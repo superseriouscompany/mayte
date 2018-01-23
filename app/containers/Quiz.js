@@ -3,8 +3,11 @@ import {connect}          from 'react-redux'
 import QuizView           from '../components/QuizView'
 import moment             from 'moment'
 import request            from '../actions/request'
+import api                from '../services/api'
+import {
+  Alert
+} from 'react-native'
 
-const isGold = false
 const testRef = {
   fullName: 'Sancho Panza',
   photos: [{url: 'https://pokewalls.files.wordpress.com/2012/06/2ivysaur1920x1200.jpg'}]
@@ -14,65 +17,50 @@ class Quiz extends Component {
   constructor(props) {
     super(props)
 
-    this.initialState = {
-      email:    null,
-      dob:      null,
-      photos:   [null, null, null],
-      website:  null,
-      freeform: null,
-      vip:      null,
-      referral: null,
-      step:     'intro',
-    }
-
-    var website = props.quiz.website
-    if (props.user.instagramHandle && !website) {
-      website = `https://instagram.com/${props.user.instagramHandle}`
-    }
-
     this.state = {
-      email:    props.quiz.email,
-      dob:      props.quiz.dob,
-      photos:   props.quiz.photos || [null, null, null],
-      website:  website,
-      freeform: props.quiz.freeform,
-      vip:      props.quiz.vip,
-      referral: props.quiz.referral,
-      step:     props.quiz.step || 'intro',
+      step: props.quiz.step || 'intro',
     }
 
-    this.submit    = this.submit.bind(this)
-    this.reset     = this.reset.bind(this)
-    this.updateDob = this.updateDob.bind(this)
+    this.submit        = this.submit.bind(this)
     this.verifyVipCode = this.verifyVipCode.bind(this)
+    this.selectPhoto   = this.selectPhoto.bind(this)
   }
 
   componentDidMount() {
-    this.setState({zodiac: computeZodiac(this.state.dob)})
+    this.setState({zodiac: computeZodiac(this.props.quiz.dob)})
   }
 
-  updateDob(dob) {
-    this.setState({zodiac: computeZodiac(dob)})
-    this.setState({dob})
-  }
+  componentWillReceiveProps(props) {
+    if( props.quiz.dob != this.props.quiz.dob ) {
+      this.setState({zodiac: computeZodiac(this.props.quiz.dob)})
+    }
 
-  componentDidUpdate(prevProps, prevState) {
-    var {submitting, ...ts} = this.state
-
-    if (prevState != this.state) {
-      this.props.setQuiz(ts)
+    if( !props.quiz.website && props.user.instagramHandle ) {
+      this.props.setQuiz({website: `https://instagram.com/${props.user.instagramHandle}`})
     }
   }
 
   submit() {
+    if( !!this.props.photos.find(p => p && p.local) ) {
+      this.setState({photosLoading: true})
+      return setTimeout(this.submit, 250)
+    }
+    this.setState({photosLoading: false})
+    if( !this.props.photos.filter(p => p).length ) {
+      return Alert.alert(
+        'Photos failed to upload',
+        null,
+        [
+          { text: 'Edit Photos', onPress: () => this.props.setQuiz({step: 'photos'}) }
+        ],
+        { cancelable: false }
+      )
+    }
     return this.props.sendQuiz(this.props.quiz).then(() => {
       this.props.updateSelf()
+    }).catch((err) => {
+      alert(err.message || JSON.stringify(err))
     })
-  }
-
-  reset() {
-    this.setState(this.initialState)
-    this.props.resetQuiz()
   }
 
   verifyVipCode() {
@@ -87,15 +75,32 @@ class Quiz extends Component {
     })
   }
 
+  selectPhoto(idx, localPath) {
+    this.props.setPhoto(idx, localPath)
+    return this.props.uploadPhoto(
+      localPath,
+      `${this.props.user.id}_${Date.now()}.jpg`
+    ).then(payload => {
+      if (!payload || !payload.url) {
+        return this.props.destroyPhoto(localPath)
+      }
+      return this.props.updatePhoto(localPath, payload.url)
+    }).catch(err => {
+      this.props.destroyPhoto(localPath)
+      alert(err.message || JSON.stringify(err))
+      return log(err)
+    })
+  }
+
   render() {
     const props = {...this.props.quiz, ...this.props}
 
     return <QuizView {...props}
              zodiac={this.state.zodiac}
-             update={(k) => this.setState(k)}
-             reset={this.reset}
-             updateDob={this.updateDob}
+             photosLoading={this.state.photosLoading}
+             update={this.props.setQuiz}
              submit={this.submit}
+             selectPhoto={this.selectPhoto}
              verifyVipCode={this.verifyVipCode}
              readyForSubmit={
                this.props.quiz.email &&
@@ -108,19 +113,31 @@ class Quiz extends Component {
 }
 
 const mapStateToProps = (state, ownProps) => {
-  const apiCall = state.api['POST /applications'] || {}
+  const apiCall   = state.api['POST /applications'] || {}
 
   return {
-    user:       state.user,
-    quiz:       state.quiz,
-    submitting: !!apiCall.loading,
-    error:      apiCall.error,
+    user:          state.user,
+    quiz:          state.quiz,
+    submitting:    !!apiCall.loading,
+    error:         apiCall.error,
+    photos:        state.quiz.photos,
   }
 }
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    setQuiz: (quiz) => dispatch({type: 'quiz:set', quiz}),
+    setQuiz: (quiz) => {
+      return dispatch({type: 'quiz:set', quiz})
+    },
+    setPhoto: (idx, url) => {
+      return dispatch({type: 'quiz:setPhoto', idx, url})
+    },
+    destroyPhoto: (url) => {
+      return dispatch({type: 'quiz:destroyPhoto', url})
+    },
+    updatePhoto: (fromUrl, toUrl) => {
+      return dispatch({type: 'quiz:updatePhoto', fromUrl, toUrl})
+    },
     sendQuiz: (quiz) => {
       return dispatch(request({
         method: 'POST',
@@ -137,6 +154,16 @@ const mapDispatchToProps = (dispatch) => {
       })).then((user) => {
         dispatch({type: 'user:set', user})
       })
+    },
+    uploadPhoto: (filePath, fileName) => {
+      return dispatch(request({
+        url:       '/images',
+        upload:    true,
+        fieldName: 'image_file',
+        fileType:  'image/jpeg',
+        fileName,
+        filePath,
+      }))
     }
   }
 }

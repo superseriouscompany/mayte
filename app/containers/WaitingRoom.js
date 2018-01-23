@@ -31,6 +31,7 @@ function mapDispatchToProps(dispatch) {
         // TODO: put this in an action
         branch.logout()
         dispatch({type: 'user:destroy'})
+        dispatch({type: 'api:destroy'})
         dispatch({type: 'vip:destroy'})
         dispatch({type: 'quiz:destroy'})
         clear()

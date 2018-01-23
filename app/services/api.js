@@ -80,7 +80,7 @@ request.upload = (params={}) => {
     return payload
   }).catch((err) => {
     log(err.message || JSON.stringify(err))
-    alert(err.message || JSON.stringify(err))
+    throw err
   })
 }
 
