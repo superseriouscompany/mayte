@@ -41,11 +41,12 @@ class Quiz extends Component {
   }
 
   submit() {
-    if( this.props.photos.find(p => p && p.local) ) {
+    if( true || !!this.props.photos.find(p => p && p.local) ) {
       this.setState({photosLoading: true})
       return setTimeout(this.submit, 250)
     }
-    if( true || !this.props.photos.filter(p => p).length ) {
+    this.setState({photosLoading: false})
+    if( !this.props.photos.filter(p => p).length ) {
       return Alert.alert(
         'Photos failed to upload',
         null,
@@ -57,6 +58,8 @@ class Quiz extends Component {
     }
     return this.props.sendQuiz(this.props.quiz).then(() => {
       this.props.updateSelf()
+    }).catch((err) => {
+      alert(err.message || JSON.stringify(err))
     })
   }
 
@@ -94,6 +97,7 @@ class Quiz extends Component {
 
     return <QuizView {...props}
              zodiac={this.state.zodiac}
+             photosLoading={this.state.photosLoading}
              update={this.props.setQuiz}
              submit={this.submit}
              selectPhoto={this.selectPhoto}
@@ -110,7 +114,6 @@ class Quiz extends Component {
 
 const mapStateToProps = (state, ownProps) => {
   const apiCall   = state.api['POST /applications'] || {}
-  const photoCall = state.api['POST /images'] || {}
 
   return {
     user:          state.user,

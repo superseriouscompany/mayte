@@ -93,12 +93,19 @@ export default class QuizReviewView extends Component {
           </TouchableOpacity>
         </View>
 
-        {
-          props.submitting ?
-          <OrbitLoader
-            color={mayteWhite()}
-            radius={submitLoaderRadius}
-            orbRadius={submitLoaderRadius/4} /> :
+        { props.submitting || props.photosLoading ?
+          <View style={style.loadingCnr}>
+            <OrbitLoader
+              color={mayteWhite()}
+              radius={submitLoaderRadius}
+              orbRadius={submitLoaderRadius/4} />
+            { !props.photosLoading ? null :
+              <Text style={style.loadingExplanation}>
+                Uploading Photos...
+              </Text>
+            }
+          </View>
+        :
           <Animated.View>
             <ButtonGrey
               style={{paddingLeft: em(2), paddingRight: em(2)}}
@@ -128,4 +135,6 @@ const style = StyleSheet.create({
   slotBg: {position: 'absolute', top: 0, left: 0, width: '100%', height: '100%', justifyContent: 'center', alignItems: 'center'},
   slotImg: {position: 'absolute', top: 0, left: 0, width: '100%', height: '100%', borderRadius: em(0.5)},
   section: {width: '100%', marginBottom: em(2)},
+  loadingCnr: {alignItems: 'center', },
+  loadingExplanation: { color: mayteWhite(), backgroundColor: 'transparent', marginTop: em(1), }
 })
