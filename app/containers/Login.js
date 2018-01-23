@@ -72,8 +72,10 @@ class Login extends Component {
 }
 
 function mapStateToProps(state) {
+  const apiCall = state.api['GET /users/me'] || {}
+
   return {
-    loading: (state.api['GET /users/me'] || {}).loading
+    loading: apiCall.loading
   }
 }
 

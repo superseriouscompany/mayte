@@ -45,6 +45,7 @@ export default function request(args, force) {
       dispatch({type: 'api:yes', payload: json, key})
       return json
     }).catch((err) => {
+      dispatch({type: 'api:no', error: err, key})
       if( err.statusCode && err.statusCode == 401 ) {
         console.warn('Logging out because we got a 401')
         // TODO: move logout to its own action
@@ -54,7 +55,6 @@ export default function request(args, force) {
         dispatch({type: 'vip:destroy'})
         return
       }
-      dispatch({type: 'api:no', error: err, key})
       throw err
     })
   }

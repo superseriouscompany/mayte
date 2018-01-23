@@ -33,9 +33,11 @@ class WaitingRoom extends Component {
 
   componentWillUnmount() {
     this.timeout && clearTimeout(this.timeout)
+    this.unmounted = true
   }
 
   pollSelf() {
+    if( this.unmounted ) { return false }
     this.props.loadSelf().then(() => {
       this.timeout = setTimeout(this.pollSelf, 2000)
     })
