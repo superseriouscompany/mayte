@@ -43,12 +43,14 @@ class Quiz extends Component {
 
   componentDidMount() {
     this.setState({zodiac: computeZodiac(this.state.dob)})
-    this.props.update({vip: text})
+    if( this.props.pendingCode ) {
+      this.props.update({vipCode: this.props.pendingCode})
+    }
   }
 
   componentWillReceiveProps(props) {
-    if( props.prefilledCode && !this.props.prefilledCode ) {
-      this.props.update({vip: props.prefilledCode})
+    if( props.pendingCode && !this.props.pendingCode ) {
+      this.props.update({vip: props.pendingCode})
     }
   }
 

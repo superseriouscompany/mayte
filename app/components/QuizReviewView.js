@@ -98,10 +98,10 @@ export default class QuizReviewView extends Component {
           </View>
           <TouchableOpacity
             onPress={() => this.scene.fadeOut(() => props.update({step: 'vip'}))}>
-            { props.vip ?
+            { props.quiz.vipCode ?
                 <View style={{flexDirection: 'row', alignItems: 'center'}}>
-                  <Image style={style.vipRefBubble} source={props.referral.photos[0]} resizeMode='cover' />
-                  <Text style={[style.text, style.valueText]}>{props.vip}</Text>
+                  <Image style={style.vipRefBubble} source={{url: props.user.photos[0].url}} resizeMode='cover' />
+                  <Text style={[style.text, style.valueText]}>{props.quiz.vipCode}</Text>
                 </View>
               : <Text style={[style.text, style.valueText, style.vipPlaceholder]}>Enter Code</Text>
             }

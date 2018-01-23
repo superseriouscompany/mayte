@@ -40,15 +40,13 @@ export default class Vip extends Component {
     this.handleInput = this.handleInput.bind(this)
   }
 
-  handleInput(text) {
-    this.props.update({vip: text})
+  handleInput(vipCode) {
+    this.props.update({vipCode})
   }
 
   verify() {
-    // TODO: rely on api for this
-    this.setState({verifying: true})
-    return this.props.redeemVipCode(this.props.vipCode).then(d => {
-      this.setState({verifying: false})
+    return this.props.redeemVipCode(this.props.quiz.vipCode).then(d => {
+      this.props.next()
     }).catch(err => {
       log(err)
       alert(err.message || JSON.stringify(err))
@@ -100,7 +98,7 @@ export default class Vip extends Component {
 
         <Animated.View style={[style.redeemCont, {opacity: this._buttonOpacity, opacity: 1}]}>
         {
-          state.verifying ?
+          props.redeeming ?
             <OrbitLoader
               color='white'
               radius={vipOrbitLoaderRadius}
