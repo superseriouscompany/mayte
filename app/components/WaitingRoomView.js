@@ -44,10 +44,12 @@ export default class WaitingRoomView extends Component {
             <ButtonBlack
               onPress={props.requestNotifPerms}
               style={style.button}
-              text="Got It" />
+              text="Notify Me" />
           </View>
         :
-          <Text style={style.copy}>Thank you for applying! Your application is processing. We will notify you upon approval.</Text>
+          <View style={style.permsCnr}>
+            <Text style={style.copy}>Thank you for applying! Your application is processing. We will notify you upon approval.</Text>
+          </View>
         }
 
         { !__DEV__ ? null :
@@ -65,8 +67,9 @@ const style = StyleSheet.create({
   container: {flex: 1, justifyContent: 'center', alignItems: 'center',},
   icon: {height: em(5), width: em(5), marginBottom: em(1),},
   logo: {marginBottom: em(3), height: em(1.2), width: em(6),},
-  copy: {width: '80%', fontSize: em(1), marginBottom: em(3), fontFamily: 'Gotham-Medium', textAlign: 'center', backgroundColor: 'transparent'},
-  button: {paddingLeft: em(2.66), paddingRight: em(2.66),},
+  permsCnr: { justifyContent: 'center', alignItems: 'center', width: '80%', },
+  copy: { fontSize: em(1), marginBottom: em(3), fontFamily: 'Gotham-Medium', textAlign: 'center', backgroundColor: 'transparent'},
+  button: {paddingLeft: em(2), paddingRight: em(2),},
   fragment: {position: 'absolute', width: '100%', height: '50%'},
   bgBlur: {position: 'absolute', top: 0, left: 0, width: '100%', height: '100%'},
 })
