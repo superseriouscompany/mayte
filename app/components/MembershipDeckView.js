@@ -37,9 +37,7 @@ export default class MembershipDeckView extends Component {
     this._indexMarkerX = new Animated.Value(0)
     this.handleScroll = this.handleScroll.bind(this)
   }
-  componentDidMount() {
-    console.log(this.deck)
-  }
+
   handleScroll(e) {
     const {x} = e.nativeEvent.contentOffset
     const {width} = e.nativeEvent.layoutMeasurement
@@ -51,6 +49,7 @@ export default class MembershipDeckView extends Component {
       useNativeDriver: true,
     }).start()
   }
+
   render() {
     const {props, state} = this
     return (
@@ -95,7 +94,7 @@ export default class MembershipDeckView extends Component {
   }
 }
 
-const idxWidth = em(1)
+const idxWidth = em(0.66)
 const idxMargin = em(0.5)
 const idxBorder = 2
 
