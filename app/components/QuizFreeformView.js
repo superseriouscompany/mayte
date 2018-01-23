@@ -67,7 +67,7 @@ export default class QuizFreeformView extends Component {
     const fontBase = em(1)
     return (
       <Scene
-        active={props.step == 'freeform'}
+        ref={el => this.scene = el}
         onFadeIn={() => {
             Animated.timing(this._inputContScaleX, {
               toValue: 1,
@@ -100,7 +100,7 @@ export default class QuizFreeformView extends Component {
         <Animated.View style={{opacity: this._buttonOpacity, transform: [{translateY: this._buttonTranslateY}]}}>
           <ButtonGrey
             style={{paddingLeft: em(1.33), paddingRight: em(1.33)}}
-            onPress={state.ready ? props.next : () => null}
+            onPress={state.ready ? () => this.scene.fadeOut(props.next) : () => null}
             text='Finish & Submit' />
         </Animated.View>
       </Scene>

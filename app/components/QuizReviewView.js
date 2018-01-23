@@ -3,7 +3,6 @@
 import React, {Component}                           from 'react'
 import DatePicker                                   from 'react-native-datepicker'
 import {Scene}                                      from './QuizView'
-import Vip                                          from './QuizReviewVipView'
 import ImagePicker                                  from 'react-native-image-crop-picker'
 import {ButtonGrey}                                 from './Button'
 import OrbitLoader                                  from './OrbitLoader'
@@ -28,9 +27,9 @@ export default class QuizReviewView extends Component {
     const {props, state} = this
     return (
       <Scene
-        style={[style.container, {height: 'auto'}]}
+        style={[style.container]}
         contStyle={{justifyContent: 'flex-start', paddingTop: em(3) + notchHeight, paddingBottom: em(3)}}
-        active={props.step == 'review'}>
+        ref={el => this.scene = el}>
 
         <Text style={[style.text, style.header]}>REVIEW</Text>
 
@@ -39,7 +38,7 @@ export default class QuizReviewView extends Component {
             <Text style={[style.text, style.sectionTitle]}>EMAIL</Text>
           </View>
           <TouchableOpacity
-            onPress={() => props.update({step: 'email'})}>
+            onPress={() => this.scene.fadeOut(() => props.update({step: 'email'}))}>
             <Text style={[style.text, style.valueText]}>{props.email}</Text>
           </TouchableOpacity>
         </View>
@@ -49,7 +48,7 @@ export default class QuizReviewView extends Component {
             <Text style={[style.text, style.sectionTitle]}>DATE OF BIRTH</Text>
           </View>
           <TouchableOpacity
-            onPress={() => props.update({step: 'dob'})}>
+            onPress={() => this.scene.fadeOut(() => props.update({step: 'dob'}))}>
             <Text style={[style.text, style.valueText]}>{props.dob}</Text>
           </TouchableOpacity>
         </View>
@@ -59,7 +58,7 @@ export default class QuizReviewView extends Component {
             <Text style={[style.text, style.sectionTitle]}>WEBSITE</Text>
           </View>
           <TouchableOpacity
-            onPress={() => props.update({step: 'website'})}>
+            onPress={() => this.scene.fadeOut(() => props.update({step: 'website'}))}>
             <Text style={[style.text, style.valueText]}>{props.website}</Text>
           </TouchableOpacity>
         </View>
@@ -72,7 +71,7 @@ export default class QuizReviewView extends Component {
           {
             props.photos.map((p, i) => {
               return(
-                <TouchableOpacity style={style.slot} key={i} onPress={() => props.update({step: 'photos'})}>
+                <TouchableOpacity style={style.slot} key={i} onPress={() => this.scene.fadeOut(() => props.update({step: 'photos'}))}>
                   <View style={style.slotBg}><Text style={[style.text, {fontSize: em(2)}]}>+</Text></View>
                   { props.photos[i] ?
                       <Image style={style.slotImg} source={{uri: props.photos[i]}} resizeMode='cover' /> : null }
@@ -88,12 +87,27 @@ export default class QuizReviewView extends Component {
             <Text style={[style.text, style.sectionTitle]}>BELIEVE IN MAGIC?</Text>
           </View>
           <TouchableOpacity
-            onPress={() => props.update({step: 'freeform'})}>
+            onPress={() => this.scene.fadeOut(() => props.update({step: 'freeform'}))}>
             <Text style={[style.text, style.valueText]}>{props.freeform}</Text>
           </TouchableOpacity>
         </View>
 
-        <Vip {...props} />
+        <View style={[style.section]}>
+          <View style={style.sectionHeader}>
+            <Text style={[style.text, style.sectionTitle]}>VIP CODE*</Text>
+          </View>
+          <TouchableOpacity
+            onPress={() => this.scene.fadeOut(() => props.update({step: 'vip'}))}>
+            { props.vip ?
+                <View style={{flexDirection: 'row', alignItems: 'center'}}>
+                  <Image style={style.vipRefBubble} source={props.referral.photos[0]} resizeMode='cover' />
+                  <Text style={[style.text, style.valueText]}>{props.vip}</Text>
+                </View>
+              : <Text style={[style.text, style.valueText, style.vipPlaceholder]}>Enter Code</Text>
+            }
+          </TouchableOpacity>
+          <Text style={[style.text, style.vipDisclaimer]}>*Valid code does not guarantee entry.</Text>
+        </View>
 
         {
           props.submitting ?
@@ -130,4 +144,7 @@ const style = StyleSheet.create({
   slotBg: {position: 'absolute', top: 0, left: 0, width: '100%', height: '100%', justifyContent: 'center', alignItems: 'center'},
   slotImg: {position: 'absolute', top: 0, left: 0, width: '100%', height: '100%', borderRadius: em(0.5)},
   section: {width: '100%', marginBottom: em(2)},
+  vipPlaceholder: {fontStyle: 'italic', opacity: 0.8},
+  vipDisclaimer: {textAlign: 'left', marginTop: em(0.66)},
+  vipRefBubble: {width: em(2), height: em(2), borderRadius: em(1), marginRight: em(0.66)}
 })

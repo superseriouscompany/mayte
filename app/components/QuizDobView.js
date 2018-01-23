@@ -2,6 +2,7 @@
 
 import React, {Component}       from 'react'
 import DatePicker               from 'react-native-datepicker'
+import moment                   from 'moment'
 import {Scene}                  from './QuizView'
 import {ButtonGrey}             from './Button'
 import {mayteWhite, mayteBlack} from '../constants/colors'
@@ -17,6 +18,8 @@ import {
 } from 'react-native'
 
 const buttonHideY = 0
+const oldest   = moment().subtract(100, 'years')
+const youngest = moment().subtract(18, 'years')
 
 export default class QuizDobView extends Component {
   constructor(props) {
@@ -60,7 +63,7 @@ export default class QuizDobView extends Component {
     const {props, state} = this
     return (
       <Scene
-        active={props.step == 'dob'}
+        ref={el => this.scene = el}
         onFadeIn={() => {
             Animated.timing(this._inputContScaleX, {
               toValue: 1,
@@ -102,6 +105,8 @@ export default class QuizDobView extends Component {
               placeholder="Select Date"
               format="MMM Do YYYY"
               showIcon={false}
+              minDate={oldest.format('MMM Do YYYY')}
+              maxDate={youngest.format('MMM Do YYYY')}
               confirmBtnText="Confirm"
               cancelBtnText="Cancel"
               onDateChange={this.handleInput} />
@@ -111,7 +116,7 @@ export default class QuizDobView extends Component {
         <Animated.View style={{opacity: this._buttonOpacity, transform: [{translateY: this._buttonTranslateY}]}}>
           <ButtonGrey
             style={{paddingLeft: em(2), paddingRight: em(2)}}
-            onPress={state.ready ? props.next : () => null}
+            onPress={state.ready ? () => this.scene.fadeOut(props.next) : () => null}
             text={props.readyForSubmit ? 'Finish & Submit' : 'Next'} />
         </Animated.View>
       </Scene>

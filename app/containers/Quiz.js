@@ -7,25 +7,48 @@ import request            from '../actions/request'
 class Quiz extends Component {
   constructor(props) {
     super(props)
+
+    this.initialState = {
+      email:    null,
+      dob:      null,
+      photos:   [null, null, null],
+      website:  null,
+      freeform: null,
+      vip:      null,
+      referral: null,
+      step:     'intro',
+    }
+
+    var website = props.quiz.website
+    if (props.user.instagramHandle && !website) {
+      website = `https://instagram.com/${props.user.instagramHandle}`
+    }
+
     this.state = {
       email:    props.quiz.email,
       dob:      props.quiz.dob,
       photos:   props.quiz.photos || [null, null, null],
-      website:  props.quiz.website,
+      website:  website,
       freeform: props.quiz.freeform,
+      vip:      props.quiz.vip,
+      referral: props.quiz.referral,
       step:     props.quiz.step || 'intro',
     }
+
     this.submit    = this.submit.bind(this)
+    this.reset     = this.reset.bind(this)
     this.updateDob = this.updateDob.bind(this)
+    this.verifyVipCode = this.verifyVipCode.bind(this)
   }
 
   componentDidMount() {
     this.setState({zodiac: computeZodiac(this.state.dob)})
+    this.props.update({vip: text})
   }
 
   componentWillReceiveProps(props) {
     if( props.prefilledCode && !this.props.prefilledCode ) {
-      this.setState({vipCode: props.prefilledCode})
+      this.props.update({vip: props.prefilledCode})
     }
   }
 
@@ -36,6 +59,7 @@ class Quiz extends Component {
 
   componentDidUpdate(prevProps, prevState) {
     var {submitting, ...ts} = this.state
+
     if (prevState != this.state) {
       this.props.setQuiz(ts)
     }
@@ -47,6 +71,23 @@ class Quiz extends Component {
     })
   }
 
+  reset() {
+    this.setState(this.initialState)
+    this.props.resetQuiz()
+  }
+
+  verifyVipCode() {
+    return new Promise((resolve, reject) => {
+      setTimeout(() => {
+        var r = {code: this.state.vip, referral: testRef}
+        if (this.state.vip == 'error') {
+          reject({error: 'Code invalid.'})
+        }
+        resolve(r)
+      }, 2000)
+    })
+  }
+
   render() {
     const props = {...this.props.quiz, ...this.props}
 
@@ -54,6 +95,7 @@ class Quiz extends Component {
              zodiac={this.state.zodiac}
              vipCode={this.state.vipCode}
              update={(k) => this.setState(k)}
+             reset={this.reset}
              updateDob={this.updateDob}
              submit={this.submit}
              readyForSubmit={
@@ -106,7 +148,13 @@ const mapDispatchToProps = (dispatch) => {
       return dispatch(request({
         method: 'PUT',
         url:    `/vipCodes/${code}`,
-      }))
+      })).then((vipCode) => {
+        const testRef = {
+          fullName: 'Sancho Panza',
+          photos: [{url: 'https://pokewalls.files.wordpress.com/2012/06/2ivysaur1920x1200.jpg'}]
+        }
+        return
+      })
     }
   }
 }

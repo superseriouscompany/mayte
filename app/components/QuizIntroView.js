@@ -12,7 +12,7 @@ import {
 export default Intro = (props) => {
   return(
     <Scene
-      active={props.step == 'intro'}
+      ref={el => this.scene = el}
       style={[style.intro]}>
 
       <Text style={[style.text, style.header]}>WELCOME</Text>
@@ -22,7 +22,7 @@ export default Intro = (props) => {
 
       <ButtonGrey
         style={{paddingLeft: em(2.66), paddingRight: em(2.66), paddingTop: em(0.66), paddingBottom: em(0.66)}}
-        onPress={props.next}
+        onPress={() => this.scene.fadeOut(props.next)}
         text='Apply' />
     </Scene>
   )
