@@ -11,11 +11,7 @@ import {
 class Quiz extends Component {
   constructor(props) {
     super(props)
-
-    this.state = {
-      step: props.quiz.step || 'intro',
-    }
-
+    this.state = {}
     this.submit        = this.submit.bind(this)
     this.verifyVipCode = this.verifyVipCode.bind(this)
     this.selectPhoto   = this.selectPhoto.bind(this)
@@ -32,11 +28,9 @@ class Quiz extends Component {
     if( props.pendingCode && !this.props.pendingCode ) {
       this.props.update({vip: props.pendingCode})
     }
-  }
 
-  componentWillReceiveProps(props) {
     if( props.quiz.dob != this.props.quiz.dob ) {
-      this.setState({zodiac: computeZodiac(this.props.quiz.dob)})
+      this.setState({zodiac: computeZodiac(props.quiz.dob)})
     }
 
     if( !props.quiz.website && props.user.instagramHandle ) {

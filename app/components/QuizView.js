@@ -42,7 +42,7 @@ export default class QuizView extends Component {
   }
 
   componentWillReceiveProps(props) {
-    if( props.zodiac && !this.props.zodiac ) {
+    if( props.zodiac != this.props.zodiac ) {
       Animated.parallel([
         Animated.spring(this._zodiacScale, {
           toValue: 0.66,
