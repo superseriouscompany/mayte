@@ -41,9 +41,10 @@ export default class WaitingRoomView extends Component {
           style={style.button}
           text="Got It" />
 
-        <TouchableOpacity style={{marginTop: em(1)}} onPress={props.deleteAccount}>
-          <Text style={{color: 'red'}}>Delete Account</Text>
-        </TouchableOpacity>
+        { !__DEV__ ? null :
+          <TouchableOpacity style={{marginTop: em(1)}} onPress={props.deleteAccount}>
+            <Text style={{color: 'red'}}>Delete Account</Text>
+          </TouchableOpacity> }
       </View>
     )
   }

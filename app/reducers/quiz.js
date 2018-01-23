@@ -4,6 +4,8 @@ const initialState = {
   photos:   [null, null, null],
   website:  null,
   freeform: null,
+  vip:      null,
+  referral: null,
   step:     'intro',
 }
 

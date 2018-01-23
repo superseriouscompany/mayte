@@ -122,7 +122,7 @@ export default class QuizPhotosView extends Component {
     return (
       <Scene
         style={[style.container]}
-        active={props.step == 'photos'}
+        ref={el => this.scene = el}
         onFadeIn={() => {
           if (props.photos.filter(i => i).length) {
             this.setState({ready: true})
@@ -149,7 +149,7 @@ export default class QuizPhotosView extends Component {
         <Animated.View style={{opacity: this._buttonOpacity, transform: [{translateY: this._buttonTranslateY}]}}>
           <ButtonGrey
             style={{paddingLeft: em(2), paddingRight: em(2)}}
-            onPress={state.ready ? props.next : () => null}
+            onPress={state.ready ? () => this.scene.fadeOut(props.next) : () => null}
             text={props.readyForSubmit ? 'Finish & Submit' : 'Next'} />
         </Animated.View>
       </Scene>
