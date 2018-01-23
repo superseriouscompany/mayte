@@ -41,7 +41,7 @@ class Quiz extends Component {
   }
 
   submit() {
-    if( true || !!this.props.photos.find(p => p && p.local) ) {
+    if( !!this.props.photos.find(p => p && p.local) ) {
       this.setState({photosLoading: true})
       return setTimeout(this.submit, 250)
     }
