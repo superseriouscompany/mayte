@@ -70,7 +70,7 @@ class RecsPreview extends Component {
     return (
       <View style={style.container}>
         <Animated.View style={[style.bg, {opacity: this._bgOpacity}]}>
-          <Image source={props.user.preferences.orientation == 'male' ? require('../images/recs-preview-bg-male.jpg') : require('../images/recs-preview-bg-female.jpg')}
+          <Image source={false ? require('../images/recs-preview-bg-male.jpg') : require('../images/recs-preview-bg-female.jpg')}
                  style={style.bgImg}
                  onLoad={this.runAnim}
                  resizeMode='cover' />

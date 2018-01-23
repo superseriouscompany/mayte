@@ -51,14 +51,14 @@ class Stage extends PureComponent {
 
   showScene(sceneName) {
     const {props} = this
-    
+
     if( sceneName == 'VipCodeInvite' ) {
       return <VipCodeInvite />
     }
     if( sceneName == 'Dead' ) {
       return <Dead />
     }
-
+return <WaitingRoom />
     return (
       !props.authenticated ? <Login />
     : !props.hasApplied    ? <Quiz />
@@ -82,7 +82,7 @@ class Stage extends PureComponent {
                   size={em(1.625)} />
           )} />
 
-        { props.isAdmin ?
+        { false ?
           <Recs sceneName="Recs"
             tabLabel="Suggestions"
             tabIcon={({tintColor, focused}) => (
