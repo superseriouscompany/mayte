@@ -51,7 +51,7 @@ class Stage extends PureComponent {
 
   showScene(sceneName) {
     const {props} = this
-    
+
     if( sceneName == 'VipCodeInvite' ) {
       return <VipCodeInvite />
     }
