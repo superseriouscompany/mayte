@@ -3,7 +3,6 @@
 import React, {Component}                           from 'react'
 import DatePicker                                   from 'react-native-datepicker'
 import {Scene}                                      from './QuizView'
-import Vip                                          from './QuizReviewVipView'
 import ImagePicker                                  from 'react-native-image-crop-picker'
 import {ButtonGrey}                                 from './Button'
 import OrbitLoader                                  from './OrbitLoader'
@@ -93,6 +92,23 @@ export default class QuizReviewView extends Component {
           </TouchableOpacity>
         </View>
 
+        <View style={[style.section]}>
+          <View style={style.sectionHeader}>
+            <Text style={[style.text, style.sectionTitle]}>VIP CODE*</Text>
+          </View>
+          <TouchableOpacity
+            onPress={() => props.update({step: 'vip'})}>
+            { props.vip ?
+                <View style={{flexDirection: 'row', alignItems: 'center'}}>
+                  <Image style={style.vipRefBubble} source={props.referral.photos[0]} resizeMode='cover' />
+                  <Text style={[style.text, style.valueText]}>{props.vip}</Text>
+                </View>
+              : <Text style={[style.text, style.valueText, style.vipPlaceholder]}>Enter Code</Text>
+            }
+          </TouchableOpacity>
+          <Text style={[style.text, style.vipDisclaimer]}>*Valid code does not guarantee entry.</Text>
+        </View>
+
         {
           props.submitting ?
           <OrbitLoader
@@ -128,4 +144,7 @@ const style = StyleSheet.create({
   slotBg: {position: 'absolute', top: 0, left: 0, width: '100%', height: '100%', justifyContent: 'center', alignItems: 'center'},
   slotImg: {position: 'absolute', top: 0, left: 0, width: '100%', height: '100%', borderRadius: em(0.5)},
   section: {width: '100%', marginBottom: em(2)},
+  vipPlaceholder: {fontStyle: 'italic', opacity: 0.8},
+  vipDisclaimer: {textAlign: 'left', marginTop: em(0.66)},
+  vipRefBubble: {width: em(2), height: em(2), borderRadius: em(1), marginRight: em(0.66)}
 })

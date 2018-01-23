@@ -85,11 +85,6 @@ export default class Vip extends Component {
           defaultValue={props.value}
           value={state.value}
           ref={el => this.input = el}
-          onSubmitEditing={() => {
-            if (this.testInput(props.value)) {
-              props.next()
-            }
-          }}
           autoCapitalize='none'
           autoCorrect={false} />
 
@@ -115,7 +110,7 @@ export default class Vip extends Component {
             <ButtonGrey
               style={{paddingLeft: em(2), paddingRight: em(2)}}
               onPress={props.referral ? props.next : this.verify}
-              text={props.referral ? 'Next' : 'Redeem'} />
+              text={props.referral ? props.readyForSubmit ? 'Finish & Submit' : 'Next' : 'Redeem'} />
         }
         </Animated.View>
 
