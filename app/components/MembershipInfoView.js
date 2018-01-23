@@ -364,7 +364,7 @@ const style = StyleSheet.create({
   },
 
   upcomingEvent: {
-    paddingBottom: em(2) + bottomBoost,
+    paddingBottom: em(3) + bottomBoost,
   },
   eventText: {
     textAlign: 'center',

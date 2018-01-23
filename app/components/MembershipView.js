@@ -1,14 +1,14 @@
 'use strict'
 
-import React, {Component} from 'react'
-import moment             from 'moment'
-import Text               from './Text'
-import QRCode             from 'react-native-qrcode'
-import MembershipDeckView from './MembershipDeckView'
-import MembershipInfoView from './MembershipInfoView'
-import {baseUrl}          from '../services/api'
-import {mayteBlack}       from '../constants/colors'
-import {ButtonBlack}      from './Button'
+import React, {Component}          from 'react'
+import moment                      from 'moment'
+import Text                        from './Text'
+import QRCode                      from 'react-native-qrcode'
+import MembershipDeckView, {Slide} from './MembershipDeckView'
+import MembershipInfoView          from './MembershipInfoView'
+import {baseUrl}                   from '../services/api'
+import {mayteBlack}                from '../constants/colors'
+import {ButtonBlack}               from './Button'
 import {
   screenWidth,
   screenHeight,
@@ -99,7 +99,7 @@ export default class MembershipView extends Component {
     const {props, state} = this
     return (
       <View style={style.container}>
-        <MembershipDeckView hideOpacity={this._hideOp} />
+        <MembershipDeckView hideOpacity={this._hideOp} slides={slides} />
 
         { state.mask ?
             <Animated.View
@@ -133,21 +133,25 @@ export default class MembershipView extends Component {
 }
 
 const style = StyleSheet.create({
-  container: {
-    flex: 1,
-    justifyContent: 'flex-end',
-    alignItems: 'center',
-  },
-  mask: {
-    position: 'absolute',
-    top: 0, left: 0,
-    width: screenWidth,
-    height: screenHeight,
-    backgroundColor: mayteBlack(0.9),
-  },
-  button: {
-    marginBottom: em(3),
-    paddingLeft: em(1.66),
-    paddingRight: em(1.66),
-  }
+  container: {flex: 1, justifyContent: 'flex-end', alignItems: 'center',},
+  mask: {position: 'absolute', top: 0, left: 0, width: screenWidth, height: screenHeight, backgroundColor: mayteBlack(0.9),},
+  button: {marginBottom: em(3), paddingLeft: em(1.66), paddingRight: em(1.66),},
+  slideText: {color: mayteBlack(), textAlign: 'center', backgroundColor: 'transparent'},
+  slideTitle: {fontFamily: 'Futura', fontWeight: '700', fontSize: em(2.33), letterSpacing: em(0.1), marginBottom: em(2)},
+  slideBody: {fontFamily: 'Gotham-Book', fontSize: em(1.2), lineHeight: em(1.6)},
 })
+
+const slides = [
+  <Slide bg={require('../images/membership-deck-0.png')}>
+    <Text style={[style.slideText, style.slideTitle]}>{`YOU’RE VIP`}</Text>
+    <Text style={[style.slideText, style.slideBody]}>{`Your membership includes full access to all social events, premium dating services and world-class concierge service`}</Text>
+  </Slide>,
+  <Slide bg={require('../images/membership-deck-1.png')}>
+    <Text style={[style.slideText, style.slideTitle]}>{`FIRST CLASS`}</Text>
+    <Text style={[style.slideText, style.slideBody]}>{`Regular events include exclusive events, concerts, dinners and more – all inclusive with your Unicorn membership.`}</Text>
+  </Slide>,
+  <Slide bg={require('../images/membership-deck-2.png')}>
+    <Text style={[style.slideText, style.slideTitle]}>{`MAGIC`}</Text>
+    <Text style={[style.slideText, style.slideBody]}>{`Unicorn Memberships come with personal concierge getting you instant reservations to the hottest restaurants and clubs.`}</Text>
+  </Slide>,
+]
