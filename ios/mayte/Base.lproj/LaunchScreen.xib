@@ -7,6 +7,7 @@
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="13772"/>
         <capability name="Aspect ratio constraints" minToolsVersion="5.1"/>
+        <capability name="Constraints with non-1.0 multipliers" minToolsVersion="5.1"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
@@ -17,18 +18,20 @@
             <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
-                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="unicorn-icon-white" translatesAutoresizingMaskIntoConstraints="NO" id="ofq-na-dCn">
-                    <rect key="frame" x="157" y="301" width="60" height="85"/>
+                <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" image="unicorn-icon-horn-white" translatesAutoresizingMaskIntoConstraints="NO" id="kWL-om-9ZW">
+                    <rect key="frame" x="125" y="211" width="125" height="133"/>
                     <constraints>
-                        <constraint firstAttribute="width" secondItem="ofq-na-dCn" secondAttribute="height" multiplier="173:244" id="Fzx-5S-qcG"/>
-                        <constraint firstAttribute="width" constant="60" id="UZa-kn-mSt"/>
+                        <constraint firstAttribute="width" secondItem="kWL-om-9ZW" secondAttribute="height" multiplier="4936:5234" id="Id6-Ax-75j"/>
                     </constraints>
                 </imageView>
             </subviews>
             <color key="backgroundColor" red="0.13725490196078433" green="0.12156862745098039" blue="0.12549019607843137" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
             <constraints>
-                <constraint firstItem="ofq-na-dCn" firstAttribute="centerY" secondItem="Nxt-Yc-iG7" secondAttribute="centerY" id="Qjd-mu-0ng"/>
-                <constraint firstItem="ofq-na-dCn" firstAttribute="centerX" secondItem="Nxt-Yc-iG7" secondAttribute="centerX" id="lIL-ld-mmq"/>
+                <constraint firstItem="kWL-om-9ZW" firstAttribute="centerX" secondItem="Nxt-Yc-iG7" secondAttribute="centerX" id="5wb-bM-kot"/>
+                <constraint firstItem="kWL-om-9ZW" firstAttribute="width" secondItem="Nxt-Yc-iG7" secondAttribute="width" multiplier="1/3" id="EdA-LU-YGY"/>
+                <constraint firstItem="kWL-om-9ZW" firstAttribute="centerY" secondItem="Nxt-Yc-iG7" secondAttribute="centerY" id="El3-S7-bEl"/>
+                <constraint firstItem="kWL-om-9ZW" firstAttribute="centerY" secondItem="Nxt-Yc-iG7" secondAttribute="centerY" id="JXd-9u-nY8"/>
+                <constraint firstItem="kWL-om-9ZW" firstAttribute="top" secondItem="Nxt-Yc-iG7" secondAttribute="top" constant="257" id="JXd-ez-3zf"/>
             </constraints>
             <nil key="simulatedStatusBarMetrics"/>
             <modalPageSheetSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
@@ -37,6 +40,6 @@
         </view>
     </objects>
     <resources>
-        <image name="unicorn-icon-white" width="173" height="244"/>
+        <image name="unicorn-icon-horn-white" width="4936" height="5234"/>
     </resources>
 </document>
