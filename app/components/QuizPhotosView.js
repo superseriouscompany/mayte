@@ -3,10 +3,11 @@
 import React, {Component}       from 'react'
 import DatePicker               from 'react-native-datepicker'
 import {Scene}                  from './QuizView'
-import ImagePicker              from 'react-native-image-crop-picker'
 import {ButtonGrey}             from './Button'
 import {mayteWhite, mayteBlack} from '../constants/colors'
+import ImagePicker              from 'react-native-image-crop-picker'
 import api                      from '../services/api'
+import log                      from '../services/log'
 import timing                   from '../constants/timing'
 import {
   em,
@@ -30,14 +31,10 @@ export default class QuizPhotosView extends Component {
     super(props)
     this._buttonOpacity = new Animated.Value(0)
     this._buttonTranslateY = new Animated.Value(buttonHideY)
-    this.getFromCameraRoll = this.getFromCameraRoll.bind(this)
 
-    this.state = {ready: false}
-
-    this.animButton = this.animButton.bind(this)
-    this.uploadImage = this.uploadImage.bind(this)
-    this.seekAndReplacePath = this.seekAndReplacePath.bind(this)
-    this.seekAndDestroyPhoto = this.seekAndDestroyPhoto.bind(this)
+    this.state       = {ready: false}
+    this.animButton  = this.animButton.bind(this)
+    this.selectPhoto = this.selectPhoto.bind(this)
   }
 
   componentWillReceiveProps(props) {
@@ -66,55 +63,17 @@ export default class QuizPhotosView extends Component {
     ]).start()
   }
 
-  uploadImage(localPath) {
-    return api.upload({
-      path: '/images',
-      filePath: localPath,
-      fieldName: 'image_file',
-      fileName: `${this.props.user.id}_${Date.now()}.jpg`,
-      fileType: 'image/jpeg',
-    }).then(p => {
-      return p
-    })
-  }
-
-  getFromCameraRoll(idx) {
-    var localPath
-    var photos = this.props.photos.slice(0)
+  selectPhoto(idx) {
     ImagePicker.openPicker({
       width: screenWidth,
       height: screenHeight,
       cropping: true,
     }).then(image => {
-      localPath = image.path
-      photos[idx] = localPath
-      this.props.update({photos})
-      return this.uploadImage(localPath)
-    }).then(payload => {
-      if (!payload || !payload.url) {return this.seekAndDestroyPhoto(localPath)}
-      return this.seekAndReplacePath(localPath, payload.url)
-    }).catch(err => {
+      return this.props.selectPhoto(idx, image.path)
+    }).catch((err) => {
       if (err.code === 'E_PICKER_CANCELLED') {return}
-      alert(err)
-      this.seekAndDestroyPhoto(localPath)
-      return log(err)
+      log(err)
     })
-  }
-
-  seekAndReplacePath(local, remote) {
-    const photos = this.props.photos.map(p => {
-      if( p === local ) { p = remote }
-      return p
-    })
-    return this.props.update({photos})
-  }
-
-  seekAndDestroyPhoto(path) {
-    const photos = this.props.photos.map(p => {
-      if( p === path ) { p = null }
-      return p
-    }).filter(p => p)
-    return this.props.update({photos})
   }
 
   render() {
@@ -136,7 +95,7 @@ export default class QuizPhotosView extends Component {
         {
           [0,1,2].map(idx => {
             return(
-              <TouchableOpacity style={style.slot} key={idx} onPress={() => this.getFromCameraRoll(idx)}>
+              <TouchableOpacity style={style.slot} key={idx} onPress={() => this.selectPhoto(idx)}>
                 <View style={style.slotBg}><Text style={[style.text, {fontSize: em(2)}]}>+</Text></View>
                 { (props.photos || [])[idx] ?
                     <Image style={style.slotImg} source={{uri: props.photos[idx]}} resizeMode='cover' /> : null }

@@ -54,9 +54,9 @@ export default class QuizDobView extends Component {
     ]).start()
   }
 
-  handleInput(date) {
-    this.props.updateDob(date)
-    this.setState({ready: !!date})
+  handleInput(dob) {
+    this.props.update({dob})
+    this.setState({ready: !!dob})
   }
 
   render() {
