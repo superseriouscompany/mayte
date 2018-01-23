@@ -36,7 +36,7 @@ export class ParticleSheet extends Component {
     var i = 0
     while (i < count*2) {
       var source = particles[Math.round(Math.random() * particles.length)]
-      var top = Math.random() * screenHeight
+      var top = Math.random() * (screenHeight * 0.9) + (screenHeight * 0.1)
       var left = Math.random() * screenWidth - particleMaxRadius
       var scale = ((Math.random() * 0.8) + 0.2) * this.props.scale
       var durationRotate = scale*this.props.durationRotate
