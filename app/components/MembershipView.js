@@ -35,6 +35,17 @@ export default class MembershipView extends Component {
       mask: false,
     }
 
+    const goldSlide =
+      <Slide>
+        <Text style={[style.slideText, style.slideTitle]}>{`STAY GOLD`}</Text>
+        <Text style={[style.slideText, style.slideBody]}>{`Ponyboy.`}</Text>
+      </Slide>
+
+    // if (props.user.tier == 'gold') {
+    if (true) {
+      slides.unshift(goldSlide)
+    }
+
     this.linkToInstagram = this.linkToInstagram.bind(this)
     this.incrementMask = this.incrementMask.bind(this)
     this.fadeInMask = this.fadeInMask.bind(this)
@@ -99,7 +110,10 @@ export default class MembershipView extends Component {
     const {props, state} = this
     return (
       <View style={style.container}>
-        <MembershipDeckView hideOpacity={this._hideOp} slides={slides} />
+        <MembershipDeckView
+          hideOpacity={this._hideOp}
+          user={props.user}
+          slides={slides} />
 
         { state.mask ?
             <Animated.View
@@ -144,14 +158,14 @@ const style = StyleSheet.create({
 const slides = [
   <Slide bg={require('../images/membership-deck-0.png')}>
     <Text style={[style.slideText, style.slideTitle]}>{`YOU’RE VIP`}</Text>
-    <Text style={[style.slideText, style.slideBody]}>{`Your membership includes full access to all social events, premium dating services and world-class concierge service`}</Text>
+    <Text style={[style.slideText, style.slideBody]}>{`Your membership includes full access to all social events, premium dating services and world-class concierge service.`}</Text>
   </Slide>,
   <Slide bg={require('../images/membership-deck-1.png')}>
     <Text style={[style.slideText, style.slideTitle]}>{`FIRST CLASS`}</Text>
-    <Text style={[style.slideText, style.slideBody]}>{`Regular events include exclusive events, concerts, dinners and more – all inclusive with your Unicorn membership.`}</Text>
+    <Text style={[style.slideText, style.slideBody]}>{`Regular events include exclusive parties, concerts, dinners and more – all inclusive with your Unicorn membership.`}</Text>
   </Slide>,
   <Slide bg={require('../images/membership-deck-2.png')}>
     <Text style={[style.slideText, style.slideTitle]}>{`MAGIC`}</Text>
-    <Text style={[style.slideText, style.slideBody]}>{`Unicorn Memberships come with personal concierge getting you instant reservations to the hottest restaurants and clubs.`}</Text>
+    <Text style={[style.slideText, style.slideBody]}>{`Unicorn memberships come with personal concierge getting you instant reservations to the hottest restaurants and clubs.`}</Text>
   </Slide>,
 ]
