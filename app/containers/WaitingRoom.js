@@ -8,6 +8,11 @@ import branch             from 'react-native-branch'
 import {clear}            from '../reducers'
 
 class WaitingRoom extends Component {
+  constructor(props) {
+    super(props)
+    this.pollSelf = this.pollSelf.bind(this)
+  }
+
   render() {
     return (
       <WaitingRoomView {...this.props} />
@@ -15,7 +20,17 @@ class WaitingRoom extends Component {
   }
 
   componentDidMount() {
-    this.props.loadSelf()
+    this.pollSelf()
+  }
+
+  pollSelf() {
+    this.props.loadSelf().then(() => {
+      this.timeout = setTimeout(this.pollSelf, 2000)
+    })
+  }
+
+  componentWillUnmount() {
+    this.timeout && clearTimeout(this.timeout)
   }
 }
 

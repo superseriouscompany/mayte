@@ -150,13 +150,7 @@ const mapDispatchToProps = (dispatch) => {
       return dispatch(request({
         method: 'PUT',
         url:    `/vipCodes/${code}`,
-      })).then((vipCode) => {
-        const testRef = {
-          fullName: 'Sancho Panza',
-          photos: [{url: 'https://pokewalls.files.wordpress.com/2012/06/2ivysaur1920x1200.jpg'}]
-        }
-        return
-      })
+      }))
     }
   }
 }

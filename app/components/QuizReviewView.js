@@ -100,7 +100,7 @@ export default class QuizReviewView extends Component {
             onPress={() => this.scene.fadeOut(() => props.update({step: 'vip'}))}>
             { props.quiz.vipCode ?
                 <View style={{flexDirection: 'row', alignItems: 'center'}}>
-                  <Image style={style.vipRefBubble} source={{url: props.user.photos[0].url}} resizeMode='cover' />
+                  <Image style={style.vipRefBubble} source={{url: props.quiz.referer.imageUrl}} resizeMode='cover' />
                   <Text style={[style.text, style.valueText]}>{props.quiz.vipCode}</Text>
                 </View>
               : <Text style={[style.text, style.valueText, style.vipPlaceholder]}>Enter Code</Text>
