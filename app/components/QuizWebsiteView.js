@@ -132,6 +132,5 @@ const style = StyleSheet.create({
   text: {backgroundColor: 'transparent', color: mayteWhite(), textAlign: 'center', fontFamily: 'Futura'},
   header: {fontSize: em(1.66), marginBottom: em(2), letterSpacing: em(0.25), fontWeight: '700'},
   inputOuter: {marginBottom: em(2)},
-  // inputInner: {width: '66%', height: em(2), overflow: 'visible', justifyContent: 'flex-end',},
   input: {},
 })
