@@ -8,7 +8,7 @@ import MembershipDeckView, {Slide} from './MembershipDeckView'
 import MembershipInfoView          from './MembershipInfoView'
 import {baseUrl}                   from '../services/api'
 import {mayteBlack}                from '../constants/colors'
-import {ButtonBlack}               from './Button'
+import {ButtonBlack, ButtonGrey}   from './Button'
 import {
   screenWidth,
   screenHeight,
@@ -35,16 +35,12 @@ export default class MembershipView extends Component {
       mask: false,
     }
 
-    const goldSlide =
-      <Slide>
-        <Text style={[style.slideText, style.slideTitle]}>{`STAY GOLD`}</Text>
-        <Text style={[style.slideText, style.slideBody]}>{`Ponyboy.`}</Text>
+    this.goldSlide =
+      <Slide styleBg={{opacity: 0.66}} style={style.goldSlide} bg={require('../images/fractal-bg-gold.png')}>
+        <Text style={[style.slideText, style.slideTitle]}>{`THANK YOU`}</Text>
+        <Text style={[style.slideText, style.slideBody]}>{`As a Unicorn brand ambassador, you have exclusive invite privileges. Please help us fill the Unicorn ecosystem with individuals like yourself.`}</Text>
+        <ButtonGrey style={[style.goldSlideBtn]} styleText={style.goldSlideBtnText} text='INVITE' />
       </Slide>
-
-    // if (props.user.tier == 'gold') {
-    if (true) {
-      slides.unshift(goldSlide)
-    }
 
     this.linkToInstagram = this.linkToInstagram.bind(this)
     this.incrementMask = this.incrementMask.bind(this)
@@ -113,7 +109,7 @@ export default class MembershipView extends Component {
         <MembershipDeckView
           hideOpacity={this._hideOp}
           user={props.user}
-          slides={slides} />
+          slides={[...(true ? [this.goldSlide] : []), ...slides]} />
 
         { state.mask ?
             <Animated.View
@@ -153,18 +149,21 @@ const style = StyleSheet.create({
   slideText: {color: mayteBlack(), textAlign: 'center', backgroundColor: 'transparent'},
   slideTitle: {fontFamily: 'Futura', fontWeight: '700', fontSize: em(2.33), letterSpacing: em(0.1), marginBottom: em(2)},
   slideBody: {fontFamily: 'Gotham-Book', fontSize: em(1.2), lineHeight: em(1.6)},
+  goldSlide: {alignItems: 'center', justifyContent: 'center'},
+  goldSlideBtn: {flex: 0, marginTop: em(1), paddingLeft: em(1.66), paddingRight: em(1.66),},
+  goldSlideBtnText: {fontSize: em(0.8)},
 })
 
 const slides = [
-  <Slide bg={require('../images/membership-deck-0.png')}>
+  <Slide styleBg={{opacity: 0.66}} bg={require('../images/fractal-bg-rainbow.png')}>
     <Text style={[style.slideText, style.slideTitle]}>{`YOU’RE VIP`}</Text>
     <Text style={[style.slideText, style.slideBody]}>{`Your membership includes full access to all social events, premium dating services and world-class concierge service.`}</Text>
   </Slide>,
-  <Slide bg={require('../images/membership-deck-1.png')}>
+  <Slide styleBg={{opacity: 0.66}} bg={require('../images/fractal-bg-pink.png')}>
     <Text style={[style.slideText, style.slideTitle]}>{`FIRST CLASS`}</Text>
     <Text style={[style.slideText, style.slideBody]}>{`Regular events include exclusive parties, concerts, dinners and more – all inclusive with your Unicorn membership.`}</Text>
   </Slide>,
-  <Slide bg={require('../images/membership-deck-2.png')}>
+  <Slide styleBg={{opacity: 0.66}} bg={require('../images/fractal-bg-blue.png')}>
     <Text style={[style.slideText, style.slideTitle]}>{`MAGIC`}</Text>
     <Text style={[style.slideText, style.slideBody]}>{`Unicorn memberships come with personal concierge getting you instant reservations to the hottest restaurants and clubs.`}</Text>
   </Slide>,

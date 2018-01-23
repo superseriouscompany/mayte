@@ -50,6 +50,7 @@ export default class MembershipDeckView extends Component {
             <View style={{flexDirection: 'row'}}>
             {
               (props.slides || []).map((s,i,a) => {
+                console.log(a)
                 return <View key={i} style={[style.index, {marginRight: i == a.length - 1 ? 0 : em(0.5)}]} />
               })
             }
@@ -65,16 +66,19 @@ export class Slide extends Component {
   render() {
     const {props, state} = this
     return(
-      <View style={style.slide}>
-        <Image style={style.slideBg}
+      <View style={[style.slide, props.style]}>
+        <Image style={[style.slideBg, props.styleBg]}
                resizeMode="cover"
                prefetch={true}
                source={props.bg} />
-        <BlurView style={style.slideBlur}
-                  blurType="light"
-                  blurAmount={4}
-                  viewRef={null/* required for Android */} />
-        <Animated.View style={{opacity: props.hideOpacity}}>
+        {
+          !props.blur ? null :
+          <BlurView style={[style.slideBlur, props.styleBlur]}
+                    blurType="light"
+                    blurAmount={0}
+                    viewRef={null/* required for Android */} />
+        }
+        <Animated.View style={[style.slideCont, {opacity: props.hideOpacity}]}>
           {props.children}
         </Animated.View>
       </View>
@@ -88,10 +92,11 @@ const idxBorder = 2
 
 const style = StyleSheet.create({
   container: {position: 'absolute', top: 0, left: 0, width: '100%', height: '100%'},
-  deck: {flex: 1, backgroundColor: mayteBlack()},
+  deck: {flex: 1, backgroundColor: mayteWhite()},
   slide: {width: screenWidth, height: '100%', justifyContent: 'center', alignItems: 'center', paddingLeft: screenWidth * 0.05, paddingRight: screenWidth * 0.05},
   slideBg: {position: 'absolute', width: screenWidth, height: '100%'},
   slideBlur: {position: 'absolute', top: 0, left: 0, right: 0, bottom: 0, backgroundColor: mayteWhite(0.5)},
+  slideCont: {justifyContent: 'center', alignItems: 'center'},
   indexes: {position: 'absolute', flexDirection: 'row', justifyContent: 'center', alignItems: 'center', bottom: 0, left: 0, width: '100%', height: em(3)},
   index: {width: idxWidth, height: idxWidth, borderRadius: idxWidth/2, borderWidth: idxBorder, borderColor: mayteBlack()},
   indexMarker: {position: 'absolute', left: 0, width: idxWidth, height: idxWidth, borderRadius: idxWidth/2, backgroundColor: mayteBlack()},

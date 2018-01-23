@@ -60,7 +60,9 @@ export default class MembershipInfoView extends Component {
   }
 
   componentDidMount() {
-    this.animateOpen()
+    // if (this.props.user.tier != 'gold') {
+    //   this.animateOpen()
+    // }
   }
 
   computeScale(top) {
@@ -185,17 +187,7 @@ export default class MembershipInfoView extends Component {
 
   render() {
     const {props,state} = this
-
-    const privacy = props.user.privacyOptions || {}
-    const showAge = props.myProfile ?
-      privacy.showAge && !!props.user.dob : !!props.user.dob
-    const showLocation = props.myProfile ?
-      privacy.showLocation && true : !!props.user.distance
-    const showInstagramHandle = props.myProfile ?
-      privacy.showInstagramHandle && !!props.user.instagramHandle : !!props.user.instagramHandle
-    const showOccupation = props.myProfile ?
-      privacy.showOccupation && !!props.user.occupation : !!props.user.occupation
-
+    const isGold = props.user.tier == 'gold'
 
     return(
       <Animated.ScrollView
@@ -261,7 +253,7 @@ export default class MembershipInfoView extends Component {
         </View>
 
         <Text style={style.explanation}>
-          This is your entry ticket to all Unicorn events.{ !!props.isGold ? null :
+          This is your entry ticket to all Unicorn events.{ !isGold ? null :
             <Text> As a brand ambassador, you are welcome to attend with a +1.</Text>
           }
         </Text>
