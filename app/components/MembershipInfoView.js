@@ -59,6 +59,10 @@ export default class MembershipInfoView extends Component {
     this.forceOpen = this.forceOpen.bind(this)
   }
 
+  componentDidMount() {
+    this.animateOpen()
+  }
+
   computeScale(top) {
     const base = screenHeight - tabNavHeight - bottomBoost
     return (base - top) / base
@@ -226,7 +230,15 @@ export default class MembershipInfoView extends Component {
         <View style={style.header}>
           <View style={style.headerPri}>
             <Image resizeMove="cover" source={{uri: props.user.photos[0].url}} style={style.mugshot}/>
-            <Text style={style.name}>{props.user.fullName}</Text>
+            <Text style={[
+              style.name,
+                ((props.user.fullName || '').length > 10 ? {
+                    fontSize: nameBase - (props.user.fullName.length - 10)
+                  } :
+                {fontSize: nameBase})
+              ]}>
+              {props.user.fullName}
+            </Text>
           </View>
 
           <View style={style.headerSub}>
@@ -271,6 +283,8 @@ export default class MembershipInfoView extends Component {
   }
 }
 
+const nameBase = em(2)
+
 const style = StyleSheet.create({
   container: {
     flex: 1,
@@ -293,9 +307,10 @@ const style = StyleSheet.create({
   },
   headerPri: {
     flexDirection: 'row',
-    justifyContent: 'center',
+    justifyContent: 'space-around',
     alignItems: 'center',
     marginBottom: em(1.66),
+    width: '100%',
   },
   mugshot: {
     width: em(5),
@@ -305,9 +320,10 @@ const style = StyleSheet.create({
   },
   name: {
     fontFamily: 'Futura',
-    fontSize: em(2),
     color: mayteWhite(),
     letterSpacing: em(0.1),
+    textAlign: 'center',
+    flex: 1,
   },
   headerSub: {
     flexDirection: 'row',
