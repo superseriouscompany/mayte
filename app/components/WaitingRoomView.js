@@ -35,11 +35,19 @@ export default class WaitingRoomView extends Component {
                source={require('../images/unicorn-logo-black.png')}
                resizeMode="contain" />
 
-        <Text style={style.copy}>Your application is processing. We will notify you upon approval.</Text>
-
-        <ButtonBlack
-          style={style.button}
-          text="Got It" />
+        { !props.hasRequestedPerms ?
+          <View style={style.permsCnr}>
+            <Text style={style.copy}>
+              Last step: enable notifications to hear back on your application status.
+            </Text>
+            <ButtonBlack
+              onPress={props.requestNotifPerms}
+              style={style.button}
+              text="Got It" />
+          </View>
+        :
+          <Text style={style.copy}>Thank you for applying! Your application is processing. We will notify you upon approval.</Text>
+        }
 
         { !__DEV__ ? null :
           <TouchableOpacity style={{marginTop: em(1)}} onPress={props.deleteAccount}>

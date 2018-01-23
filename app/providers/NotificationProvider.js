@@ -1,12 +1,8 @@
 import React, {Component} from 'react'
 import {connect}          from 'react-redux'
-import RNFirebase         from 'react-native-firebase'
 import request            from '../actions/request'
 import log                from '../services/log'
-
-const firebase = RNFirebase.initializeApp({
-  debug: __DEV__,
-})
+import firebase           from '../services/firebase'
 
 class NotificationProvider extends Component {
   constructor(props) {
@@ -15,8 +11,6 @@ class NotificationProvider extends Component {
 
   componentWillReceiveProps(nextProps) {
     if (nextProps.isAuthenticated && !this.props.isAuthenticated) {
-      firebase.messaging().requestPermissions()
-
       firebase.messaging().getToken().then((token) => {
         this.props.saveToken(token)
       })

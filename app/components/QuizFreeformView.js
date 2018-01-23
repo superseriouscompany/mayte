@@ -101,7 +101,7 @@ export default class QuizFreeformView extends Component {
           <ButtonGrey
             style={{paddingLeft: em(1.33), paddingRight: em(1.33)}}
             onPress={state.ready ? () => this.scene.fadeOut(props.next) : () => null}
-            text='Finish & Submit' />
+            text='Review & Submit' />
         </Animated.View>
       </Scene>
     )

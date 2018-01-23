@@ -109,7 +109,7 @@ export default class QuizPhotosView extends Component {
           <ButtonGrey
             style={{paddingLeft: em(2), paddingRight: em(2)}}
             onPress={state.ready ? () => this.scene.fadeOut(props.next) : () => null}
-            text={props.readyForSubmit ? 'Finish & Submit' : 'Next'} />
+            text={props.readyForSubmit ? 'Review & Submit' : 'Next'} />
         </Animated.View>
       </Scene>
     )
