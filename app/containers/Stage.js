@@ -82,7 +82,7 @@ class Stage extends PureComponent {
                   size={em(1.625)} />
           )} />
 
-        { false ?
+        { props.isAdmin ?
           <Recs sceneName="Recs"
             tabLabel="Suggestions"
             tabIcon={({tintColor, focused}) => (
