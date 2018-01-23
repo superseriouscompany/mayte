@@ -74,12 +74,13 @@ export default class QuizView extends Component {
   renderScene() {
     const {props} = this
     const rfs = props.readyForSubmit
+
     switch(props.step) {
       case 'intro'   : return <Intro {...props} next={() => props.update({step: rfs ? 'review' : 'vip'})} />
       case 'vip'     : return <Vip {...props} value={props.vip} next={() => props.update({step: rfs ? 'review' : 'email'})} />
       case 'email'   : return <Email {...props} next={() => props.update({step: rfs ? 'review' : 'dob'})} />
       case 'dob'     : return <Dob {...props} next={() => props.update({step: rfs ? 'review' : 'website'})} updateDob={props.updateDob} />
-      case 'website' : return <Website {...props} value={props.website} next={() => props.update({step: rfs ? 'review' : 'photos'})} />
+      case 'website' : return <Website {...props} value={props.quiz.website} next={() => props.update({step: rfs ? 'review' : 'photos'})} />
       case 'photos'  : return <Photos {...props} next={() => props.update({step: rfs ? 'review' : 'freeform'})} />
       case 'freeform': return <Freeform {...props} next={() => props.update({step: rfs ? 'review' : 'review'})} />
       case 'review'  : return <Review {...props} />
@@ -107,7 +108,7 @@ export default class QuizView extends Component {
           <TouchableOpacity
             style={{position: 'absolute', bottom: em(1), left: em(1), alignSelf: 'flex-start', zIndex: 100000}}
             hitSlop={{top: 20, left: 20, right: 20, bottom: 20}}
-            onPress={props.reset}>
+            onPress={props.resetQuiz}>
             <Text style={{backgroundColor: 'transparent', color: 'white'}}>RESET</Text>
           </TouchableOpacity> }
       </View>
