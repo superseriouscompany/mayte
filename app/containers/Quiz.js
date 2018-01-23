@@ -57,13 +57,10 @@ class Quiz extends Component {
 
   selectPhoto(idx, localPath) {
     this.props.setPhoto(idx, localPath)
-    return api.upload({
-      path:      '/images',
-      filePath:  localPath,
-      fieldName: 'image_file',
-      fileName:  `${this.props.user.id}_${Date.now()}.jpg`,
-      fileType:  'image/jpeg',
-    }).then(payload => {
+    return this.props.uploadPhoto(
+      localPath,
+      `${this.props.user.id}_${Date.now()}.jpg`
+    ).then(payload => {
       if (!payload || !payload.url) {
         return this.props.destroyPhoto(localPath)
       }
@@ -136,6 +133,16 @@ const mapDispatchToProps = (dispatch) => {
       })).then((user) => {
         dispatch({type: 'user:set', user})
       })
+    },
+    uploadPhoto: (filePath, fileName) => {
+      return dispatch(request({
+        url:       '/images',
+        upload:    true,
+        fieldName: 'image_file',
+        fileType:  'image/jpeg',
+        fileName,
+        filePath,
+      }))
     }
   }
 }
