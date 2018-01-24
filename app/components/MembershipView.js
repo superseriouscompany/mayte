@@ -37,9 +37,12 @@ export default class MembershipView extends Component {
 
     this.goldSlide =
       <Slide styleBg={{opacity: 0.66}} style={style.goldSlide} bg={require('../images/fractal-bg-gold.png')}>
-        <Text style={[style.slideText, style.slideTitle]}>{`THANK YOU`}</Text>
-        <Text style={[style.slideText, style.slideBody]}>{`As a Unicorn brand ambassador, you have exclusive invite privileges. Please help us fill the Unicorn ecosystem with individuals like yourself.`}</Text>
-        <ButtonGrey style={[style.goldSlideBtn]} styleText={style.goldSlideBtnText} text='INVITE' />
+        <Text style={[style.slideText, style.slideBody]}>{`You are a founding member of Unicorn - congratulations! Please enjoy VIP treatment and the ability to invite users onto our platform.`}</Text>
+        <ButtonGrey
+          onPress={() => props.navigate('VipCodeInvite')}
+          style={[style.goldSlideBtn]}
+          styleText={style.goldSlideBtnText}
+          text='Learn More' />
       </Slide>
 
     this.linkToInstagram = this.linkToInstagram.bind(this)
@@ -150,7 +153,7 @@ const style = StyleSheet.create({
   slideTitle: {fontFamily: 'Futura', fontWeight: '700', fontSize: em(2.33), letterSpacing: em(0.1), marginBottom: em(2)},
   slideBody: {fontFamily: 'Gotham-Book', fontSize: em(1.2), lineHeight: em(1.6)},
   goldSlide: {alignItems: 'center', justifyContent: 'center'},
-  goldSlideBtn: {flex: 0, marginTop: em(1), paddingLeft: em(1.66), paddingRight: em(1.66),},
+  goldSlideBtn: {flex: 0, marginTop: em(2), paddingLeft: em(1.66), paddingRight: em(1.66),},
   goldSlideBtnText: {fontSize: em(0.8)},
 })
 

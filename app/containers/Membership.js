@@ -7,7 +7,7 @@ import Wallet             from 'react-native-wallet'
 import {baseUrl}          from '../services/api'
 import log                from '../services/log'
 
-class MembershipCard extends Component {
+class Membership extends Component {
   constructor(props) {
     super(props)
     this.addPass = this.addPass.bind(this)
@@ -50,8 +50,10 @@ function mapStateToProps(state) {
 
 function mapDispatchToProps(dispatch) {
   return {
-
+    navigate: (scene) => {
+      return dispatch({type: 'scene:change', scene: scene})
+    }
   }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(MembershipCard)
+export default connect(mapStateToProps, mapDispatchToProps)(Membership)

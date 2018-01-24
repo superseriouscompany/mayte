@@ -11,6 +11,7 @@ import {
   FlatList,
   Animated,
   StyleSheet,
+  ActivityIndicator,
 } from 'react-native'
 
 export default class MembershipDeckView extends Component {
@@ -63,24 +64,37 @@ export default class MembershipDeckView extends Component {
 }
 
 export class Slide extends Component {
+  constructor(props) {
+    super(props)
+    this.state = {loaded: false}
+    this._opacity = new Animated.Value(0)
+  }
   render() {
     const {props, state} = this
     return(
       <View style={[style.slide, props.style]}>
-        <Image style={[style.slideBg, props.styleBg]}
+        <Animated.Image style={[style.slideBg, props.styleBg, {opacity: this._opacity}]}
                resizeMode="cover"
                prefetch={true}
+               onLoad={() => {
+                 this.setState({loaded: true})
+                 Animated.timing(this._opacity, {toValue: 1, duration: 333, useNativeDriver: true}).start()
+               }}
                source={props.bg} />
         {
           !props.blur ? null :
-          <BlurView style={[style.slideBlur, props.styleBlur]}
+          <BlurView style={[style.slideBlur, props.styleBlur, {opacity: this._opacity}]}
                     blurType="light"
                     blurAmount={0}
                     viewRef={null/* required for Android */} />
         }
-        <Animated.View style={[style.slideCont, {opacity: props.hideOpacity}]}>
+        <Animated.View style={[style.slideCont, {opacity: this._opacity}]}>
           {props.children}
         </Animated.View>
+
+        { state.loaded ? null :
+          <ActivityIndicator size="large" />
+        }
       </View>
     )
   }
