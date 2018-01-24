@@ -3,10 +3,26 @@ import {connect}          from 'react-redux'
 import request            from '../actions/request'
 import log                from '../services/log'
 import firebase           from '../services/firebase'
+import {Linking}          from 'react-native'
 
 class NotificationProvider extends Component {
   constructor(props) {
     super(props)
+    this.handleNotification = this.handleNotification.bind(this)
+  }
+
+  componentDidMount() {
+    firebase.messaging().getInitialNotification().then((notif) => {
+      this.handleNotification(notif)
+    }).catch((err) => {
+      log(err)
+    })
+
+    this.unsubscribe = firebase.messaging().onMessage(this.handleNotification)
+  }
+
+  componentWillUnmount() {
+    this.unsubscribe && this.unsubscribe()
   }
 
   componentWillReceiveProps(nextProps) {
@@ -18,6 +34,12 @@ class NotificationProvider extends Component {
       firebase.messaging().onTokenRefresh((token) => {
         this.props.saveToken(token)
       })
+    }
+  }
+
+  handleNotification(notif) {
+    if( notif && notif.marketingUrl ) {
+      Linking.openURL(notif.marketingUrl)
     }
   }
 
