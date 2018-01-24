@@ -25,6 +25,7 @@ class Preferences extends Component {
     }
 
     this.updatePreferences = this.updatePreferences.bind(this)
+    this.enableNotifications = this.enableNotifications.bind(this)
   }
 
   componentDidMount() {
@@ -46,6 +47,10 @@ class Preferences extends Component {
     })
   }
 
+  enableNotifications() {
+    console.log('lets-a-go')
+  }
+
   render() {
     const { props, state } = this
     return(
@@ -55,6 +60,7 @@ class Preferences extends Component {
                        maxAge={maxAge}
                        minDistance={minDistance}
                        maxDistance={maxDistance}
+                       enableNotifications={this.enableNotifications}
                        updatePreferences={this.updatePreferences}
                        updateGender={(p) => this.setState({gender: p})}
                        updateDistance={(d) => this.setState({distance: d})}
