@@ -37,6 +37,20 @@ export default class MembershipDeckView extends Component {
     const {props, state} = this
     return (
       <View style={style.container}>
+        {
+          (props.children || []).filter(c => c).map((s,i,a) => {
+            return <Animated.Image
+                     key={i}
+                     resizeMode='cover'
+                     style={[style.slideBg]}
+                     source={props.bg}
+                     onLoad={() => {
+                       // this.setState({loaded: true})
+                       // Animated.timing(this._opacity, {toValue: 1, duration: 333, useNativeDriver: true}).start()
+                     }}
+                     prefetch={true} />
+          })
+        }
         <FlatList style={[style.deck]}
                   ref={(el) => this.deck = el}
                   bounces={false}
@@ -63,23 +77,10 @@ export default class MembershipDeckView extends Component {
 }
 
 export class Slide extends Component {
-  constructor(props) {
-    super(props)
-    this.state = {loaded: false}
-    this._opacity = new Animated.Value(0)
-  }
   render() {
     const {props, state} = this
     return(
       <View style={[style.slide, props.style]}>
-        <Animated.Image style={[style.slideBg, props.styleBg, {opacity: this._opacity}]}
-               resizeMode="cover"
-               prefetch={true}
-               onLoad={() => {
-                 this.setState({loaded: true})
-                 Animated.timing(this._opacity, {toValue: 1, duration: 333, useNativeDriver: true}).start()
-               }}
-               source={props.bg} />
         {
           !props.blur ? null :
           <BlurView style={[style.slideBlur, props.styleBlur, {opacity: this._opacity}]}
@@ -90,10 +91,6 @@ export class Slide extends Component {
         <Animated.View style={[style.slideCont, {opacity: this._opacity}]}>
           {props.children}
         </Animated.View>
-
-        { state.loaded ? null :
-          <ActivityIndicator size="large" />
-        }
       </View>
     )
   }
@@ -107,7 +104,7 @@ const style = StyleSheet.create({
   container: {position: 'absolute', top: 0, left: 0, width: '100%', height: '100%'},
   deck: {flex: 1, backgroundColor: mayteWhite()},
   slide: {width: screenWidth, height: '100%', justifyContent: 'center', alignItems: 'center', paddingLeft: screenWidth * 0.05, paddingRight: screenWidth * 0.05},
-  slideBg: {position: 'absolute', width: screenWidth, height: '100%'},
+  slideBg: {position: 'absolute', width: '100%', height: '100%', top: 0, left: 0, backgroundColor: 'pink'},
   slideBlur: {position: 'absolute', top: 0, left: 0, right: 0, bottom: 0, backgroundColor: mayteWhite(0.5)},
   slideCont: {justifyContent: 'center', alignItems: 'center'},
   indexes: {position: 'absolute', flexDirection: 'row', justifyContent: 'center', alignItems: 'center', bottom: 0, left: 0, width: '100%', height: em(3)},
