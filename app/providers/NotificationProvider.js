@@ -25,8 +25,8 @@ class NotificationProvider extends Component {
     this.unsubscribe && this.unsubscribe()
   }
 
-  componentWillReceiveProps(nextProps) {
-    if (nextProps.isAuthenticated && !this.props.isAuthenticated) {
+  componentWillReceiveProps(props) {
+    if (props.isAuthenticated && !this.props.isAuthenticated) {
       firebase.messaging().getToken().then((token) => {
         this.props.saveToken(token)
       })
@@ -34,6 +34,10 @@ class NotificationProvider extends Component {
       firebase.messaging().onTokenRefresh((token) => {
         this.props.saveToken(token)
       })
+    }
+
+    if( props.isActive && !this.props.isActive ) {
+      firebase.messaging().subscribeToTopic('/topics/active')
     }
   }
 
@@ -49,6 +53,7 @@ class NotificationProvider extends Component {
 function mapStateToProps(state) {
   return {
     isAuthenticated: !!state.user.id,
+    isActive:        !!state.user.active,
   }
 }
 
