@@ -186,17 +186,6 @@ export default class MembershipInfoView extends Component {
   render() {
     const {props,state} = this
 
-    const privacy = props.user.privacyOptions || {}
-    const showAge = props.myProfile ?
-      privacy.showAge && !!props.user.dob : !!props.user.dob
-    const showLocation = props.myProfile ?
-      privacy.showLocation && true : !!props.user.distance
-    const showInstagramHandle = props.myProfile ?
-      privacy.showInstagramHandle && !!props.user.instagramHandle : !!props.user.instagramHandle
-    const showOccupation = props.myProfile ?
-      privacy.showOccupation && !!props.user.occupation : !!props.user.occupation
-
-
     return(
       <Animated.ScrollView
         ref={n => this.node = n}
@@ -261,7 +250,7 @@ export default class MembershipInfoView extends Component {
         </View>
 
         <Text style={style.explanation}>
-          This is your entry ticket to all Unicorn events.{ !!props.isGold ? null :
+          This is your entry ticket to all Unicorn events.{ props.user.tier != 'gold' ? null :
             <Text> As a brand ambassador, you are welcome to attend with a +1.</Text>
           }
         </Text>
@@ -364,7 +353,7 @@ const style = StyleSheet.create({
   },
 
   upcomingEvent: {
-    paddingBottom: em(2) + bottomBoost,
+    paddingBottom: em(3) + bottomBoost,
   },
   eventText: {
     textAlign: 'center',

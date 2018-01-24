@@ -1,9 +1,12 @@
-import React, { Component }              from 'react'
-import CurrentPhotos                     from '../containers/CurrentPhotos'
-import { em, screenWidth, screenHeight } from '../constants/dimensions'
-import ImagePicker                       from 'react-native-image-crop-picker'
-import api, {oauthInstagram}             from '../services/api'
-import log                               from '../services/log'
+import React, {Component}              from 'react'
+import LinearGradient                  from 'react-native-linear-gradient'
+import CurrentPhotos                   from '../containers/CurrentPhotos'
+import {em, screenWidth, screenHeight} from '../constants/dimensions'
+import ImagePicker                     from 'react-native-image-crop-picker'
+import api, {oauthInstagram}           from '../services/api'
+import log                             from '../services/log'
+import {mayteBlack, mayteWhite}        from '../constants/colors'
+import base                            from '../constants/styles'
 import {
   View,
   Text,
@@ -303,8 +306,9 @@ export default class SettingsEditorPhotos extends Component {
               </View>
             </ScrollView> :
             <View style={style.centered}>
-              <TouchableOpacity style={style.connectIgBtn} onPress={() => oauthInstagram({connect: props.user.id})}>
-                <Text style={[style.text, style.connectIgText]}>Connect Instagram</Text>
+              <TouchableOpacity style={[base.button, style.connectIgBtn]} onPress={() => oauthInstagram({connect: props.user.id})}>
+                <LinearGradient colors={[mayteWhite(), 'rgb(225,221,222)']} style={[base.buttonGrad, props.styleGrad]} />
+                <Text style={[base.buttonText, style.connectIgText]}>Connect Instagram</Text>
                  <Image style={style.connectIgLogo}
                         resizeMode='contain'
                         source={require('../images/ig-logo-black.png')} />
@@ -423,11 +427,11 @@ const style = StyleSheet.create({
   },
   connectIgText: {
     backgroundColor: 'transparent',
-    fontFamily: 'Gotham-Medium',
     marginRight: em(0.66),
     fontSize: em(1),
     marginTop: em(0.2),
     letterSpacing: em(0.05),
+    color: mayteBlack(),
   },
   connectIgLogo: {
     width: em(2),
