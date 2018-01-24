@@ -72,7 +72,7 @@ function mapDispatchToProps(dispatch) {
           preferences
         }
       })).then(() => {
-        dispatch({type: 'user:set', user: preferences})
+        dispatch({type: 'user:set', user: {preferences}})
       })
     },
   }

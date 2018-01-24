@@ -4,8 +4,7 @@ import React, {Component} from 'react'
 import {connect}          from 'react-redux'
 import SettingsView       from '../components/SettingsView'
 import request            from '../actions/request'
-import branch             from 'react-native-branch'
-import {clear}            from '../reducers'
+import logout             from '../actions/logout'
 import log                from '../services/log'
 
 class Settings extends Component {
@@ -91,12 +90,7 @@ function mapDispatchToProps(dispatch) {
     },
 
     logout: () => {
-      branch.logout()
-      dispatch({type: 'user:destroy'})
-      dispatch({type: 'api:destroy'})
-      dispatch({type: 'vip:destroy'})
-      dispatch({type: 'quiz:destroy'})
-      clear()
+      return dispatch(logout())
     },
 
     viewSettingsPage: (view) => {

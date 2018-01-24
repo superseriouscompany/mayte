@@ -24,6 +24,7 @@
 
 import api    from '../services/api'
 import branch from 'react-native-branch'
+import logout from '../actions/logout'
 
 export default function request(args, force) {
   return function(dispatch, getState) {
@@ -48,11 +49,7 @@ export default function request(args, force) {
       dispatch({type: 'api:no', error: err, key})
       if( err.statusCode && err.statusCode == 401 ) {
         console.warn('Logging out because we got a 401')
-        // TODO: move logout to its own action
-        branch.logout()
-        dispatch({type: 'user:destroy'})
-        dispatch({type: 'api:destroy'})
-        dispatch({type: 'vip:destroy'})
+        dispatch(logout())
         return
       }
       throw err
