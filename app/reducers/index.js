@@ -9,14 +9,15 @@ import {
   combineReducers,
 } from 'redux'
 
-import api      from './api'
-import hydrated from './hydrated'
-import matches  from './matches'
-import scene    from './scene'
-import user     from './user'
-import vip      from './vip'
-import products from './products'
-import quiz     from './quiz'
+import api         from './api'
+import hydrated    from './hydrated'
+import matches     from './matches'
+import scene       from './scene'
+import user        from './user'
+import vip         from './vip'
+import products    from './products'
+import quiz        from './quiz'
+import permissions from './permissions'
 
 const middleware = [thunk]
 if( __DEV__ ) {
@@ -26,12 +27,13 @@ if( __DEV__ ) {
 const reducers = combineReducers({
   api,
   hydrated,
-  scene,
-  user,
   matches,
+  user,
   vip,
+  permissions,
   products,
   quiz,
+  scene,
 })
 
 const store = createStore(
@@ -49,6 +51,7 @@ const persistence = persistStore(store, {storage: AsyncStorage, whitelist: [
   'products',
   'api',
   'quiz',
+  'permissions',
 ]})
 
 export default store

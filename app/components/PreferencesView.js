@@ -46,6 +46,7 @@ export default class PreferencesView extends Component {
 
   render() {
     const { props, state } = this
+
     return(
       <View style={{flex: 1}}>
         <Image source={{uri: props.user.photos[0].url}} resizeMode='cover' style={style.background} />
@@ -53,7 +54,14 @@ export default class PreferencesView extends Component {
                   blurType="light"
                   blurAmount={10}
                   viewRef={null/* required for Android */} />
-        <ScrollView contentContainerStyle={style.container} showsVerticalScrollIndicator={false} scrollEnabled={state.scrollEnabled}>
+        <ScrollView contentContainerStyle={[style.container, props.notifPerms ? {} : {paddingTop: em(2)}]} showsVerticalScrollIndicator={false} scrollEnabled={state.scrollEnabled}>
+          { props.hasNotifPerms ? null :
+            <View style={style.notifPerms}>
+              <TouchableOpacity onPress={props.enableNotifications}>
+                <Text style={style.notifPermsText}>{`Hey, looks like you haven't enabled notifications. `}<Text style={[style.notifPermsCta]}>Enable Now</Text></Text>
+              </TouchableOpacity>
+            </View>
+          }
           <TouchableOpacity onPress={() => props.viewSettingsPage('Profile')}>
             <Image style={style.bubble} source={{uri: props.user.photos[0].url}} />
           </TouchableOpacity>
@@ -219,6 +227,22 @@ const style = StyleSheet.create({
     top: 0, left: 0, bottom: 0, right: 0,
     borderWidth: 0,
     opacity: 0.8,
+  },
+  notifPerms: {
+    flexDirection: 'row',
+    flexWrap: 'wrap',
+    justifyContent: 'center',
+    marginBottom: em(2),
+    maxWidth: '80%',
+  },
+  notifPermsText: {
+    backgroundColor: 'transparent',
+    fontFamily: 'Futura',
+    textAlign: 'center',
+  },
+  notifPermsCta: {
+    color: mayteGreen(),
+    fontStyle: 'italic',
   },
   bubble: {
     width: bubbleDiameter,

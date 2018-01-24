@@ -3,6 +3,7 @@ import PreferencesView      from '../components/PreferencesView'
 import {connect}            from 'react-redux'
 import request              from '../actions/request'
 import log                  from '../services/log'
+import firebase             from '../services/firebase'
 
 const minAge = 18
 const maxAge = 50
@@ -25,6 +26,7 @@ class Preferences extends Component {
     }
 
     this.updatePreferences = this.updatePreferences.bind(this)
+    this.enableNotifications = this.enableNotifications.bind(this)
   }
 
   componentDidMount() {
@@ -46,6 +48,11 @@ class Preferences extends Component {
     })
   }
 
+  enableNotifications() {
+    firebase.messaging().requestPermissions()
+    this.props.markPerms()
+  }
+
   render() {
     const { props, state } = this
     return(
@@ -55,6 +62,7 @@ class Preferences extends Component {
                        maxAge={maxAge}
                        minDistance={minDistance}
                        maxDistance={maxDistance}
+                       enableNotifications={this.enableNotifications}
                        updatePreferences={this.updatePreferences}
                        updateGender={(p) => this.setState({gender: p})}
                        updateDistance={(d) => this.setState({distance: d})}
@@ -64,8 +72,10 @@ class Preferences extends Component {
   }
 }
 
-function mapStateToProps() {
-  return {}
+function mapStateToProps(state) {
+  return {
+    hasNotifPerms: !!state.permissions.notifications,
+  }
 }
 
 function mapDispatchToProps(dispatch) {
@@ -76,7 +86,10 @@ function mapDispatchToProps(dispatch) {
         method: 'PATCH',
         body: { preferences }
       }))
-    }
+    },
+    markPerms: () => {
+      return dispatch({type: 'permissions:ask', permission: 'notifications'})
+    },
   }
 }
 
