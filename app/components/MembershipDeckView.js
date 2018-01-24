@@ -17,8 +17,19 @@ import {
 export default class MembershipDeckView extends Component {
   constructor(props) {
     super(props)
+    this._bgOpacities = {}
+    this.state = {loaded: false}
+    props.children.forEach((c,i) => this._bgOpacities[i] = new Animated.Value(0))
     this._indexMarkerX = new Animated.Value(0)
     this.handleScroll = this.handleScroll.bind(this)
+  }
+
+  componentDidMount() {
+    Animated.timing(this._bgOpacities[0], {
+      toValue: 1,
+      duration: 333,
+      useNativeDriver: true,
+    }).start()
   }
 
   handleScroll(e) {
@@ -31,6 +42,14 @@ export default class MembershipDeckView extends Component {
       duration: 200,
       useNativeDriver: true,
     }).start()
+
+    Animated.parallel(Object.keys(this._bgOpacities).map((b,i) => {
+      return Animated.timing(this._bgOpacities[b], {
+        toValue: i == idx ? 1 : 0,
+        duration: 333,
+        useNativeDriver: true,
+      })
+    })).start()
   }
 
   render() {
@@ -42,11 +61,10 @@ export default class MembershipDeckView extends Component {
             return <Animated.Image
                      key={i}
                      resizeMode='cover'
-                     style={[style.slideBg]}
-                     source={props.bg}
+                     style={[style.slideBg, {opacity: this._bgOpacities[i]}]}
+                     source={s.props.bg}
                      onLoad={() => {
-                       // this.setState({loaded: true})
-                       // Animated.timing(this._opacity, {toValue: 1, duration: 333, useNativeDriver: true}).start()
+                       this.setState({loaded: true})
                      }}
                      prefetch={true} />
           })
@@ -57,6 +75,7 @@ export default class MembershipDeckView extends Component {
                   pagingEnabled
                   data={props.children || []}
                   horizontal
+                  onMomentumScrollBegin={this.handleMomentumStart}
                   onMomentumScrollEnd={this.handleScroll}
                   showsHorizontalScrollIndicator={false}
                   keyExtractor={(item, index) => index}
@@ -71,6 +90,10 @@ export default class MembershipDeckView extends Component {
             <Animated.View style={[style.indexMarker, {transform: [{translateX: this._indexMarkerX}]}]} />
             </View>
           </View>
+
+        { state.loaded ? null :
+          <ActivityIndicator size="large" />
+        }
       </View>
     )
   }
@@ -102,9 +125,9 @@ const idxBorder = 2
 
 const style = StyleSheet.create({
   container: {position: 'absolute', top: 0, left: 0, width: '100%', height: '100%'},
-  deck: {flex: 1, backgroundColor: mayteWhite()},
+  deck: {flex: 1, backgroundColor: 'transparent'},
   slide: {width: screenWidth, height: '100%', justifyContent: 'center', alignItems: 'center', paddingLeft: screenWidth * 0.05, paddingRight: screenWidth * 0.05},
-  slideBg: {position: 'absolute', width: '100%', height: '100%', top: 0, left: 0, backgroundColor: 'pink'},
+  slideBg: {position: 'absolute', width: '100%', height: '100%', top: 0, left: 0,},
   slideBlur: {position: 'absolute', top: 0, left: 0, right: 0, bottom: 0, backgroundColor: mayteWhite(0.5)},
   slideCont: {justifyContent: 'center', alignItems: 'center'},
   indexes: {position: 'absolute', flexDirection: 'row', justifyContent: 'center', alignItems: 'center', bottom: 0, left: 0, width: '100%', height: em(3)},

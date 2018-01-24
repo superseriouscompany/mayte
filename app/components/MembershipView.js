@@ -104,7 +104,7 @@ export default class MembershipView extends Component {
           user={props.user}>
           {
             !props.isGold ? null :
-            <Slide styleBg={{opacity: 0.66}} style={style.goldSlide} bg={require('../images/fractal-bg-gold.png')}>
+            <Slide style={style.goldSlide} bg={require('../images/fractal-bg-gold.png')}>
               <Text style={[style.slideText, style.slideBody]}>{`You are a founding member of Unicorn - congratulations! Please enjoy VIP treatment and the ability to invite users onto our platform.`}</Text>
               <ButtonGrey
                 onPress={() => props.navigate('VipCodeInvite')}
@@ -113,15 +113,15 @@ export default class MembershipView extends Component {
                 text='Learn More' />
             </Slide>
           }
-          <Slide styleBg={{opacity: 0.66}} bg={require('../images/fractal-bg-rainbow.png')}>
+          <Slide bg={require('../images/fractal-bg-rainbow.png')}>
             <Text style={[style.slideText, style.slideTitle]}>{`YOU’RE VIP`}</Text>
             <Text style={[style.slideText, style.slideBody]}>{`Your membership includes full access to all social events, premium dating services and world-class concierge service.`}</Text>
           </Slide>
-          <Slide styleBg={{opacity: 0.66}} bg={require('../images/fractal-bg-pink.png')}>
+          <Slide bg={require('../images/fractal-bg-pink.png')}>
             <Text style={[style.slideText, style.slideTitle]}>{`FIRST CLASS`}</Text>
             <Text style={[style.slideText, style.slideBody]}>{`Regular events include exclusive parties, concerts, dinners and more – all inclusive with your Unicorn membership.`}</Text>
           </Slide>
-          <Slide styleBg={{opacity: 0.66}} bg={require('../images/fractal-bg-blue.png')}>
+          <Slide bg={require('../images/fractal-bg-blue.png')}>
             <Text style={[style.slideText, style.slideTitle]}>{`MAGIC`}</Text>
             <Text style={[style.slideText, style.slideBody]}>{`Unicorn memberships come with personal concierge getting you instant reservations to the hottest restaurants and clubs.`}</Text>
           </Slide>
@@ -169,18 +169,3 @@ const style = StyleSheet.create({
   goldSlideBtn: {flex: 0, marginTop: em(2), paddingLeft: em(1.66), paddingRight: em(1.66),},
   goldSlideBtnText: {fontSize: em(0.8)},
 })
-
-const slides = [
-  <Slide styleBg={{opacity: 0.66}} bg={require('../images/fractal-bg-rainbow.png')}>
-    <Text style={[style.slideText, style.slideTitle]}>{`YOU’RE VIP`}</Text>
-    <Text style={[style.slideText, style.slideBody]}>{`Your membership includes full access to all social events, premium dating services and world-class concierge service.`}</Text>
-  </Slide>,
-  <Slide styleBg={{opacity: 0.66}} bg={require('../images/fractal-bg-pink.png')}>
-    <Text style={[style.slideText, style.slideTitle]}>{`FIRST CLASS`}</Text>
-    <Text style={[style.slideText, style.slideBody]}>{`Regular events include exclusive parties, concerts, dinners and more – all inclusive with your Unicorn membership.`}</Text>
-  </Slide>,
-  <Slide styleBg={{opacity: 0.66}} bg={require('../images/fractal-bg-blue.png')}>
-    <Text style={[style.slideText, style.slideTitle]}>{`MAGIC`}</Text>
-    <Text style={[style.slideText, style.slideBody]}>{`Unicorn memberships come with personal concierge getting you instant reservations to the hottest restaurants and clubs.`}</Text>
-  </Slide>,
-]
