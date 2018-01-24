@@ -13,13 +13,14 @@ import {
   View,
 } from 'react-native'
 
-class Unicorn extends Component {
+export class Unicorn extends Component {
   constructor(props) {
     super(props)
     this._labelOpacity = new Animated.Value(0)
     this._rotate = new Animated.Value(0)
     this._jumpman = new Animated.Value(0)
     this.doALittleJump = this.doALittleJump.bind(this)
+    this.handlePress = this.handlePress.bind(this)
   }
 
   componentWillReceiveProps(nextProps) {
@@ -37,10 +38,10 @@ class Unicorn extends Component {
         useNativeDriver: true,
       }).start()
     }
-
-    if (selected && this.props[this.props.field] != this.props.value) {
-      this.doALittleJump()
-    }
+    //
+    // if (selected && this.props[this.props.field] != this.props.value) {
+    //   this.doALittleJump()
+    // }
   }
 
   doALittleJump() {
@@ -74,6 +75,11 @@ class Unicorn extends Component {
     ]).start()
   }
 
+  handlePress() {
+    if (this.props.set) { this.props.set(this.props.field, this.props.value) }
+    this.doALittleJump()
+  }
+
   render() {
     const {props,state} = this
     const selected = props[props.field] == props.value
@@ -86,14 +92,19 @@ class Unicorn extends Component {
     return (
       <TouchableOpacity key={props.field + '-' + props.value}
                         style={[props.style]}
-                        onPress={() => props.set(props.field, props.value)} >
-        <Animated.Text style={[style.cornLabel, props.labelStyle || {}, {opacity: Animated.multiply(this._labelOpacity, props.fade)}]}>{props.label}</Animated.Text>
+                        onPress={this.handlePress}>
+        { !props.showLabel ? null :
+            <Animated.Text style={[style.cornLabel, props.labelStyle || {}, {opacity: Animated.multiply(this._labelOpacity, props.fade)}]}>{props.label}</Animated.Text> }
         <Animated.View style={{width: '100%', height: '100%', opacity: props.fade, transform: [{translateY: this._jumpman}, {rotate: interpolatedRotateAnimation}]}}>
           {props.children}
         </Animated.View>
       </TouchableOpacity>
     )
   }
+}
+
+Unicorn.defaultProps = {
+  showLabel: true
 }
 
 export default class CornSelector extends Component {

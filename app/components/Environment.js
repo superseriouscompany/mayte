@@ -189,7 +189,7 @@ export class StaticNight extends Component {
   }
 }
 
-const groundHeight = 185
+export const groundHeight = 185
 
 const style = StyleSheet.create({
   environment: {
