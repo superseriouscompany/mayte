@@ -119,11 +119,11 @@ function mapStateToProps(state) {
   return {
     authenticated: !!state.user.accessToken,
     isActive:      !!state.user.active,
-    isHydrated:      !!state.hydrated,
+    isHydrated:    !!state.hydrated,
     isAdmin:       !!state.user.isAdmin,
     hasApplied:    !!state.user.appliedAt,
     isApproved:    !!state.user.approvedAt,
-    gender:        state.user.gender,
+    gender:        (state.user.preferences || {}).gender,
     sceneName:     sceneName,
     vipCode:       state.vip.code,
   }

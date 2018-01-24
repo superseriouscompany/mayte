@@ -4,6 +4,7 @@ import React, {Component} from 'react'
 import {connect}          from 'react-redux'
 import WaitingRoomView    from '../components/WaitingRoomView'
 import request            from '../actions/request'
+import logout             from '../actions/logout'
 import branch             from 'react-native-branch'
 import {clear}            from '../reducers'
 import firebase           from '../services/firebase'
@@ -33,9 +34,11 @@ class WaitingRoom extends Component {
 
   componentWillUnmount() {
     this.timeout && clearTimeout(this.timeout)
+    this.unmounted = true
   }
 
   pollSelf() {
+    if( this.unmounted ) { return false }
     this.props.loadSelf().then(() => {
       this.timeout = setTimeout(this.pollSelf, 2000)
     })
@@ -67,13 +70,7 @@ function mapDispatchToProps(dispatch) {
         method: 'DELETE',
         url:    '/users/me'
       })).then(() => {
-        // TODO: put this in an action
-        branch.logout()
-        dispatch({type: 'user:destroy'})
-        dispatch({type: 'api:destroy'})
-        dispatch({type: 'vip:destroy'})
-        dispatch({type: 'quiz:destroy'})
-        clear()
+        dispatch(logout())
       })
     }
   }

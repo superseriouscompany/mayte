@@ -58,6 +58,7 @@
 		3F96AE7E1F6A1D710081E709 /* Protobuf.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3FE9CC161F6A195A005DD60C /* Protobuf.framework */; };
 		3FFEA1162006AD2B00CD9A2A /* libSMXCrashlytics.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 3FFEA1132006AD0C00CD9A2A /* libSMXCrashlytics.a */; };
 		3FFEA1C62006F50A00CD9A2A /* libRNDeviceInfo.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 3FFEA1BB2006F4FE00CD9A2A /* libRNDeviceInfo.a */; };
+		3FFEF5322017FC5000197889 /* PassKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3FFEF5312017FC5000197889 /* PassKit.framework */; };
 		430B1BC0ABEE4CCB81ED9CCB /* libimageCropPicker.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 5CD4855D83E440AB889A1730 /* libimageCropPicker.a */; };
 		50D84F114DC04FC1BCD5507C /* Feather.ttf in Resources */ = {isa = PBXBuildFile; fileRef = A87A92D231F9496E9D8ADD9E /* Feather.ttf */; };
 		55C9EA8A663A497CBA431C59 /* FontAwesome.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 6EBFA3070A304C27B177A872 /* FontAwesome.ttf */; };
@@ -541,6 +542,7 @@
 		3FE9CC1A1F6A195A005DD60C /* FirebaseCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = FirebaseCore.framework; sourceTree = "<group>"; };
 		3FE9CC1B1F6A195A005DD60C /* leveldb-library.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = "leveldb-library.framework"; sourceTree = "<group>"; };
 		3FFEA1882006F4FE00CD9A2A /* RNDeviceInfo.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RNDeviceInfo.xcodeproj; path = "../node_modules/react-native-device-info/RNDeviceInfo.xcodeproj"; sourceTree = "<group>"; };
+		3FFEF5312017FC5000197889 /* PassKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = PassKit.framework; path = System/Library/Frameworks/PassKit.framework; sourceTree = SDKROOT; };
 		416F5E35BA75DAECE6F54E54 /* libPods-mayte.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-mayte.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		4FA547E3650D4D95902052C6 /* Gotham-Black.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Gotham-Black.ttf"; path = "../app/fonts/Gotham-Black.ttf"; sourceTree = "<group>"; };
 		5AAB361D196D4312856524E1 /* Gotham-Book.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Gotham-Book.ttf"; path = "../app/fonts/Gotham-Book.ttf"; sourceTree = "<group>"; };
@@ -603,6 +605,7 @@
 			files = (
 				3FFEA1C62006F50A00CD9A2A /* libRNDeviceInfo.a in Frameworks */,
 				3FFEA1162006AD2B00CD9A2A /* libSMXCrashlytics.a in Frameworks */,
+				3FFEF5322017FC5000197889 /* PassKit.framework in Frameworks */,
 				3F9228B220057B200048C8AF /* libBugsnagReactNative.a in Frameworks */,
 				84E70DB41FDB04880005568E /* libRCTCameraRoll.a in Frameworks */,
 				8428BBC01F9978AD000FDDA7 /* libBVLinearGradient.a in Frameworks */,
@@ -850,6 +853,7 @@
 		3FE9CBDE1F6A18DA005DD60C /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				3FFEF5312017FC5000197889 /* PassKit.framework */,
 				3F9228B420057B290048C8AF /* libBugsnagStatic.a */,
 				3F26765C1F6B4B2B00615176 /* StoreKit.framework */,
 				3FE9CC151F6A195A005DD60C /* FirebaseAnalytics.framework */,
@@ -1199,6 +1203,9 @@
 								enabled = 1;
 							};
 							com.apple.SafariKeychain = {
+								enabled = 1;
+							};
+							com.apple.Wallet = {
 								enabled = 1;
 							};
 						};
