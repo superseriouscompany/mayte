@@ -41,7 +41,7 @@ export default class MembershipDeckView extends Component {
                   ref={(el) => this.deck = el}
                   bounces={false}
                   pagingEnabled
-                  data={props.slides || []}
+                  data={props.children || []}
                   horizontal
                   onMomentumScrollEnd={this.handleScroll}
                   showsHorizontalScrollIndicator={false}
@@ -50,8 +50,7 @@ export default class MembershipDeckView extends Component {
           <View style={style.indexes}>
             <View style={{flexDirection: 'row'}}>
             {
-              (props.slides || []).map((s,i,a) => {
-                console.log(a)
+              (props.children || []).filter(c => c).map((s,i,a) => {
                 return <View key={i} style={[style.index, {marginRight: i == a.length - 1 ? 0 : em(0.5)}]} />
               })
             }

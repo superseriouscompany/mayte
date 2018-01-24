@@ -185,7 +185,6 @@ export default class MembershipInfoView extends Component {
 
   render() {
     const {props,state} = this
-    const isGold = props.user.tier == 'gold'
 
     return(
       <Animated.ScrollView
@@ -251,7 +250,7 @@ export default class MembershipInfoView extends Component {
         </View>
 
         <Text style={style.explanation}>
-          This is your entry ticket to all Unicorn events.{ !isGold ? null :
+          This is your entry ticket to all Unicorn events.{ props.user.tier != 'gold' ? null :
             <Text> As a brand ambassador, you are welcome to attend with a +1.</Text>
           }
         </Text>
