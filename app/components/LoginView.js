@@ -4,6 +4,7 @@ import React, { Component }        from 'react'
 import { mayteBlack, mayteWhite }  from '../constants/colors'
 import { em, screenWidth }         from '../constants/dimensions'
 import { ButtonGrey, ButtonBlack } from './Button'
+import Fairy                       from './Fairy'
 import timing                      from '../constants/timing'
 import {
   Animated,
@@ -122,6 +123,7 @@ export default class LoginView extends Component {
             </Animated.View>
           </View>
         }
+        <Fairy style={{bottom: em(2), left: em(2)}} />
       </View>
     )
   }
