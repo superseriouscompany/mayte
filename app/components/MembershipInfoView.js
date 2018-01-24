@@ -250,7 +250,7 @@ export default class MembershipInfoView extends Component {
         </View>
 
         <Text style={style.explanation}>
-          This is your entry ticket to all Unicorn events.{ props.user.tier != 'gold' ? null :
+          This is your entry ticket to all Unicorn events.{ !props.isGold ? null :
             <Text> As a brand ambassador, you are welcome to attend with a +1.</Text>
           }
         </Text>

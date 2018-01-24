@@ -71,6 +71,7 @@ const style = StyleSheet.create({
   },
   secretButton: {
     backgroundColor: 'white',
+    marginTop: em(1),
   },
   secretButtonText: {
     color: 'white',

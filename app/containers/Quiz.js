@@ -20,13 +20,13 @@ class Quiz extends Component {
   componentDidMount() {
     this.setState({zodiac: computeZodiac(this.props.quiz.dob)})
     if( this.props.pendingCode ) {
-      this.props.update({vipCode: this.props.pendingCode})
+      this.props.setQuiz({vipCode: this.props.pendingCode})
     }
   }
 
   componentWillReceiveProps(props) {
-    if( props.pendingCode && !this.props.pendingCode ) {
-      this.props.update({vip: props.pendingCode})
+    if( props.pendingCode != this.props.pendingCode ) {
+      this.props.setQuiz({vipCode: props.pendingCode})
     }
 
     if( props.quiz.dob != this.props.quiz.dob ) {
@@ -58,8 +58,6 @@ class Quiz extends Component {
     this.setState({submitting: true})
     return this.props.sendQuiz(this.props.quiz).then(() => {
       return this.props.updateSelf()
-    }).then(() => {
-      this.setState({submitting: false})
     }).catch((err) => {
       this.setState({submitting: false})
       alert(err.message || JSON.stringify(err))
@@ -128,7 +126,7 @@ const mapStateToProps = (state, ownProps) => {
     error:       apiCall.error,
     redeeming:   !!redeemCall.loading,
     pendingCode: state.vip.pendingCode,
-    photos:        state.quiz.photos,
+    photos:      state.quiz.photos,
   }
 }
 

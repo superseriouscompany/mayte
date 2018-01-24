@@ -77,7 +77,7 @@ export default class QuizView extends Component {
 
     switch(props.step) {
       case 'intro'   : return <Intro {...props} next={() => props.update({step: rfs ? 'review' : 'vip'})} />
-      case 'vip'     : return <Vip {...props} value={props.vip} next={() => props.update({step: rfs ? 'review' : 'email'})} />
+      case 'vip'     : return <Vip {...props} value={props.quiz.vipCode} next={() => props.update({step: rfs ? 'review' : 'email'})} />
       case 'email'   : return <Email {...props} next={() => props.update({step: rfs ? 'review' : 'dob'})} />
       case 'dob'     : return <Dob {...props} next={() => props.update({step: rfs ? 'review' : 'website'})} updateDob={props.updateDob} />
       case 'website' : return <Website {...props} value={props.quiz.website} next={() => props.update({step: rfs ? 'review' : 'photos'})} />
