@@ -103,7 +103,7 @@ export default class MembershipView extends Component {
           hideOpacity={this._hideOp}
           user={props.user}>
           {
-            props.user.tier != 'gold' ? null :
+            !props.isGold ? null :
             <Slide styleBg={{opacity: 0.66}} style={style.goldSlide} bg={require('../images/fractal-bg-gold.png')}>
               <Text style={[style.slideText, style.slideBody]}>{`You are a founding member of Unicorn - congratulations! Please enjoy VIP treatment and the ability to invite users onto our platform.`}</Text>
               <ButtonGrey

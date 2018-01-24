@@ -44,7 +44,8 @@ class Membership extends Component {
 
 function mapStateToProps(state) {
   return {
-    user: state.user,
+    user:   state.user,
+    isGold: state.user.isAdmin || state.user.tier == 'gold',
   }
 }
 
