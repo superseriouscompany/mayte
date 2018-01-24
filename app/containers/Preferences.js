@@ -3,6 +3,7 @@ import PreferencesView      from '../components/PreferencesView'
 import {connect}            from 'react-redux'
 import request              from '../actions/request'
 import log                  from '../services/log'
+import firebase             from '../services/firebase'
 
 const minAge = 18
 const maxAge = 50
@@ -48,7 +49,8 @@ class Preferences extends Component {
   }
 
   enableNotifications() {
-    console.log('lets-a-go')
+    firebase.messaging().requestPermissions()
+    this.props.markPerms()
   }
 
   render() {
@@ -70,8 +72,10 @@ class Preferences extends Component {
   }
 }
 
-function mapStateToProps() {
-  return {}
+function mapStateToProps(state) {
+  return {
+    hasNotifPerms: !!state.permissions.notifications,
+  }
 }
 
 function mapDispatchToProps(dispatch) {
@@ -82,7 +86,10 @@ function mapDispatchToProps(dispatch) {
         method: 'PATCH',
         body: { preferences }
       }))
-    }
+    },
+    markPerms: () => {
+      return dispatch({type: 'permissions:ask', permission: 'notifications'})
+    },
   }
 }
 

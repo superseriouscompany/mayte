@@ -55,11 +55,10 @@ export default class PreferencesView extends Component {
                   blurAmount={10}
                   viewRef={null/* required for Android */} />
         <ScrollView contentContainerStyle={[style.container, props.notifPerms ? {} : {paddingTop: em(2)}]} showsVerticalScrollIndicator={false} scrollEnabled={state.scrollEnabled}>
-          {
-            props.notifPerms ? null :
+          { props.hasNotifPerms ? null :
             <View style={style.notifPerms}>
               <TouchableOpacity onPress={props.enableNotifications}>
-                  <Text style={style.notifPermsText}>{`Hey, looks like you haven't enabled notifications. `}<Text style={[style.notifPermsCta]}>Enable Now</Text></Text>
+                <Text style={style.notifPermsText}>{`Hey, looks like you haven't enabled notifications. `}<Text style={[style.notifPermsCta]}>Enable Now</Text></Text>
               </TouchableOpacity>
             </View>
           }

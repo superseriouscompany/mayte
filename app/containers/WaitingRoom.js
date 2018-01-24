@@ -47,7 +47,7 @@ class WaitingRoom extends Component {
 
 function mapStateToProps(state) {
   return {
-    hasRequestedPerms: state.quiz.notifPerms,
+    hasRequestedPerms: !!state.permissions.notifications,
   }
 }
 
@@ -62,7 +62,7 @@ function mapDispatchToProps(dispatch) {
     },
 
     markPerms: () => {
-      return dispatch({type: 'quiz:set', quiz: {notifPerms: true}})
+      return dispatch({type: 'permissions:ask', permission: 'notifications'})
     },
 
     deleteAccount: () => {
