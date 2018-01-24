@@ -37,10 +37,10 @@
 		2D02E4C91E0B4AEC006451C7 /* libReact.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 3DAD3EA31DF850E9000B6D8A /* libReact.a */; };
 		2DCD954D1E0B4F2C00145EB5 /* mayteTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 00E356F21AD99517003FC87E /* mayteTests.m */; };
 		3309E9A2C5154139BCB373C0 /* libRNWalletModule.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 5F4B2ECB7BBC4E06A842E283 /* libRNWalletModule.a */; };
-		3F0A8A1F1F6A1FA8004544FE /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 3F0A8A1E1F6A1FA8004544FE /* GoogleService-Info.plist */; };
-		3F0A8A201F6A1FA8004544FE /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 3F0A8A1E1F6A1FA8004544FE /* GoogleService-Info.plist */; };
-		3F0A8A211F6A1FA8004544FE /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 3F0A8A1E1F6A1FA8004544FE /* GoogleService-Info.plist */; };
-		3F0A8A221F6A1FA8004544FE /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 3F0A8A1E1F6A1FA8004544FE /* GoogleService-Info.plist */; };
+		3F1E08ED2019167200CCB07F /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 3F1E08EC2019167200CCB07F /* GoogleService-Info.plist */; };
+		3F1E08EE2019167200CCB07F /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 3F1E08EC2019167200CCB07F /* GoogleService-Info.plist */; };
+		3F1E08EF2019167200CCB07F /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 3F1E08EC2019167200CCB07F /* GoogleService-Info.plist */; };
+		3F1E08F02019167200CCB07F /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 3F1E08EC2019167200CCB07F /* GoogleService-Info.plist */; };
 		3F26765D1F6B4B2B00615176 /* StoreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3F26765C1F6B4B2B00615176 /* StoreKit.framework */; };
 		3F2C0B3520054B4C000FC3F4 /* Fabric.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3F2C0B3320054B4B000FC3F4 /* Fabric.framework */; };
 		3F2C0B3620054B4C000FC3F4 /* Crashlytics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3F2C0B3420054B4C000FC3F4 /* Crashlytics.framework */; };
@@ -521,7 +521,7 @@
 		32AEF752DDA846008955B785 /* MaterialIcons.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = MaterialIcons.ttf; path = "../node_modules/react-native-vector-icons/Fonts/MaterialIcons.ttf"; sourceTree = "<group>"; };
 		33641B13EEEA09F6E1FD7C95 /* libPods-mayte-tvOSTests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-mayte-tvOSTests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		37E40E0A98E7E4A5B31D6466 /* Pods-mayte.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-mayte.release.xcconfig"; path = "Pods/Target Support Files/Pods-mayte/Pods-mayte.release.xcconfig"; sourceTree = "<group>"; };
-		3F0A8A1E1F6A1FA8004544FE /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
+		3F1E08EC2019167200CCB07F /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = "GoogleService-Info.plist"; path = "mayte/GoogleService-Info.plist"; sourceTree = "<group>"; };
 		3F26765C1F6B4B2B00615176 /* StoreKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = StoreKit.framework; path = System/Library/Frameworks/StoreKit.framework; sourceTree = SDKROOT; };
 		3F2C0B3320054B4B000FC3F4 /* Fabric.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Fabric.framework; sourceTree = "<group>"; };
 		3F2C0B3420054B4C000FC3F4 /* Crashlytics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Crashlytics.framework; sourceTree = "<group>"; };
@@ -759,7 +759,7 @@
 			isa = PBXGroup;
 			children = (
 				3F3788291F6B280500E21A50 /* mayte.entitlements */,
-				3F0A8A1E1F6A1FA8004544FE /* GoogleService-Info.plist */,
+				3F1E08EC2019167200CCB07F /* GoogleService-Info.plist */,
 				008F07F21AC5B25A0029DE68 /* main.jsbundle */,
 				13B07FAF1A68108700A75B9A /* AppDelegate.h */,
 				840185982017C5D700A91A8F /* Images.xcassets */,
@@ -1191,7 +1191,7 @@
 						TestTargetID = 13B07F861A680F5B00A75B9A;
 					};
 					13B07F861A680F5B00A75B9A = {
-						DevelopmentTeam = SL8THA84AW;
+						DevelopmentTeam = 4B887YTEAY;
 						SystemCapabilities = {
 							com.apple.BackgroundModes = {
 								enabled = 1;
@@ -1743,7 +1743,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				3F0A8A201F6A1FA8004544FE /* GoogleService-Info.plist in Resources */,
+				3F1E08EE2019167200CCB07F /* GoogleService-Info.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1752,7 +1752,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				13B07FBD1A68108700A75B9A /* LaunchScreen.xib in Resources */,
-				3F0A8A1F1F6A1FA8004544FE /* GoogleService-Info.plist in Resources */,
 				205440654E054A9BA9D01CEA /* Entypo.ttf in Resources */,
 				0ADDE40CB51D4AD0B0B9FFD6 /* EvilIcons.ttf in Resources */,
 				50D84F114DC04FC1BCD5507C /* Feather.ttf in Resources */,
@@ -1763,6 +1762,7 @@
 				840185D02017C5D800A91A8F /* Images.xcassets in Resources */,
 				A3108825526F4C0E8D5EE893 /* MaterialIcons.ttf in Resources */,
 				66CD8C4C676A4B41A5FD74F0 /* Octicons.ttf in Resources */,
+				3F1E08ED2019167200CCB07F /* GoogleService-Info.plist in Resources */,
 				CFF87F7AC33B461EB9AB5B66 /* SimpleLineIcons.ttf in Resources */,
 				A8CC14DDF9CF4A86BF8BE701 /* Zocial.ttf in Resources */,
 				E8A1C6D1218945A785A2D72D /* Gotham-Black.ttf in Resources */,
@@ -1776,7 +1776,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				3F0A8A211F6A1FA8004544FE /* GoogleService-Info.plist in Resources */,
+				3F1E08EF2019167200CCB07F /* GoogleService-Info.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1784,7 +1784,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				3F0A8A221F6A1FA8004544FE /* GoogleService-Info.plist in Resources */,
+				3F1E08F02019167200CCB07F /* GoogleService-Info.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -2190,7 +2190,7 @@
 				CODE_SIGN_ENTITLEMENTS = mayte/mayte.entitlements;
 				CURRENT_PROJECT_VERSION = 1;
 				DEAD_CODE_STRIPPING = NO;
-				DEVELOPMENT_TEAM = SL8THA84AW;
+				DEVELOPMENT_TEAM = 4B887YTEAY;
 				FRAMEWORK_SEARCH_PATHS = "$(PROJECT_DIR)";
 				HEADER_SEARCH_PATHS = (
 					"$(inherited)",
@@ -2212,7 +2212,7 @@
 					"-ObjC",
 					"-lc++",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.mayte.mayte;
+				PRODUCT_BUNDLE_IDENTIFIER = com.unicorn.dating;
 				PRODUCT_NAME = mayte;
 				VERSIONING_SYSTEM = "apple-generic";
 			};
@@ -2225,7 +2225,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_ENTITLEMENTS = mayte/mayte.entitlements;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = SL8THA84AW;
+				DEVELOPMENT_TEAM = 4B887YTEAY;
 				FRAMEWORK_SEARCH_PATHS = "$(PROJECT_DIR)";
 				HEADER_SEARCH_PATHS = (
 					"$(inherited)",
@@ -2247,7 +2247,7 @@
 					"-ObjC",
 					"-lc++",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.mayte.mayte;
+				PRODUCT_BUNDLE_IDENTIFIER = com.unicorn.dating;
 				PRODUCT_NAME = mayte;
 				VERSIONING_SYSTEM = "apple-generic";
 			};
