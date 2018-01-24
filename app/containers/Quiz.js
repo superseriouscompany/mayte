@@ -11,7 +11,7 @@ import {
 class Quiz extends Component {
   constructor(props) {
     super(props)
-    this.state = {}
+    this.state         = {}
     this.submit        = this.submit.bind(this)
     this.verifyVipCode = this.verifyVipCode.bind(this)
     this.selectPhoto   = this.selectPhoto.bind(this)
@@ -54,9 +54,14 @@ class Quiz extends Component {
         { cancelable: false }
       )
     }
+
+    this.setState({submitting: true})
     return this.props.sendQuiz(this.props.quiz).then(() => {
-      this.props.updateSelf()
+      return this.props.updateSelf()
+    }).then(() => {
+      this.setState({submitting: false})
     }).catch((err) => {
+      this.setState({submitting: false})
       alert(err.message || JSON.stringify(err))
     })
   }
@@ -100,6 +105,7 @@ class Quiz extends Component {
              update={this.props.setQuiz}
              submit={this.submit}
              selectPhoto={this.selectPhoto}
+             submitting={this.state.submitting}
              readyForSubmit={
                this.props.quiz.email &&
                this.props.quiz.dob &&
@@ -119,7 +125,6 @@ const mapStateToProps = (state, ownProps) => {
   return {
     user:        state.user,
     quiz:        state.quiz,
-    submitting:  !!apiCall.loading,
     error:       apiCall.error,
     redeeming:   !!redeemCall.loading,
     pendingCode: state.vip.pendingCode,
