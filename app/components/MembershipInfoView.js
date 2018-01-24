@@ -219,13 +219,7 @@ export default class MembershipInfoView extends Component {
         <View style={style.header}>
           <View style={style.headerPri}>
             <Image resizeMove="cover" source={{uri: props.user.photos[0].url}} style={style.mugshot}/>
-            <Text style={[
-              style.name,
-                ((props.user.fullName || '').length > 10 ? {
-                    fontSize: nameBase - (props.user.fullName.length - 10)
-                  } :
-                {fontSize: nameBase})
-              ]}>
+            <Text style={style.name} adjustsFontSizeToFit={true}>
               {props.user.fullName}
             </Text>
           </View>
@@ -272,8 +266,6 @@ export default class MembershipInfoView extends Component {
   }
 }
 
-const nameBase = em(2)
-
 const style = StyleSheet.create({
   container: {
     flex: 1,
@@ -312,6 +304,8 @@ const style = StyleSheet.create({
     color: mayteWhite(),
     letterSpacing: em(0.1),
     textAlign: 'center',
+    fontSize: em(2),
+    height: '100%',
     flex: 1,
   },
   headerSub: {
