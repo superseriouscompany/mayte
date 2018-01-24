@@ -124,7 +124,7 @@ export default class MembershipView extends Component {
         <Animated.View style={{opacity: this._hideOp}}>
           <ButtonBlack
             style={style.button}
-            text='View Pass'
+            text='View Membership'
             onPress={() => this.info.animateOpen()} />
         </Animated.View>
         <MembershipInfoView

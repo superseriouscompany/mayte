@@ -60,9 +60,7 @@ export default class MembershipInfoView extends Component {
   }
 
   componentDidMount() {
-    // if (this.props.user.tier != 'gold') {
-    //   this.animateOpen()
-    // }
+    this.animateOpen()
   }
 
   computeScale(top) {
