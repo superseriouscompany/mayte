@@ -190,6 +190,7 @@ export class StaticNight extends Component {
 }
 
 export const groundHeight = 185
+export const mountainHeight = 50
 
 const style = StyleSheet.create({
   environment: {
@@ -236,6 +237,6 @@ const style = StyleSheet.create({
     position: 'absolute',
     bottom: '100%',
     width: '100%',
-    height: 50,
+    height: mountainHeight,
   }
 })

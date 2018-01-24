@@ -4,9 +4,13 @@ import React, {Component}         from 'react'
 import {ButtonGrey, ButtonBlack}  from './Button'
 import Fairy, {FairySheet}        from './Fairy'
 import {Unicorn}                  from './CornSelector'
-import {groundHeight, StarSystem} from './Environment'
 import timing                     from '../constants/timing'
 import LinearGradient             from 'react-native-linear-gradient'
+import {
+  groundHeight,
+  StarSystem,
+  mountainHeight,
+} from './Environment'
 import {
   em,
   screenWidth,
@@ -116,7 +120,7 @@ export default class LoginView extends Component {
         { props.loading ?
           <ActivityIndicator size="large"/>
         :
-          <View style={{height: screenHeight - groundHeight * 0.66,}}>
+          <View style={style.main}>
             <Animated.View style={{alignItems: 'center', opacity: this._logoOpacity}}>
               <Image style={[style.icon]}
                      source={require('../images/unicorn-icon-white.png')}
@@ -157,84 +161,15 @@ export default class LoginView extends Component {
 }
 
 const style = StyleSheet.create({
-  container: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-    backgroundColor: mayteBlack(),
-  },
-
-  cover: {
-    position: 'absolute',
-    flex: 1,
-    width: '100%',
-    height: '100%',
-  },
-
-  overlay: {
-    position: 'absolute',
-    height: '100%',
-    width: '100%',
-    backgroundColor: mayteBlack(1),
-  },
-
-  icon: {
-    height: em(5),
-    width: em(5),
-    marginBottom: em(1),
-  },
-
-  logo: {
-    marginBottom: em(3),
-    height: em(1.2),
-    width: em(6),
-  },
-
-  button: {
-    paddingTop: em(1),
-    paddingBottom: em(1),
-    paddingLeft: em(1.33),
-    paddingRight: em(1.33),
-  },
-
-  buttonGrad: {
-    opacity: 0.8,
-  },
-
-  buttonText: {
-    fontSize: em(0.9),
-  },
-
-  cornCont: {
-    position: 'absolute',
-    bottom: 0, left: 0,
-    height: screenHeight * 0.55,
-    width: screenWidth,
-    backgroundColor: 'transparent',
-  },
-
-  ground: {
-    position: 'absolute',
-    backgroundColor: 'rgba(23,20,21,1)',
-    borderColor: mayteBlack(),
-    borderTopWidth: 1,
-    width: screenWidth,
-    height: groundHeight,
-    bottom: 0,
-    left: 0,
-  },
-
-  corn: {
-    width: em(8),
-    height: em(8),
-    position: 'absolute',
-    backgroundColor: 'transparent',
-  },
-
-  mountains: {
-    position: 'absolute',
-    bottom: '100%',
-    width: '100%',
-    height: 50,
-  }
+  container: {flex: 1, justifyContent: 'flex-start', alignItems: 'center', backgroundColor: mayteBlack(),},
+  main: {height: screenHeight - groundHeight - mountainHeight, justifyContent: 'center',},
+  icon: {height: em(5), width: em(5), marginBottom: em(1),},
+  logo: {marginBottom: em(3), height: em(1.2), width: em(6),},
+  button: {paddingTop: em(1), paddingBottom: em(1), paddingLeft: em(1.33), paddingRight: em(1.33),},
+  buttonGrad: {opacity: 0.8,},
+  buttonText: {fontSize: em(0.9),},
+  cornCont: {position: 'absolute', bottom: 0, left: 0, height: screenHeight * 0.55, width: screenWidth, backgroundColor: 'transparent',},
+  ground: {position: 'absolute', backgroundColor: 'rgba(23,20,21,1)', borderColor: mayteBlack(), borderTopWidth: 1, width: screenWidth, height: groundHeight, bottom: 0, left: 0,},
+  corn: {width: em(8), height: em(8), position: 'absolute',},
+  mountains: {position: 'absolute', bottom: '100%', width: '100%', height: mountainHeight,}
 })

@@ -38,10 +38,6 @@ export class Unicorn extends Component {
         useNativeDriver: true,
       }).start()
     }
-    //
-    // if (selected && this.props[this.props.field] != this.props.value) {
-    //   this.doALittleJump()
-    // }
   }
 
   doALittleJump() {
