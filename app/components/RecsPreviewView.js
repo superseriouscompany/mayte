@@ -74,10 +74,6 @@ class RecsPreview extends Component {
                  style={style.bgImg}
                  onLoad={this.runAnim}
                  resizeMode='cover' />
-          <BlurView style={style.bgBlur}
-                    blurType="light"
-                    blurAmount={4}
-                    viewRef={null/* required for Android */} />
         </Animated.View>
         <Animated.View style={[style.header, {opacity: this._headerOpacity, transform: [{translateY: this._headerY}]}]}>
           <Text style={style.headerMain}>
