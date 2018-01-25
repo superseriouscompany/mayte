@@ -21,6 +21,9 @@ export class ParticleSheet extends Component {
     this._translateY = new Animated.Value(0)
     this.renderParticles = this.renderParticles.bind(this)
   }
+  shouldComponentUpdate() {
+    return false
+  }
   componentDidMount() {
     Animated.loop(
       Animated.timing(this._translateY, {

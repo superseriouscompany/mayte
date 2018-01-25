@@ -16,9 +16,7 @@ function findPointOnCircle(originX, originY, radius, angleRadians) {
 export default class Firework extends Component {
   constructor(props) {
     super(props)
-    this._explode = new Animated.Value(0)
-    this._driftY  = new Animated.Value(0)
-    this._opacity = new Animated.Value(1)
+    this.reset()
 
     const {fireworkDiameter: fd, sparkDiameter: sd} = props
     this.fs = {
@@ -30,10 +28,20 @@ export default class Firework extends Component {
 
     }
 
+    this.state = {}
+
     this.renderSparks = this.renderSparks.bind(this)
+    this.reset = this.reset.bind(this)
+    this.splode = this.splode.bind(this)
   }
 
-  componentDidMount() {
+  reset() {
+    this._explode = new Animated.Value(0)
+    this._driftY  = new Animated.Value(0)
+    this._opacity = new Animated.Value(1)
+  }
+
+  splode() {
     Animated.sequence([
       Animated.timing(this._explode, {
         delay: this.props.delay || 0,
@@ -53,7 +61,16 @@ export default class Firework extends Component {
           useNativeDriver: true,
         })
       ])
-    ]).start()
+    ]).start(() => this.setState({dead: true}))
+
+    if (this.props.trigger) {
+      setTimeout(this.props.trigger, this.props.delay)
+    }
+  }
+
+  componentDidMount() {
+    if (this.props.hold) {return}
+    this.splode()
   }
 
   renderSparks(numSparks) {
@@ -87,6 +104,41 @@ export default class Firework extends Component {
         {this.renderSparks(props.numSparks)}
       </Animated.View>
     )
+  }
+}
+
+export class FireworkShow extends Component {
+  constructor(props) {
+    super(props)
+
+    this.loop = this.loop.bind(this)
+    this.mapWorks = this.mapWorks.bind(this)
+
+    this.state = {
+      works: this.mapWorks()
+    }
+  }
+
+  mapWorks() {
+    const md = this.props.maxFireworkDiameter
+    return React.Children.map(this.props.children, (c,i) => {
+      return React.cloneElement(c, {
+        key: Date.now(),
+        fireworkDiameter: this.props.maxFireworkDiameter,
+        trigger: i == React.Children.count(this.props.children) - 1 ? () => setTimeout(this.loop, this.props.loopDelay) : null
+      })
+    })
+  }
+
+  loop() {
+    const works = this.mapWorks()
+    this.setState({works: [...this.state.works, ...works]})
+  }
+
+  render() {
+    const {props, state} = this
+
+    return (state.works)
   }
 }
 

@@ -41,26 +41,52 @@ export default class LoginView extends Component {
     this._igOpacity   = new Animated.Value(0)
     this._liOpacity   = new Animated.Value(0)
     this._logoOpacity = new Animated.Value(0)
-    this._igDriftY    = new Animated.Value(em(0.8))
-    this._liDriftY    = new Animated.Value(em(0.8))
+    this._igDriftY    = new Animated.Value(0)
+    this._liDriftY    = new Animated.Value(0)
     this._bgScale     = new Animated.Value(1.1)
+
+    this._envOp        = new Animated.Value(0)
+    this._maleCornOp   = new Animated.Value(0)
+    this._femaleCornOp = new Animated.Value(0)
+    this._nullCornOp   = new Animated.Value(0)
+    this._fairyOp      = new Animated.Value(0)
   }
 
   componentDidMount() {
     Animated.sequence([
-      Animated.timing(this._logoOpacity, {
+      Animated.delay(333),
+      Animated.timing(this._envOp, {
         toValue: 1,
-        duration: timing.loginBgIn,
+        duration: timing.loginEnvIn,
         useNativeDriver: true,
       }),
-      Animated.delay(timing.loginBtnDelay),
+      Animated.timing(this._femaleCornOp, {
+        toValue: 1,
+        duration: timing.loginCornIn,
+        useNativeDriver: true,
+      }),
+      Animated.timing(this._maleCornOp, {
+        toValue: 1,
+        duration: timing.loginCornIn,
+        useNativeDriver: true,
+      }),
+      Animated.timing(this._nullCornOp, {
+        toValue: 1,
+        duration: timing.loginCornIn,
+        useNativeDriver: true,
+      }),
       Animated.parallel([
-        Animated.timing(this._igOpacity, {
+        Animated.timing(this._fairyOp, {
           toValue: 1,
-          duration: timing.loginBtnIn,
+          duration: timing.loginBgIn,
           useNativeDriver: true,
         }),
-        Animated.timing(this._igDriftY, {
+        Animated.timing(this._logoOpacity, {
+          toValue: 1,
+          duration: timing.loginBgIn,
+          useNativeDriver: true,
+        }),
+        Animated.timing(this._igOpacity, {
           toValue: 1,
           duration: timing.loginBtnIn,
           useNativeDriver: true,
@@ -68,15 +94,8 @@ export default class LoginView extends Component {
         Animated.timing(this._liOpacity, {
           toValue: 1,
           duration: timing.loginBtnIn,
-          delay: timing.loginBtnStagger,
           useNativeDriver: true,
         }),
-        Animated.timing(this._liDriftY, {
-          toValue: 1,
-          duration: timing.loginBtnIn,
-          delay: timing.loginBtnStagger,
-          useNativeDriver: true,
-        })
       ]),
     ]).start()
   }
@@ -85,37 +104,43 @@ export default class LoginView extends Component {
     const {props,state} = this
     return (
       <View style={style.container}>
-        <LinearGradient colors={['#201D33', '#3A345B']} style={{position:'absolute', top: 0, bottom: 0, left: 0, right: 0}} />
-        <StarSystem count={6} loopLength={240000} starProps={{size: 1, twinkle: true, style: {opacity: 1}}}></StarSystem>
-        <StarSystem count={15} loopLength={120000} starProps={{size: 0.66, twinkle: false, style: {opacity: 0.66}}}></StarSystem>
-        <StarSystem count={25} starProps={{size: 0.33, twinkle: false, style: {opacity: 0.33}}}></StarSystem>
-        <View style={style.ground}>
-          <Image source={require('../images/mountains-1.png')} style={style.mountains} resizeMode='cover' />
-        </View>
+        <Animated.View style={[style.sky, {opacity: this._envOp}]}>
+          <LinearGradient colors={['#201D33', '#3A345B']} style={style.sky} />
+          <StarSystem count={6} loopLength={240000} starProps={{size: 1, twinkle: true, style: {opacity: 1}}}></StarSystem>
+          <StarSystem count={15} loopLength={120000} starProps={{size: 0.66, twinkle: false, style: {opacity: 0.66}}}></StarSystem>
+          <StarSystem count={25} starProps={{size: 0.33, twinkle: false, style: {opacity: 0.33}}}></StarSystem>
+          <View style={style.ground}>
+            <Image
+              source={require('../images/mountains-1.png')}
+              prefetch={true}
+              style={style.mountains}
+              resizeMode='cover' />
+          </View>
+        </Animated.View>
         <Animated.View style={[style.cornCont]}>
           <Unicorn showLabel={false} {...props} field="orientation" value="null" labelStyle={{bottom: '95%'}}
-                   label="EVERYONE" flipped={true}
+                   label="EVERYONE" flipped={true} style={{opacity: this._nullCornOp}}
                    style={[style.corn, {right: screenWidth / 2 - (em(8) * 0.66 / 1.5), bottom: em(9)}]}>
-          <Image source={require('../images/unicorn-all.png')}
-                 style={{width: em(8), height: em(8), transform: [{scaleY: 0.66}, {scaleX:-0.66}]}}
+          <Animated.Image source={require('../images/unicorn-all.png')} prefetch={true}
+                 style={{width: em(8), height: em(8), transform: [{scaleY: 0.66}, {scaleX:-0.66}], opacity: this._nullCornOp}}
                  resizeMode='contain' />
           </Unicorn>
           <Unicorn showLabel={false} {...props} field="orientation" value="male"
-                   label="MEN"
+                   label="MEN" style={{opacity: this._maleCornOp}}
                    style={[style.corn, {left: em(1), bottom: em(4.5)}]}>
-            <Image source={require('../images/unicorn-male.png')}
-                   style={{width: '100%', height: '100%'}}
+            <Animated.Image source={require('../images/unicorn-male.png')} prefetch={true}
+                   style={{width: '100%', height: '100%', opacity: this._maleCornOp}}
                    resizeMode='contain' />
           </Unicorn>
           <Unicorn showLabel={false} {...props} field="orientation" value="female"
-                   label="WOMEN" flipped={true}
+                   label="WOMEN" flipped={true} style={{opacity: this._femaleCornOp}}
                   style={[style.corn, {right: em(1), bottom: em(3)}]}>
-            <Image source={require('../images/unicorn-female.png')}
-                    style={{width: '100%', height: '100%', transform: [{scaleX:-1.1},{scaleY:1.1}]}}
+            <Animated.Image source={require('../images/unicorn-female.png')} prefetch={true}
+                    style={{width: '100%', height: '100%', transform: [{scaleX:-1.1},{scaleY:1.1}], opacity: this._femaleCornOp}}
                     resizeMode='contain' />
           </Unicorn>
         </Animated.View>
-        <FairySheet count={8} colorFn={[mayteWhite, mayteGreen, maytePink, mayteBlue]} />
+        <FairySheet count={8} colorFn={[mayteWhite, mayteGreen, maytePink, mayteBlue]} style={{opacity: this._fairyOp}}  />
 
         <View style={style.main}>
             { props.loading ?
@@ -164,6 +189,7 @@ export default class LoginView extends Component {
 
 const style = StyleSheet.create({
   container: {flex: 1, justifyContent: 'flex-start', alignItems: 'center', backgroundColor: mayteBlack(),},
+  sky: {position:'absolute', top: 0, bottom: 0, left: 0, right: 0,},
   main: {height: screenHeight - groundHeight - mountainHeight, justifyContent: 'center',},
   icon: {height: em(5), width: em(5), marginBottom: em(1),},
   logo: {marginBottom: em(3), height: em(1.2), width: em(6),},

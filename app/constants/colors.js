@@ -5,3 +5,6 @@ export const mayteWhite = (opacity) => `rgba(243,243,243,${opacity === 0 ? 0 : (
 export const mayteGrey = (opacity) => `rgba(157,153,154,${opacity === 0 ? 0 : (opacity || 1)})`
 export const maytePink = (opacity) => `rgba(228,177,203,${opacity === 0 ? 0 : (opacity || 1)})`
 export const mayteBlue = (opacity) => `rgba(175,206,236,${opacity === 0 ? 0 : (opacity || 1)})`
+export const maytePurple = (opacity) => `rgba(168,136,191,${opacity === 0 ? 0 : (opacity || 1)})`
+export const mayteGold = (opacity) => `rgba(255,204,0,${opacity === 0 ? 0 : (opacity || 1)})`
+export const mayteNavy = (opacity) => `rgba(39,85,168,${opacity === 0 ? 0 : (opacity || 1)})`
