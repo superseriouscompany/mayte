@@ -19,6 +19,7 @@ import {
   Animated,
   TextInput,
   StyleSheet,
+  KeyboardAvoidingView,
   TouchableOpacity,
 } from 'react-native'
 
@@ -65,6 +66,7 @@ export default class QuizFreeformView extends Component {
   render() {
     const {props, state} = this
     const fontBase = em(1)
+
     return (
       <Scene
         ref={el => this.scene = el}
@@ -84,25 +86,34 @@ export default class QuizFreeformView extends Component {
             })
         }}>
 
-        <Animated.Text style={[style.text, style.header]}>DO YOU BELIEVE IN MAGIC?</Animated.Text>
+        <KeyboardAvoidingView
+          style={style.keyCnr}
+          keyboardVerticalOffset={(this.content && this.content.layout ? -this.content.layout.y + em(2) : 0)}
+          behavior="position"
+          contentContainerStyle={style.keyCnr}>
 
-        <Input
-          outerStyle={[style.inputOuter, {width: '80%', borderWidth: 1, minHeight: fontBase * 8, paddingLeft: em(0.66), paddingRight: em(0.66), borderColor: mayteWhite(0.1)}, {transform: [{scaleX: this._inputContScaleX}]}]}
-          innerStyle={[style.inputInner, {width: '100%', opacity: this._inputOpacity}]}
-          inputStyle={[{fontSize: fontBase, textAlign: 'left'}]}
-          onChangeText={this.handleInput}
-          ref={el => this.input = el}
-          defaultValue={props.freeform}
-          multiline={true}
-          blurOnSubmit={true}
-          value={state.value} />
+          <View style={{width: '100%', alignItems: 'center'}} ref={el => this.content = el} onLayout={e => this.content.layout = e.nativeEvent.layout}>
+            <Animated.Text style={[style.text, style.header]}>DO YOU BELIEVE IN MAGIC?</Animated.Text>
 
-        <Animated.View style={{opacity: this._buttonOpacity, transform: [{translateY: this._buttonTranslateY}]}}>
-          <ButtonGrey
-            style={{paddingLeft: em(1.33), paddingRight: em(1.33)}}
-            onPress={state.ready ? () => this.scene.fadeOut(props.next) : () => null}
-            text='Review & Submit' />
-        </Animated.View>
+            <Input
+              outerStyle={[style.inputOuter, {width: '80%', borderWidth: 1, minHeight: fontBase * 8, paddingLeft: em(0.66), paddingRight: em(0.66), borderColor: mayteWhite(0.1)}, {transform: [{scaleX: this._inputContScaleX}]}]}
+              innerStyle={[style.inputInner, {width: '100%', opacity: this._inputOpacity}]}
+              inputStyle={[{fontSize: fontBase, textAlign: 'left'}]}
+              onChangeText={this.handleInput}
+              ref={el => this.input = el}
+              defaultValue={props.freeform}
+              multiline={true}
+              blurOnSubmit={true}
+              value={state.value} />
+
+            <Animated.View style={{opacity: this._buttonOpacity, transform: [{translateY: this._buttonTranslateY}]}}>
+              <ButtonGrey
+                style={{paddingLeft: em(1.33), paddingRight: em(1.33)}}
+                onPress={state.ready ? () => this.scene.fadeOut(props.next) : () => null}
+                text='Review & Submit' />
+            </Animated.View>
+          </View>
+        </KeyboardAvoidingView>
       </Scene>
     )
   }
@@ -112,4 +123,5 @@ const style = StyleSheet.create({
   text: {backgroundColor: 'transparent', color: mayteWhite(), textAlign: 'center', fontFamily: 'Futura'},
   header: {fontSize: em(1.33), marginBottom: em(3), letterSpacing: em(0.25), fontWeight: '700'},
   inputOuter: {marginBottom: em(2), paddingLeft: em(0.66), paddingRight: em(0.66)},
+  keyCnr: { width: '100%', flex: 1, justifyContent: 'center', alignItems: 'center',},
 })
