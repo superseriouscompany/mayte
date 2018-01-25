@@ -139,7 +139,6 @@ export class FireworkShow extends Component {
     const work = <Firework {...workProps} />
 
     setTimeout(() => {
-      console.log(this.state.works.length)
       this.setState({works: [...this.state.works, work]})
       return this.props.active ? this.generateWork() : null
     }, workProps.delay)
@@ -151,7 +150,6 @@ export class FireworkShow extends Component {
 
   render() {
     const {props, state} = this
-
     return (state.works)
   }
 }
