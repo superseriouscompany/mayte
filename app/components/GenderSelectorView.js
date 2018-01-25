@@ -24,7 +24,8 @@ import {
   View,
 } from 'react-native'
 
-const fairies = <FairySheet count={8} colorFn={[mayteWhite, mayteGreen, maytePink, mayteBlue]} />
+const _fairyFade = new Animated.Value(0)
+const fairies = <FairySheet count={8} style={{opacity: _fairyFade}} colorFn={[mayteWhite, mayteGreen, maytePink, mayteBlue]} />
 
 export default class GenderSelector extends Component {
   constructor(props) {
@@ -36,6 +37,7 @@ export default class GenderSelector extends Component {
     this._continueFade = new Animated.Value(0)
     this._shootingStarDrift = new Animated.Value(0)
     this._shootingStarFade = new Animated.Value(0)
+    this._fairyFade = new Animated.Value(0)
 
     // TODO: Account for preselection?
 
@@ -60,11 +62,18 @@ export default class GenderSelector extends Component {
 
     if (nextProps.gender && nextProps.orientation && !this.state.continue) {
       this.setState({continue: true})
-      Animated.timing(this._continueFade, {
-        toValue: 1,
-        duration: 1000,
-        useNativeDriver: true,
-      }).start()
+      Animated.parallel([
+        Animated.timing(this._continueFade, {
+          toValue: 1,
+          duration: 1000,
+          useNativeDriver: true,
+        }),
+        Animated.timing(_fairyFade, {
+          toValue: 1,
+          duration: 1000,
+          useNativeDriver: true,
+        }),
+      ]).start()
     }
   }
 
@@ -128,7 +137,7 @@ export default class GenderSelector extends Component {
       :
         <View style={style.container}>
           <Environment {...props} starFade={this._starFade} shootingStarDrift={this._shootingStarDrift} shootingStarFade={this._shootingStarFade} />
-          { !props.orientation ? null : fairies }
+          { fairies }
           <SelfSelector {...props} fade={this._idFade} />
           <CornSelector {...props} render={state.interest} fade={this._interestFade} />
           <Animated.View style={[style.mask, {

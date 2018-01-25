@@ -127,11 +127,13 @@ export class FairySheet extends Component {
       var colorFn = typeof props.colorFn == 'function' ? props.colorFn : props.colorFn[c % props.colorFn.length]
       fs.push(
         <Fairy {...props}
+          style={props.fairyStyle}
           colorFn={colorFn}
           key={i}
           delay={i * props.floatLength / props.count}
           style={[{top: top, left: left}, props.style]} />,
         <Fairy {...props}
+          style={props.fairyStyle}
           colorFn={colorFn}
           key={i+1}
           delay={i * props.floatLength / props.count}
@@ -144,7 +146,7 @@ export class FairySheet extends Component {
   }
   render() {
     return(
-      <Animated.View style={[style.sheet, {transform: [{translateY: this._translateY}]}]}>
+      <Animated.View style={[style.sheet, this.props.style, {transform: [{translateY: this._translateY}]}]}>
       {this.renderFairies()}
       </Animated.View>
     )

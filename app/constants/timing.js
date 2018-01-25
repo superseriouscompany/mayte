@@ -4,6 +4,8 @@ var timing = {
   loginBtnIn:       333,
   loginBtnStagger:  333,
   loginBtnDelay:    222,
+  loginEnvIn:       333,
+  loginCornIn:      333,
 
   // signup
   sceneInDuration:  333,
