@@ -85,7 +85,7 @@ export default class LoginView extends Component {
     const {props,state} = this
     return (
       <View style={style.container}>
-        <LinearGradient colors={['rgba(0,0,0,1)', '#232037']} style={{position:'absolute', top: 0, bottom: 0, left: 0, right: 0}} />
+        <LinearGradient colors={['#201D33', '#3A345B']} style={{position:'absolute', top: 0, bottom: 0, left: 0, right: 0}} />
         <StarSystem count={6} loopLength={240000} starProps={{size: 1, twinkle: true, style: {opacity: 1}}}></StarSystem>
         <StarSystem count={15} loopLength={120000} starProps={{size: 0.66, twinkle: false, style: {opacity: 0.66}}}></StarSystem>
         <StarSystem count={25} starProps={{size: 0.33, twinkle: false, style: {opacity: 0.33}}}></StarSystem>
@@ -117,44 +117,46 @@ export default class LoginView extends Component {
         </Animated.View>
         <FairySheet count={8} colorFn={[mayteWhite, mayteGreen, maytePink, mayteBlue]} />
 
-        { props.loading ?
-          <ActivityIndicator size="large"/>
-        :
-          <View style={style.main}>
-            <Animated.View style={{alignItems: 'center', opacity: this._logoOpacity}}>
-              <Image style={[style.icon]}
-                     source={require('../images/unicorn-icon-white.png')}
-                     resizeMode="contain" />
-              <Image style={[style.logo]}
-                     source={require('../images/unicorn-logo-white.png')}
-                     resizeMode="contain" />
-            </Animated.View>
+        <View style={style.main}>
+            { props.loading ?
+              <ActivityIndicator size="large"/>
+            :
+            <View>
+              <Animated.View style={{alignItems: 'center', opacity: this._logoOpacity}}>
+                <Image style={[style.icon]}
+                       source={require('../images/unicorn-icon-white.png')}
+                       resizeMode="contain" />
+                <Image style={[style.logo]}
+                       source={require('../images/unicorn-logo-white.png')}
+                       resizeMode="contain" />
+              </Animated.View>
 
-            <Animated.View
-              style={{
-                opacity: this._igOpacity,
-                transform: [{translateY: this._igDriftY}]}}>
-              <ButtonGrey
-                text='LOGIN WITH INSTAGRAM'
-                styleGrad={style.buttonGrad}
-                styleText={style.buttonText}
-                style={[style.button, {marginBottom: em(2.33)}]}
-                onPress={props.instagramLogin} />
-            </Animated.View>
+              <Animated.View
+                style={{
+                  opacity: this._igOpacity,
+                  transform: [{translateY: this._igDriftY}]}}>
+                <ButtonGrey
+                  text='LOGIN WITH INSTAGRAM'
+                  styleGrad={style.buttonGrad}
+                  styleText={style.buttonText}
+                  style={[style.button, {marginBottom: em(2.33)}]}
+                  onPress={props.instagramLogin} />
+              </Animated.View>
 
-            <Animated.View
-              style={{
-                opacity: this._liOpacity,
-                transform: [{translateY: this._liDriftY}]}}>
-              <ButtonGrey
-                text='LOGIN WITH LINKEDIN'
-                styleGrad={style.buttonGrad}
-                styleText={style.buttonText}
-                style={[style.button]}
-                onPress={props.linkedinLogin} />
-            </Animated.View>
-          </View>
+              <Animated.View
+                style={{
+                  opacity: this._liOpacity,
+                  transform: [{translateY: this._liDriftY}]}}>
+                <ButtonGrey
+                  text='LOGIN WITH LINKEDIN'
+                  styleGrad={style.buttonGrad}
+                  styleText={style.buttonText}
+                  style={[style.button]}
+                  onPress={props.linkedinLogin} />
+              </Animated.View>
+            </View>
         }
+        </View>
       </View>
     )
   }

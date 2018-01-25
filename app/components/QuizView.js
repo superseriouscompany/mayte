@@ -1,7 +1,7 @@
 import React, {Component}              from 'react'
 import {KeyboardAwareScrollView}       from 'react-native-keyboard-aware-scroll-view'
 import LinearGradient                  from 'react-native-linear-gradient'
-import {StaticNight, Star, StarSystem} from './Environment'
+import {SpaceSky, Star, StarSystem} from './Environment'
 import Intro                           from './QuizIntroView'
 import Vip                             from './QuizVipView'
 import Email                           from './QuizEmailView'
@@ -91,7 +91,7 @@ export default class QuizView extends Component {
     const {props, state} = this
     return(
       <View style={style.container}>
-        <StaticNight style={style.bg}>
+        <SpaceSky style={style.bg}>
 
           <StarSystem move={true} count={12} loopLength={240000} starProps={{size: 1, twinkle: true, style: {opacity: 1}}}></StarSystem>
           <StarSystem move={true} count={30} loopLength={120000} starProps={{size: 0.66, twinkle: false, style: {opacity: 0.66}}}></StarSystem>
@@ -100,7 +100,7 @@ export default class QuizView extends Component {
           {
             this.renderZodiac()
           }
-        </StaticNight>
+        </SpaceSky>
 
         {this.renderScene()}
 
@@ -231,7 +231,7 @@ export class Input extends Component {
 }
 
 const inputStyle = StyleSheet.create({
-  outer: {width: '66%', backgroundColor: mayteBlack(0.2), borderBottomWidth: 1, borderColor: mayteWhite(), borderRadius: 4, paddingBottom: em(0.33), paddingTop: em(0.33),},
+  outer: {width: '66%', backgroundColor: mayteWhite(0.1), borderBottomWidth: 1, borderColor: mayteWhite(), borderRadius: 4, paddingBottom: em(0.33), paddingTop: em(0.33),},
   input: {backgroundColor: 'transparent', color: mayteWhite(), textAlign: 'center', fontFamily: 'Futura', width: '100%', letterSpacing: em(0.5), overflow: 'visible', fontSize: em(1.33)},
 })
 

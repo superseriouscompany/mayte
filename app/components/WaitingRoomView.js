@@ -19,15 +19,20 @@ import {
   StyleSheet,
 } from 'react-native'
 
+const particles =
+<View style={{position: 'absolute', top: 0, left: 0, width: screenWidth, height: screenHeight}}>
+  <ParticleSheet count={6} loopLegnth={10000} scale={0.4} particleStyle={{opacity: 0.4}} />
+  <ParticleSheet count={6} loopLength={15000} scale={0.8} particleStyle={{opacity: 0.8}} />
+  <ParticleSheet count={6} loopLength={20000} scale={1} />
+</View>
+
 export default class WaitingRoomView extends Component {
   render() {
     const {props} = this
 
     return (
       <View style={style.container}>
-        <ParticleSheet count={6} loopLegnth={10000} scale={0.4} particleStyle={{opacity: 0.4}} />
-        <ParticleSheet count={6} loopLength={15000} scale={0.8} particleStyle={{opacity: 0.8}} />
-        <ParticleSheet count={6} loopLength={20000} scale={1} />
+        { particles }
 
         <Image style={[style.icon]}
                source={require('../images/unicorn-icon-black.png')}
