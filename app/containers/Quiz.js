@@ -15,6 +15,7 @@ class Quiz extends Component {
     this.submit        = this.submit.bind(this)
     this.verifyVipCode = this.verifyVipCode.bind(this)
     this.selectPhoto   = this.selectPhoto.bind(this)
+    this.toggleTerms   = this.toggleTerms.bind(this)
   }
 
   componentDidMount() {
@@ -93,6 +94,10 @@ class Quiz extends Component {
     })
   }
 
+  toggleTerms() {
+    this.setState({terms: !this.state.terms})
+  }
+
   render() {
     const props = {...this.props.quiz, ...this.props}
 
@@ -103,6 +108,8 @@ class Quiz extends Component {
              update={this.props.setQuiz}
              submit={this.submit}
              selectPhoto={this.selectPhoto}
+             toggleTerms={this.toggleTerms}
+             terms={this.state.terms}
              submitting={this.state.submitting}
              readyForSubmit={
                this.props.quiz.email &&

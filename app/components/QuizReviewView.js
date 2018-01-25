@@ -1,19 +1,26 @@
 'use strict'
 
-import React, {Component}                           from 'react'
-import DatePicker                                   from 'react-native-datepicker'
-import {Scene}                                      from './QuizView'
-import ImagePicker                                  from 'react-native-image-crop-picker'
-import {ButtonGrey}                                 from './Button'
-import OrbitLoader                                  from './OrbitLoader'
-import {mayteWhite, mayteBlack}                     from '../constants/colors'
-import {em, screenWidth, screenHeight, notchHeight} from '../constants/dimensions'
-import api                                          from '../services/api'
+import React, {Component}       from 'react'
+import DatePicker               from 'react-native-datepicker'
+import {Scene}                  from './QuizView'
+import ImagePicker              from 'react-native-image-crop-picker'
+import {ButtonGrey}             from './Button'
+import OrbitLoader              from './OrbitLoader'
+import {mayteWhite, mayteBlack} from '../constants/colors'
+import api                      from '../services/api'
+import CheckBox                 from 'react-native-check-box'
+import {
+  em,
+  screenWidth,
+  screenHeight,
+  notchHeight
+} from '../constants/dimensions'
 import {
   View,
   Text,
   Image,
   Easing,
+  Linking,
   Animated,
   TextInput,
   StyleSheet,
@@ -94,7 +101,7 @@ export default class QuizReviewView extends Component {
 
         <View style={[style.section]}>
           <View style={style.sectionHeader}>
-            <Text style={[style.text, style.sectionTitle]}>VIP CODE*</Text>
+            <Text style={[style.text, style.sectionTitle]}>VIP CODE</Text>
           </View>
           <TouchableOpacity
             onPress={() => this.scene.fadeOut(() => props.update({step: 'vip'}))}>
@@ -106,7 +113,22 @@ export default class QuizReviewView extends Component {
               : <Text style={[style.text, style.valueText, style.vipPlaceholder]}>Enter Code</Text>
             }
           </TouchableOpacity>
-          <Text style={[style.text, style.vipDisclaimer]}>*Valid code does not guarantee entry.</Text>
+        </View>
+
+        <View style={[style.section]}>
+          <CheckBox
+            onClick={props.toggleTerms}
+            isChecked={props.terms}
+            checkBoxColor="white"
+            rightTextView={
+              <Text style={[style.text, style.valueText, style.tosCnrText]}>
+                I accept the
+                <TouchableOpacity onPress={() => Linking.openURL('https://dateunicorn.com/terms')} style={style.tos}>
+                  <Text style={[style.text, style.valueText, style.tosText]}> Terms of Service</Text>
+                </TouchableOpacity>
+              </Text>
+            }
+            />
         </View>
 
 
@@ -122,13 +144,15 @@ export default class QuizReviewView extends Component {
               </Text>
             }
           </View>
-        :
+        : !!props.terms ?
           <Animated.View>
             <ButtonGrey
               style={{paddingLeft: em(2), paddingRight: em(2)}}
               onPress={props.submit}
               text='Submit' />
           </Animated.View>
+        :
+          null
         }
       </Scene>
     )
@@ -156,5 +180,8 @@ const style = StyleSheet.create({
   loadingExplanation: { color: mayteWhite(), backgroundColor: 'transparent', marginTop: em(1), },
   vipPlaceholder: {fontStyle: 'italic', opacity: 0.8},
   vipDisclaimer: {textAlign: 'left', marginTop: em(0.66)},
-  vipRefBubble: {width: em(2), height: em(2), borderRadius: em(1), marginRight: em(0.66)}
+  vipRefBubble: {width: em(2), height: em(2), borderRadius: em(1), marginRight: em(0.66)},
+  tos: { width: 200, height: 22 },
+  tosCnrText: { marginTop: 5, marginLeft: 5,},
+  tosText: { color: 'blue'},
 })
