@@ -40,7 +40,6 @@ export default class QuizDobView extends Component {
   }
 
   componentDidUpdate(prevProps, prevState) {
-    console.log(this.state.ready, !prevState.ready)
     if (this.state.ready && !prevState.ready) { this.animButton(true) }
     if (!this.state.ready && prevState.ready) { this.animButton(false) }
   }
@@ -123,7 +122,7 @@ export default class QuizDobView extends Component {
             </Animated.View>
         </Animated.View>
 
-        { !state.alert ?
+        { !state.alert     ?
           <Animated.View style={{opacity: this._buttonOpacity, transform: [{translateY: this._buttonTranslateY}]}}>
             <ButtonGrey
               style={{paddingLeft: em(2), paddingRight: em(2)}}
