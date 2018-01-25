@@ -95,7 +95,7 @@ export default class LoginView extends Component {
         <Animated.View style={[style.cornCont]}>
           <Unicorn showLabel={false} {...props} field="orientation" value="null" labelStyle={{bottom: '95%'}}
                    label="EVERYONE" flipped={true}
-                   style={[style.corn, {right: em(8), bottom: em(9)}]}>
+                   style={[style.corn, {right: screenWidth / 2 - (em(8) * 0.66 / 1.5), bottom: em(9)}]}>
           <Image source={require('../images/unicorn-all.png')}
                  style={{width: em(8), height: em(8), transform: [{scaleY: 0.66}, {scaleX:-0.66}]}}
                  resizeMode='contain' />

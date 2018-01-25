@@ -153,7 +153,7 @@ export default class CornSelector extends Component {
         <Text style={style.heading}>{`I'm interested in:`}</Text>
         <Unicorn {...props} field="orientation" value="null" labelStyle={{bottom: '95%'}}
                  label="EVERYONE" fade={this._allOpacity} flipped={true}
-                 style={[style.corn, {right: em(8), bottom: em(9)}]}>
+                 style={[style.corn, {right: screenWidth / 2 - (em(8) * 0.66 / 1.5), bottom: em(9)}]}>
         <Image source={require('../images/unicorn-all.png')}
                style={{width: em(8), height: em(8), transform: [{scaleY: 0.66}, {scaleX:-0.66}]}}
                resizeMode='contain' />
