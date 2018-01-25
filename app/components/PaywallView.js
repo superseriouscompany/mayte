@@ -1,12 +1,19 @@
 'use strict'
 
-import React, {Component} from 'react'
-import Text               from './Text'
-import base               from '../constants/styles'
-import {ButtonBlack}      from './Button'
-import Firework           from './Firework'
-import {ParticleSheet}    from './Particle'
-import {mayteGreen}       from '../constants/colors'
+import React, {Component}       from 'react'
+import Text                     from './Text'
+import base                     from '../constants/styles'
+import {ButtonBlack}            from './Button'
+import Firework, {FireworkShow} from './Firework'
+import {ParticleSheet}          from './Particle'
+import {
+  mayteRed,
+  mayteNavy,
+  mayteGold,
+  maytePurple,
+  mayteBlue,
+  mayteGreen,
+} from '../constants/colors'
 import {
   em,
   screenWidth,
@@ -24,13 +31,13 @@ import {
   Easing,
 } from 'react-native'
 
-const calculateFireworkOffset = (top, left) => {
+const calculateFireworkOffset = (left, top) => {
   return {
-    top: (screenHeight/2-fireworkDiameter/2) + top,
     left: (screenWidth/2-fireworkDiameter/2) + left,
+    top: (screenHeight/2-fireworkDiameter/2) + top,
   }
 }
-const fireworkDiameter = screenWidth * 0.6
+const fireworkDiameter = screenWidth * 0.5
 const sparkDiameter = em(1)
 
 export default class PaywallView extends Component {
@@ -102,10 +109,14 @@ export default class PaywallView extends Component {
         { product ?
           <Animated.View style={[style.container, {opacity: this._contOpacity}]}>
 
-            <Firework color='#D42456' delay={0} style={[calculateFireworkOffset(em(-2),em(-2))]} fireworkDiameter={fireworkDiameter} sparkDiameter={em(0.6)} numSparks={16} />
-            <Firework color='#2755A8' delay={800} style={[calculateFireworkOffset(em(1),0)]} fireworkDiameter={fireworkDiameter} sparkDiameter={em(0.8)} numSparks={10} />
-            <Firework color='#FFCC00' delay={1600} style={[calculateFireworkOffset(em(-1),em(2))]} fireworkDiameter={fireworkDiameter} sparkDiameter={em(0.6)} numSparks={16} />
-            <Firework color={mayteGreen()} delay={2400} style={[calculateFireworkOffset(em(-2),em(-4))]} fireworkDiameter={fireworkDiameter} sparkDiameter={em(0.6)} numSparks={16} />
+            <FireworkShow loopDelay={800} maxFireworkDiameter={fireworkDiameter}>
+              <Firework color={mayteRed()} delay={0} style={[calculateFireworkOffset(em(-2),em(-2))]} sparkDiameter={em(0.6)} numSparks={16} />
+              <Firework color={mayteNavy()} delay={800} style={[calculateFireworkOffset(0,em(1))]} sparkDiameter={em(0.8)} numSparks={10} />
+              <Firework color={mayteGold()} delay={1600} style={[calculateFireworkOffset(em(2),em(1))]} sparkDiameter={em(0.6)} numSparks={16} />
+              <Firework color={maytePurple()} delay={2400} style={[calculateFireworkOffset(em(-6),em(2))]} sparkDiameter={em(0.6)} numSparks={16} />
+              <Firework color={mayteBlue()} delay={3200} style={[calculateFireworkOffset(em(4),em(2))]} sparkDiameter={em(0.6)} numSparks={16} />
+              <Firework color={mayteGreen()} delay={4000} style={[calculateFireworkOffset(em(-4),em(-2))]} sparkDiameter={em(0.6)} numSparks={16} />
+            </FireworkShow>
 
             <Animated.View style={[style.container, {opacity: this._infoOpacity}]}>
               <ParticleSheet count={6} loopLength={10000} scale={0.4} particleStyle={{opacity: 0.4}} />
@@ -123,7 +134,7 @@ export default class PaywallView extends Component {
                 <ButtonBlack text={`Join for ${product.priceString}/month`} onPress={() => props.buy(product.identifier)} style={style.payBtn} />
                 <Text style={[base.text, {marginTop: em(0.33)}]}>{`Payment starts Valentine's Day.`}</Text>
                 <TouchableOpacity style={style.restorePurchases} onPress={props.restorePurchases}>
-                  <Text>Restore Purchases</Text>
+                  <Text style={{textDecorationLine: 'underline'}}>Restore Purchases</Text>
                 </TouchableOpacity>
               </View>
             </Animated.View>
@@ -146,13 +157,14 @@ const style = StyleSheet.create({
   },
   teaser: {
     backgroundColor: 'transparent',
-    marginTop: notchHeight/2 + em(3),
+    paddingTop: notchHeight/2 + em(3),
     width: '90%',
+    flex: 1,
   },
   teaserHeader: {
     fontSize: em(2),
+    marginBottom: em(2),
     textAlign: 'center',
-    marginBottom: em(3),
   },
   teaserText: {
     fontSize: em(1.33),
@@ -164,7 +176,6 @@ const style = StyleSheet.create({
     alignItems:     'center',
   },
   payBtnCont: {
-    flex: 1,
     justifyContent: 'flex-end',
     alignItems: 'center',
     backgroundColor: 'transparent',
