@@ -24,9 +24,7 @@ export default class Firework extends Component {
       height: fd,
       position: 'absolute',
     }
-    this.ss = {
-
-    }
+    this.ss = {}
 
     this.state = {}
 
@@ -61,11 +59,7 @@ export default class Firework extends Component {
           useNativeDriver: true,
         })
       ])
-    ]).start(() => this.setState({dead: true}))
-
-    if (this.props.trigger) {
-      setTimeout(this.props.trigger, this.props.delay)
-    }
+    ]).start(this.props.onDecay)
   }
 
   componentDidMount() {
@@ -111,35 +105,61 @@ export class FireworkShow extends Component {
   constructor(props) {
     super(props)
 
-    this.loop = this.loop.bind(this)
-    this.mapWorks = this.mapWorks.bind(this)
+    this.generateWork = this.generateWork.bind(this)
+    this.killWork = this.killWork.bind(this)
 
     this.state = {
-      works: this.mapWorks()
+      works: []
     }
   }
 
-  mapWorks() {
-    const md = this.props.maxFireworkDiameter
-    return React.Children.map(this.props.children, (c,i) => {
-      return React.cloneElement(c, {
-        key: Date.now(),
-        fireworkDiameter: this.props.maxFireworkDiameter,
-        trigger: i == React.Children.count(this.props.children) - 1 ? () => setTimeout(this.loop, this.props.loopDelay) : null
-      })
-    })
+  componentDidMount() {
+    return this.props.active ? this.generateWork() : null
   }
 
-  loop() {
-    const works = this.mapWorks()
-    this.setState({works: [...this.state.works, ...works]})
+  generateWork() {
+    const {props} = this
+    const fdd = 1 - props.fireworkDiameterDeviation
+    const sdd = 1 - props.sparkDiameterDeviation
+    const id = Date.now()
+    const workProps = {
+      key: id, id: id, // We don't get access to key :(
+      delay: props.workDelay + Math.random() * -(props.workDelayOffset) + props.workDelayOffset,
+      style: {
+        left: props.origin.left + Math.random() * -(props.radius*2) + props.radius,
+        top: props.origin.top + Math.random() * -(props.radius*2) + props.radius,
+      },
+      color: props.colors[Math.round(Math.random() * props.colors.length)],
+      fireworkDiameter: Math.random() * (props.maxFireworkDiameter * fdd) + (props.maxFireworkDiameter * props.fireworkDiameterDeviation),
+      sparkDiameter: Math.random() * (props.maxSparkDiameter * sdd) + (props.maxSparkDiameter * props.sparkDiameterDeviation),
+      numSparks: props.maxNumSparks / (Math.random() > 0.5 ? 2 : 1),
+      onDecay: () => this.killWork(id),
+    }
+
+    const work = <Firework {...workProps} />
+
+    setTimeout(() => {
+      this.setState({works: this.state.works.concat(work)})
+      return this.props.active ? this.generateWork() : null
+    }, workProps.delay)
+  }
+
+  killWork(id) {
+    this.state.works = this.state.works.filter(w => w.props.id != id)
   }
 
   render() {
     const {props, state} = this
-
     return (state.works)
   }
+}
+
+FireworkShow.defaultProps = {
+  origin: {left: 0, top: 0},
+  workDelay: 800,
+  workDelayOffset: 200,
+  fireworkDiameterDeviation: 0.4,
+  sparkDiameterDeviation: 0.4,
 }
 
 Firework.defaultProps = {
@@ -150,4 +170,5 @@ Firework.defaultProps = {
   explodeTime: 100,
   decayY: 100,
   numSparks: 8,
+  onDecay: () => null,
 }
