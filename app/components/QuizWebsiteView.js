@@ -101,7 +101,6 @@ export default class Website extends Component {
           inputStyle={[style.input, ((props.value || '').length > 20 && this.input && this.input.layout ? {
             fontSize: this.input.layout.width / (props.value.length / 1.75)
           } : {})]}
-          onFocus={() => this.animButton(false)}
           onBlur={() => this.setState({ready: this.testInput(props.value)})}
           onChangeText={this.handleInput}
           defaultValue={props.value}

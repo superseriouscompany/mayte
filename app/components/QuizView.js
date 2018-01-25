@@ -189,7 +189,6 @@ export class Scene extends Component {
       <Animated.View
         style={[style.scene, props.style, {opacity: this._opacity, zIndex: props.active ? 420 : 0}]}>
           {props.children}
-
       </Animated.View>
     )
   }
@@ -270,6 +269,8 @@ const style = StyleSheet.create({
   scene: {
     width: screenWidth,
     height: screenHeight,
+    justifyContent: 'center',
+    alignItems: 'center',
   },
   sceneCont: {
     justifyContent: 'center',
