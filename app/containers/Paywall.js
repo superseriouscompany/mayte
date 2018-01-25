@@ -36,8 +36,10 @@ class Paywall extends Component {
   restorePurchases() {
     InAppUtils.restorePurchases((err, response)=> {
       if( err ) {
+        // this happens when the user cancels sign in
+        if( err == 'restore_failed' ) { return }
         log(err)
-        return alert(err.message + ". Please try again or contact support@dateunicorn.com")
+        return alert(`${err.message || JSON.stringify(err)}. Please try again or contact support@dateunicorn.com`)
       }
       if( !response.length ) {
        const err = new Error('No purchases found');
