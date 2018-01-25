@@ -183,5 +183,5 @@ const style = StyleSheet.create({
   vipRefBubble: {width: em(2), height: em(2), borderRadius: em(1), marginRight: em(0.66)},
   tos: { width: 200, height: 22 },
   tosCnrText: { marginTop: 5, marginLeft: 5,},
-  tosText: { color: 'blue'},
+  tosText: { textDecorationLine: 'underline'},
 })
