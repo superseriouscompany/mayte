@@ -88,11 +88,11 @@ export default class QuizFreeformView extends Component {
 
         <KeyboardAvoidingView
           style={style.keyCnr}
-          keyboardVerticalOffset={(this.content && this.content.layout ? -this.content.layout.y + em(2) : 0)}
+          keyboardVerticalOffset={(this.state.contentLayout ? -this.state.contentLayout.y + em(2) : 0)}
           behavior="position"
           contentContainerStyle={style.keyCnr}>
 
-          <View style={{width: '100%', alignItems: 'center'}} ref={el => this.content = el} onLayout={e => this.content.layout = e.nativeEvent.layout}>
+          <View style={{width: '100%', alignItems: 'center'}} onLayout={(e) => this.setState({contentLayout: e.nativeEvent.layout})}>
             <Animated.Text style={[style.text, style.header]}>DO YOU BELIEVE IN MAGIC?</Animated.Text>
 
             <Input
