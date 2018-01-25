@@ -66,8 +66,7 @@ class Login extends Component {
   render() { return (
     <LoginView {...this.props}
                linkedinLogin={this.linkedinLogin}
-               instagramLogin={this.instagramLogin}
-               />
+               instagramLogin={this.instagramLogin} />
   )}
 }
 
