@@ -37,8 +37,9 @@ const calculateFireworkOffset = (left, top) => {
     top: (screenHeight/2-fireworkDiameter/2) + top,
   }
 }
-const fireworkDiameter = screenWidth * 0.5
+const fireworkDiameter = screenWidth * 0.6
 const sparkDiameter = em(1)
+const introFireworksLength = 2400
 
 export default class PaywallView extends Component {
   constructor(props) {
@@ -49,39 +50,22 @@ export default class PaywallView extends Component {
     this._infoOpacity = new Animated.Value(0)
     this._contOpacity = new Animated.Value(1)
 
+    this.state = {runShow: false}
+
     this.numFetti = 3
     this.exit = this.exit.bind(this)
   }
 
   componentDidMount() {
     Animated.sequence([
-      Animated.delay(800),
-      Animated.parallel([
-        Animated.spring(this._balloonerY, {
-          toValue: -screenHeight / 2,
-          damping: 180,
-          useNativeDriver: true,
-        }),
-        Animated.spring(this._balloonerX, {
-          toValue: screenWidth * 0.9 / 2,
-          damping: 180,
-          useNativeDriver: true,
-        })
-      ]),
-      Animated.parallel([
-        Animated.timing(this._bgOpacity, {
-          toValue: 0.4,
-          duration: 1000,
-          useNativeDriver: true,
-        }),
-        Animated.timing(this._infoOpacity, {
-          toValue: 1,
-          duration: 1000,
-          delay: 500,
-          useNativeDriver: true,
-        })
-      ])
-    ]).start()
+      Animated.delay(introFireworksLength),
+      Animated.timing(this._infoOpacity, {
+        toValue: 1,
+        duration: 1000,
+        delay: 500,
+        useNativeDriver: true,
+      })
+    ]).start(() => this.setState({runShow: true}))
   }
 
   exit(cb) {
@@ -109,14 +93,23 @@ export default class PaywallView extends Component {
         { product ?
           <Animated.View style={[style.container, {opacity: this._contOpacity}]}>
 
-            <FireworkShow loopDelay={800} maxFireworkDiameter={fireworkDiameter}>
-              <Firework color={mayteRed()} delay={0} style={[calculateFireworkOffset(em(-2),em(-2))]} sparkDiameter={em(0.6)} numSparks={16} />
-              <Firework color={mayteNavy()} delay={800} style={[calculateFireworkOffset(0,em(1))]} sparkDiameter={em(0.8)} numSparks={10} />
-              <Firework color={mayteGold()} delay={1600} style={[calculateFireworkOffset(em(2),em(1))]} sparkDiameter={em(0.6)} numSparks={16} />
-              <Firework color={maytePurple()} delay={2400} style={[calculateFireworkOffset(em(-6),em(2))]} sparkDiameter={em(0.6)} numSparks={16} />
-              <Firework color={mayteBlue()} delay={3200} style={[calculateFireworkOffset(em(4),em(2))]} sparkDiameter={em(0.6)} numSparks={16} />
-              <Firework color={mayteGreen()} delay={4000} style={[calculateFireworkOffset(em(-4),em(-2))]} sparkDiameter={em(0.6)} numSparks={16} />
-            </FireworkShow>
+          <Firework color={mayteRed()} delay={0} style={[calculateFireworkOffset(em(-2),em(-2))]} fireworkDiameter={fireworkDiameter} sparkDiameter={em(0.6)} numSparks={16} />
+          <Firework color={mayteNavy()} delay={introFireworksLength*0.33} style={[calculateFireworkOffset(0,em(1))]} fireworkDiameter={fireworkDiameter} sparkDiameter={em(0.8)} numSparks={10} />
+          <Firework color={mayteGold()} delay={introFireworksLength*0.66} style={[calculateFireworkOffset(em(2),em(1))]} fireworkDiameter={fireworkDiameter} sparkDiameter={em(0.6)} numSparks={16} />
+          <Firework color={mayteGreen()} delay={introFireworksLength} style={[calculateFireworkOffset(em(-4),em(-2))]} fireworkDiameter={fireworkDiameter} sparkDiameter={em(0.6)} numSparks={16} />
+
+            { !state.runShow ? null :
+              <FireworkShow
+                workDelay={1200}
+                active={state.runShow}
+                maxFireworkDiameter={fireworkDiameter}
+                maxSparkDiameter={em(0.8)}
+                maxNumSparks={16}
+                origin={calculateFireworkOffset(0,0)}
+                radius={em(4)}
+                colors={[mayteRed(0.8), mayteNavy(0.8), mayteGold(0.8), maytePurple(0.8), mayteBlue(0.8), mayteGreen(0.8)]} /> }
+
+
 
             <Animated.View style={[style.container, {opacity: this._infoOpacity}]}>
               <ParticleSheet count={6} loopLength={10000} scale={0.4} particleStyle={{opacity: 0.4}} />
