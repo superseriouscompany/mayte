@@ -28,8 +28,8 @@ class NightSky extends Component {
         <LinearGradient colors={['#201D33', '#3A345B']} style={{position:'absolute', top: 0, bottom: 0, left: 0, right: 0}} />
 
         <StarSystem count={6} loopLength={240000} starProps={{size: 1, twinkle: true, style: {opacity: 1}}}></StarSystem>
-        <StarSystem count={15} loopLength={120000} starProps={{size: 0.66, twinkle: false, style: {opacity: 0.66}}}></StarSystem>
-        <StarSystem count={25} starProps={{size: 0.33, twinkle: false, style: {opacity: 0.33}}}></StarSystem>
+        <StarSystem count={24} loopLength={120000} starProps={{size: 0.66, twinkle: false, style: {opacity: 0.66}}}></StarSystem>
+        <StarSystem count={36} starProps={{size: 0.33, twinkle: false, style: {opacity: 0.33}}}></StarSystem>
 
         {/* make a wish ya rich mothafocker */}
         <Star twinkleDelay={500}
