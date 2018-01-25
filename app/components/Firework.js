@@ -24,9 +24,7 @@ export default class Firework extends Component {
       height: fd,
       position: 'absolute',
     }
-    this.ss = {
-
-    }
+    this.ss = {}
 
     this.state = {}
 
@@ -61,11 +59,7 @@ export default class Firework extends Component {
           useNativeDriver: true,
         })
       ])
-    ]).start(() => {
-      if (this.props.onDecay) {
-        this.props.onDecay(this)
-      }
-    })
+    ]).start(this.props.onDecay)
   }
 
   componentDidMount() {
@@ -139,19 +133,20 @@ export class FireworkShow extends Component {
       fireworkDiameter: Math.random() * (props.maxFireworkDiameter * fdd) + (props.maxFireworkDiameter * props.fireworkDiameterDeviation),
       sparkDiameter: Math.random() * (props.maxSparkDiameter * sdd) + (props.maxSparkDiameter * props.sparkDiameterDeviation),
       numSparks: props.maxNumSparks / (Math.random() > 0.5 ? 2 : 1),
-      onDecay: this.killWork,
+      onDecay: () => this.killWork(id),
     }
 
     const work = <Firework {...workProps} />
 
     setTimeout(() => {
+      console.log(this.state.works.length)
       this.setState({works: [...this.state.works, work]})
       return this.props.active ? this.generateWork() : null
     }, workProps.delay)
   }
 
-  killWork(work) {
-    this.state.works = this.state.works.filter(w => w.props.id != work.props.id)
+  killWork(id) {
+    this.state.works = this.state.works.filter(w => w.props.id != id)
   }
 
   render() {
@@ -177,4 +172,5 @@ Firework.defaultProps = {
   explodeTime: 100,
   decayY: 100,
   numSparks: 8,
+  onDecay: () => null,
 }
