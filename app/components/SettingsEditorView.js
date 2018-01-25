@@ -5,7 +5,7 @@ import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view'
 import { mayteBlack }            from '../constants/colors'
 import SettingsEditorPhotos      from '../containers/SettingsEditorPhotos'
 import OrbitLoader               from './OrbitLoader'
-import {StaticNight, StarSystem} from './Environment'
+import {SpaceSky, StarSystem} from './Environment'
 import {
   em,
   statusBarHeight,
@@ -34,11 +34,11 @@ export default (props) => {
 
   return(
     <View style={style.container}>
-      <StaticNight style={style.bg}>
+      <SpaceSky style={style.bg}>
         <StarSystem count={6} loopLength={240000} starProps={{size: 1, twinkle: true, style: {opacity: 1}}}></StarSystem>
         <StarSystem count={15} loopLength={120000} starProps={{size: 0.66, twinkle: false, style: {opacity: 0.66}}}></StarSystem>
         <StarSystem count={25} starProps={{size: 0.33, twinkle: false, style: {opacity: 0.33}}}></StarSystem>
-      </StaticNight>
+      </SpaceSky>
 
       <KeyboardAwareScrollView style={[style.container]}
                   scrollEnabled={props.scrollEnabled}>

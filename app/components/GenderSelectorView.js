@@ -1,13 +1,21 @@
 'use strict'
 
-import React, {Component} from 'react'
-import Text from './Text'
-import base from '../constants/styles'
+import React, {Component}              from 'react'
+import Text                            from './Text'
+import base                            from '../constants/styles'
 import {em, screenWidth, screenHeight} from '../constants/dimensions'
-import {ButtonBlack, ButtonGrey} from './Button'
-import Environment from './Environment'
-import SelfSelector from './SelfSelector'
-import CornSelector from './CornSelector'
+import {ButtonBlack, ButtonGrey}       from './Button'
+import Environment                     from './Environment'
+import SelfSelector                    from './SelfSelector'
+import CornSelector                    from './CornSelector'
+import {FairySheet}                    from './Fairy'
+import {
+  mayteBlack,
+  mayteWhite,
+  mayteGreen,
+  mayteBlue,
+  maytePink,
+} from '../constants/colors'
 import {
   ActivityIndicator,
   Animated,
@@ -15,6 +23,8 @@ import {
   TouchableOpacity,
   View,
 } from 'react-native'
+
+const fairies = <FairySheet count={8} colorFn={[mayteWhite, mayteGreen, maytePink, mayteBlue]} />
 
 export default class GenderSelector extends Component {
   constructor(props) {
@@ -118,6 +128,7 @@ export default class GenderSelector extends Component {
       :
         <View style={style.container}>
           <Environment {...props} starFade={this._starFade} shootingStarDrift={this._shootingStarDrift} shootingStarFade={this._shootingStarFade} />
+          { !props.orientation ? null : fairies }
           <SelfSelector {...props} fade={this._idFade} />
           <CornSelector {...props} render={state.interest} fade={this._interestFade} />
           <Animated.View style={[style.mask, {

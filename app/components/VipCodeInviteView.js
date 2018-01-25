@@ -22,7 +22,7 @@ export default function(props) {
       <ParticleSheet count={6} loopLength={20000} scale={1} />
 
       <Text style={[style.text, style.header]}>{`VIP Codes`}</Text>
-      <Text style={[style.text, style.body]}>{`As a Unicorn brand ambassador, you have exclusive invite privileges. Please use this power responsibly and help us fill the Unicorn ecosystem with individuals like yourself.`}</Text>
+      <Text style={[style.text, style.body]}>{`As a Unicorn founding member, you have exclusive invite privileges. Please use this power responsibly and help us fill the Unicorn ecosystem with individuals like yourself.`}</Text>
       <TouchableOpacity style={style.back} onPress={props.visitHome}>
         <Image style={[style.icon]}
                source={require('../images/unicorn-icon-black.png')}

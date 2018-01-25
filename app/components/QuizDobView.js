@@ -5,12 +5,17 @@ import DatePicker               from 'react-native-datepicker'
 import moment                   from 'moment'
 import {Scene}                  from './QuizView'
 import {ButtonGrey}             from './Button'
-import {mayteWhite, mayteBlack} from '../constants/colors'
 import {em}                     from '../constants/dimensions'
 import timing                   from '../constants/timing'
 import {
+  mayteWhite,
+  mayteBlack,
+  mayteRed,
+} from '../constants/colors'
+import {
   View,
   Text,
+  Alert,
   Easing,
   Animated,
   StyleSheet,
@@ -28,7 +33,7 @@ export default class QuizDobView extends Component {
     this._inputOpacity = new Animated.Value(0)
     this._buttonOpacity = new Animated.Value(0)
     this._buttonTranslateY = new Animated.Value(buttonHideY)
-    this.state = {ready: false}
+    this.state = {ready: false, alert: null}
 
     this.animButton = this.animButton.bind(this)
     this.handleInput = this.handleInput.bind(this)
@@ -56,7 +61,7 @@ export default class QuizDobView extends Component {
 
   handleInput(dob) {
     this.props.update({dob})
-    this.setState({ready: !!dob})
+    this.setState({ready: !!dob, alert: null})
   }
 
   render() {
@@ -106,19 +111,25 @@ export default class QuizDobView extends Component {
               format="MMM Do YYYY"
               showIcon={false}
               minDate={oldest.format('MMM Do YYYY')}
-              maxDate={youngest.format('MMM Do YYYY')}
               confirmBtnText="Confirm"
               cancelBtnText="Cancel"
-              onDateChange={this.handleInput} />
+              onDateChange={(date) => {
+                if (youngest.diff(moment(date, 'MMM Do YYYY')) < 0) {
+                  return this.setState({ready: false, alert: "You must be 18 or older to apply."})
+                }
+                this.handleInput(date)
+              }} />
             </Animated.View>
         </Animated.View>
 
-        <Animated.View style={{opacity: this._buttonOpacity, transform: [{translateY: this._buttonTranslateY}]}}>
-          <ButtonGrey
-            style={{paddingLeft: em(2), paddingRight: em(2)}}
-            onPress={state.ready ? () => this.scene.fadeOut(props.next) : () => null}
-            text={props.readyForSubmit ? 'Review & Submit' : 'Next'} />
-        </Animated.View>
+        { !state.alert     ?
+          <Animated.View style={{opacity: this._buttonOpacity, transform: [{translateY: this._buttonTranslateY}]}}>
+            <ButtonGrey
+              style={{paddingLeft: em(2), paddingRight: em(2)}}
+              onPress={state.ready ? () => this.scene.fadeOut(props.next) : () => null}
+              text={props.readyForSubmit ? 'Review & Submit' : 'Next'} />
+          </Animated.View> :
+          <Text style={[style.text, style.alert]}>{state.alert}</Text> }
       </Scene>
     )
   }
@@ -127,6 +138,7 @@ export default class QuizDobView extends Component {
 const style = StyleSheet.create({
   text: {backgroundColor: 'transparent', color: mayteWhite(), textAlign: 'center', fontFamily: 'Futura'},
   header: {fontSize: em(1.66), marginBottom: em(4), letterSpacing: em(0.25), fontWeight: '700'},
-  pickerCont: {width: 200, marginBottom: em(2), borderBottomWidth: 1, borderColor: mayteWhite(), paddingBottom: em(0.33),  justifyContent: 'flex-end', width: '66%', backgroundColor: mayteBlack(0.2), borderBottomWidth: 1, borderColor: mayteWhite(), borderRadius: 4, paddingBottom: em(0.33), paddingTop: em(0.33),},
+  pickerCont: {width: 200, marginBottom: em(2), borderBottomWidth: 1, borderColor: mayteWhite(), paddingBottom: em(0.33),  justifyContent: 'flex-end', width: '66%', backgroundColor: mayteWhite(0.1), borderBottomWidth: 1, borderColor: mayteWhite(), borderRadius: 4, paddingBottom: em(0.33), paddingTop: em(0.33),},
   picker: {width: '100%'},
+  alert: {color: mayteRed()}
 })

@@ -74,10 +74,6 @@ class RecsPreview extends Component {
                  style={style.bgImg}
                  onLoad={this.runAnim}
                  resizeMode='cover' />
-          <BlurView style={style.bgBlur}
-                    blurType="light"
-                    blurAmount={4}
-                    viewRef={null/* required for Android */} />
         </Animated.View>
         <Animated.View style={[style.header, {opacity: this._headerOpacity, transform: [{translateY: this._headerY}]}]}>
           <Text style={style.headerMain}>
@@ -90,7 +86,7 @@ class RecsPreview extends Component {
         </Animated.View>
         <Animated.View style={{opacity: this._subOpacity}}>
           <Text style={[style.headerSub]}>
-            {`Suggestions launch Valentine's Day 2018`}
+            {`Suggestions launch February 15th, 2018`}
           </Text>
         </Animated.View>
       </View>

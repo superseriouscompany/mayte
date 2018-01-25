@@ -1,10 +1,28 @@
 'use strict'
 
-import React, { Component }        from 'react'
-import { mayteBlack, mayteWhite }  from '../constants/colors'
-import { em, screenWidth }         from '../constants/dimensions'
-import { ButtonGrey, ButtonBlack } from './Button'
-import timing                      from '../constants/timing'
+import React, {Component}         from 'react'
+import {ButtonGrey, ButtonBlack}  from './Button'
+import Fairy, {FairySheet}        from './Fairy'
+import {Unicorn}                  from './CornSelector'
+import timing                     from '../constants/timing'
+import LinearGradient             from 'react-native-linear-gradient'
+import {
+  groundHeight,
+  StarSystem,
+  mountainHeight,
+} from './Environment'
+import {
+  em,
+  screenWidth,
+  screenHeight,
+} from '../constants/dimensions'
+import {
+  mayteBlack,
+  mayteWhite,
+  mayteGreen,
+  mayteBlue,
+  maytePink,
+} from '../constants/colors'
 import {
   Animated,
   ActivityIndicator,
@@ -30,18 +48,6 @@ export default class LoginView extends Component {
 
   componentDidMount() {
     Animated.sequence([
-      Animated.parallel([
-        Animated.timing(this._bgOpacity, {
-          toValue: 1,
-          duration: timing.loginBgIn,
-          useNativeDriver: true,
-        }),
-        Animated.timing(this._bgScale, {
-          toValue: 1,
-          duration: timing.loginBgIn,
-          useNativeDriver: true,
-        })
-      ]),
       Animated.timing(this._logoOpacity, {
         toValue: 1,
         duration: timing.loginBgIn,
@@ -79,100 +85,93 @@ export default class LoginView extends Component {
     const {props,state} = this
     return (
       <View style={style.container}>
-        <Animated.Image style={[style.cover, {opacity: this._bgOpacity, transform: [{scale: this._bgScale}]}]}
-                        resizeMode="cover"
-                        source={require('../images/LoginBG.jpg')} />
-        <View style={style.overlay} />
+        <LinearGradient colors={['#201D33', '#3A345B']} style={{position:'absolute', top: 0, bottom: 0, left: 0, right: 0}} />
+        <StarSystem count={6} loopLength={240000} starProps={{size: 1, twinkle: true, style: {opacity: 1}}}></StarSystem>
+        <StarSystem count={15} loopLength={120000} starProps={{size: 0.66, twinkle: false, style: {opacity: 0.66}}}></StarSystem>
+        <StarSystem count={25} starProps={{size: 0.33, twinkle: false, style: {opacity: 0.33}}}></StarSystem>
+        <View style={style.ground}>
+          <Image source={require('../images/mountains-1.png')} style={style.mountains} resizeMode='cover' />
+        </View>
+        <Animated.View style={[style.cornCont]}>
+          <Unicorn showLabel={false} {...props} field="orientation" value="null" labelStyle={{bottom: '95%'}}
+                   label="EVERYONE" flipped={true}
+                   style={[style.corn, {right: screenWidth / 2 - (em(8) * 0.66 / 1.5), bottom: em(9)}]}>
+          <Image source={require('../images/unicorn-all.png')}
+                 style={{width: em(8), height: em(8), transform: [{scaleY: 0.66}, {scaleX:-0.66}]}}
+                 resizeMode='contain' />
+          </Unicorn>
+          <Unicorn showLabel={false} {...props} field="orientation" value="male"
+                   label="MEN"
+                   style={[style.corn, {left: em(1), bottom: em(4.5)}]}>
+            <Image source={require('../images/unicorn-male.png')}
+                   style={{width: '100%', height: '100%'}}
+                   resizeMode='contain' />
+          </Unicorn>
+          <Unicorn showLabel={false} {...props} field="orientation" value="female"
+                   label="WOMEN" flipped={true}
+                  style={[style.corn, {right: em(1), bottom: em(3)}]}>
+            <Image source={require('../images/unicorn-female.png')}
+                    style={{width: '100%', height: '100%', transform: [{scaleX:-1.1},{scaleY:1.1}]}}
+                    resizeMode='contain' />
+          </Unicorn>
+        </Animated.View>
+        <FairySheet count={8} colorFn={[mayteWhite, mayteGreen, maytePink, mayteBlue]} />
 
-        { props.loading ?
-          <ActivityIndicator size="large"/>
-        :
-          <View>
-            <Animated.View style={{alignItems: 'center', opacity: this._logoOpacity}}>
-              <Image style={[style.icon]}
-                     source={require('../images/unicorn-icon-white.png')}
-                     resizeMode="contain" />
-              <Image style={[style.logo]}
-                     source={require('../images/unicorn-logo-white.png')}
-                     resizeMode="contain" />
-            </Animated.View>
+        <View style={style.main}>
+            { props.loading ?
+              <ActivityIndicator size="large"/>
+            :
+            <View>
+              <Animated.View style={{alignItems: 'center', opacity: this._logoOpacity}}>
+                <Image style={[style.icon]}
+                       source={require('../images/unicorn-icon-white.png')}
+                       resizeMode="contain" />
+                <Image style={[style.logo]}
+                       source={require('../images/unicorn-logo-white.png')}
+                       resizeMode="contain" />
+              </Animated.View>
 
-            <Animated.View
-              style={{
-                opacity: this._igOpacity,
-                transform: [{translateY: this._igDriftY}]}}>
-              <ButtonGrey
-                text='LOGIN WITH INSTAGRAM'
-                styleGrad={style.buttonGrad}
-                styleText={style.buttonText}
-                style={[style.button, {marginBottom: em(2.33)}]}
-                onPress={props.instagramLogin} />
-            </Animated.View>
+              <Animated.View
+                style={{
+                  opacity: this._igOpacity,
+                  transform: [{translateY: this._igDriftY}]}}>
+                <ButtonGrey
+                  text='LOGIN WITH INSTAGRAM'
+                  styleGrad={style.buttonGrad}
+                  styleText={style.buttonText}
+                  style={[style.button, {marginBottom: em(2.33)}]}
+                  onPress={props.instagramLogin} />
+              </Animated.View>
 
-            <Animated.View
-              style={{
-                opacity: this._liOpacity,
-                transform: [{translateY: this._liDriftY}]}}>
-              <ButtonGrey
-                text='LOGIN WITH LINKEDIN'
-                styleGrad={style.buttonGrad}
-                styleText={style.buttonText}
-                style={[style.button]}
-                onPress={props.linkedinLogin} />
-            </Animated.View>
-          </View>
+              <Animated.View
+                style={{
+                  opacity: this._liOpacity,
+                  transform: [{translateY: this._liDriftY}]}}>
+                <ButtonGrey
+                  text='LOGIN WITH LINKEDIN'
+                  styleGrad={style.buttonGrad}
+                  styleText={style.buttonText}
+                  style={[style.button]}
+                  onPress={props.linkedinLogin} />
+              </Animated.View>
+            </View>
         }
+        </View>
       </View>
     )
   }
 }
 
 const style = StyleSheet.create({
-  container: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-    backgroundColor: mayteBlack(),
-  },
-
-  cover: {
-    position: 'absolute',
-    flex: 1,
-    width: '100%',
-    height: '100%',
-  },
-
-  overlay: {
-    position: 'absolute',
-    height: '100%',
-    width: '100%',
-    backgroundColor: mayteBlack(0.66),
-  },
-
-  icon: {
-    height: em(5),
-    width: em(5),
-    marginBottom: em(1),
-  },
-
-  logo: {
-    marginBottom: em(3),
-    height: em(1.2),
-    width: em(6),
-  },
-
-  button: {
-    paddingTop: em(1),
-    paddingBottom: em(1),
-    paddingLeft: em(1.33),
-    paddingRight: em(1.33),
-  },
-
-  buttonGrad: {
-    opacity: 0.8,
-  },
-
-  buttonText: {
-    fontSize: em(0.9),
-  }
+  container: {flex: 1, justifyContent: 'flex-start', alignItems: 'center', backgroundColor: mayteBlack(),},
+  main: {height: screenHeight - groundHeight - mountainHeight, justifyContent: 'center',},
+  icon: {height: em(5), width: em(5), marginBottom: em(1),},
+  logo: {marginBottom: em(3), height: em(1.2), width: em(6),},
+  button: {paddingTop: em(1), paddingBottom: em(1), paddingLeft: em(1.33), paddingRight: em(1.33),},
+  buttonGrad: {opacity: 0.8,},
+  buttonText: {fontSize: em(0.9),},
+  cornCont: {position: 'absolute', bottom: 0, left: 0, height: screenHeight * 0.55, width: screenWidth, backgroundColor: 'transparent',},
+  ground: {position: 'absolute', backgroundColor: 'rgba(23,20,21,1)', borderColor: mayteBlack(), borderTopWidth: 1, width: screenWidth, height: groundHeight, bottom: 0, left: 0,},
+  corn: {width: em(8), height: em(8), position: 'absolute',},
+  mountains: {position: 'absolute', bottom: '100%', width: '100%', height: mountainHeight,}
 })
