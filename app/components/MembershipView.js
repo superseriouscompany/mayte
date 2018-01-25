@@ -106,11 +106,11 @@ export default class MembershipView extends Component {
             !props.isGold ? null :
             <Slide style={style.goldSlide} bg={require('../images/fractal-bg-gold.png')}>
               <Text style={[style.slideText, style.slideBody]}>{`You are a founding member of Unicorn - congratulations! Please enjoy VIP treatment and the ability to invite users onto our platform.`}</Text>
-              <ButtonGrey
+              <ButtonBlack
                 onPress={() => props.navigate('VipCodeInvite')}
                 style={[style.goldSlideBtn]}
                 styleText={style.goldSlideBtnText}
-                text='Learn More' />
+                text='More' />
             </Slide>
           }
           <Slide bg={require('../images/fractal-bg-rainbow.png')}>
@@ -166,6 +166,6 @@ const style = StyleSheet.create({
   slideTitle: {fontFamily: 'Futura', fontWeight: '700', fontSize: em(2.33), letterSpacing: em(0.1), marginBottom: em(2)},
   slideBody: {fontFamily: 'Gotham-Book', fontSize: em(1.2), lineHeight: em(1.6)},
   goldSlide: {alignItems: 'center', justifyContent: 'center'},
-  goldSlideBtn: {flex: 0, marginTop: em(2), paddingLeft: em(1.66), paddingRight: em(1.66),},
-  goldSlideBtnText: {fontSize: em(0.8)},
+  goldSlideBtn: {flex: 0, marginTop: em(2), paddingLeft: em(2), paddingRight: em(2),},
+  goldSlideBtnText: {fontSize: em(0.9)},
 })

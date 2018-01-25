@@ -18,7 +18,7 @@ export default class MembershipDeckView extends Component {
   constructor(props) {
     super(props)
     this._bgOpacities = {}
-    this.state = {loaded: false}
+    this.state = {}
     props.children.forEach((c,i) => this._bgOpacities[i] = new Animated.Value(0))
     this._indexMarkerX = new Animated.Value(0)
     this.handleScroll = this.handleScroll.bind(this)
@@ -63,9 +63,6 @@ export default class MembershipDeckView extends Component {
                      resizeMode='cover'
                      style={[style.slideBg, {opacity: this._bgOpacities[i]}]}
                      source={s.props.bg}
-                     onLoad={() => {
-                       this.setState({loaded: true})
-                     }}
                      prefetch={true} />
           })
         }
@@ -90,10 +87,6 @@ export default class MembershipDeckView extends Component {
             <Animated.View style={[style.indexMarker, {transform: [{translateX: this._indexMarkerX}]}]} />
             </View>
           </View>
-
-        { state.loaded ? null :
-          <ActivityIndicator size="large" />
-        }
       </View>
     )
   }
