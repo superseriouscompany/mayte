@@ -7,14 +7,27 @@ import { GeoLocation }                       from 'react-native'
 import Wallet                                from 'react-native-wallet'
 import branch                                from 'react-native-branch'
 import { Client }                            from 'bugsnag-react-native';
+import {ButtonGrey}       from '../components/Button'
+import {Input}            from '../components/QuizView'
 import log                                   from '../services/log'
 const { InAppUtils } = NativeModules
 const Fabric         = require('react-native-fabric')
 const {Crashlytics}  = Fabric
 import {
+  mayteWhite
+} from '../constants/colors'
+import {
+  em
+} from '../constants/dimensions'
+import {
+  Animated,
+  KeyboardAvoidingView,
+  TextInput,
   Text,
   TouchableOpacity,
   View,
+  StyleSheet,
+  ScrollView,
 } from 'react-native'
 
 
@@ -47,6 +60,8 @@ export default class Scratch extends Component {
   }
 
   componentDidMount() {
+    return;
+
     log(new Error('sweet'))
 
     branch.createBranchUniversalObject(
@@ -130,8 +145,32 @@ export default class Scratch extends Component {
   }
 
   render() {
-    const {props} = this
+    const {props, state} = this
 
+    const fontBase = em(1)
+
+    return (
+      <Animated.ScrollView contentContainerStyle={styles.cnr}>
+        <KeyboardAvoidingView style={styles.cnr} keyboardVerticalOffset={-160} behavior="position" contentContainerStyle={styles.cnr}>
+          <Text style={styles.text}>Do you believe in keyboard magic</Text>
+
+          <Input
+            outerStyle={[styles.inputOuter, {width: '80%', borderWidth: 1, minHeight: fontBase * 8, paddingLeft: em(0.66), paddingRight: em(0.66), borderColor: mayteWhite(0.1)}, ]}
+            innerStyle={[styles.inputInner, {width: '100%'}]}
+            inputStyle={styles.input}
+            onChangeText={this.handleInput}
+            ref={el => this.input = el}
+            defaultValue={props.freeform}
+            multiline={true}
+            blurOnSubmit={true}
+            value={state.value} />
+
+          <ButtonGrey text="Cool" style={styles.button}/>
+        </KeyboardAvoidingView>
+      </Animated.ScrollView>
+    )
+
+    // purchasing and crashing
     return (
       <View style={{padding: 20}}>
         <TouchableOpacity onPress={this.crash}>
@@ -149,3 +188,12 @@ export default class Scratch extends Component {
     )
   }
 }
+
+const styles = StyleSheet.create({
+  cnr: { width: '100%', flex: 1, justifyContent: 'center', alignItems: 'center', backgroundColor: 'lawngreen'},
+  text: {backgroundColor: 'transparent', color: 'hotpink', textAlign: 'center', fontFamily: 'Futura', fontSize: 20, marginBottom: 10, },
+  header: {fontSize: em(1.33), marginBottom: em(3), letterSpacing: em(0.25), fontWeight: '700'},
+  inputOuter: {marginBottom: em(2), paddingLeft: em(0.66), paddingRight: em(0.66), backgroundColor: 'cornflowerblue'},
+  input: { backgroundColor: 'blue', textAlign: 'left'},
+  button: { marginTop: 15 },
+})
