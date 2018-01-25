@@ -86,7 +86,7 @@ class RecsPreview extends Component {
         </Animated.View>
         <Animated.View style={{opacity: this._subOpacity}}>
           <Text style={[style.headerSub]}>
-            {`Suggestions launch Valentine's Day 2018`}
+            {`Suggestions launch February 15th, 2018`}
           </Text>
         </Animated.View>
       </View>
