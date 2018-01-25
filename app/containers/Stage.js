@@ -28,7 +28,7 @@ import {
   TouchableWithoutFeedback,
 } from 'react-native'
 
-const useScratch = true
+const useScratch = false
 
 class Stage extends PureComponent {
   constructor(props) {
@@ -58,7 +58,7 @@ class Stage extends PureComponent {
     if( sceneName == 'Dead' ) {
       return <Dead />
     }
-    
+
     return (
       !props.authenticated ? <Login />
     : !props.hasApplied    ? <Quiz />

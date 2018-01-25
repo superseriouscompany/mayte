@@ -1,5 +1,5 @@
 import React, {Component}              from 'react'
-import {KeyboardAwareScrollView}       from 'react-native-keyboard-aware-scroll-view'
+// import {KeyboardAwareScrollView}       from 'react-native-keyboard-aware-scroll-view'
 import LinearGradient                  from 'react-native-linear-gradient'
 import {SpaceSky, Star, StarSystem} from './Environment'
 import Intro                           from './QuizIntroView'
@@ -30,6 +30,7 @@ import {
   TextInput,
   ScrollView,
   StyleSheet,
+  KeyboardAvoidingView,
   TouchableOpacity,
 } from 'react-native'
 
@@ -186,15 +187,13 @@ export class Scene extends Component {
   render() {
     const {props, state} = this
     return(
-      <Animated.View
+      <Animated.ScrollView
+        contentContainerStyle={{flex: 1, justifyContent: 'center', alignItems: 'center'}}
         style={[style.scene, props.style, {opacity: this._opacity, zIndex: props.active ? 420 : 0}]}>
-        <KeyboardAwareScrollView
-          style={{flex:1, height: '100%'}}
-          showsVerticalScrollIndicator={false}
-          contentContainerStyle={[style.sceneCont, props.contStyle]}>
+
           {props.children}
-        </KeyboardAwareScrollView>
-      </Animated.View>
+
+      </Animated.ScrollView>
     )
   }
 }
