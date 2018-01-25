@@ -22,6 +22,7 @@ import {
   Animated,
   TextInput,
   StyleSheet,
+  KeyboardAvoidingView,
   TouchableOpacity,
 } from 'react-native'
 
@@ -68,6 +69,8 @@ export default class Vip extends Component {
               useNativeDriver: true,
             }).start()
         }}>
+
+        <KeyboardAvoidingView style={style.cnr} keyboardVerticalOffset={-screenHeight * 0.33} behavior="position" contentContainerStyle={style.cnr}>
 
         <Animated.Text style={[style.text, style.header]}>VIP CODE</Animated.Text>
 
@@ -116,17 +119,18 @@ export default class Vip extends Component {
               onPress={() => this.scene.fadeOut(props.next)}
               text={'Skip'} />
           </Animated.View> }
+          </KeyboardAvoidingView>
       </Scene>
     )
   }
 }
 
 const style = StyleSheet.create({
-  container: {height: screenHeight,},
+  container: {height: screenHeight, width: screenWidth},
+  cnr: { width: '100%', flex: 1, justifyContent: 'center', alignItems: 'center',},
   text: {backgroundColor: 'transparent', color: mayteWhite(), textAlign: 'center', fontFamily: 'Futura'},
   header: {fontSize: em(1.66), marginBottom: em(2), letterSpacing: em(0.25), fontWeight: '700'},
-  inputOuter: {marginBottom: em(2)},
-  input: {},
+  inputOuter: {marginBottom: em(2),},
   redeemCont: {width: '100%', justifyContent: 'center', alignItems: 'center'},
   skip: {position: 'absolute', bottom: em(2.66), width: '100%', alignItems: 'center'},
   skipBtn: {paddingLeft: em(1.33), paddingRight: em(1.33), paddingTop: em(0.4), paddingBottom: em(0.4)},
