@@ -4,7 +4,7 @@ import React, {Component}       from 'react'
 import Text                     from './Text'
 import base                     from '../constants/styles'
 import {ButtonBlack}            from './Button'
-import Firework, {FireworkShow} from './Firework'
+import Firework, {FireworkShow} from './FireworkView'
 import {ParticleSheet}          from './Particle'
 import {
   mayteRed,

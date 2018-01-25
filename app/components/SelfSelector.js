@@ -2,7 +2,7 @@
 
 import React, {Component} from 'react'
 import Text from './Text'
-import Firework from './Firework'
+import Firework from './FireworkView'
 import {em, screenWidth, screenHeight} from '../constants/dimensions'
 import {mayteBlack, mayteWhite} from '../constants/colors'
 import {
