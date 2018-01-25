@@ -139,7 +139,7 @@ export class FireworkShow extends Component {
     const work = <Firework {...workProps} />
 
     setTimeout(() => {
-      this.setState({works: [...this.state.works, work]})
+      this.setState({works: this.state.works.concat(work)})
       return this.props.active ? this.generateWork() : null
     }, workProps.delay)
   }
