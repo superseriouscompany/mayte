@@ -3,14 +3,30 @@ import {connect}          from 'react-redux'
 import request            from '../actions/request'
 import log                from '../services/log'
 import firebase           from '../services/firebase'
+import {Linking}          from 'react-native'
 
 class NotificationProvider extends Component {
   constructor(props) {
     super(props)
+    this.handleNotification = this.handleNotification.bind(this)
   }
 
-  componentWillReceiveProps(nextProps) {
-    if (nextProps.isAuthenticated && !this.props.isAuthenticated) {
+  componentDidMount() {
+    firebase.messaging().getInitialNotification().then((notif) => {
+      this.handleNotification(notif)
+    }).catch((err) => {
+      log(err)
+    })
+
+    this.unsubscribe = firebase.messaging().onMessage(this.handleNotification)
+  }
+
+  componentWillUnmount() {
+    this.unsubscribe && this.unsubscribe()
+  }
+
+  componentWillReceiveProps(props) {
+    if (props.isAuthenticated && !this.props.isAuthenticated) {
       firebase.messaging().getToken().then((token) => {
         this.props.saveToken(token)
       })
@@ -18,6 +34,16 @@ class NotificationProvider extends Component {
       firebase.messaging().onTokenRefresh((token) => {
         this.props.saveToken(token)
       })
+    }
+
+    if( props.isActive && !this.props.isActive ) {
+      firebase.messaging().subscribeToTopic('/topics/active')
+    }
+  }
+
+  handleNotification(notif) {
+    if( notif && notif.marketingUrl ) {
+      Linking.openURL(notif.marketingUrl)
     }
   }
 
@@ -27,6 +53,7 @@ class NotificationProvider extends Component {
 function mapStateToProps(state) {
   return {
     isAuthenticated: !!state.user.id,
+    isActive:        !!state.user.active,
   }
 }
 
