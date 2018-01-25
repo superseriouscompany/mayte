@@ -36,26 +36,7 @@ import {
 export default class QuizView extends Component {
   constructor(props) {
     super(props)
-    this._zodiacOpacity = new Animated.Value(0)
-    this._zodiacScale = new Animated.Value(0)
     this.renderScene = this.renderScene.bind(this)
-  }
-
-  componentWillReceiveProps(props) {
-    if( props.zodiac != this.props.zodiac ) {
-      Animated.parallel([
-        Animated.spring(this._zodiacScale, {
-          toValue: 0.66,
-          stiffness: 250,
-          useNativeDriver: true,
-        }),
-        Animated.timing(this._zodiacOpacity, {
-          toValue: 0.1,
-          duration: timing.zodiacInDuration,
-          useNativeDriver: true,
-        })
-      ]).start()
-    }
   }
 
   renderZodiac() {
@@ -96,10 +77,7 @@ export default class QuizView extends Component {
           <StarSystem move={true} count={12} loopLength={240000} starProps={{size: 1, twinkle: true, style: {opacity: 1}}}></StarSystem>
           <StarSystem move={true} count={30} loopLength={120000} starProps={{size: 0.66, twinkle: false, style: {opacity: 0.66}}}></StarSystem>
           <StarSystem move={true} count={50} starProps={{size: 0.33, twinkle: false, style: {opacity: 0.33}}}></StarSystem>
-
-          {
-            this.renderZodiac()
-          }
+          <Zodiac zodiac={props.zodiac} />
         </SpaceSky>
 
         {this.renderScene()}
@@ -113,6 +91,46 @@ export default class QuizView extends Component {
           </TouchableOpacity> }
       </View>
     )
+  }
+}
+
+class Zodiac extends Component {
+  componentDidMount() {
+    this._zodiacOpacity = new Animated.Value(0)
+    this._zodiacScale = new Animated.Value(0)
+  }
+
+  componentWillReceiveProps(props) {
+    if( props.zodiac != this.props.zodiac ) {
+      Animated.parallel([
+        Animated.spring(this._zodiacScale, {
+          toValue: 0.66,
+          stiffness: 250,
+          useNativeDriver: true,
+        }),
+        Animated.timing(this._zodiacOpacity, {
+          toValue: 0.1,
+          duration: timing.zodiacInDuration,
+          useNativeDriver: true,
+        })
+      ]).start()
+    }
+  }
+
+  shouldComponentUpdate(props) { return props.zodiac != this.props.zodiac }
+
+  render() {
+    if( !this.props.zodiac ) return null
+
+    return <Animated.Image
+              style={[
+                style.zodiac,
+                {
+                  opacity: this._zodiacOpacity,
+                  transform: [{scale: this._zodiacScale}, {rotate: '15deg'}]}]
+                }
+                source={zodiacImage(this.props.zodiac)}
+                resizeMode='contain'  />
   }
 }
 

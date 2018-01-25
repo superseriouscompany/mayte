@@ -89,6 +89,8 @@ export class Star extends Component {
 }
 
 export class StarSystem extends Component {
+  shouldComponentUpdate() { return false }
+
   constructor(props) {
     super(props)
 
