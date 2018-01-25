@@ -1,10 +1,12 @@
 'use strict'
 
 import React, {Component} from 'react'
-import Text from './Text'
-import base from '../constants/styles'
-import {ButtonBlack} from './Button'
-import Firework from './Firework'
+import Text               from './Text'
+import base               from '../constants/styles'
+import {ButtonBlack}      from './Button'
+import Firework           from './Firework'
+import {ParticleSheet}    from './Particle'
+import {mayteGreen}       from '../constants/colors'
 import {
   em,
   screenWidth,
@@ -100,11 +102,16 @@ export default class PaywallView extends Component {
         { product ?
           <Animated.View style={[style.container, {opacity: this._contOpacity}]}>
 
-            <Firework color='#D42456' delay={0} style={[calculateFireworkOffset(-em(2),-em(2))]} fireworkDiameter={fireworkDiameter} sparkDiameter={em(0.6)} numSparks={16} />
+            <Firework color='#D42456' delay={0} style={[calculateFireworkOffset(em(-2),em(-2))]} fireworkDiameter={fireworkDiameter} sparkDiameter={em(0.6)} numSparks={16} />
             <Firework color='#2755A8' delay={800} style={[calculateFireworkOffset(em(1),0)]} fireworkDiameter={fireworkDiameter} sparkDiameter={em(0.8)} numSparks={10} />
-            <Firework color='#FFCC00' delay={1600} style={[calculateFireworkOffset(-em(1),em(2))]} fireworkDiameter={fireworkDiameter} sparkDiameter={em(0.6)} numSparks={16} />
+            <Firework color='#FFCC00' delay={1600} style={[calculateFireworkOffset(em(-1),em(2))]} fireworkDiameter={fireworkDiameter} sparkDiameter={em(0.6)} numSparks={16} />
+            <Firework color={mayteGreen()} delay={2400} style={[calculateFireworkOffset(em(-2),em(-4))]} fireworkDiameter={fireworkDiameter} sparkDiameter={em(0.6)} numSparks={16} />
 
             <Animated.View style={[style.container, {opacity: this._infoOpacity}]}>
+              <ParticleSheet count={6} loopLength={10000} scale={0.4} particleStyle={{opacity: 0.4}} />
+              <ParticleSheet count={6} loopLength={15000} scale={0.8} particleStyle={{opacity: 0.8}} />
+              <ParticleSheet count={6} loopLength={20000} scale={1} />
+
               <View style={[style.teaser]}>
                 <Text style={[base.text, style.teaserHeader]}>{`You're In.`}</Text>
                 <Text style={[base.text, style.teaserText]}>

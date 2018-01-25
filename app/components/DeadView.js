@@ -19,7 +19,7 @@ import {
 export default function(props) {
   return (
     <View style={style.container}>
-      <ParticleSheet count={6} loopLegnth={10000} scale={0.4} particleStyle={{opacity: 0.4}} />
+      <ParticleSheet count={6} loopLength={10000} scale={0.4} particleStyle={{opacity: 0.4}} />
       <ParticleSheet count={6} loopLength={15000} scale={0.8} particleStyle={{opacity: 0.8}} />
       <ParticleSheet count={6} loopLength={20000} scale={1} />
 
