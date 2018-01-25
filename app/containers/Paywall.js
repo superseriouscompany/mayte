@@ -61,13 +61,9 @@ class Paywall extends Component {
   }
 
   componentDidMount() {
-    if( this.props.pendingCode ) {
-      this.props.visitVipWall()
-    }
-
     // TODO: load these from a provider so we don't have to wait for them to load
     const products = [
-      'com.mayte.dev.monthly'
+      'com.unicorn.dating.membership',
     ]
     InAppUtils.canMakePayments((enabled) => {
       if(!enabled) { return alert('Purchasing disabled') }
@@ -91,16 +87,11 @@ class Paywall extends Component {
 function mapStateToProps(state) {
   return {
     products: state.products,
-    pendingCode: state.vip.pendingCode,
   }
 }
 
 function mapDispatchToProps(dispatch) {
   return {
-    visitVipWall: () => {
-      dispatch({type: 'scene:change', scene: 'VipCodeEntry'})
-    },
-
     dispatchProducts: (products) => {
       dispatch({type: 'products:set', products})
     },
