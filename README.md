@@ -31,4 +31,4 @@ For some reason, cocoapod installation of react pods is not working. If `react-n
 
 ## Illustrator Scripts
 
-Located in `app/util/illustrator`, these scripts can be executed in Illustrator to (e.g) randomly alter the colors of certain paths - they are all tuned to the current Unicorn design language. To use, select path(s) in Illustrator and click `File -> Scripts -> Other Script...` (or `cmd+F12`) and select a script to execute.
+Located in `app/util/illustrator`, these scripts can be executed in Illustrator to (e.g) randomly alter the colors of selected paths - they are all tuned to the current Unicorn design language. To use, select path(s) in Illustrator and click `File -> Scripts -> Other Script...` (or `cmd+F12`) and select a script to execute.
