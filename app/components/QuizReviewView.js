@@ -42,7 +42,7 @@ export default class QuizReviewView extends Component {
         <ScrollView
           showVerticalScrollIndicator={false}
           contentContainerStyle={style.scrollCnr}
-          style={{flex: 1}}>
+          style={{flex: 1, width: '100%'}}>
 
           <Text style={[style.text, style.header]}>REVIEW</Text>
 
@@ -125,7 +125,8 @@ export default class QuizReviewView extends Component {
             <CheckBox
               onClick={props.toggleTerms}
               isChecked={props.terms}
-              checkBoxColor="white"
+              checkBoxColor={mayteWhite()}
+              style={{alignItems: 'center', justifyContent: 'center'}}
               rightTextView={
                 <Text style={[style.text, style.valueText, style.tosText]}>
                   I accept the{" "}
@@ -173,7 +174,7 @@ const style = StyleSheet.create({
   text: {backgroundColor: 'transparent', color: mayteWhite(), textAlign: 'center', fontFamily: 'Futura'},
   header: {fontSize: em(1.66), marginBottom: em(2), letterSpacing: em(0.25), fontWeight: '700'},
   sectionHeader: {flexDirection: 'row', alignItems: 'center', marginBottom: em(0.66),},
-  sectionTitle: {fontSize: em(1), textAlign: 'left', fontWeight: '700', letterSpacing: em(0.133)},
+  sectionTitle: {fontSize: em(.8), textAlign: 'left', fontWeight: '700', letterSpacing: em(0.133)},
   editBtn: {width: em(2), height: em(2), marginLeft: em(0.66)},
   editIcon: {width: '100%', height: '100%',},
   valueText: {fontFamily: 'Gotham-Book', textAlign: 'left', fontSize: em(1.33)},
@@ -188,8 +189,9 @@ const style = StyleSheet.create({
   vipPlaceholder: {fontStyle: 'italic', opacity: 0.8},
   vipDisclaimer: {textAlign: 'left', marginTop: em(0.66)},
   vipRefBubble: {width: em(2), height: em(2), borderRadius: em(1), marginRight: em(0.66)},
+  tosCnr: { },
   tosText: {  marginTop: 5, fontSize: em(1), marginLeft: em(0.66) },
-  tosLinkCnr: { width: 200, height: em(1) },
+  tosLinkCnr: { width: em(8.5), height: em(1), },
   tosLink: { textDecorationLine: 'underline', fontSize: em(1)},
-  scrollCnr: { paddingTop: em(3) + notchHeight, paddingBottom: em(3), alignItems: 'center' },
+  scrollCnr: { paddingTop: em(2) + notchHeight, paddingBottom: em(4), alignItems: 'center', width: '100%' },
 })
