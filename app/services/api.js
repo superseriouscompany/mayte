@@ -67,11 +67,14 @@ request.upload = (params={}) => {
     xhr.onreadystatechange = (e) => {
       if( xhr.readyState !== 4 ) { return }
 
-      if( xhr.status < 299 ) {
+      if( 200 <= xhr.status && xhr.status <= 299 ) {
         const json = JSON.parse(xhr.responseText)
         return resolve(json)
       } else {
-        reject(xhr.status + ': ' + xhr.responseText)
+        if( xhr.status === 0 ) {
+          return reject(new Error('Upload failed, check your internet connection.'))
+        }
+        reject(`Error #${xhr.status}: ${xhr.responseText}`)
       }
     }
     xhr.open('POST', `${baseUrl}${params.path}`)
