@@ -17,6 +17,7 @@ import {
   Text,
   Easing,
   Animated,
+  KeyboardAvoidingView,
   StyleSheet,
   TouchableOpacity,
 } from 'react-native'
@@ -89,37 +90,40 @@ export default class QuizEmailView extends Component {
             })
         }}>
 
-        <Animated.Text style={[style.text, style.header]}>EMAIL ADDRESS</Animated.Text>
+        <KeyboardAvoidingView style={style.keyCnr} keyboardVerticalOffset={-screenHeight * 0.33} behavior="position" contentContainerStyle={style.keyCnr}>
 
-        <Input
-          outerStyle={[style.inputOuter, {transform: [{scaleX: this._inputContScaleX}]}]}
-          innerStyle={[style.inputInner, {width: '100%', opacity: this._inputOpacity}]}
-          inputStyle={((props.email || '').length > 20 && this.input && this.input.layout ? {
-            fontSize: this.input.layout.width / (props.email.length / 1.75)
-          } : {})}
-          onChangeText={this.handleInput}
-          ref={el => this.input = el}
-          defaultValue={props.email}
-          value={state.value}
-          keyboardType='email-address'
-          returnKeyType='go'
-          onBlur={() => this.setState({ready: this.testInput(props.email)})}
-          onSubmitEditing={() => {
-            if (this.testInput(props.email)) {
-              this.scene.fadeOut(props.next)
-            }
-          }}
-          autoCapitalize='none'
-          autoCorrect={false} />
+          <Animated.Text style={[style.text, style.header]}>EMAIL ADDRESS</Animated.Text>
+
+          <Input
+            outerStyle={[style.inputOuter, {transform: [{scaleX: this._inputContScaleX}]}]}
+            innerStyle={[style.inputInner, {width: '100%', opacity: this._inputOpacity}]}
+            inputStyle={((props.email || '').length > 20 && this.input && this.input.layout ? {
+              fontSize: this.input.layout.width / (props.email.length / 1.75)
+            } : {})}
+            onChangeText={this.handleInput}
+            ref={el => this.input = el}
+            defaultValue={props.email}
+            value={state.value}
+            keyboardType='email-address'
+            returnKeyType='go'
+            onBlur={() => this.setState({ready: this.testInput(props.email)})}
+            onSubmitEditing={() => {
+              if (this.testInput(props.email)) {
+                this.scene.fadeOut(props.next)
+              }
+            }}
+            autoCapitalize='none'
+            autoCorrect={false} />
 
 
 
-        <Animated.View style={{opacity: this._buttonOpacity, transform: [{translateY: this._buttonTranslateY}]}}>
-          <ButtonGrey
-            style={{paddingLeft: em(2), paddingRight: em(2)}}
-            onPress={state.ready ? () => this.scene.fadeOut(props.next) : () => null}
-            text={props.readyForSubmit ? 'Review & Submit' : 'Next'} />
-        </Animated.View>
+          <Animated.View style={{opacity: this._buttonOpacity, transform: [{translateY: this._buttonTranslateY}]}}>
+            <ButtonGrey
+              style={{paddingLeft: em(2), paddingRight: em(2)}}
+              onPress={state.ready ? () => this.scene.fadeOut(props.next) : () => null}
+              text={props.readyForSubmit ? 'Review & Submit' : 'Next'} />
+          </Animated.View>
+        </KeyboardAvoidingView>
       </Scene>
     )
   }
@@ -130,4 +134,5 @@ const style = StyleSheet.create({
   header: {fontSize: em(1.66), marginBottom: em(4), letterSpacing: em(0.25), fontWeight: '700'},
   inputOuter: {marginBottom: em(2)},
   input: {width: '100%', fontFamily: 'futura', letterSpacing: em(0.5), overflow: 'visible'},
+  keyCnr: { width: '100%', flex: 1, justifyContent: 'center', alignItems: 'center',},
 })

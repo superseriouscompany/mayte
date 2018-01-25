@@ -23,6 +23,7 @@ import {
   Linking,
   Animated,
   TextInput,
+  ScrollView,
   StyleSheet,
   TouchableOpacity,
 } from 'react-native'
@@ -35,125 +36,132 @@ export default class QuizReviewView extends Component {
     return (
       <Scene
         style={[style.container]}
-        contStyle={{justifyContent: 'flex-start', paddingTop: em(3) + notchHeight, paddingBottom: em(3)}}
+        contStyle={{justifyContent: 'flex-start' }}
         ref={el => this.scene = el}>
 
-        <Text style={[style.text, style.header]}>REVIEW</Text>
+        <ScrollView
+          showVerticalScrollIndicator={false}
+          contentContainerStyle={style.scrollCnr}
+          style={{flex: 1, width: '100%'}}>
 
-        <View style={[style.section]}>
-          <View style={style.sectionHeader}>
-            <Text style={[style.text, style.sectionTitle]}>EMAIL</Text>
-          </View>
-          <TouchableOpacity
-            onPress={() => this.scene.fadeOut(() => props.update({step: 'email'}))}>
-            <Text style={[style.text, style.valueText]}>{props.email}</Text>
-          </TouchableOpacity>
-        </View>
+          <Text style={[style.text, style.header]}>REVIEW</Text>
 
-        <View style={[style.section]}>
-          <View style={style.sectionHeader}>
-            <Text style={[style.text, style.sectionTitle]}>DATE OF BIRTH</Text>
+          <View style={[style.section]}>
+            <View style={style.sectionHeader}>
+              <Text style={[style.text, style.sectionTitle]}>EMAIL</Text>
+            </View>
+            <TouchableOpacity
+              onPress={() => this.scene.fadeOut(() => props.update({step: 'email'}))}>
+              <Text style={[style.text, style.valueText]}>{props.email}</Text>
+            </TouchableOpacity>
           </View>
-          <TouchableOpacity
-            onPress={() => this.scene.fadeOut(() => props.update({step: 'dob'}))}>
-            <Text style={[style.text, style.valueText]}>{props.dob}</Text>
-          </TouchableOpacity>
-        </View>
 
-        <View style={[style.section]}>
-          <View style={style.sectionHeader}>
-            <Text style={[style.text, style.sectionTitle]}>WEBSITE</Text>
+          <View style={[style.section]}>
+            <View style={style.sectionHeader}>
+              <Text style={[style.text, style.sectionTitle]}>DATE OF BIRTH</Text>
+            </View>
+            <TouchableOpacity
+              onPress={() => this.scene.fadeOut(() => props.update({step: 'dob'}))}>
+              <Text style={[style.text, style.valueText]}>{props.dob}</Text>
+            </TouchableOpacity>
           </View>
-          <TouchableOpacity
-            onPress={() => this.scene.fadeOut(() => props.update({step: 'website'}))}>
-            <Text style={[style.text, style.valueText]}>{props.website}</Text>
-          </TouchableOpacity>
-        </View>
 
-        <View style={[style.section]}>
-          <View style={style.sectionHeader}>
-            <Text style={[style.text, style.sectionTitle]}>PHOTOS</Text>
+          <View style={[style.section]}>
+            <View style={style.sectionHeader}>
+              <Text style={[style.text, style.sectionTitle]}>WEBSITE</Text>
+            </View>
+            <TouchableOpacity
+              onPress={() => this.scene.fadeOut(() => props.update({step: 'website'}))}>
+              <Text style={[style.text, style.valueText]}>{props.website}</Text>
+            </TouchableOpacity>
           </View>
-          <View style={style.slots}>
-          {
-            props.photos.map((p, i) => {
-              return(
-                <TouchableOpacity style={style.slot} key={i} onPress={() => this.scene.fadeOut(() => props.update({step: 'photos'}))}>
-                  <View style={style.slotBg}><Text style={[style.text, {fontSize: em(2)}]}>+</Text></View>
-                  { props.photos[i] ?
-                      <Image style={style.slotImg} source={{uri: props.photos[i].url}} resizeMode='cover' /> : null }
-                </TouchableOpacity>
-              )
-            })
+
+          <View style={[style.section]}>
+            <View style={style.sectionHeader}>
+              <Text style={[style.text, style.sectionTitle]}>PHOTOS</Text>
+            </View>
+            <View style={style.slots}>
+            {
+              props.photos.map((p, i) => {
+                return(
+                  <TouchableOpacity style={style.slot} key={i} onPress={() => this.scene.fadeOut(() => props.update({step: 'photos'}))}>
+                    <View style={style.slotBg}><Text style={[style.text, {fontSize: em(2)}]}>+</Text></View>
+                    { props.photos[i] ?
+                        <Image style={style.slotImg} source={{uri: props.photos[i].url}} resizeMode='cover' /> : null }
+                  </TouchableOpacity>
+                )
+              })
+            }
+            </View>
+          </View>
+
+          <View style={[style.section]}>
+            <View style={style.sectionHeader}>
+              <Text style={[style.text, style.sectionTitle]}>BELIEVE IN MAGIC?</Text>
+            </View>
+            <TouchableOpacity
+              onPress={() => this.scene.fadeOut(() => props.update({step: 'freeform'}))}>
+              <Text style={[style.text, style.valueText]}>{props.freeform}</Text>
+            </TouchableOpacity>
+          </View>
+
+          <View style={[style.section]}>
+            <View style={style.sectionHeader}>
+              <Text style={[style.text, style.sectionTitle]}>VIP CODE</Text>
+            </View>
+            <TouchableOpacity
+              onPress={() => this.scene.fadeOut(() => props.update({step: 'vip'}))}>
+              { props.quiz.vipCode ?
+                  <View style={{flexDirection: 'row', alignItems: 'center'}}>
+                    <Image style={style.vipRefBubble} source={{url: props.quiz.referer.imageUrl}} resizeMode='cover' />
+                    <Text style={[style.text, style.valueText]}>{props.quiz.vipCode}</Text>
+                  </View>
+                : <Text style={[style.text, style.valueText, style.vipPlaceholder]}>Enter Code</Text>
+              }
+            </TouchableOpacity>
+          </View>
+
+          <View style={[style.section, style.tosCnr]}>
+            <CheckBox
+              onClick={props.toggleTerms}
+              isChecked={props.terms}
+              checkBoxColor={mayteWhite()}
+              style={{alignItems: 'center', justifyContent: 'center'}}
+              rightTextView={
+                <Text style={[style.text, style.valueText, style.tosText]}>
+                  I accept the{" "}
+                  <TouchableOpacity onPress={() => Linking.openURL('https://dateunicorn.com/terms')} style={style.tosLinkCnr}>
+                    <Text style={[style.text, style.valueText, style.tosLink]}>Terms of Service</Text>
+                  </TouchableOpacity>
+                </Text>
+              }
+              />
+          </View>
+
+
+          { props.submitting || props.photosLoading ?
+            <View style={style.loadingCnr}>
+              <OrbitLoader
+                color={mayteWhite()}
+                radius={submitLoaderRadius}
+                orbRadius={submitLoaderRadius/4} />
+              { !props.photosLoading ? null :
+                <Text style={style.loadingExplanation}>
+                  Uploading Photos...
+                </Text>
+              }
+            </View>
+          : !!props.terms ?
+            <Animated.View>
+              <ButtonGrey
+                style={{paddingLeft: em(2), paddingRight: em(2)}}
+                onPress={props.submit}
+                text='Submit' />
+            </Animated.View>
+          :
+            null
           }
-          </View>
-        </View>
-
-        <View style={[style.section]}>
-          <View style={style.sectionHeader}>
-            <Text style={[style.text, style.sectionTitle]}>BELIEVE IN MAGIC?</Text>
-          </View>
-          <TouchableOpacity
-            onPress={() => this.scene.fadeOut(() => props.update({step: 'freeform'}))}>
-            <Text style={[style.text, style.valueText]}>{props.freeform}</Text>
-          </TouchableOpacity>
-        </View>
-
-        <View style={[style.section]}>
-          <View style={style.sectionHeader}>
-            <Text style={[style.text, style.sectionTitle]}>VIP CODE</Text>
-          </View>
-          <TouchableOpacity
-            onPress={() => this.scene.fadeOut(() => props.update({step: 'vip'}))}>
-            { props.quiz.vipCode ?
-                <View style={{flexDirection: 'row', alignItems: 'center'}}>
-                  <Image style={style.vipRefBubble} source={{url: props.quiz.referer.imageUrl}} resizeMode='cover' />
-                  <Text style={[style.text, style.valueText]}>{props.quiz.vipCode}</Text>
-                </View>
-              : <Text style={[style.text, style.valueText, style.vipPlaceholder]}>Enter Code</Text>
-            }
-          </TouchableOpacity>
-        </View>
-
-        <View style={[style.section]}>
-          <CheckBox
-            onClick={props.toggleTerms}
-            isChecked={props.terms}
-            checkBoxColor="white"
-            rightTextView={
-              <Text style={[style.text, style.valueText, style.tosCnrText]}>
-                I accept the
-                <TouchableOpacity onPress={() => Linking.openURL('https://dateunicorn.com/terms')} style={style.tos}>
-                  <Text style={[style.text, style.valueText, style.tosText]}> Terms of Service</Text>
-                </TouchableOpacity>
-              </Text>
-            }
-            />
-        </View>
-
-
-        { props.submitting || props.photosLoading ?
-          <View style={style.loadingCnr}>
-            <OrbitLoader
-              color={mayteWhite()}
-              radius={submitLoaderRadius}
-              orbRadius={submitLoaderRadius/4} />
-            { !props.photosLoading ? null :
-              <Text style={style.loadingExplanation}>
-                Uploading Photos...
-              </Text>
-            }
-          </View>
-        : !!props.terms ?
-          <Animated.View>
-            <ButtonGrey
-              style={{paddingLeft: em(2), paddingRight: em(2)}}
-              onPress={props.submit}
-              text='Submit' />
-          </Animated.View>
-        :
-          null
-        }
+        </ScrollView>
       </Scene>
     )
   }
@@ -166,7 +174,7 @@ const style = StyleSheet.create({
   text: {backgroundColor: 'transparent', color: mayteWhite(), textAlign: 'center', fontFamily: 'Futura'},
   header: {fontSize: em(1.66), marginBottom: em(2), letterSpacing: em(0.25), fontWeight: '700'},
   sectionHeader: {flexDirection: 'row', alignItems: 'center', marginBottom: em(0.66),},
-  sectionTitle: {fontSize: em(1), textAlign: 'left', fontWeight: '700', letterSpacing: em(0.133)},
+  sectionTitle: {fontSize: em(.8), textAlign: 'left', fontWeight: '700', letterSpacing: em(0.133)},
   editBtn: {width: em(2), height: em(2), marginLeft: em(0.66)},
   editIcon: {width: '100%', height: '100%',},
   valueText: {fontFamily: 'Gotham-Book', textAlign: 'left', fontSize: em(1.33)},
@@ -181,7 +189,9 @@ const style = StyleSheet.create({
   vipPlaceholder: {fontStyle: 'italic', opacity: 0.8},
   vipDisclaimer: {textAlign: 'left', marginTop: em(0.66)},
   vipRefBubble: {width: em(2), height: em(2), borderRadius: em(1), marginRight: em(0.66)},
-  tos: { width: 200, height: 22 },
-  tosCnrText: { marginTop: 5, marginLeft: 5,},
-  tosText: { textDecorationLine: 'underline'},
+  tosCnr: { },
+  tosText: {  marginTop: 5, fontSize: em(1), marginLeft: em(0.66) },
+  tosLinkCnr: { width: em(8.5), height: em(1), },
+  tosLink: { textDecorationLine: 'underline', fontSize: em(1)},
+  scrollCnr: { paddingTop: em(2) + notchHeight, paddingBottom: em(4), alignItems: 'center', width: '100%' },
 })

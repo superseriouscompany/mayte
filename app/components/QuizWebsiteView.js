@@ -17,6 +17,7 @@ import {
   Text,
   Easing,
   Animated,
+  KeyboardAvoidingView,
   TextInput,
   StyleSheet,
   TouchableOpacity,
@@ -93,36 +94,38 @@ export default class Website extends Component {
             })
         }}>
 
-        <Animated.Text style={[style.text, style.header]}>WEBSITE</Animated.Text>
+        <KeyboardAvoidingView style={style.keyCnr} keyboardVerticalOffset={-screenHeight * 0.33} behavior="position" contentContainerStyle={style.keyCnr}>
 
-        <Input
-          outerStyle={[style.inputOuter, {transform: [{scaleX: 1}]}]}
-          innerStyle={[style.inputInner, {width: '100%', opacity: 1}]}
-          inputStyle={[style.input, ((props.value || '').length > 20 && this.input && this.input.layout ? {
-            fontSize: this.input.layout.width / (props.value.length / 1.75)
-          } : {})]}
-          onFocus={() => this.animButton(false)}
-          onBlur={() => this.setState({ready: this.testInput(props.value)})}
-          onChangeText={this.handleInput}
-          defaultValue={props.value}
-          value={state.value}
-          ref={el => this.input = el}
-          returnKeyType='go'
-          onBlur={() => this.setState({ready: this.testInput(props.value)})}
-          onSubmitEditing={() => {
-            if (this.testInput(props.value)) {
-              props.next()
-            }
-          }}
-          autoCapitalize='none'
-          autoCorrect={false} />
+          <Animated.Text style={[style.text, style.header]}>WEBSITE</Animated.Text>
 
-        <Animated.View style={{opacity: this._buttonOpacity, transform: [{translateY: this._buttonTranslateY}]}}>
-          <ButtonGrey
-            style={{paddingLeft: em(2), paddingRight: em(2)}}
-            onPress={state.ready ? () => this.scene.fadeOut(props.next) : () => null}
-            text={props.readyForSubmit ? 'Review & Submit' : 'Next'} />
-        </Animated.View>
+          <Input
+            outerStyle={[style.inputOuter, {transform: [{scaleX: 1}]}]}
+            innerStyle={[style.inputInner, {width: '100%', opacity: 1}]}
+            inputStyle={[style.input, ((props.value || '').length > 20 && this.input && this.input.layout ? {
+              fontSize: this.input.layout.width / (props.value.length / 1.75)
+            } : {})]}
+            onBlur={() => this.setState({ready: this.testInput(props.value)})}
+            onChangeText={this.handleInput}
+            defaultValue={props.value}
+            value={state.value}
+            ref={el => this.input = el}
+            returnKeyType='go'
+            onBlur={() => this.setState({ready: this.testInput(props.value)})}
+            onSubmitEditing={() => {
+              if (this.testInput(props.value)) {
+                props.next()
+              }
+            }}
+            autoCapitalize='none'
+            autoCorrect={false} />
+
+          <Animated.View style={{opacity: this._buttonOpacity, transform: [{translateY: this._buttonTranslateY}]}}>
+            <ButtonGrey
+              style={{paddingLeft: em(2), paddingRight: em(2)}}
+              onPress={state.ready ? () => this.scene.fadeOut(props.next) : () => null}
+              text={props.readyForSubmit ? 'Review & Submit' : 'Next'} />
+          </Animated.View>
+        </KeyboardAvoidingView>
       </Scene>
     )
   }
@@ -133,4 +136,5 @@ const style = StyleSheet.create({
   header: {fontSize: em(1.66), marginBottom: em(2), letterSpacing: em(0.25), fontWeight: '700'},
   inputOuter: {marginBottom: em(2)},
   input: {},
+  keyCnr: { width: '100%', flex: 1, justifyContent: 'center', alignItems: 'center',},
 })

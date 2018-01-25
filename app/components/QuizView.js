@@ -1,19 +1,18 @@
-import React, {Component}              from 'react'
-import {KeyboardAwareScrollView}       from 'react-native-keyboard-aware-scroll-view'
-import LinearGradient                  from 'react-native-linear-gradient'
+import React, {Component}           from 'react'
+import LinearGradient               from 'react-native-linear-gradient'
 import {SpaceSky, Star, StarSystem} from './Environment'
-import Intro                           from './QuizIntroView'
-import Vip                             from './QuizVipView'
-import Email                           from './QuizEmailView'
-import Dob                             from './QuizDobView'
-import Website                         from './QuizWebsiteView'
-import Photos                          from './QuizPhotosView'
-import Freeform                        from './QuizFreeformView'
-import Review                          from './QuizReviewView'
-import Firework                        from './FireworkView'
-import {mayteWhite, mayteBlack}        from '../constants/colors'
-import {ButtonGrey}                    from './Button'
-import timing                          from '../constants/timing'
+import Intro                        from './QuizIntroView'
+import Vip                          from './QuizVipView'
+import Email                        from './QuizEmailView'
+import Dob                          from './QuizDobView'
+import Website                      from './QuizWebsiteView'
+import Photos                       from './QuizPhotosView'
+import Freeform                     from './QuizFreeformView'
+import Review                       from './QuizReviewView'
+import Firework                     from './FireworkView'
+import {mayteWhite, mayteBlack}     from '../constants/colors'
+import {ButtonGrey}                 from './Button'
+import timing                       from '../constants/timing'
 import {
   em,
   screenWidth,
@@ -30,6 +29,7 @@ import {
   TextInput,
   ScrollView,
   StyleSheet,
+  KeyboardAvoidingView,
   TouchableOpacity,
 } from 'react-native'
 
@@ -188,12 +188,7 @@ export class Scene extends Component {
     return(
       <Animated.View
         style={[style.scene, props.style, {opacity: this._opacity, zIndex: props.active ? 420 : 0}]}>
-        <KeyboardAwareScrollView
-          style={{flex:1, height: '100%'}}
-          showsVerticalScrollIndicator={false}
-          contentContainerStyle={[style.sceneCont, props.contStyle]}>
           {props.children}
-        </KeyboardAwareScrollView>
       </Animated.View>
     )
   }
@@ -274,6 +269,8 @@ const style = StyleSheet.create({
   scene: {
     width: screenWidth,
     height: screenHeight,
+    justifyContent: 'center',
+    alignItems: 'center',
   },
   sceneCont: {
     justifyContent: 'center',
