@@ -186,13 +186,11 @@ export class Scene extends Component {
   render() {
     const {props, state} = this
     return(
-      <Animated.ScrollView
-        contentContainerStyle={{flex: 1, justifyContent: 'center', alignItems: 'center'}}
+      <Animated.View
         style={[style.scene, props.style, {opacity: this._opacity, zIndex: props.active ? 420 : 0}]}>
-
           {props.children}
 
-      </Animated.ScrollView>
+      </Animated.View>
     )
   }
 }
