@@ -7,24 +7,44 @@ import { NativeModules }  from 'react-native'
 const { InAppUtils } = NativeModules
 
 class IAPProvider extends Component {
-  componentWillReceiveProps(props) {
-
+  constructor(props) {
+    super(props)
+    this.fetchProducts = this.fetchProducts.bind(this)
+    this.state = {}
   }
 
   componentDidMount() {
-    const products = [
-      'com.unicorn.dating.membership',
-    ]
+    if( this.props.products.length ) { return }
+
     InAppUtils.canMakePayments((enabled) => {
       if(!enabled) {
         log(new Error('Purchasing disabled.'))
       }
 
-      InAppUtils.loadProducts(products, (err, products) => {
-        if( err ) { log(err) }
-        this.props.dispatchProducts(products)
-      })
+      this.fetchProducts()
     })
+  }
+
+  fetchProducts() {
+    const products = [
+      'com.unicorn.dating.membership',
+    ]
+
+    InAppUtils.loadProducts(products, (err, products) => {
+      if( err ) {
+        this.timeout = setTimeout(this.fetchProducts, 5000)
+        if( !this.state.logged ) {
+          this.setState({logged: true})
+          log(err)
+        }
+        console.warn(err.message, JSON.stringify(err))
+      }
+      this.props.dispatchProducts(products)
+    })
+  }
+
+  componentWillUnmount() {
+    this.timeout && clearTimeout(this.timeout)
   }
 
   render() { return null }
@@ -32,7 +52,7 @@ class IAPProvider extends Component {
 
 function mapStateToProps(state) {
   return {
-
+    products: state.products,
   }
 }
 
