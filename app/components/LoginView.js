@@ -53,7 +53,7 @@ export default class LoginView extends Component {
   }
 
   componentWillReceiveProps(props) {
-    if ((props.loading || props.loadingDelay) && (!this.props.loading || !this.props.loadingDelay)) {
+    if (props.loadingDelay && !this.props.loadingDelay) {
       Animated.parallel([
         Animated.timing(this._igOpacity, {
           toValue: 0,
