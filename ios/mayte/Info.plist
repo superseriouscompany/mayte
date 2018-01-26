@@ -63,7 +63,7 @@
 	<key>NSLocationWhenInUseUsageDescription</key>
 	<string>Lorem ipsum</string>
 	<key>NSPhotoLibraryUsageDescription</key>
-	<string>Upload photos to user profile</string>
+	<string>Select profile photos from Camera Roll</string>
 	<key>UIAppFonts</key>
 	<array>
 		<string>Entypo.ttf</string>
