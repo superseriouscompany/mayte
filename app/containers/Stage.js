@@ -21,6 +21,7 @@ import Icon                   from 'react-native-vector-icons/Ionicons'
 import {em}                   from '../constants/dimensions'
 import {
   StyleSheet,
+  Text,
   View,
   ScrollView,
   FlatList,
@@ -75,12 +76,15 @@ class Stage extends PureComponent {
                   size={em(1.625)} />
           )} />
         <VelvetRope sceneName="VelvetRope"
-          tabLabel="Membership"
-          tabIcon={({tintColor, focused}) => (
-            <Icon name={focused ? 'ios-key' : 'ios-key-outline'}
-                  style={{color: tintColor, backgroundColor: 'transparent'}}
-                  size={em(1.625)} />
-          )} />
+          tabLabel={({tintColor, focused}) => {
+            // TODO: figure out why `focused` doesn't work
+            const isFocused = tintColor == 'gainsboro';
+            return (
+              <View style={{position: 'absolute', top: 0, left: 0, bottom: 0, right: 0, backgroundColor: isFocused ? 'hotpink' : 'cornflowerblue'}}>
+                <Text>{isFocused ? 'Yep' : 'Nope'}</Text>
+              </View>
+            )
+          }}/>
 
         { props.isAdmin ?
           <Recs sceneName="Recs"
