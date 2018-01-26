@@ -28,7 +28,7 @@ class Paywall extends Component {
 
       __DEV__ && console.warn(JSON.stringify(response))
       this.props.activate(response.transactionReceipt).catch((err) => {
-        alert((err.message || JSON.stringify(err)) + "\n\nPlease try again or contact support@dateunicorn.com")
+        alert(`${err.message || JSON.stringify(err)}. Please try again or contact support@dateunicorn.com`)
       })
     })
   }

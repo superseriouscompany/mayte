@@ -14,8 +14,6 @@ class IAPProvider extends Component {
   }
 
   componentDidMount() {
-    if( this.props.products.length ) { return }
-
     InAppUtils.canMakePayments((enabled) => {
       if(!enabled) {
         log(new Error('Purchasing disabled.'))
