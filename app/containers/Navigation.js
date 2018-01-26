@@ -40,8 +40,6 @@ export default function(props) {
       inactiveTintColor:       mayteBlack(1),
       activeBackgroundColor:   mayteBlack(1),
       inactiveBackgroundColor: mayteBlack(0.1),
-      style:                   {borderTopWidth: 0, height: tabNavHeight},
-      labelStyle:              {fontFamily: 'Gotham-Book', letterSpacing: em(0.1), fontSize: em(0.5), marginBottom: em(0.33)},
       allowFontScaling:        false,
     },
     initialRouteName: props.initialSceneName,
@@ -75,7 +73,6 @@ const renderTabFn = (props) => {
       ]).start()
     }
 
-    const isFocused = tintColor == 'gainsboro';
     return (
       <View style={style.navTabCont}>
         <Animated.View style={[style.navTabCont, {opacity: _focusOp}]}>
@@ -102,7 +99,6 @@ const renderTabFn = (props) => {
 }
 
 const style = StyleSheet.create({
-  container: {flex: 1,},
   navTabCont: {position: 'absolute', top: 0, left: 0, width: '100%', height: '100%', justifyContent: 'center', alignItems: 'center',},
   navTabIcon: {backgroundColor: 'transparent', marginTop: em(0.4)},
   navTabGradient: {position: 'absolute', top: 0, left: 0, bottom: 0, right: 0},
