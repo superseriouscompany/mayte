@@ -63,7 +63,7 @@ class Stage extends PureComponent {
       !props.authenticated ? <Login />
     : !props.hasApplied    ? <Quiz />
     : !props.isApproved    ? <WaitingRoom />
-    : !props.gender        ? <GenderSelector />
+    : !props.hasGender     ? <GenderSelector />
     : !props.isActive      ? <Paywall />
     :
       <Navigation initialSceneName="VelvetRope">
@@ -99,6 +99,16 @@ class Stage extends PureComponent {
                     style={{color: tintColor}} />
             )} />
         }
+        { !props.isAdmin ? null :
+          <MatchBridge sceneName="Matches"
+            tabLabel="Matches"
+            tabIcon={({tintColor, focused}) => (
+              <Icon name={focused ? 'ios-heart' : 'ios-heart-outline'}
+                    size={26}
+                    style={{color: tintColor}} />
+            )} />
+        }
+
       </Navigation>
     )
   }
@@ -123,7 +133,7 @@ function mapStateToProps(state) {
     isAdmin:       !!state.user.isAdmin,
     hasApplied:    !!state.user.appliedAt,
     isApproved:    !!state.user.approvedAt,
-    gender:        (state.user.preferences || {}).gender,
+    hasGender:     !!(state.user.preferences || {}).gender,
     sceneName:     sceneName,
     vipCode:       state.vip.code,
   }
