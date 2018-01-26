@@ -31,7 +31,6 @@ const orbitLoaderRadius = em(0.8)
 export default (props) => {
   const oldest   = moment().subtract(100, 'years')
   const youngest = moment().subtract(18, 'years')
-
   return(
     <View style={style.container}>
       <SpaceSky style={style.bg}>
@@ -99,7 +98,7 @@ export default (props) => {
                       maxDate={youngest.format('MMM Do YYYY')}
                       showIcon={false}
                       confirmBtnText="Confirm"
-                      cancelBtnText="Copeancel"
+                      cancelBtnText="Cancel"
                       onDateChange={date => props.setDob(date)} />
 
           <View style={[style.sectionHeader]}>
@@ -107,7 +106,7 @@ export default (props) => {
           </View>
           <TextInput style={style.occupationInput}
                      defaultValue={props.occupation}
-                     placeholder={'Professional'}
+                     placeholder={`Professional ${props.user.preferences.gender == 'male' ? 'Wizard' : props.user.preferences.gender == 'female' ? 'Witch' : 'Unicorn'}`}
                      onChangeText={text => props.setOccupation(text)}/>
         </View>
 
