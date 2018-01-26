@@ -80,6 +80,8 @@ export default class Vip extends Component {
               fontSize: this.input.layout.width / (props.value.length / 1.75)
             } : {})]}
             onChangeText={this.handleInput}
+            editable={!props.referer}
+            selectTextOnFocus={!props.referer}
             defaultValue={props.value}
             value={state.value}
             ref={el => this.input = el}
@@ -110,7 +112,7 @@ export default class Vip extends Component {
           }
           </Animated.View>
 
-          { props.readyForSubmit ? null : props.quiz.referer ? null :
+          { props.referer ? null :
             <Animated.View style={style.skip}>
               <ButtonGrey
                 style={style.skipBtn}

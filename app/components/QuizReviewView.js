@@ -110,6 +110,7 @@ export default class QuizReviewView extends Component {
               <Text style={[style.text, style.sectionTitle]}>VIP CODE</Text>
             </View>
             <TouchableOpacity
+              disabled={!!props.quiz.referer}
               onPress={() => this.scene.fadeOut(() => props.update({step: 'vip'}))}>
               { props.quiz.vipCode ?
                   <View style={{flexDirection: 'row', alignItems: 'center'}}>

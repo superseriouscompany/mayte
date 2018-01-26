@@ -236,6 +236,7 @@ export class Input extends Component {
             placeholder={props.placeholder}
             returnKeyType={props.returnKeyType}
             blurOnSubmit={props.blurOnSubmit}
+            editable={props.editable}
             selectTextOnFocus={props.selectTextOnFocus}
             onSubmitEditing={props.onSubmitEditing} />
           </Animated.View>
