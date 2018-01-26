@@ -4,6 +4,7 @@ import React, {Component} from 'react'
 import RecView            from './RecView'
 import IssaMatchView      from './IssaMatchView'
 import Text               from './Text'
+import {mayteBlack}       from '../constants/colors'
 import {
   ActivityIndicator,
   Image,
@@ -24,7 +25,8 @@ export default function(props) {
         </View>
       : !props.recs[props.index] ?
         <View style={[styles.container, styles.centered]}>
-          <Text style={{color: 'black'}}>{"There's no one new around you"}</Text>
+          <Text style={{color: mayteBlack()}}>{"There's no one new around you."}</Text>
+          <Text style={{color: mayteBlack()}}>{"Check back later!"}</Text>
         </View>
       :
         <View style={styles.container}>
