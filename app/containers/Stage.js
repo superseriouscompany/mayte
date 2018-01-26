@@ -63,8 +63,8 @@ class Stage extends PureComponent {
       !props.authenticated ? <Login />
     : !props.hasApplied    ? <Quiz />
     : !props.isApproved    ? <WaitingRoom />
-    : !props.gender        ? <GenderSelector />
     : !props.isActive      ? <Paywall />
+    : !props.gender        ? <GenderSelector />
     :
       <Navigation initialSceneName="VelvetRope">
         <Settings sceneName="Settings"

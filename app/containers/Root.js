@@ -9,6 +9,7 @@ import NotificationProvider from '../providers/NotificationProvider'
 import MatchesProvider      from '../providers/MatchesProvider'
 import DeeplinkProvider     from '../providers/DeeplinkProvider'
 import KillswitchProvider   from '../providers/KillswitchProvider'
+import IAPProvider          from '../providers/IAPProvider'
 import log                  from '../services/log'
 import {
   StatusBar,
@@ -37,6 +38,7 @@ export default class Root extends Component {
           <MatchesProvider />
           <DeeplinkProvider />
           <KillswitchProvider />
+          <IAPProvider />
           <Stage />
         </HydratedView>
       </Provider>
