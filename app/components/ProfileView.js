@@ -109,7 +109,7 @@ export default class ProfileView extends Component {
                   renderItem={({item}) =>
                     <Image style={{width: screenWidth, height: props.viewHeight}}
                            resizeMode="cover"
-                           source={{url: item.url}} />
+                           source={{url: "https://cldup.com/BPRv1klV4Q-3000x3000.png"}} />
                   } />
           { state.mask ?
               <Animated.View

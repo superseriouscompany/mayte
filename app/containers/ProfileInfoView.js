@@ -215,21 +215,21 @@ export default class ProfileInfoView extends Component {
           {transform: [{translateY: this._y}]}
         ]}
         {...(state.contPermission ? this._panResponder.panHandlers: {})}>
-        <Text style={style.name}>
-          {props.user.fullName.split(' ')[0].toUpperCase()}
+        <Text style={[style.name, {textShadowColor: mayteBlack(), textShadowOffset: { width: 0, height: 1}, textShadowRadius: 3}]}>
+          {"MARY ANN"}
         </Text>
         <View style={[style.stats, {paddingBottom: props.hideButtons ? em(1) : 0}]}>
-          { !showAge ? null :
+          { !showAge && false ? null :
             <Text style={style.age}>
-              {moment().diff(moment(props.user.dob, ['MMM Do YYYY']), 'years')}
+              {"28"}
             </Text>
           }
-          { !showLocation ? null :
+          { !showLocation && false ? null :
             <Image style={[style.pin, {marginLeft: showAge ? em(0.66) : 0}]} resizeMode='contain' source={require('../images/pin.png')} />
           }
-          { !showLocation ? null :
+          { !showLocation && false ? null :
             <Text style={style.location}>
-              {props.user.distance || 1}
+              3
             </Text>
           }
         </View>

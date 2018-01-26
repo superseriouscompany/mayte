@@ -69,7 +69,7 @@ class Stage extends PureComponent {
         <VelvetRope sceneName="VelvetRope"
           label="Membership" iconFocused="ios-key" iconUnfocused="ios-key-outline"/>
 
-        { props.isAdmin ?
+        { props.isAdmin || true ?
           <Recs sceneName="Recs"
             label="Suggestions" iconFocused="ios-heart" iconUnfocused="ios-heart-outline" />
         :
