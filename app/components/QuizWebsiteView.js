@@ -32,9 +32,11 @@ export default class Website extends Component {
     this._inputOpacity = new Animated.Value(0)
     this._buttonOpacity = new Animated.Value(0)
     this._buttonTranslateY = new Animated.Value(buttonHideY)
+    this.fontBase = em(1.66)
     this.state = {ready: false}
 
     this.animButton = this.animButton.bind(this)
+    this.resizeFont = this.resizeFont.bind(this)
     this.handleInput = this.handleInput.bind(this)
   }
 
@@ -67,31 +69,42 @@ export default class Website extends Component {
     ]).start()
   }
 
+  resizeFont(text) {
+    return (text||'').length > 20 ? this.input.layout.width / ((text || '').length / 1.75) : this.fontBase
+  }
+
   handleInput(text) {
+    this.setState({
+      inputFontSize: this.resizeFont(text),
+      ready: this.testInput(text),
+    })
     this.props.update({website: text})
   }
 
   render() {
     const {props, state} = this
-    const fontBase = em(1.66)
+
     return (
       <Scene
         ref={el => this.scene = el}
         onFadeIn={() => {
-            Animated.timing(this._inputContScaleX, {
-              toValue: 1,
-              duration: timing.quizInputScale,
-              easing: Easing.easeIn,
-              useNativeDriver: true,
-            }).start(() => {
-              if (this.testInput(props.value)) {
-                this.setState({ready: true})
-                this.animButton(true)
-              } else {
-                this.input.focus()
-              }
-              Animated.timing(this._inputOpacity, {toValue: 1, duration: timing.quizInputOpacity, useNativeDriver: true}).start()
-            })
+          if (this.input && this.input.layout) {
+            this.setState({inputFontSize: this.resizeFont(props.value)})
+          }
+          Animated.timing(this._inputContScaleX, {
+            toValue: 1,
+            duration: timing.quizInputScale,
+            easing: Easing.easeIn,
+            useNativeDriver: true,
+          }).start(() => {
+            if (this.testInput(props.value)) {
+              this.setState({ready: true})
+              this.animButton(true)
+            } else {
+              this.input.focus()
+            }
+            Animated.timing(this._inputOpacity, {toValue: 1, duration: timing.quizInputOpacity, useNativeDriver: true}).start()
+          })
         }}>
 
         <KeyboardAvoidingView style={style.keyCnr} keyboardVerticalOffset={-screenHeight * 0.33} behavior="position" contentContainerStyle={style.keyCnr}>
@@ -99,15 +112,13 @@ export default class Website extends Component {
           <Animated.Text style={[style.text, style.header]}>WEBSITE</Animated.Text>
 
           <Input
-            outerStyle={[style.inputOuter, {transform: [{scaleX: 1}]}]}
-            innerStyle={[style.inputInner, {width: '100%', opacity: 1}]}
-            inputStyle={[style.input, ((props.value || '').length > 20 && this.input && this.input.layout ? {
-              fontSize: this.input.layout.width / (props.value.length / 1.75)
-            } : {})]}
+            outerStyle={[style.inputOuter, {transform: [{scaleX: this._inputContScaleX}]}]}
+            innerStyle={[style.inputInner, {width: '100%', opacity: this._inputOpacity}]}
+            inputStyle={[style.input, {fontSize: state.inputFontSize}]}
             onBlur={() => this.setState({ready: this.testInput(props.value)})}
             onChangeText={this.handleInput}
             defaultValue={props.value}
-            value={state.value}
+            value={props.value}
             ref={el => this.input = el}
             returnKeyType='go'
             selectTextOnFocus={true}
