@@ -34,7 +34,11 @@ export default function request(args, force) {
     const key         = `${method.toUpperCase()} ${args.url}`
     const isLoading   = (getState().api[key] || {}).loading
 
-    if( isLoading && !force ) { return console.warn(`Not going to load ${key} twice`) }
+    if( isLoading && !force ) {
+      var err = new Error(`Not going to load ${key} twice`)
+      err.duplicateLoad = true
+      return Promise.reject(err)
+    }
 
     dispatch({type: 'api:loading', key})
 

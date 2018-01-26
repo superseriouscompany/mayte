@@ -143,44 +143,46 @@ export default class LoginView extends Component {
         <FairySheet count={8} colorFn={[mayteWhite, mayteGreen, maytePink, mayteBlue]} style={{opacity: this._fairyOp}}  />
 
         <View style={style.main}>
+          <View>
+            <Animated.View style={{alignItems: 'center', opacity: this._logoOpacity}}>
+              <Image style={[style.icon]}
+                     source={require('../images/unicorn-icon-white.png')}
+                     resizeMode="contain" />
+              <Image style={[style.logo]}
+                     source={require('../images/unicorn-logo-white.png')}
+                     resizeMode="contain" />
+            </Animated.View>
+
             { props.loading ?
               <ActivityIndicator size="large"/>
-            :
-            <View>
-              <Animated.View style={{alignItems: 'center', opacity: this._logoOpacity}}>
-                <Image style={[style.icon]}
-                       source={require('../images/unicorn-icon-white.png')}
-                       resizeMode="contain" />
-                <Image style={[style.logo]}
-                       source={require('../images/unicorn-logo-white.png')}
-                       resizeMode="contain" />
-              </Animated.View>
+            : !props.loadingDelay ?
+              <View>
+                <Animated.View
+                  style={{
+                    opacity: this._igOpacity,
+                    transform: [{translateY: this._igDriftY}]}}>
+                  <ButtonGrey
+                    text='LOGIN WITH INSTAGRAM'
+                    styleGrad={style.buttonGrad}
+                    styleText={style.buttonText}
+                    style={[style.button, {marginBottom: em(2.33)}]}
+                    onPress={props.instagramLogin} />
+                </Animated.View>
 
-              <Animated.View
-                style={{
-                  opacity: this._igOpacity,
-                  transform: [{translateY: this._igDriftY}]}}>
-                <ButtonGrey
-                  text='LOGIN WITH INSTAGRAM'
-                  styleGrad={style.buttonGrad}
-                  styleText={style.buttonText}
-                  style={[style.button, {marginBottom: em(2.33)}]}
-                  onPress={props.instagramLogin} />
-              </Animated.View>
-
-              <Animated.View
-                style={{
-                  opacity: this._liOpacity,
-                  transform: [{translateY: this._liDriftY}]}}>
-                <ButtonGrey
-                  text='LOGIN WITH LINKEDIN'
-                  styleGrad={style.buttonGrad}
-                  styleText={style.buttonText}
-                  style={[style.button]}
-                  onPress={props.linkedinLogin} />
-              </Animated.View>
-            </View>
-        }
+                <Animated.View
+                  style={{
+                    opacity: this._liOpacity,
+                    transform: [{translateY: this._liDriftY}]}}>
+                  <ButtonGrey
+                    text='LOGIN WITH LINKEDIN'
+                    styleGrad={style.buttonGrad}
+                    styleText={style.buttonText}
+                    style={[style.button]}
+                    onPress={props.linkedinLogin} />
+                </Animated.View>
+              </View>
+            : null }
+          </View>
         </View>
       </View>
     )

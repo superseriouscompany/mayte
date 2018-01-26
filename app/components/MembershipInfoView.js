@@ -59,10 +59,6 @@ export default class MembershipInfoView extends Component {
     this.forceOpen = this.forceOpen.bind(this)
   }
 
-  componentDidMount() {
-    this.animateOpen()
-  }
-
   computeScale(top) {
     const base = screenHeight - tabNavHeight - bottomBoost
     return (base - top) / base

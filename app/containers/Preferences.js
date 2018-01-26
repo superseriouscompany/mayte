@@ -85,7 +85,7 @@ function mapDispatchToProps(dispatch) {
         url: '/users/me',
         method: 'PATCH',
         body: { preferences }
-      }))
+      }, true))
     },
     markPerms: () => {
       return dispatch({type: 'permissions:ask', permission: 'notifications'})

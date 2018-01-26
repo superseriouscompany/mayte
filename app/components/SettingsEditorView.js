@@ -169,15 +169,14 @@ const style = StyleSheet.create({
     flexDirection: 'row',
   },
   sectionHeaderLabel: {
-    fontSize: em(1.1),
-    letterSpacing: em(0.1),
+    fontSize: em(0.8),
+    letterSpacing: em(0.133),
     fontFamily: 'Futura',
     fontWeight: '700',
-
   },
   sectionHeaderSublabel: {
     fontFamily: 'Gotham-Book',
-    fontSize: em(0.8),
+    fontSize: em(0.6),
     letterSpacing: em(0.1),
     marginLeft: em(0.4),
     marginTop: em(0.3),
