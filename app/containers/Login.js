@@ -23,6 +23,19 @@ class Login extends Component {
 
   componentWillUnmount() {
     Linking.removeEventListener('url', this.handle)
+    this.timeout && clearTimeout(this.timeout)
+  }
+
+  componentWillReceiveProps(props) {
+    if( props.loadingDelay != this.props.loadingDelay ) {
+      if( props.loadingDelay ) {
+        this.timeout = setTimeout(() => {
+          this.setState({loading: true})
+        }, 1000)
+      } else {
+        this.timeout && clearTimeout(this.timeout)
+      }
+    }
   }
 
   handle(event) {
@@ -35,8 +48,6 @@ class Login extends Component {
     if( !matches ) {
       return console.warn('No access token provided', event && event.url)
     }
-
-    this.setState({loading: true})
 
     this.props.hydrate(matches[1])
   }
@@ -65,6 +76,7 @@ class Login extends Component {
 
   render() { return (
     <LoginView {...this.props}
+               loading={this.state.loading}
                linkedinLogin={this.linkedinLogin}
                instagramLogin={this.instagramLogin} />
   )}
@@ -74,7 +86,7 @@ function mapStateToProps(state) {
   const apiCall = state.api['GET /users/me'] || {}
 
   return {
-    loading: apiCall.loading
+    loadingDelay: apiCall.loading
   }
 }
 
