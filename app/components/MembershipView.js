@@ -110,7 +110,7 @@ export default class MembershipView extends Component {
                 onPress={() => props.navigate('VipCodeInvite')}
                 style={[style.goldSlideBtn]}
                 styleText={style.goldSlideBtnText}
-                text='More' />
+                text='Invite' />
             </Slide>
           }
           <Slide bg={require('../images/fractal-bg-rainbow.png')}>
