@@ -214,9 +214,9 @@ export default class MembershipInfoView extends Component {
 
         <View style={style.header}>
           <View style={style.headerPri}>
-            <Image resizeMove="cover" source={{uri: props.user.photos[0].url}} style={style.mugshot}/>
+            <Image resizeMove="cover" source={{uri: "https://vignette.wikia.nocookie.net/pokemon/images/7/73/Sabrina_Haunter.png/revision/latest?cb=20160102060452"}} style={style.mugshot}/>
             <Text style={style.name} adjustsFontSizeToFit={true}>
-              {props.user.fullName}
+              Prima Shaw
             </Text>
           </View>
 
@@ -225,7 +225,7 @@ export default class MembershipInfoView extends Component {
               <Text style={{fontWeight: '700'}}>Member since:</Text>{"\n"}{moment(props.user.createdAt).format('MMMM Do YYYY')}
             </Text>
             <Text style={style.id}>
-              <Text style={{fontWeight: '700'}}>Member ID:</Text>{"\n"} {props.user.id}
+              <Text style={{fontWeight: '700'}}>Member ID:</Text>{"\n"} ABC321
             </Text>
           </View>
         </View>
