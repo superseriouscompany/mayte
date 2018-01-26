@@ -36,7 +36,7 @@ export default class ProfileInfoView extends Component {
                        ( props.hideButtons ?
                            props.myProfile ?
                              em(1) * 11.25 : em(1) * 11.25 + matchHeaderHeight + notchHeight :
-                           em(1) * 15 )
+                           em(14.5) )
 
     this._y = new Animated.Value(this.infoClosedTop)
     this._height = new Animated.Value(this.computeHeight(this.infoClosedTop))
