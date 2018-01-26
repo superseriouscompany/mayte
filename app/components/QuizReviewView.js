@@ -97,7 +97,7 @@ export default class QuizReviewView extends Component {
 
           <View style={[style.section]}>
             <View style={style.sectionHeader}>
-              <Text style={[style.text, style.sectionTitle]}>BELIEVE IN MAGIC?</Text>
+              <Text style={[style.text, style.sectionTitle]}>MAGIC?</Text>
             </View>
             <TouchableOpacity
               onPress={() => this.scene.fadeOut(() => props.update({step: 'freeform'}))}>

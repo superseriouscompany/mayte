@@ -146,7 +146,7 @@ export default class GenderSelector extends Component {
 
           { !this.state.continue ? null :
             <Animated.View style={{opacity: this._continueFade, width: screenWidth, alignItems: 'center'}}>
-              <ButtonGrey text={`CONTINUE`} onPress={this.complete} style={style.continue} />
+              <ButtonGrey text={`Continue`} onPress={this.complete} style={style.continue} />
             </Animated.View>
           }
         </View>
@@ -172,6 +172,8 @@ const style = StyleSheet.create({
     marginBottom: em(1),
     position: 'absolute',
     bottom: em(0.33),
+    paddingLeft: em(1.33),
+    paddingRight: em(1.33),
     transform: [{scale: 0.85}]
   },
   mask: {

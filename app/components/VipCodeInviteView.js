@@ -4,6 +4,7 @@ import React, {Component} from 'react'
 import Text               from './Text'
 import {em, bottomBoost}  from '../constants/dimensions'
 import base               from '../constants/styles'
+import {mayteGold}        from '../constants/colors'
 import {ButtonBlack}      from './Button'
 import {ParticleSheet}    from './Particle'
 import {
@@ -34,7 +35,7 @@ export default function(props) {
         onPress={() => props.generate('silver', 'Find your unicorn')} />
 
       { !props.isAdmin ? null :
-        <TouchableHighlight underlayColor="hotpink" style={[base.button, style.secretButton]}
+        <TouchableHighlight underlayColor={mayteGold()} style={[base.button, style.secretButton]}
           onPress={() => props.generate('gold', 'I think you\'re a unicorn')}>
           <View>
             <Text style={[base.buttonText, style.secretButtonText]}>Send VIP Invitation</Text>
@@ -75,6 +76,7 @@ const style = StyleSheet.create({
   },
   secretButtonText: {
     color: 'white',
+    fontSize: em(0.9)
   },
   back: {
     position: 'absolute',

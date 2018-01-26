@@ -125,7 +125,6 @@ export default class PaywallView extends Component {
 
               <View style={style.payBtnCont}>
                 <ButtonBlack text={`Join for ${product.priceString}/month`} onPress={() => props.buy(product.identifier)} style={style.payBtn} />
-                <Text style={[base.text, {marginTop: em(0.33)}]}>{`Payment starts Valentine's Day.`}</Text>
                 <TouchableOpacity style={style.restorePurchases} onPress={props.restorePurchases}>
                   <Text style={{textDecorationLine: 'underline'}}>Restore Purchases</Text>
                 </TouchableOpacity>
@@ -198,11 +197,13 @@ const style = StyleSheet.create({
     left: '10%',
     top: em(5),
   },
-
   bg: {
     position: 'absolute',
     width: screenWidth,
     height: screenHeight,
     top: 0, left: 0,
-  }
+  },
+  restorePurchases: {
+    marginTop: em(0.33)
+  },
 })
