@@ -93,7 +93,9 @@ export default class Vip extends Component {
                 <Text style={[style.text, style.refHeader]}>REFERRED BY:</Text>
                 <View style={{flexDirection: 'row', alignItems: 'center'}}>
                   <Image style={style.refBubble} source={{url: props.quiz.referer.imageUrl}} />
-                  <Text style={[style.text, style.refName]}>{props.quiz.referer.fullName}</Text>
+                  <Text style={[style.text, style.refName]} adjustsFontSizeToFit={true}>
+                    {props.quiz.referer.fullName}
+                  </Text>
                 </View>
               </View>
             }
@@ -135,8 +137,8 @@ const style = StyleSheet.create({
   redeemCont: {width: '100%', justifyContent: 'center', alignItems: 'center'},
   skip: {position: 'absolute', bottom: em(2.66), width: '100%', alignItems: 'center'},
   skipBtn: {paddingLeft: em(1.33), paddingRight: em(1.33), paddingTop: em(0.4), paddingBottom: em(0.4)},
-  ref: {alignItems: 'center', marginTop: em(2), marginBottom: em(4)},
-  refHeader: {fontSize: em(1.33), textAlign: 'center', fontWeight: '700', marginBottom: em(2), letterSpacing: em(0.133)},
-  refBubble: {width: em(6), height: em(6), borderRadius: em(3), marginRight: em(1)},
-  refName: {fontSize: em(2)},
+  ref: {alignItems: 'center', marginTop: em(2), marginBottom: em(4), width: '100%', paddingLeft: em(1), paddingRight: em(1)},
+  refHeader: {fontSize: em(1), textAlign: 'center', fontWeight: '700', marginBottom: em(2), letterSpacing: em(0.133)},
+  refBubble: {width: em(5), height: em(5), borderRadius: em(2.5), marginRight: em(1),},
+  refName: {fontSize: em(1.66), height: '100%',},
 })
