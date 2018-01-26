@@ -15,6 +15,8 @@ class VipCodeInvite extends Component {
   }
 
   generate(tier, message) {
+    if( this.props.loading ) { return }
+
     this.props.createCode(tier).then((json) => {
       const vipCode = json.code
       return branch.createBranchUniversalObject(
@@ -60,9 +62,12 @@ class VipCodeInvite extends Component {
 }
 
 function mapStateToProps(state) {
+  const apiCall = state.api['POST /vipCodes'] || {}
+
   return {
     userId:  state.user.id,
     isAdmin: !!state.user.isAdmin,
+    loading: !!apiCall.loading,
   }
 }
 
