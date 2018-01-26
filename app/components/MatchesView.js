@@ -30,7 +30,7 @@ export default function(props) {
         </View>
       : !props.matches.length ?
         <View style={[style.container, style.centered]}>
-          <Text>You have no matches.</Text>
+          <Text style={style.text}>You have no matches.</Text>
         </View>
       :
         <ScrollView style={{flex: 1}}>
@@ -64,5 +64,9 @@ const style = StyleSheet.create({
     fontSize: em(1.33),
     letterSpacing: em(0.1),
     fontFamily: 'Gotham-Bold',
+  },
+  text: {
+    fontFamily: 'Futura',
+    fontSize: em(1),
   }
 })

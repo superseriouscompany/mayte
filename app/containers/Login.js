@@ -31,7 +31,7 @@ class Login extends Component {
       if( props.loadingDelay ) {
         this.timeout = setTimeout(() => {
           this.setState({loading: true})
-        }, 1000)
+        }, 500)
       } else {
         this.timeout && clearTimeout(this.timeout)
       }

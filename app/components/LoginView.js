@@ -52,6 +52,23 @@ export default class LoginView extends Component {
     this._fairyOp      = new Animated.Value(0)
   }
 
+  componentWillReceiveProps(props) {
+    if (props.loadingDelay && !this.props.loadingDelay) {
+      Animated.parallel([
+        Animated.timing(this._igOpacity, {
+          toValue: 0,
+          duration: timing.loginBtnIn,
+          useNativeDriver: true,
+        }),
+        Animated.timing(this._liOpacity, {
+          toValue: 0,
+          duration: timing.loginBtnIn,
+          useNativeDriver: true,
+        }),
+      ]).start()
+    }
+  }
+
   componentDidMount() {
     Animated.sequence([
       Animated.delay(333),
@@ -102,6 +119,7 @@ export default class LoginView extends Component {
 
   render() {
     const {props,state} = this
+    const ld = props.loading || props.loadingDelay
     return (
       <View style={style.container}>
         <Animated.View style={[style.sky, {opacity: this._envOp}]}>
@@ -119,21 +137,21 @@ export default class LoginView extends Component {
         </Animated.View>
         <Animated.View style={[style.cornCont]}>
           <Unicorn showLabel={false} {...props} field="orientation" value="null" labelStyle={{bottom: '95%'}}
-                   label="EVERYONE" flipped={true} style={{opacity: this._nullCornOp}}
+                   activeOpacity={1} label="EVERYONE" flipped={true} style={{opacity: this._nullCornOp}}
                    style={[style.corn, {right: screenWidth / 2 - (em(8) * 0.66 / 1.5), bottom: em(9)}]}>
           <Animated.Image source={require('../images/unicorn-all.png')} prefetch={true}
                  style={{width: em(8), height: em(8), transform: [{scaleY: 0.66}, {scaleX:-0.66}], opacity: this._nullCornOp}}
                  resizeMode='contain' />
           </Unicorn>
           <Unicorn showLabel={false} {...props} field="orientation" value="male"
-                   label="MEN" style={{opacity: this._maleCornOp}}
+                   activeOpacity={1} label="MEN" style={{opacity: this._maleCornOp}}
                    style={[style.corn, {left: em(1), bottom: em(4.5)}]}>
             <Animated.Image source={require('../images/unicorn-male.png')} prefetch={true}
                    style={{width: '100%', height: '100%', opacity: this._maleCornOp}}
                    resizeMode='contain' />
           </Unicorn>
           <Unicorn showLabel={false} {...props} field="orientation" value="female"
-                   label="WOMEN" flipped={true} style={{opacity: this._femaleCornOp}}
+                   activeOpacity={1} label="WOMEN" flipped={true} style={{opacity: this._femaleCornOp}}
                   style={[style.corn, {right: em(1), bottom: em(3)}]}>
             <Animated.Image source={require('../images/unicorn-female.png')} prefetch={true}
                     style={{width: '100%', height: '100%', transform: [{scaleX:-1.1},{scaleY:1.1}], opacity: this._femaleCornOp}}
@@ -153,35 +171,35 @@ export default class LoginView extends Component {
                      resizeMode="contain" />
             </Animated.View>
 
-            { props.loading ?
-              <ActivityIndicator size="large"/>
-            : !props.loadingDelay ?
-              <View>
-                <Animated.View
-                  style={{
-                    opacity: this._igOpacity,
-                    transform: [{translateY: this._igDriftY}]}}>
-                  <ButtonGrey
-                    text='LOGIN WITH INSTAGRAM'
-                    styleGrad={style.buttonGrad}
-                    styleText={style.buttonText}
-                    style={[style.button, {marginBottom: em(2.33)}]}
-                    onPress={props.instagramLogin} />
-                </Animated.View>
+            <View>
+            { ld ?
+              <View style={style.loaderCont}>
+                { !props.loading ? null : <ActivityIndicator size="large"/> }
+              </View> : null }
+              <Animated.View
+                style={{
+                  opacity: this._igOpacity,
+                  transform: [{translateY: this._igDriftY}]}}>
+                <ButtonGrey
+                  text='LOGIN WITH INSTAGRAM'
+                  styleGrad={style.buttonGrad}
+                  styleText={style.buttonText}
+                  style={[style.button, {marginBottom: em(2.33)}]}
+                  onPress={ld ? null : props.instagramLogin} />
+              </Animated.View>
 
-                <Animated.View
-                  style={{
-                    opacity: this._liOpacity,
-                    transform: [{translateY: this._liDriftY}]}}>
-                  <ButtonGrey
-                    text='LOGIN WITH LINKEDIN'
-                    styleGrad={style.buttonGrad}
-                    styleText={style.buttonText}
-                    style={[style.button]}
-                    onPress={props.linkedinLogin} />
-                </Animated.View>
-              </View>
-            : null }
+              <Animated.View
+                style={{
+                  opacity: this._liOpacity,
+                  transform: [{translateY: this._liDriftY}]}}>
+                <ButtonGrey
+                  text='LOGIN WITH LINKEDIN'
+                  styleGrad={style.buttonGrad}
+                  styleText={style.buttonText}
+                  style={[style.button]}
+                  onPress={ld ? null : props.linkedinLogin} />
+              </Animated.View>
+            </View>
           </View>
         </View>
       </View>
@@ -197,9 +215,10 @@ const style = StyleSheet.create({
   logo: {marginBottom: em(3), height: em(1.2), width: em(6),},
   button: {paddingTop: em(1), paddingBottom: em(1), paddingLeft: em(1.33), paddingRight: em(1.33),},
   buttonGrad: {opacity: 0.8,},
-  buttonText: {fontSize: em(0.9),},
+  buttonText: {fontSize: em(0.8),},
   cornCont: {position: 'absolute', bottom: 0, left: 0, height: screenHeight * 0.55, width: screenWidth, backgroundColor: 'transparent',},
   ground: {position: 'absolute', backgroundColor: 'rgba(23,20,21,1)', borderColor: mayteBlack(), borderTopWidth: 1, width: screenWidth, height: groundHeight, bottom: 0, left: 0,},
   corn: {width: em(8), height: em(8), position: 'absolute',},
-  mountains: {position: 'absolute', bottom: '100%', width: '100%', height: mountainHeight,}
+  mountains: {position: 'absolute', bottom: '100%', width: '100%', height: mountainHeight,},
+  loaderCont: {position: 'absolute', top: 0, left: 0, height: '100%', width: '100%', justifyContent: 'center', alignItems: 'center'},
 })

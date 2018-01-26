@@ -3,7 +3,7 @@
 import React, {Component} from 'react'
 import ProfileView        from './ProfileView'
 import timing             from '../constants/timing'
-import { 
+import {
   screenWidth,
   screenHeight
 } from '../constants/dimensions'
@@ -32,10 +32,12 @@ export default class RecView extends Component {
       Animated.timing(this._x, {
         toValue: screenWidth,
         duration: timing.recLike,
+        useNativeDriver: true,
       }),
       Animated.timing(this._opacity, {
         toValue: 0,
         duration: timing.recLike,
+        useNativeDriver: true,
       })
     ]).start()
   }
