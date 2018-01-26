@@ -2,6 +2,7 @@
 
 import React, {PureComponent} from 'react'
 import {connect}              from 'react-redux'
+import LinearGradient         from 'react-native-linear-gradient'
 import Login                  from './Login'
 import Recs                   from './Recs'
 import RecsPreview            from './RecsPreview'
@@ -17,15 +18,11 @@ import VipCodeEntry           from './VipCodeEntry'
 import Quiz                   from './Quiz'
 import WaitingRoom            from './WaitingRoom'
 import Dead                   from './Dead'
-import Icon                   from 'react-native-vector-icons/Ionicons'
 import {em}                   from '../constants/dimensions'
+import timing                 from '../constants/timing'
 import {
   StyleSheet,
   View,
-  ScrollView,
-  FlatList,
-  Animated,
-  TouchableWithoutFeedback,
 } from 'react-native'
 
 const useScratch = false
@@ -68,36 +65,16 @@ class Stage extends PureComponent {
     :
       <Navigation initialSceneName="VelvetRope">
         <Settings sceneName="Settings"
-          tabLabel="Settings"
-          tabIcon={({tintColor, focused}) => (
-            <Icon name={focused ? 'ios-person' : 'ios-person-outline'}
-                  style={{color: tintColor, backgroundColor: 'transparent'}}
-                  size={em(1.625)} />
-          )} />
+          label="Settings" iconFocused="ios-person" iconUnfocused="ios-person-outline" />
         <VelvetRope sceneName="VelvetRope"
-          tabLabel="Membership"
-          tabIcon={({tintColor, focused}) => (
-            <Icon name={focused ? 'ios-key' : 'ios-key-outline'}
-                  style={{color: tintColor, backgroundColor: 'transparent'}}
-                  size={em(1.625)} />
-          )} />
+          label="Membership" iconFocused="ios-key" iconUnfocused="ios-key-outline"/>
 
         { props.isAdmin ?
           <Recs sceneName="Recs"
-            tabLabel="Suggestions"
-            tabIcon={({tintColor, focused}) => (
-              <Icon name={focused ? 'ios-heart' : 'ios-heart-outline'}
-                    style={{color: tintColor, backgroundColor: 'transparent'}}
-                    size={em(1.625)} />
-            )} />
+            label="Suggestions" iconFocused="ios-heart" iconUnfocused="ios-heart-outline" />
         :
           <RecsPreview sceneName="Recs"
-            tabLabel="Suggestions"
-            tabIcon={({tintColor, focused}) => (
-              <Icon name={focused ? 'ios-heart' : 'ios-heart-outline'}
-                    size={em(1.625)}
-                    style={{color: tintColor}} />
-            )} />
+            label="Suggestions" iconFocused="ios-heart" iconUnfocused="ios-heart-outline"/>
         }
       </Navigation>
     )
@@ -136,9 +113,7 @@ function mapDispatchToProps(dispatch) {
 }
 
 const style = StyleSheet.create({
-  container: {
-    flex: 1,
-  },
+  container: {flex: 1,},
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(Stage)

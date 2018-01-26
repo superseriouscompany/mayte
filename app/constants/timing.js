@@ -7,6 +7,9 @@ var timing = {
   loginEnvIn:       333,
   loginCornIn:      333,
 
+  // nav
+  navFade:          333,
+
   // signup
   sceneInDuration:  333,
   sceneOutDuration: 333,
