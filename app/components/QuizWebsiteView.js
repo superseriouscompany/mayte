@@ -110,6 +110,7 @@ export default class Website extends Component {
             value={state.value}
             ref={el => this.input = el}
             returnKeyType='go'
+            selectTextOnFocus={true}
             onBlur={() => this.setState({ready: this.testInput(props.value)})}
             onSubmitEditing={() => {
               if (this.testInput(props.value)) {
