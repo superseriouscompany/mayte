@@ -119,21 +119,21 @@ export default class LoginView extends Component {
         </Animated.View>
         <Animated.View style={[style.cornCont]}>
           <Unicorn showLabel={false} {...props} field="orientation" value="null" labelStyle={{bottom: '95%'}}
-                   label="EVERYONE" flipped={true} style={{opacity: this._nullCornOp}}
+                   activeOpacity={1} label="EVERYONE" flipped={true} style={{opacity: this._nullCornOp}}
                    style={[style.corn, {right: screenWidth / 2 - (em(8) * 0.66 / 1.5), bottom: em(9)}]}>
           <Animated.Image source={require('../images/unicorn-all.png')} prefetch={true}
                  style={{width: em(8), height: em(8), transform: [{scaleY: 0.66}, {scaleX:-0.66}], opacity: this._nullCornOp}}
                  resizeMode='contain' />
           </Unicorn>
           <Unicorn showLabel={false} {...props} field="orientation" value="male"
-                   label="MEN" style={{opacity: this._maleCornOp}}
+                   activeOpacity={1} label="MEN" style={{opacity: this._maleCornOp}}
                    style={[style.corn, {left: em(1), bottom: em(4.5)}]}>
             <Animated.Image source={require('../images/unicorn-male.png')} prefetch={true}
                    style={{width: '100%', height: '100%', opacity: this._maleCornOp}}
                    resizeMode='contain' />
           </Unicorn>
           <Unicorn showLabel={false} {...props} field="orientation" value="female"
-                   label="WOMEN" flipped={true} style={{opacity: this._femaleCornOp}}
+                   activeOpacity={1} label="WOMEN" flipped={true} style={{opacity: this._femaleCornOp}}
                   style={[style.corn, {right: em(1), bottom: em(3)}]}>
             <Animated.Image source={require('../images/unicorn-female.png')} prefetch={true}
                     style={{width: '100%', height: '100%', transform: [{scaleX:-1.1},{scaleY:1.1}], opacity: this._femaleCornOp}}

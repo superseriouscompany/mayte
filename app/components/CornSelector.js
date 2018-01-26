@@ -88,6 +88,7 @@ export class Unicorn extends Component {
     return (
       <TouchableOpacity key={props.field + '-' + props.value}
                         style={[props.style]}
+                        activeOpacity={props.activeOpacity}
                         onPress={this.handlePress}>
         { !props.showLabel ? null :
             <Animated.Text style={[style.cornLabel, props.labelStyle || {}, {opacity: Animated.multiply(this._labelOpacity, props.fade)}]}>{props.label}</Animated.Text> }
@@ -100,7 +101,7 @@ export class Unicorn extends Component {
 }
 
 Unicorn.defaultProps = {
-  showLabel: true
+  showLabel: true,
 }
 
 export default class CornSelector extends Component {
