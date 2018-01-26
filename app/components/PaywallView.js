@@ -117,7 +117,7 @@ export default class PaywallView extends Component {
               <ParticleSheet count={6} loopLength={20000} scale={1} />
 
               <View style={[style.teaser]}>
-                <Text style={[base.text, style.teaserHeader]}>{`You're In.`}</Text>
+                <Text style={[base.text, style.teaserHeader]}>{`You're In!`}</Text>
                 <Text style={[base.text, style.teaserText]}>
                   {`Invitations are limited. Sign up now and join us for our exclusive Valentine's Day launch party.`}
                 </Text>

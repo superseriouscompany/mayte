@@ -62,21 +62,6 @@ class Paywall extends Component {
     })
   }
 
-  componentDidMount() {
-    // TODO: load these from a provider so we don't have to wait for them to load
-    const products = [
-      'com.unicorn.dating.membership',
-    ]
-    InAppUtils.canMakePayments((enabled) => {
-      if(!enabled) { return alert('Purchasing disabled') }
-
-      InAppUtils.loadProducts(products, (err, products) => {
-        if( err ) { log(err) }
-        this.props.dispatchProducts(products)
-      })
-    })
-  }
-
   render() {
     return (
       <PaywallView {...this.props}
@@ -94,10 +79,6 @@ function mapStateToProps(state) {
 
 function mapDispatchToProps(dispatch) {
   return {
-    dispatchProducts: (products) => {
-      dispatch({type: 'products:set', products})
-    },
-
     activate: (receipt) => {
       return dispatch(request({
         method: 'POST',
