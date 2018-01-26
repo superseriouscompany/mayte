@@ -178,13 +178,13 @@ export default class ProfileInfoView extends Component {
 
     const privacy = props.user.privacyOptions || {}
     const showAge = props.myProfile ?
-      privacy.showAge && !!props.user.dob : !!props.user.dob
+      (privacy.showAge || privacy.showAge === undefined) && !!props.user.dob : !!props.user.dob
     const showLocation = props.myProfile ?
-      privacy.showLocation && true : !!props.user.distance
+      (privacy.showLocation || privacy.showLocation === undefined) && true : !!props.user.distance
     const showInstagramHandle = props.myProfile ?
-      privacy.showInstagramHandle && !!props.user.instagramHandle : !!props.user.instagramHandle
+      (privacy.showInstagramHandle || privacy.showInstagramHandle === undefined) && !!props.user.instagramHandle : !!props.user.instagramHandle
     const showOccupation = props.myProfile ?
-      privacy.showOccupation && !!props.user.occupation : !!props.user.occupation
+      (privacy.showOccupation || privacy.showOccupation === undefined) && !!props.user.occupation : !!props.user.occupation
 
 
     return(
