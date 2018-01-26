@@ -35,7 +35,7 @@ class Quiz extends Component {
       this.setState({zodiac: computeZodiac(props.quiz.dob)})
     }
 
-    if( !props.quiz.website && props.user.instagramHandle ) {
+    if( props.quiz.website === null && props.user.instagramHandle ) {
       this.props.setQuiz({website: `https://instagram.com/${props.user.instagramHandle}`})
     }
   }

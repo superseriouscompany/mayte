@@ -61,7 +61,8 @@ export default class MembershipDeckView extends Component {
             return <Animated.Image
                      key={i}
                      resizeMode='cover'
-                     style={[style.slideBg, {opacity: this._bgOpacities[i]}]}
+                     onLoad={i == 0 ? props.onBgLoad : null}
+                     style={[style.slideBg, props.bgStyle, {opacity: this._bgOpacities[i]}]}
                      source={s.props.bg}
                      prefetch={true} />
           })

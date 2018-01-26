@@ -54,7 +54,7 @@ export default class PreferencesView extends Component {
                   blurType="light"
                   blurAmount={10}
                   viewRef={null/* required for Android */} />
-        <ScrollView contentContainerStyle={[style.container, props.notifPerms ? {} : {paddingTop: em(2)}]} showsVerticalScrollIndicator={false} scrollEnabled={state.scrollEnabled}>
+        <ScrollView contentContainerStyle={[style.container, props.hasNotifPerms ? {} : {paddingTop: em(2) + notchHeight}]} showsVerticalScrollIndicator={false} scrollEnabled={state.scrollEnabled}>
           { props.hasNotifPerms ? null :
             <View style={style.notifPerms}>
               <TouchableOpacity onPress={props.enableNotifications}>
@@ -212,7 +212,7 @@ export default class PreferencesView extends Component {
 
 const style = StyleSheet.create({
   container: {
-    paddingTop: em(4),
+    paddingTop: em(4) + notchHeight,
     alignItems: 'center',
     paddingBottom: tabNavHeight,
   },

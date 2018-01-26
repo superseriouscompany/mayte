@@ -14,6 +14,7 @@ import {
   Text,
   Image,
   TouchableOpacity,
+  Linking,
   Easing,
   Animated,
   StyleSheet,
@@ -54,6 +55,7 @@ export default class WaitingRoomView extends Component {
         :
           <View style={style.permsCnr}>
             <Text style={style.copy}>Thank you for applying! Your application is processing. We will notify you upon approval.</Text>
+            <ButtonBlack text="More Info" style={style.button} onPress={() => Linking.openURL('https://dateunicorn.com/community')} />
           </View>
         }
 
