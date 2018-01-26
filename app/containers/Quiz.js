@@ -4,6 +4,7 @@ import QuizView           from '../components/QuizView'
 import moment             from 'moment'
 import request            from '../actions/request'
 import api                from '../services/api'
+import logout             from '../actions/logout'
 import {
   Alert
 } from 'react-native'
@@ -103,7 +104,6 @@ class Quiz extends Component {
 
     return <QuizView {...props}
              zodiac={this.state.zodiac}
-             reset={this.reset}
              photosLoading={this.state.photosLoading}
              update={this.props.setQuiz}
              submit={this.submit}
@@ -159,7 +159,7 @@ const mapDispatchToProps = (dispatch) => {
       }))
     },
     resetQuiz: () => {
-      return dispatch({type: 'quiz:destroy'})
+      return dispatch(logout())
     },
     updateSelf: () => {
       return dispatch(request({
