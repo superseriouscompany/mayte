@@ -214,9 +214,9 @@ export default class MembershipInfoView extends Component {
 
         <View style={style.header}>
           <View style={style.headerPri}>
-            <Image resizeMove="cover" source={{uri: "https://vignette.wikia.nocookie.net/pokemon/images/7/73/Sabrina_Haunter.png/revision/latest?cb=20160102060452"}} style={style.mugshot}/>
+            <Image resizeMove="cover" source={{uri: "https://cldup.com/hbPzqGxiMn.jpg"}} style={style.mugshot}/>
             <Text style={style.name} adjustsFontSizeToFit={true}>
-              Prima Shaw
+              Chloe Judd
             </Text>
           </View>
 

@@ -216,12 +216,12 @@ export default class ProfileInfoView extends Component {
         ]}
         {...(state.contPermission ? this._panResponder.panHandlers: {})}>
         <Text style={[style.name, {textShadowColor: mayteBlack(), textShadowOffset: { width: 0, height: 1}, textShadowRadius: 3}]}>
-          {"MARY ANN"}
+          {"SAVANNAH"}
         </Text>
         <View style={[style.stats, {paddingBottom: props.hideButtons ? em(1) : 0}]}>
           { !showAge && false ? null :
             <Text style={style.age}>
-              {"28"}
+              {"27"}
             </Text>
           }
           { !showLocation && false ? null :
