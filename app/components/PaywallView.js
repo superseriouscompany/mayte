@@ -13,6 +13,9 @@ import {
   maytePurple,
   mayteBlue,
   mayteGreen,
+  mayteWhite,
+  mayteBlack,
+  mayteGrey,
 } from '../constants/colors'
 import {
   em,
@@ -25,10 +28,12 @@ import {
   ActivityIndicator,
   StyleSheet,
   TouchableOpacity,
+  ScrollView,
   View,
   Image,
   Animated,
   Easing,
+  Linking,
 } from 'react-native'
 
 const calculateFireworkOffset = (left, top) => {
@@ -49,6 +54,7 @@ export default class PaywallView extends Component {
     this._bgOpacity   = new Animated.Value(0)
     this._infoOpacity = new Animated.Value(0)
     this._contOpacity = new Animated.Value(1)
+    this._maskOp = new Animated.Value(0),
 
     this.state = {runShow: false}
 
@@ -63,6 +69,12 @@ export default class PaywallView extends Component {
         toValue: 1,
         duration: 1000,
         delay: 500,
+        useNativeDriver: true,
+      }),
+      Animated.delay(1000),
+      Animated.timing(this._maskOp, {
+        toValue: 1,
+        duration: 1000,
         useNativeDriver: true,
       })
     ]).start(() => this.setState({runShow: true}))
@@ -96,7 +108,7 @@ export default class PaywallView extends Component {
           <Firework color={mayteRed()} delay={0} style={[calculateFireworkOffset(em(-2),em(-2))]} fireworkDiameter={fireworkDiameter} sparkDiameter={em(0.6)} numSparks={16} />
           <Firework color={mayteNavy()} delay={introFireworksLength*0.33} style={[calculateFireworkOffset(0,em(1))]} fireworkDiameter={fireworkDiameter} sparkDiameter={em(0.8)} numSparks={10} />
           <Firework color={mayteGold()} delay={introFireworksLength*0.66} style={[calculateFireworkOffset(em(2),em(1))]} fireworkDiameter={fireworkDiameter} sparkDiameter={em(0.6)} numSparks={16} />
-          <Firework color={mayteGreen()} delay={introFireworksLength} style={[calculateFireworkOffset(em(-4),em(-2))]} fireworkDiameter={fireworkDiameter} sparkDiameter={em(0.6)} numSparks={16} />
+          <Firework color={mayteGreen()} delay={introFireworksLength} style={[calculateFireworkOffset(em(-1),em(-2))]} fireworkDiameter={fireworkDiameter} sparkDiameter={em(0.6)} numSparks={16} />
 
             { !state.runShow ? null :
               <FireworkShow
@@ -116,12 +128,35 @@ export default class PaywallView extends Component {
               <ParticleSheet count={6} loopLength={15000} scale={0.8} particleStyle={{opacity: 0.8}} />
               <ParticleSheet count={6} loopLength={20000} scale={1} />
 
-              <View style={[style.teaser]}>
+              <Animated.View style={[style.mask, {opacity: this._maskOp}]} />
+
+              <ScrollView style={[style.teaser]} showsVerticalScrollIndicator={false} contentContainerStyle={{paddingBottom: em(5)}}>
                 <Text style={[base.text, style.teaserHeader]}>{`You're In!`}</Text>
-                <Text style={[base.text, style.teaserText]}>
+                <Text style={[base.text, style.teaserSubText]}>
                   {`Invitations are limited. Sign up now and join us for our exclusive Valentine's Day launch party.`}
                 </Text>
-              </View>
+                <Animated.View style={[style.terms, {opacity: this._maskOp}]}>
+                {
+                  [
+                    `Unicorn Membership includes full access to the Unicorn app plus invitation to monthly events, parties and concerts – all food and drinks are included in a monthly Unicorn membership.`,
+                    `Payment will be charged to iTunes Account at confirmation of purchase. Membership can be cancelled at any time.`,
+                    `Unicorn Membership is a one-month recurring billing subscription that automatically renews unless auto-renew is turned off at least 24-hours before the end of the current period.`,
+                    `Account will be charged for renewal within 24-hours prior to the end of the current period.`,
+                    `Subscriptions may be managed by the user and auto-renewal may be turned off by going to the user's Account Settings after purchase.`,
+                    `Any unused portion of a free trial period, if offered, will be forfeited when the user purchases a subscription to that publication, where applicable.`
+                  ].map((s,i) =>
+                    <View style={style.term} key={i}><Text style={[style.termText, style.termBullet]}>{`•`}</Text><Text style={style.termText}>{s}</Text></View>
+                  )
+                }
+                  <View style={style.term}><Text style={[style.termText, style.termBullet]}>{`•`}</Text>
+                    <Text style={style.termText}>
+                      {`All personal data is handled under the terms and conditions of Unicorn's privacy policy. More details can be found here:`}{`\n`}
+                      <Text style={[style.termText, style.termLink]} onPress={() => Linking.openURL('https://dateunicorn.com/privacy')}>{`https://dateunicorn.com/privacy`}</Text>{`\n`}
+                      <Text style={[style.termText, style.termLink]} onPress={() => Linking.openURL('https://dateunicorn.com/terms')}>{`https://dateunicorn.com/terms`}</Text>
+                    </Text>
+                  </View>
+                </Animated.View>
+              </ScrollView>
 
               <View style={style.payBtnCont}>
                 <ButtonBlack text={`Join for ${product.priceString}/month`} onPress={() => props.buy(product.identifier)} style={style.payBtn} />
@@ -143,67 +178,22 @@ export default class PaywallView extends Component {
 }
 
 const style = StyleSheet.create({
-  container: {
-    flex: 1,
-    alignItems: 'center',
-  },
-  teaser: {
-    backgroundColor: 'transparent',
-    paddingTop: notchHeight/2 + em(3),
-    width: '90%',
-    flex: 1,
-  },
-  teaserHeader: {
-    fontSize: em(2),
-    marginBottom: em(2),
-    textAlign: 'center',
-  },
-  teaserText: {
-    fontSize: em(1.33),
-    textAlign: 'center',
-  },
-  loadingCnr: {
-    flex:           1,
-    justifyContent: 'center',
-    alignItems:     'center',
-  },
-  payBtnCont: {
-    justifyContent: 'flex-end',
-    alignItems: 'center',
-    backgroundColor: 'transparent',
-    marginBottom: bottomBoost + em(2),
-  },
-  payBtn: {
-    marginBottom: em(0.5),
-  },
-  backdoor: {
-    marginBottom: em(1) + bottomBoost
-  },
-  ballooner: {
-    position: 'absolute',
-    width: screenWidth * 0.4,
-    overflow: 'visible',
-    top: screenHeight*0.25,
-    right: em(1),
-  },
-  balloons: {
-    width: '100%',
-    height: em(9),
-  },
-  unicorn: {
-    width: '80%',
-    height: '100%',
-    position: 'absolute',
-    left: '10%',
-    top: em(5),
-  },
-  bg: {
-    position: 'absolute',
-    width: screenWidth,
-    height: screenHeight,
-    top: 0, left: 0,
-  },
-  restorePurchases: {
-    marginTop: em(0.33)
-  },
+  container: {flex: 1, alignItems: 'center', width: '100%'},
+  mask: {position: 'absolute', top: 0, left: 0, width: '100%', height: '100%', backgroundColor: mayteWhite(0.66),},
+  teaser: {backgroundColor: 'transparent', paddingTop: notchHeight/2 + em(3), paddingLeft: '5%', paddingRight: '5%', width: '100%', flex: 1,},
+  teaserHeader: {fontSize: em(2), marginBottom: em(2), textAlign: 'center',},
+  teaserSubText: {fontSize: em(1.33), textAlign: 'center', paddingBottom: em(1.66)},
+  term: {flexDirection: 'row', justifyContent: 'flex-start', alignItems: 'flex-start', marginBottom: em(0.5)},
+  termText: {color: '#3D3638', fontFamily: 'Gotham-Book', fontSize: em(0.9)},
+  termLink: {textDecorationLine: 'underline'},
+  termBullet: {marginRight: em(0.33)},
+  loadingCnr: {flex: 1, justifyContent: 'center', alignItems: 'center',},
+  payBtnCont: {justifyContent: 'flex-end', alignItems: 'center', backgroundColor: 'transparent', marginBottom: bottomBoost + em(2), paddingTop: em(1),},
+  payBtn: {marginBottom: em(0.5),},
+  backdoor: {marginBottom: em(1) + bottomBoost},
+  ballooner: {position: 'absolute', width: screenWidth * 0.4, overflow: 'visible', top: screenHeight*0.25, right: em(1),},
+  balloons: {width: '100%', height: em(9),},
+  unicorn: {width: '80%', height: '100%', position: 'absolute', left: '10%', top: em(5),},
+  bg: {position: 'absolute', width: screenWidth, height: screenHeight, top: 0, left: 0,},
+  restorePurchases: {marginTop: em(0.33),},
 })
