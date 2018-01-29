@@ -33,6 +33,7 @@ import {
   Image,
   Animated,
   Easing,
+  Linking,
 } from 'react-native'
 
 const calculateFireworkOffset = (left, top) => {
@@ -137,20 +138,24 @@ export default class PaywallView extends Component {
                 <Animated.View style={[style.terms, {opacity: this._maskOp}]}>
                 {
                   [
-                    `Title of publication or service`,
-                    `Length of subscription (time period and content or services provided during each subscription period)`,
-                    `Payment will be charged to iTunes Account at confirmation of purchase`,
-                    `Subscription automatically renews unless auto-renew is turned off at least 24-hours before the end of the current period`,
-                    `Account will be charged for renewal within 24-hours prior to the end of the current period, and identify the cost of the renewal`,
-                    `Subscriptions may be managed by the user and auto-renewal may be turned off by going to the user's Account Settings after purchase`,
-                    `Any unused portion of a free trial period, if offered, will be forfeited when the user purchases a subscription to that publication, where applicable`
+                    `Unicorn Membership includes full access to the Unicorn app plus invitation to monthly events, parties and concerts – all food and drinks are included in a monthly Unicorn membership.`,
+                    `Payment will be charged to iTunes Account at confirmation of purchase. Membership can be cancelled at any time.`,
+                    `Unicorn Membership is a one-month recurring billing subscription that automatically renews unless auto-renew is turned off at least 24-hours before the end of the current period.`,
+                    `Account will be charged for renewal within 24-hours prior to the end of the current period.`,
+                    `Subscriptions may be managed by the user and auto-renewal may be turned off by going to the user's Account Settings after purchase.`,
+                    `Any unused portion of a free trial period, if offered, will be forfeited when the user purchases a subscription to that publication, where applicable.`
                   ].map((s,i) =>
                     <View style={style.term} key={i}><Text style={[style.termText, style.termBullet]}>{`•`}</Text><Text style={style.termText}>{s}</Text></View>
                   )
                 }
+                  <View style={style.term}><Text style={[style.termText, style.termBullet]}>{`•`}</Text>
+                    <Text style={style.termText}>
+                      {`All personal data is handled under the terms and conditions of Unicorn's privacy policy. More details can be found here:`}{`\n`}
+                      <Text style={[style.termText, style.termLink]} onPress={() => Linking.openURL('https://dateunicorn.com/privacy')}>{`https://dateunicorn.com/privacy`}</Text>{`\n`}
+                      <Text style={[style.termText, style.termLink]} onPress={() => Linking.openURL('https://dateunicorn.com/terms')}>{`https://dateunicorn.com/terms`}</Text>
+                    </Text>
+                  </View>
                 </Animated.View>
-
-                {/*<View style={{position: 'absolute', top: 0, left: 0, backgroundColor: 'pink', height: '100%', right: 0}} />*/}
               </ScrollView>
 
               <View style={style.payBtnCont}>
@@ -177,10 +182,10 @@ const style = StyleSheet.create({
   mask: {position: 'absolute', top: 0, left: 0, width: '100%', height: '100%', backgroundColor: mayteWhite(0.66),},
   teaser: {backgroundColor: 'transparent', paddingTop: notchHeight/2 + em(3), paddingLeft: '5%', paddingRight: '5%', width: '100%', flex: 1,},
   teaserHeader: {fontSize: em(2), marginBottom: em(2), textAlign: 'center',},
-  teaserSubText: {fontSize: em(1.33), textAlign: 'center', paddingBottom: em(2)},
-  terms: {},
+  teaserSubText: {fontSize: em(1.33), textAlign: 'center', paddingBottom: em(1.66)},
   term: {flexDirection: 'row', justifyContent: 'flex-start', alignItems: 'flex-start', marginBottom: em(0.5)},
   termText: {color: '#3D3638', fontFamily: 'Gotham-Book', fontSize: em(0.9)},
+  termLink: {textDecorationLine: 'underline'},
   termBullet: {marginRight: em(0.33)},
   loadingCnr: {flex: 1, justifyContent: 'center', alignItems: 'center',},
   payBtnCont: {justifyContent: 'flex-end', alignItems: 'center', backgroundColor: 'transparent', marginBottom: bottomBoost + em(2), paddingTop: em(1),},
