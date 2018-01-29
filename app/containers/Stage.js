@@ -55,7 +55,7 @@ class Stage extends PureComponent {
     if( sceneName == 'Dead' ) {
       return <Dead />
     }
-
+return <Paywall />
     return (
       !props.authenticated ? <Login />
     : !props.hasApplied    ? <Quiz />
