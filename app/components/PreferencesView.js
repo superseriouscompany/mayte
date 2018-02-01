@@ -183,7 +183,7 @@ export default class PreferencesView extends Component {
                                 onPress={() => {
                                   Alert.alert(
                                     "Delete Account",
-                                    "Are you sure?",
+                                    "Are you sure? You will have to apply again and entry is not guaranteed.",
                                     [
                                       {text: 'Cancel'},
                                       {text: 'Confirm', onPress: () => props.deleteAccount()}
@@ -201,6 +201,20 @@ export default class PreferencesView extends Component {
               <TouchableOpacity style={[style.footerBtn, style.legalBtn]}
                 onPress={() => Linking.openURL('https://dateunicorn.com/terms')}>
                 <Text style={[style.footerBtnText, style.legalText]}>TERMS OF SERVICE</Text>
+              </TouchableOpacity>
+
+              <TouchableOpacity style={[style.footerBtn, style.legalBtn]}
+                                onPress={() => {
+                                  Alert.alert(
+                                    "Cancel Subscription",
+                                    "Are you sure? This action will also delete your Unicorn account; you will have to apply again and entry is not guaranteed.",
+                                    [
+                                      {text: 'Cancel'},
+                                      {text: 'Confirm', onPress: () => props.deleteAccount()}
+                                    ]
+                                  )
+                                }}>
+                <Text style={[style.footerBtnText, style.legalText]}>CANCEL SUBSCRIPTION</Text>
               </TouchableOpacity>
             </View>
           }
