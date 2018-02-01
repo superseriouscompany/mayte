@@ -18,24 +18,19 @@ import {
   matchHeaderHeight,
 } from '../constants/dimensions'
 import {
+  ActivityIndicator,
   Animated,
   PanResponder,
+  Image,
+  Linking,
   ScrollView,
   StyleSheet,
   View,
   Text,
-  Image,
   TouchableOpacity,
 } from 'react-native'
 
 const fullHeight = screenHeight - tabNavHeight - bottomBoost
-const upcomingEvents = [
-  {
-    title: 'Unicorn Valentine\'s Day',
-    date: moment('2/14/18'),
-    venue: 'Absolut Elyx House'
-  }
-]
 
 export default class MembershipInfoView extends Component {
   constructor(props) {
@@ -250,13 +245,24 @@ export default class MembershipInfoView extends Component {
                  source={require('../images/add-to-apple-wallet-logo.png')} />
         </TouchableOpacity>
 
-        <View style={style.upcomingEvent}>
-          <Text style={[style.eventText, style.eventHeader]}>Upcoming Event:</Text>
-          <View>
-            <Text style={[style.eventText, style.eventTitle]}>{upcomingEvents[0].title}</Text>
-            <Text style={[style.eventText]}>{upcomingEvents[0].date.format('MMM Do')} @ {upcomingEvents[0].venue}</Text>
+        { props.events.length ?
+          <View style={style.upcomingEvent}>
+            <Text style={[style.eventText, style.eventHeader]}>Upcoming Event{props.events.length > 1 ? 's' : ''}:</Text>
+            { props.events.map((e, key) => (
+              <TouchableOpacity onPress={() => Linking.openURL(e.url)} key={key}>
+                <Text style={[style.eventText, style.eventTitle]}>{e.title}</Text>
+                <Text style={[style.eventText]}>{e.description}</Text>
+              </TouchableOpacity>
+            ))}
           </View>
-        </View>
+        : props.eventsLoading ?
+          <ActivityIndicator />
+        : props.eventsFailed ?
+          <TouchableOpacity style={style.upcomingEvent} onPress={props.loadEvents}>
+            <Text style={style.eventText}>Events failed to load. Tap to retry.</Text>
+          </TouchableOpacity>
+        : null
+        }
       </Animated.ScrollView>
     )
   }

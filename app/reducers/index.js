@@ -18,6 +18,7 @@ import vip         from './vip'
 import products    from './products'
 import quiz        from './quiz'
 import permissions from './permissions'
+import events      from './events'
 
 const middleware = [thunk]
 if( __DEV__ ) {
@@ -34,6 +35,7 @@ const reducers = combineReducers({
   products,
   quiz,
   scene,
+  events,
 })
 
 const store = createStore(
@@ -52,6 +54,7 @@ const persistence = persistStore(store, {storage: AsyncStorage, whitelist: [
   'api',
   'quiz',
   'permissions',
+  'events',
 ]})
 
 export default store
