@@ -139,11 +139,9 @@ export default class PaywallView extends Component {
                 {
                   [
                     `Unicorn Membership includes full access to the Unicorn app plus invitation to monthly events, parties and concerts – all food and drinks are included in a monthly Unicorn membership.`,
-                    `Payment will be charged to iTunes Account at confirmation of purchase. Membership can be cancelled at any time.`,
-                    `Unicorn Membership is a one-month recurring billing subscription that automatically renews unless auto-renew is turned off at least 24-hours before the end of the current period.`,
+                    `Membership can be cancelled at any time.`,
+                    `Unicorn Membership is a one-month recurring billing subscription that automatically renews unless account is deleted at least 24-hours before the end of the current period.`,
                     `Account will be charged for renewal within 24-hours prior to the end of the current period.`,
-                    `Subscriptions may be managed by the user and auto-renewal may be turned off by going to the user's Account Settings after purchase.`,
-                    `Any unused portion of a free trial period, if offered, will be forfeited when the user purchases a subscription to that publication, where applicable.`
                   ].map((s,i) =>
                     <View style={style.term} key={i}><Text style={[style.termText, style.termBullet]}>{`•`}</Text><Text style={style.termText}>{s}</Text></View>
                   )
