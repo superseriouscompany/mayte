@@ -38,7 +38,6 @@ export default class Root extends Component {
           <MatchesProvider />
           <DeeplinkProvider />
           <KillswitchProvider />
-          <IAPProvider />
           <Stage />
         </HydratedView>
       </Provider>

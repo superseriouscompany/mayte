@@ -8,6 +8,7 @@ target 'mayte' do
   # Pods for mayte
   pod 'RSKImageCropper'
   pod 'QBImagePickerController'
+  pod 'Stripe', '~> 11.2.0'
 
   target 'mayteTests' do
     inherit! :search_paths

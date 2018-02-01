@@ -20,6 +20,7 @@ import WaitingRoom            from './WaitingRoom'
 import Dead                   from './Dead'
 import {em}                   from '../constants/dimensions'
 import timing                 from '../constants/timing'
+import features               from '../constants/features'
 import {
   StyleSheet,
   View,
@@ -58,8 +59,8 @@ class Stage extends PureComponent {
 
     return (
       !props.authenticated ? <Login />
-    : !props.hasApplied    ? <Quiz />
-    : !props.isApproved    ? <WaitingRoom />
+    : !props.hasApplied && features.quiz     ? <Quiz />
+    : !props.isApproved && features.approval ? <WaitingRoom />
     : !props.isActive      ? <Paywall />
     : !props.hasGender     ? <GenderSelector />
     :

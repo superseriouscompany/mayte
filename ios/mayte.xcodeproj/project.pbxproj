@@ -57,6 +57,7 @@
 		3F96AE7C1F6A1D710081E709 /* leveldb-library.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3FE9CC1B1F6A195A005DD60C /* leveldb-library.framework */; };
 		3F96AE7D1F6A1D710081E709 /* nanopb.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3FE9CC171F6A195A005DD60C /* nanopb.framework */; };
 		3F96AE7E1F6A1D710081E709 /* Protobuf.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3FE9CC161F6A195A005DD60C /* Protobuf.framework */; };
+		3FC4BF57202290B00068CAE3 /* libTPSStripe.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 3FC4BF562022908A0068CAE3 /* libTPSStripe.a */; };
 		3FFEA1162006AD2B00CD9A2A /* libSMXCrashlytics.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 3FFEA1132006AD0C00CD9A2A /* libSMXCrashlytics.a */; };
 		3FFEA1C62006F50A00CD9A2A /* libRNDeviceInfo.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 3FFEA1BB2006F4FE00CD9A2A /* libRNDeviceInfo.a */; };
 		430B1BC0ABEE4CCB81ED9CCB /* libimageCropPicker.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 5CD4855D83E440AB889A1730 /* libimageCropPicker.a */; };
@@ -293,6 +294,13 @@
 			proxyType = 2;
 			remoteGlobalIDString = 134814201AA4EA6300B7C361;
 			remoteInfo = RNFirebase;
+		};
+		3FC4BF552022908A0068CAE3 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 3FC4BF1A2022908A0068CAE3 /* TPSStripe.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 3A3A7F1A1DC27B520030F9DC;
+			remoteInfo = TPSStripe;
 		};
 		3FD99B871F63423B0007AF87 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
@@ -531,6 +539,7 @@
 		3F92287920057B0A0048C8AF /* BugsnagReactNative.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = BugsnagReactNative.xcodeproj; path = "../node_modules/bugsnag-react-native/cocoa/BugsnagReactNative.xcodeproj"; sourceTree = "<group>"; };
 		3F9228B420057B290048C8AF /* libBugsnagStatic.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; path = libBugsnagStatic.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		3F96AE541F6A1C820081E709 /* Firebase.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Firebase.h; sourceTree = "<group>"; };
+		3FC4BF1A2022908A0068CAE3 /* TPSStripe.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = TPSStripe.xcodeproj; path = "../node_modules/tipsi-stripe/ios/TPSStripe.xcodeproj"; sourceTree = "<group>"; };
 		3FE9CC111F6A195A005DD60C /* GoogleToolboxForMac.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = GoogleToolboxForMac.framework; sourceTree = "<group>"; };
 		3FE9CC121F6A195A005DD60C /* FirebaseCoreDiagnostics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = FirebaseCoreDiagnostics.framework; sourceTree = "<group>"; };
 		3FE9CC131F6A195A005DD60C /* FirebaseMessaging.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = FirebaseMessaging.framework; sourceTree = "<group>"; };
@@ -603,6 +612,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				3FC4BF57202290B00068CAE3 /* libTPSStripe.a in Frameworks */,
 				3FFEA1C62006F50A00CD9A2A /* libRNDeviceInfo.a in Frameworks */,
 				3FFEA1162006AD2B00CD9A2A /* libSMXCrashlytics.a in Frameworks */,
 				3F11D78B20191ED700768AF3 /* PassKit.framework in Frameworks */,
@@ -850,6 +860,14 @@
 			name = Products;
 			sourceTree = "<group>";
 		};
+		3FC4BF1B2022908A0068CAE3 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				3FC4BF562022908A0068CAE3 /* libTPSStripe.a */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
 		3FE9CBDE1F6A18DA005DD60C /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
@@ -937,6 +955,7 @@
 		832341AE1AAA6A7D00B99B32 /* Libraries */ = {
 			isa = PBXGroup;
 			children = (
+				3FC4BF1A2022908A0068CAE3 /* TPSStripe.xcodeproj */,
 				3FFEA1882006F4FE00CD9A2A /* RNDeviceInfo.xcodeproj */,
 				3F9227D420056E7A0048C8AF /* SMXCrashlytics.xcodeproj */,
 				3F92287920057B0A0048C8AF /* BugsnagReactNative.xcodeproj */,
@@ -1193,6 +1212,9 @@
 					13B07F861A680F5B00A75B9A = {
 						DevelopmentTeam = 4B887YTEAY;
 						SystemCapabilities = {
+							com.apple.ApplePay = {
+								enabled = 1;
+							};
 							com.apple.BackgroundModes = {
 								enabled = 1;
 							};
@@ -1338,6 +1360,10 @@
 				{
 					ProductGroup = 3FFEA0DB2006AD0C00CD9A2A /* Products */;
 					ProjectRef = 3F9227D420056E7A0048C8AF /* SMXCrashlytics.xcodeproj */;
+				},
+				{
+					ProductGroup = 3FC4BF1B2022908A0068CAE3 /* Products */;
+					ProjectRef = 3FC4BF1A2022908A0068CAE3 /* TPSStripe.xcodeproj */;
 				},
 			);
 			projectRoot = "";
@@ -1538,6 +1564,13 @@
 			fileType = archive.ar;
 			path = libRNFirebase.a;
 			remoteRef = 3FBB07E71F6A243200794E2B /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		3FC4BF562022908A0068CAE3 /* libTPSStripe.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = libTPSStripe.a;
+			remoteRef = 3FC4BF552022908A0068CAE3 /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
 		3FD99B881F63423B0007AF87 /* libRCTBlob-tvOS.a */ = {
@@ -2016,8 +2049,9 @@
 			);
 			inputPaths = (
 				"${SRCROOT}/Pods/Target Support Files/Pods-mayte/Pods-mayte-resources.sh",
-				$PODS_CONFIGURATION_BUILD_DIR/QBImagePickerController/QBImagePicker.bundle,
+				"$PODS_CONFIGURATION_BUILD_DIR/QBImagePickerController/QBImagePicker.bundle",
 				"${PODS_ROOT}/RSKImageCropper/RSKImageCropper/RSKImageCropperStrings.bundle",
+				"$PODS_CONFIGURATION_BUILD_DIR/Stripe/Stripe.bundle",
 			);
 			name = "[CP] Copy Pods Resources";
 			outputPaths = (

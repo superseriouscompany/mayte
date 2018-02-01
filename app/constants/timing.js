@@ -35,8 +35,8 @@ var timing = {
 }
 
 // Swap conditionals to enable animations in dev
-if( false ) {
-// if( __DEV__ ) {
+// if( false ) {
+if( __DEV__ ) {
   for(var key in timing) {
     timing[key] = 0
   }

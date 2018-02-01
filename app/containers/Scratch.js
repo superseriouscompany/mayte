@@ -13,6 +13,13 @@ import log                                   from '../services/log'
 const { InAppUtils } = NativeModules
 const Fabric         = require('react-native-fabric')
 const {Crashlytics}  = Fabric
+
+import api from '../services/api'
+import stripe from 'tipsi-stripe'
+
+import {connect}          from 'react-redux'
+
+
 import {
   mayteWhite
 } from '../constants/colors'
@@ -35,7 +42,7 @@ const firebase = RNFirebase.initializeApp({
   debug: true,
 })
 
-export default class Scratch extends Component {
+class Scratch extends Component {
   constructor(props) {
     super(props)
     this.state = { products: [] }
@@ -60,6 +67,35 @@ export default class Scratch extends Component {
   }
 
   componentDidMount() {
+    stripe.init({
+      publishableKey: __DEV__ ? 'pk_test_S8LaqXK0DDyLfhyVoHr8ERsA': 'pk_live_vev4Dm6AXgNWcfx1UD3DIKx9',
+      merchantId:     'merchant.com.unicorn.dating',
+    })
+
+
+    var q = {}
+    stripe.paymentRequestWithApplePay([
+      { label: 'fack', amount: "$100.00" }
+    ]).then((body) => {
+    // stripe.paymentRequestWithCardForm({
+    //   theme: {
+    //     backgroundColor: 'hotpink',
+    //     foregroundColor: 'cornflowerblue',
+    //   }
+    // }).then((body) => {
+      console.warn(JSON.stringify(body))
+      q.stripeToken = body.tokenId
+      // example body
+      // {"livemode":false,"created":1517445933,"card":{"funding":"unknown","cardId":"card_1BqWCnJHAfGPPsvG5kYxLRA6","country":"US","isApplePayCard":false,"expMonth":11,"brand":"Visa","last4":"1111","expYear":2022},"tokenId":"tok_1BqWCnJHAfGPPsvGVB9HoSp9"}
+      return api('/creditCards', {method: 'POST', body})
+      // api.post('/creditCards', { body: {}})
+    }).then(() => {
+      const {stripeToken} = q
+      return api('/subscriptions', { method: 'POST', stripeToken })
+    }).then(() => {
+      alert('cool')
+    }).catch(console.error)
+
     return;
 
     log(new Error('sweet'))
@@ -150,6 +186,14 @@ export default class Scratch extends Component {
     const fontBase = em(1)
 
     return (
+      <View>
+        <Text>
+
+        </Text>
+      </View>
+    )
+
+    return (
       <Animated.ScrollView contentContainerStyle={styles.cnr}>
         <KeyboardAvoidingView style={styles.cnr} keyboardVerticalOffset={-160} behavior="position" contentContainerStyle={styles.cnr}>
           <Text style={styles.text}>Do you believe in keyboard magic</Text>
@@ -197,3 +241,17 @@ const styles = StyleSheet.create({
   input: { backgroundColor: 'blue', textAlign: 'left'},
   button: { marginTop: 15 },
 })
+
+function mapStateToProps(state) {
+  return {
+    user: state.user,
+  }
+}
+
+function mapDispatchToProps(dispatch) {
+  return {
+
+  }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(Scratch)

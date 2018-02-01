@@ -6,6 +6,7 @@ import PaywallView        from '../components/PaywallView'
 import { NativeModules }  from 'react-native'
 import request            from '../actions/request'
 import log                from '../services/log'
+import stripe             from '../services/stripe'
 const { InAppUtils } = NativeModules
 
 class Paywall extends Component {
@@ -17,6 +18,23 @@ class Paywall extends Component {
   }
 
   buy(id) {
+    var q = {}
+
+    stripe.paymentRequestWithCardForm().then((body) => {
+      // example body
+      // {"livemode":false,"created":1517445933,"card":{"funding":"unknown","cardId":"card_1BqWCnJHAfGPPsvG5kYxLRA6","country":"US","isApplePayCard":false,"expMonth":11,"brand":"Visa","last4":"1111","expYear":2022},"tokenId":"tok_1BqWCnJHAfGPPsvGVB9HoSp9"}
+      q.stripeToken = body.tokenId
+      return this.props.saveCreditCard(body)
+    }).then(() => {
+      const {stripeToken} = q
+      return this.props.activate(stripeToken)
+    }).catch((err) => {
+      log(err)
+      alert(`${err.message || JSON.stringify(err)}. Please try again or contact support@dateunicorn.com`)
+    })
+  }
+
+  buyWithIAP(id) {
     InAppUtils.purchaseProduct(id, (err, response) => {
       if( err ) {
         log(err)
@@ -27,7 +45,7 @@ class Paywall extends Component {
       }
 
       __DEV__ && console.warn(JSON.stringify(response))
-      this.props.activate(response.transactionReceipt).catch((err) => {
+      this.props.activateIAP(response.transactionReceipt).catch((err) => {
         alert(`${err.message || JSON.stringify(err)}. Please try again or contact support@dateunicorn.com`)
       })
     })
@@ -79,7 +97,25 @@ function mapStateToProps(state) {
 
 function mapDispatchToProps(dispatch) {
   return {
-    activate: (receipt) => {
+    saveCreditCard: (body) => {
+      return dispatch(request({
+        method: 'POST',
+        url: '/creditCards',
+        body,
+      }))
+    },
+
+    activate: (stripeToken) => {
+      return dispatch(request({
+        method: 'POST',
+        url: '/subscriptions',
+        body: { stripeToken }
+      })).then(() => {
+        dispatch({type: 'user:set', user: { active: true }})
+      })
+    },
+
+    activateIAP: (receipt) => {
       return dispatch(request({
         method: 'POST',
         url: '/payments',
