@@ -2049,9 +2049,9 @@
 			);
 			inputPaths = (
 				"${SRCROOT}/Pods/Target Support Files/Pods-mayte/Pods-mayte-resources.sh",
-				"$PODS_CONFIGURATION_BUILD_DIR/QBImagePickerController/QBImagePicker.bundle",
+				$PODS_CONFIGURATION_BUILD_DIR/QBImagePickerController/QBImagePicker.bundle,
 				"${PODS_ROOT}/RSKImageCropper/RSKImageCropper/RSKImageCropperStrings.bundle",
-				"$PODS_CONFIGURATION_BUILD_DIR/Stripe/Stripe.bundle",
+				$PODS_CONFIGURATION_BUILD_DIR/Stripe/Stripe.bundle,
 			);
 			name = "[CP] Copy Pods Resources";
 			outputPaths = (
