@@ -1213,7 +1213,7 @@
 						DevelopmentTeam = 4B887YTEAY;
 						SystemCapabilities = {
 							com.apple.ApplePay = {
-								enabled = 1;
+								enabled = 0;
 							};
 							com.apple.BackgroundModes = {
 								enabled = 1;
