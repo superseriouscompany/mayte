@@ -98,7 +98,7 @@ export default class PaywallView extends Component {
 
   render() {
     const {props,state} = this
-    const product = (props.products || [])[0]
+    const product = {priceString: '$99.99'}
 
     return (
       <View style={style.container}>
@@ -181,7 +181,7 @@ const style = StyleSheet.create({
   teaser: {backgroundColor: 'transparent', paddingTop: notchHeight/2 + em(3), paddingLeft: '5%', paddingRight: '5%', width: '100%', flex: 1,},
   teaserHeader: {fontSize: em(2), marginBottom: em(2), textAlign: 'center',},
   teaserSubText: {fontSize: em(1.33), textAlign: 'center', paddingBottom: em(1.66)},
-  term: {flexDirection: 'row', justifyContent: 'flex-start', alignItems: 'flex-start', marginBottom: em(0.5)},
+  term: {flexDirection: 'row', justifyContent: 'flex-start', alignItems: 'flex-start', marginBottom: em(1), paddingRight: '5%'},
   termText: {color: '#3D3638', fontFamily: 'Gotham-Book', fontSize: em(0.9)},
   termLink: {textDecorationLine: 'underline'},
   termBullet: {marginRight: em(0.33)},
