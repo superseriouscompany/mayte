@@ -72,8 +72,8 @@ const cornWidth = screenWidth * 0.66
 
 const style = StyleSheet.create({
   container: {flex: 1, justifyContent: 'center', alignItems: 'center',},
-  icon: {height: em(5), width: em(5), marginBottom: em(1),},
-  logo: {marginBottom: em(3), height: em(1.2), width: em(6),},
+  icon: {height: em(4), marginBottom: em(1),},
+  logo: {marginBottom: em(3), height: em(1.4), width: em(6),},
   permsCnr: { justifyContent: 'center', alignItems: 'center', width: '80%', },
   copy: { fontSize: em(1), marginBottom: em(3), fontFamily: 'Gotham-Medium', textAlign: 'center', backgroundColor: 'transparent'},
   button: {paddingLeft: em(2), paddingRight: em(2),},

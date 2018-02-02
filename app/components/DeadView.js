@@ -56,10 +56,9 @@ const style = StyleSheet.create({
     width: '80%',
   },
   icon: {
-    height: em(3),
-    width: em(3),
+    height: em(4),
+    width: em(5),
     position: 'absolute',
     bottom: em(2) + bottomBoost,
-    left: screenWidth / 2 - em(1.5),
   }
 })
