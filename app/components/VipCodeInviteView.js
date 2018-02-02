@@ -85,8 +85,8 @@ const style = StyleSheet.create({
     alignItems: 'center',
   },
   icon: {
-    height: em(3),
-    width: em(3),
-    marginBottom: em(0.33),
+    height: em(4),
+    width: em(5),
+    marginBottom: em(0.66),
   },
 })

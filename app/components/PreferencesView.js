@@ -316,10 +316,10 @@ const style = StyleSheet.create({
   },
   icon: {
     marginTop: em(3),
-    height: em(3.33),
+    height: em(4),
   },
   logo: {
-    height: em(1.2),
+    height: em(1.4),
     width: em(6),
     marginTop: em(0.66),
   },
@@ -327,10 +327,10 @@ const style = StyleSheet.create({
     alignItems: 'center'
   },
   deleteLoader: {
-    marginTop: em(2.66)
+    marginTop: em(3)
   },
   footerBtn: {
-    marginTop: em(2.66),
+    marginTop: em(3),
     backgroundColor: 'transparent',
   },
   legalBtn: {
