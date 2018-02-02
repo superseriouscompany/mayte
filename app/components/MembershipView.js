@@ -3,7 +3,6 @@
 import React, {Component}          from 'react'
 import moment                      from 'moment'
 import Text                        from './Text'
-import QRCode                      from 'react-native-qrcode'
 import MembershipDeckView, {Slide} from './MembershipDeckView'
 import MembershipInfoView          from './MembershipInfoView'
 import {baseUrl}                   from '../services/api'

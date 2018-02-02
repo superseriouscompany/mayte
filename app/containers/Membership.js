@@ -28,7 +28,7 @@ class Membership extends Component {
 
       this.setState({loading: true})
 
-      Wallet.showAddPassController(`${baseUrl}/wallet/${this.props.user.id}.pkpass`).then((ok) => {
+      Wallet.showAddPassController(`${baseUrl}/wallet/${this.props.user.id}.pkpass?accessToken=${this.props.user.accessToken}`).then((ok) => {
         this.setState({loading: false})
         if( ok ) { alert('Pass added to Wallet.') }
       }).catch((err) => {
