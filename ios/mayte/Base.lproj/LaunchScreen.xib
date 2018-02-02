@@ -18,10 +18,10 @@
             <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
-                <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" image="unicorn-icon-horn-white" translatesAutoresizingMaskIntoConstraints="NO" id="kWL-om-9ZW">
-                    <rect key="frame" x="125" y="211" width="125" height="133"/>
+                <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="LoadingScreen" translatesAutoresizingMaskIntoConstraints="NO" id="kWL-om-9ZW">
+                    <rect key="frame" x="125" y="231" width="125" height="125"/>
                     <constraints>
-                        <constraint firstAttribute="width" secondItem="kWL-om-9ZW" secondAttribute="height" multiplier="4936:5234" id="Id6-Ax-75j"/>
+                        <constraint firstAttribute="width" secondItem="kWL-om-9ZW" secondAttribute="height" multiplier="1:1" id="Id6-Ax-75j"/>
                     </constraints>
                 </imageView>
             </subviews>
@@ -29,9 +29,7 @@
             <constraints>
                 <constraint firstItem="kWL-om-9ZW" firstAttribute="centerX" secondItem="Nxt-Yc-iG7" secondAttribute="centerX" id="5wb-bM-kot"/>
                 <constraint firstItem="kWL-om-9ZW" firstAttribute="width" secondItem="Nxt-Yc-iG7" secondAttribute="width" multiplier="1/3" id="EdA-LU-YGY"/>
-                <constraint firstItem="kWL-om-9ZW" firstAttribute="centerY" secondItem="Nxt-Yc-iG7" secondAttribute="centerY" id="El3-S7-bEl"/>
-                <constraint firstItem="kWL-om-9ZW" firstAttribute="centerY" secondItem="Nxt-Yc-iG7" secondAttribute="centerY" id="JXd-9u-nY8"/>
-                <constraint firstItem="kWL-om-9ZW" firstAttribute="top" secondItem="Nxt-Yc-iG7" secondAttribute="top" constant="257" id="JXd-ez-3zf"/>
+                <constraint firstItem="kWL-om-9ZW" firstAttribute="centerY" secondItem="Nxt-Yc-iG7" secondAttribute="centerY" constant="-50" id="El3-S7-bEl"/>
             </constraints>
             <nil key="simulatedStatusBarMetrics"/>
             <modalPageSheetSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
@@ -40,6 +38,6 @@
         </view>
     </objects>
     <resources>
-        <image name="unicorn-icon-horn-white" width="4936" height="5234"/>
+        <image name="LoadingScreen" width="512" height="512"/>
     </resources>
 </document>
