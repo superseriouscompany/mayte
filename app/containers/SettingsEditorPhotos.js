@@ -31,7 +31,7 @@ export default class SettingsEditorPhotos extends Component {
       cameraRollEdges: [],
       rearrangingPhotos: false,
       trashReady: false,
-      photoBin: props.user.photos.map(p => new Object({url: p.url})),
+      photoBin: (props.user.photos || []).filter(p => !!p).map(p => new Object({url: p.url})),
       toBeMoved: null,
       editingCurrent: false,
     }

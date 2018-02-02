@@ -104,7 +104,7 @@ export default class ProfileView extends Component {
                   bounces={true}
                   showsVerticalScrollIndicator={false}
                   pagingEnabled
-                  data={props.user.photos || []}
+                  data={props.user.photos.filter(p => !!p) || []}
                   keyExtractor={(item, index) => index}
                   renderItem={({item}) =>
                     <Image style={{width: screenWidth, height: props.viewHeight}}
