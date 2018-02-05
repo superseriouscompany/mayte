@@ -1,4 +1,5 @@
 import { Linking } from 'react-native'
+import SafariView  from 'react-native-safari-view'
 import log         from '../services/log'
 
 export const baseUrl = __DEV__ ?
@@ -100,13 +101,11 @@ export const oauthInstagram = (params) => {
       '&response_type=code'+
       '&state=client.ios'
 
-  return Linking.canOpenURL(url).then(supported => {
-    if (!supported) {
-      console.log('Can\'t handle url: ' + url)
-    } else {
-      return Linking.openURL(url)
-    }
-  }).catch(log)
+  SafariView.isAvailable()
+  .then(SafariView.show({
+    url: url
+  }))
+  .catch(log)
 }
 
 export default request

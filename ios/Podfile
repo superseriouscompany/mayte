@@ -10,6 +10,8 @@ target 'mayte' do
   pod 'QBImagePickerController'
   pod 'Stripe', '~> 11.2.0'
 
+  pod 'react-native-safari-view', :path => '../node_modules/react-native-safari-view'
+
   target 'mayteTests' do
     inherit! :search_paths
     # Pods for testing

@@ -4,6 +4,7 @@ import React, {Component}                    from 'react'
 import RNFirebase                            from 'react-native-firebase'
 import { NativeModules, NativeEventEmitter } from 'react-native'
 import { GeoLocation }                       from 'react-native'
+import SafariView                            from 'react-native-safari-view'
 import Wallet                                from 'react-native-wallet'
 import branch                                from 'react-native-branch'
 import { Client }                            from 'bugsnag-react-native';
@@ -13,6 +14,7 @@ import log                                   from '../services/log'
 const { InAppUtils } = NativeModules
 const Fabric         = require('react-native-fabric')
 const {Crashlytics}  = Fabric
+
 
 import api from '../services/api'
 import stripe from 'tipsi-stripe'
@@ -67,6 +69,10 @@ class Scratch extends Component {
   }
 
   componentDidMount() {
+    SafariView.show({
+      url: 'https://github.com/naoufal'
+    });
+
     stripe.init({
       publishableKey: __DEV__ ? 'pk_test_S8LaqXK0DDyLfhyVoHr8ERsA': 'pk_live_vev4Dm6AXgNWcfx1UD3DIKx9',
       merchantId:     'merchant.com.unicorn.dating',
@@ -188,7 +194,7 @@ class Scratch extends Component {
     return (
       <View>
         <Text>
-
+          Yes
         </Text>
       </View>
     )
