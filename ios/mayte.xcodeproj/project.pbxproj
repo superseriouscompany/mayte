@@ -38,7 +38,6 @@
 		2DCD954D1E0B4F2C00145EB5 /* mayteTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 00E356F21AD99517003FC87E /* mayteTests.m */; };
 		3309E9A2C5154139BCB373C0 /* libRNWalletModule.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 5F4B2ECB7BBC4E06A842E283 /* libRNWalletModule.a */; };
 		3F11D78B20191ED700768AF3 /* PassKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3F11D78A20191ED700768AF3 /* PassKit.framework */; };
-		3F11D78D20191EDA00768AF3 /* StoreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3F11D78C20191EDA00768AF3 /* StoreKit.framework */; };
 		3F1E08ED2019167200CCB07F /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 3F1E08EC2019167200CCB07F /* GoogleService-Info.plist */; };
 		3F1E08EE2019167200CCB07F /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 3F1E08EC2019167200CCB07F /* GoogleService-Info.plist */; };
 		3F1E08EF2019167200CCB07F /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 3F1E08EC2019167200CCB07F /* GoogleService-Info.plist */; };
@@ -538,7 +537,6 @@
 		33641B13EEEA09F6E1FD7C95 /* libPods-mayte-tvOSTests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-mayte-tvOSTests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		37E40E0A98E7E4A5B31D6466 /* Pods-mayte.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-mayte.release.xcconfig"; path = "Pods/Target Support Files/Pods-mayte/Pods-mayte.release.xcconfig"; sourceTree = "<group>"; };
 		3F11D78A20191ED700768AF3 /* PassKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = PassKit.framework; path = System/Library/Frameworks/PassKit.framework; sourceTree = SDKROOT; };
-		3F11D78C20191EDA00768AF3 /* StoreKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = StoreKit.framework; path = System/Library/Frameworks/StoreKit.framework; sourceTree = SDKROOT; };
 		3F1E08EC2019167200CCB07F /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = "GoogleService-Info.plist"; path = "mayte/GoogleService-Info.plist"; sourceTree = "<group>"; };
 		3F2C0B3320054B4B000FC3F4 /* Fabric.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Fabric.framework; sourceTree = "<group>"; };
 		3F2C0B3420054B4C000FC3F4 /* Crashlytics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Crashlytics.framework; sourceTree = "<group>"; };
@@ -632,7 +630,6 @@
 				ADBDB9381DFEBF1600ED6528 /* libRCTBlob.a in Frameworks */,
 				3F2C0B3520054B4C000FC3F4 /* Fabric.framework in Frameworks */,
 				5E9157361DD0AC6A00FF2AA8 /* libRCTAnimation.a in Frameworks */,
-				3F11D78D20191EDA00768AF3 /* StoreKit.framework in Frameworks */,
 				146834051AC3E58100842450 /* libReact.a in Frameworks */,
 				5E9157361DD0AC6A00FF2AA8 /* libRCTAnimation.a in Frameworks */,
 				00C302E51ABCBA2D00DB3ED1 /* libRCTActionSheet.a in Frameworks */,
@@ -881,7 +878,6 @@
 		3FE9CBDE1F6A18DA005DD60C /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				3F11D78C20191EDA00768AF3 /* StoreKit.framework */,
 				3F11D78A20191ED700768AF3 /* PassKit.framework */,
 				3F9228B420057B290048C8AF /* libBugsnagStatic.a */,
 				3FE9CC151F6A195A005DD60C /* FirebaseAnalytics.framework */,
@@ -1238,7 +1234,7 @@
 								enabled = 1;
 							};
 							com.apple.InAppPurchase = {
-								enabled = 1;
+								enabled = 0;
 							};
 							com.apple.Push = {
 								enabled = 1;
