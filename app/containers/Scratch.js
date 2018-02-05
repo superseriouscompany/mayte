@@ -13,7 +13,6 @@ import {Input}            from '../components/QuizView'
 import log                                   from '../services/log'
 const { InAppUtils } = NativeModules
 const Fabric         = require('react-native-fabric')
-// const SafariView     = require('react-native-safari-view')
 const {Crashlytics}  = Fabric
 
 
@@ -80,28 +79,28 @@ class Scratch extends Component {
     })
 
 
-    // var q = {}
-    // stripe.paymentRequestWithApplePay([
-    //   { label: 'fack', amount: "$100.00" }
-    // ]).then((body) => {
-    // // stripe.paymentRequestWithCardForm({
-    // //   theme: {
-    // //     backgroundColor: 'hotpink',
-    // //     foregroundColor: 'cornflowerblue',
-    // //   }
-    // // }).then((body) => {
-    //   console.warn(JSON.stringify(body))
-    //   q.stripeToken = body.tokenId
-    //   // example body
-    //   // {"livemode":false,"created":1517445933,"card":{"funding":"unknown","cardId":"card_1BqWCnJHAfGPPsvG5kYxLRA6","country":"US","isApplePayCard":false,"expMonth":11,"brand":"Visa","last4":"1111","expYear":2022},"tokenId":"tok_1BqWCnJHAfGPPsvGVB9HoSp9"}
-    //   return api('/creditCards', {method: 'POST', body})
-    //   // api.post('/creditCards', { body: {}})
-    // }).then(() => {
-    //   const {stripeToken} = q
-    //   return api('/subscriptions', { method: 'POST', stripeToken })
-    // }).then(() => {
-    //   alert('cool')
-    // }).catch(console.error)
+    var q = {}
+    stripe.paymentRequestWithApplePay([
+      { label: 'fack', amount: "$100.00" }
+    ]).then((body) => {
+    // stripe.paymentRequestWithCardForm({
+    //   theme: {
+    //     backgroundColor: 'hotpink',
+    //     foregroundColor: 'cornflowerblue',
+    //   }
+    // }).then((body) => {
+      console.warn(JSON.stringify(body))
+      q.stripeToken = body.tokenId
+      // example body
+      // {"livemode":false,"created":1517445933,"card":{"funding":"unknown","cardId":"card_1BqWCnJHAfGPPsvG5kYxLRA6","country":"US","isApplePayCard":false,"expMonth":11,"brand":"Visa","last4":"1111","expYear":2022},"tokenId":"tok_1BqWCnJHAfGPPsvGVB9HoSp9"}
+      return api('/creditCards', {method: 'POST', body})
+      // api.post('/creditCards', { body: {}})
+    }).then(() => {
+      const {stripeToken} = q
+      return api('/subscriptions', { method: 'POST', stripeToken })
+    }).then(() => {
+      alert('cool')
+    }).catch(console.error)
 
     return;
 
