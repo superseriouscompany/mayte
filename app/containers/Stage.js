@@ -26,7 +26,7 @@ import {
   View,
 } from 'react-native'
 
-const useScratch = false
+const useScratch = true
 
 class Stage extends PureComponent {
   constructor(props) {

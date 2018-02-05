@@ -4,6 +4,7 @@ import React, {Component}                    from 'react'
 import RNFirebase                            from 'react-native-firebase'
 import { NativeModules, NativeEventEmitter } from 'react-native'
 import { GeoLocation }                       from 'react-native'
+import SafariView                            from 'react-native-safari-view'
 import Wallet                                from 'react-native-wallet'
 import branch                                from 'react-native-branch'
 import { Client }                            from 'bugsnag-react-native';
@@ -12,7 +13,9 @@ import {Input}            from '../components/QuizView'
 import log                                   from '../services/log'
 const { InAppUtils } = NativeModules
 const Fabric         = require('react-native-fabric')
+// const SafariView     = require('react-native-safari-view')
 const {Crashlytics}  = Fabric
+
 
 import api from '../services/api'
 import stripe from 'tipsi-stripe'
@@ -67,34 +70,38 @@ class Scratch extends Component {
   }
 
   componentDidMount() {
+    SafariView.show({
+      url: 'https://github.com/naoufal'
+    });
+
     stripe.init({
       publishableKey: __DEV__ ? 'pk_test_S8LaqXK0DDyLfhyVoHr8ERsA': 'pk_live_vev4Dm6AXgNWcfx1UD3DIKx9',
       merchantId:     'merchant.com.unicorn.dating',
     })
 
 
-    var q = {}
-    stripe.paymentRequestWithApplePay([
-      { label: 'fack', amount: "$100.00" }
-    ]).then((body) => {
-    // stripe.paymentRequestWithCardForm({
-    //   theme: {
-    //     backgroundColor: 'hotpink',
-    //     foregroundColor: 'cornflowerblue',
-    //   }
-    // }).then((body) => {
-      console.warn(JSON.stringify(body))
-      q.stripeToken = body.tokenId
-      // example body
-      // {"livemode":false,"created":1517445933,"card":{"funding":"unknown","cardId":"card_1BqWCnJHAfGPPsvG5kYxLRA6","country":"US","isApplePayCard":false,"expMonth":11,"brand":"Visa","last4":"1111","expYear":2022},"tokenId":"tok_1BqWCnJHAfGPPsvGVB9HoSp9"}
-      return api('/creditCards', {method: 'POST', body})
-      // api.post('/creditCards', { body: {}})
-    }).then(() => {
-      const {stripeToken} = q
-      return api('/subscriptions', { method: 'POST', stripeToken })
-    }).then(() => {
-      alert('cool')
-    }).catch(console.error)
+    // var q = {}
+    // stripe.paymentRequestWithApplePay([
+    //   { label: 'fack', amount: "$100.00" }
+    // ]).then((body) => {
+    // // stripe.paymentRequestWithCardForm({
+    // //   theme: {
+    // //     backgroundColor: 'hotpink',
+    // //     foregroundColor: 'cornflowerblue',
+    // //   }
+    // // }).then((body) => {
+    //   console.warn(JSON.stringify(body))
+    //   q.stripeToken = body.tokenId
+    //   // example body
+    //   // {"livemode":false,"created":1517445933,"card":{"funding":"unknown","cardId":"card_1BqWCnJHAfGPPsvG5kYxLRA6","country":"US","isApplePayCard":false,"expMonth":11,"brand":"Visa","last4":"1111","expYear":2022},"tokenId":"tok_1BqWCnJHAfGPPsvGVB9HoSp9"}
+    //   return api('/creditCards', {method: 'POST', body})
+    //   // api.post('/creditCards', { body: {}})
+    // }).then(() => {
+    //   const {stripeToken} = q
+    //   return api('/subscriptions', { method: 'POST', stripeToken })
+    // }).then(() => {
+    //   alert('cool')
+    // }).catch(console.error)
 
     return;
 
@@ -188,7 +195,7 @@ class Scratch extends Component {
     return (
       <View>
         <Text>
-
+          Yes
         </Text>
       </View>
     )
