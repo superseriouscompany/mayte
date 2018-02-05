@@ -3,6 +3,7 @@
 import React, {Component}               from 'react'
 import { connect }                      from 'react-redux'
 import LoginView                        from '../components/LoginView'
+import SafariView                       from 'react-native-safari-view'
 import api, { baseUrl, oauthInstagram } from '../services/api'
 import request                          from '../actions/request'
 import log                              from '../services/log'
@@ -44,6 +45,8 @@ class Login extends Component {
       return console.warn('Unknown event url', event && event.url)
     }
 
+    SafariView.dismiss()
+
     const matches = event.url.match(/at=([^&]+)/)
     if( !matches ) {
       return console.warn('No access token provided', event && event.url)
@@ -62,16 +65,14 @@ class Login extends Component {
     const url = 'https://www.linkedin.com/uas/oauth2/authorization?client_id='+clientId+
       '&response_type=code'+
       '&state=client.ios'+
-      '&scope='+perms.join(' ').trim()+
+      '&scope='+perms.join('%20').trim()+
       '&redirect_uri='+redirectUrl
 
-    Linking.canOpenURL(url).then(supported => {
-      if (!supported) {
-        console.log('Can\'t handle url: ' + url)
-      } else {
-        return Linking.openURL(url)
-      }
-    }).catch(log)
+      SafariView.isAvailable()
+      .then(SafariView.show({
+        url: url
+      }))
+      .catch(log)
   }
 
   render() { return (
