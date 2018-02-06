@@ -199,6 +199,13 @@ export default class LoginView extends Component {
                   style={[style.button]}
                   onPress={ld ? null : props.linkedinLogin} />
               </Animated.View>
+
+              {
+                __DEV__ ?
+                <TouchableOpacity onPress={props.logout}>
+                  <Text style={{marginTop: em(1), textAlign: 'center', backgroundColor:'transparent', color: 'hotpink'}}>logout</Text>
+                </TouchableOpacity> : null
+              }
             </View>
           </View>
         </View>

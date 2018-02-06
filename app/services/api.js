@@ -99,7 +99,14 @@ export const oauthInstagram = (params) => {
   const url = 'https://instagram.com/oauth/authorize/?client_id='+clientId+
       '&redirect_uri='+redirectUrl+
       '&response_type=code'+
-      '&state=client.ios'
+      '&state=client.ios+time.'+Date.now()
+      /* Saw issue where cached login credentials were being automatically
+      passed through the instagram oauth flow, even after logging out,
+      and after deleting the app and reinstalling, and after deleting restarting
+      phone and reinstalling. Our best guess is that the 302 redirect is being
+      cached either by Apple or Instagram or React Native. Changing query string
+      parameters led to inconclusive results until we added the above timestamp
+      to the state parameter. */
 
   SafariView.isAvailable()
   .then(SafariView.show({

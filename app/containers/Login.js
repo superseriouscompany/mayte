@@ -15,6 +15,7 @@ class Login extends Component {
   constructor(props) {
     super(props)
     this.handle = this.handle.bind(this)
+    this.logout = this.logout.bind(this)
     this.state = {}
   }
 
@@ -75,8 +76,19 @@ class Login extends Component {
       .catch(log)
   }
 
+  logout() {
+    const url = 'https://instagram.com'
+
+      SafariView.isAvailable()
+      .then(SafariView.show({
+        url: url
+      }))
+      .catch(log)
+  }
+
   render() { return (
     <LoginView {...this.props}
+               logout={this.logout}
                loading={this.state.loading}
                linkedinLogin={this.linkedinLogin}
                instagramLogin={this.instagramLogin} />
