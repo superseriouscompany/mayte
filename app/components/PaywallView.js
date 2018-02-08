@@ -133,7 +133,7 @@ export default class PaywallView extends Component {
               <ScrollView style={[style.teaser]} showsVerticalScrollIndicator={false} contentContainerStyle={{paddingBottom: em(5)}}>
                 <Text style={[base.text, style.teaserHeader]}>{`You're In!`}</Text>
                 <Text style={[base.text, style.teaserSubText]}>
-                  {`Invitations are limited. Sign up now and join us for our exclusive Valentine's Day launch party.`}
+                  {`Invitations are limited. Sign up now and join us for our exclusive launch party.`}
                 </Text>
                 <Animated.View style={[style.terms, {opacity: this._maskOp}]}>
                 {
@@ -158,9 +158,6 @@ export default class PaywallView extends Component {
 
               <View style={style.payBtnCont}>
                 <ButtonBlack text={`Join for ${product.priceString}/month`} onPress={() => props.buy(product.identifier)} style={style.payBtn} />
-                <TouchableOpacity style={style.restorePurchases} onPress={props.restorePurchases}>
-                  <Text style={{textDecorationLine: 'underline'}}>Restore Purchases</Text>
-                </TouchableOpacity>
               </View>
             </Animated.View>
           </Animated.View>

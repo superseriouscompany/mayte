@@ -2,7 +2,7 @@ import { Linking } from 'react-native'
 import SafariView  from 'react-native-safari-view'
 import log         from '../services/log'
 
-export const baseUrl = __DEV__ ?
+export const baseUrl = false && __DEV__ ?
   'https://mayte.ngrok.io' :
   'https://api.dateunicorn.com';
 

@@ -11,7 +11,6 @@ import { Client }                            from 'bugsnag-react-native';
 import {ButtonGrey}       from '../components/Button'
 import {Input}            from '../components/QuizView'
 import log                                   from '../services/log'
-const { InAppUtils } = NativeModules
 const Fabric         = require('react-native-fabric')
 const {Crashlytics}  = Fabric
 
@@ -52,15 +51,6 @@ class Scratch extends Component {
     this.crash = this.crash.bind(this)
   }
 
-  buy(id) {
-    InAppUtils.purchaseProduct(id, (err, response) => {
-      if( err ) { return alert(err.message) }
-      if( response && response.productIdentifier ) {
-        return alert('Purchase Successful: '+response.transactionIdentifier)
-      }
-      console.warn('Unknown response', err, response)
-    })
-  }
 
   crash() {
     var err = new Error('nope')
@@ -140,16 +130,6 @@ class Scratch extends Component {
       'com.mayte.dev.monthly'
     ]
 
-    InAppUtils.canMakePayments((enabled) => {
-      if(!enabled) { return alert('IAP disabled') }
-
-      InAppUtils.loadProducts(products, (err, products) => {
-        if( err ) { log(err) }
-        this.setState({products})
-      })
-    })
-
-
     firebase.messaging().requestPermissions()
 
     firebase.messaging().getToken().then((token) => {
@@ -228,7 +208,7 @@ class Scratch extends Component {
         </TouchableOpacity>
 
         { this.state.products.map((p, key) => (
-          <TouchableOpacity key={key} onPress={() => this.buy(p.identifier)}>
+          <TouchableOpacity key={key} onPress={() => console.warn(p.identifier)}>
             <Text>
               {p.title}: {p.description} {p.priceString}
             </Text>

@@ -3497,10 +3497,6 @@ react-native-image-picker@^0.26.7:
   version "0.26.7"
   resolved "https://registry.yarnpkg.com/react-native-image-picker/-/react-native-image-picker-0.26.7.tgz#ad2ee957f7f6cc01396893ea03d84cb2adb2e376"
 
-react-native-in-app-utils@^5.6.0:
-  version "5.6.0"
-  resolved "https://registry.yarnpkg.com/react-native-in-app-utils/-/react-native-in-app-utils-5.6.0.tgz#381dc4f7e9b91c4459f4a9c5c2f2e7082af87212"
-
 react-native-invertible-scroll-view@^1.1.0:
   version "1.1.0"
   resolved "https://registry.yarnpkg.com/react-native-invertible-scroll-view/-/react-native-invertible-scroll-view-1.1.0.tgz#bfd50a3f5d66ca12639b7c7a9844ceddd1d16890"
