@@ -26,7 +26,7 @@ import api    from '../services/api'
 import branch from 'react-native-branch'
 import logout from '../actions/logout'
 
-export default function request(args, force) {
+function request(args, force) {
   return function(dispatch, getState) {
     const accessToken = (getState().user || {}).accessToken
     // TODO: handle querystring order
@@ -60,3 +60,40 @@ export default function request(args, force) {
     })
   }
 }
+
+function getKeyFromQuery(q) {
+  return
+}
+
+request.graph = (locator, query, force) => {
+  return function(dispatch, getState) {
+    const accessToken = (getState().user || {}).accessToken
+    // TODO: handle querystring order
+    const key         = `graph:${locator}`
+    const isLoading   = (getState().api[key] || {}).loading
+
+    if( isLoading && !force ) {
+      var err = new Error(`Not going to load ${key} twice`)
+      err.duplicateLoad = true
+      return Promise.reject(err)
+    }
+
+    dispatch({type: 'api:loading', key})
+
+    const httpRequest = api('/graph', {accessToken, body: {query}, method: 'POST'})
+    return httpRequest.then((json) => {
+      dispatch({type: 'api:yes', payload: json, key})
+      return json
+    }).catch((err) => {
+      dispatch({type: 'api:no', error: err, key})
+      if( err.statusCode && err.statusCode == 401 ) {
+        console.warn('Logging out because we got a 401')
+        dispatch(logout())
+        return
+      }
+      throw err
+    })
+  }
+}
+
+export default request

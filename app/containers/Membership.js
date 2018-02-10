@@ -2,6 +2,7 @@
 
 import React, {Component} from 'react'
 import {connect}          from 'react-redux'
+import Calendar           from './Calendar'
 import MembershipView     from '../components/MembershipView'
 import Wallet             from 'react-native-wallet'
 import {baseUrl}          from '../services/api'
@@ -39,6 +40,7 @@ class Membership extends Component {
   }
 
   render() {
+    return <Calendar {...this.props} />
     return (
       <MembershipView {...this.props}
         addPass={this.addPass}

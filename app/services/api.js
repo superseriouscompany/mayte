@@ -2,7 +2,7 @@ import { Linking } from 'react-native'
 import SafariView  from 'react-native-safari-view'
 import log         from '../services/log'
 
-export const baseUrl = false && __DEV__ ?
+export const baseUrl = __DEV__ ?
   'https://mayte.ngrok.io' :
   'https://api.dateunicorn.com';
 
@@ -13,9 +13,10 @@ export const webUrl = __DEV__ ?
 function request(path, options = {}) {
   if( path[0] != '/' ) path = `/${path}`;
 
-  options.headers = options.headers || {}
-  options.headers['Content-Type'] = 'application/json'
-  options.headers['Accept'] = 'application/json'
+  options.headers = Object.assign({
+    'Content-Type': 'application/json',
+    'Accept': 'application/json',
+  }, options.headers || {})
   if( options.accessToken ) {
     options.headers['X-Access-Token'] = options.accessToken
     delete options.accessToken
