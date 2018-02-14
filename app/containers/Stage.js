@@ -13,7 +13,7 @@ import Scratch                from './Scratch'
 import VipCodeInvite          from './VipCodeInvite'
 import GenderSelector         from './GenderSelector'
 import Paywall                from './Paywall'
-import VelvetRope             from './VelvetRope'
+import MembershipNavigation   from './MembershipNavigation'
 import VipCodeEntry           from './VipCodeEntry'
 import Quiz                   from './Quiz'
 import WaitingRoom            from './WaitingRoom'
@@ -64,11 +64,11 @@ class Stage extends PureComponent {
     : !props.isActive      ? <Paywall />
     : !props.hasGender     ? <GenderSelector />
     :
-      <Navigation initialSceneName="VelvetRope">
+      <Navigation initialSceneName="Membership">
         <Settings sceneName="Settings"
           label="Settings" iconFocused="ios-person" iconUnfocused="ios-person-outline" />
-        <VelvetRope sceneName="VelvetRope"
-          label="Membership" iconFocused="ios-key" iconUnfocused="ios-key-outline"/>
+        <MembershipNavigation sceneName="Membership"
+          label="Membership" iconFocused="ios-key" iconUnfocused="ios-key-outline" />
 
         { props.isAdmin ?
           <Recs sceneName="Recs"

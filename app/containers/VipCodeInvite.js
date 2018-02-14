@@ -71,10 +71,10 @@ function mapStateToProps(state) {
   }
 }
 
-function mapDispatchToProps(dispatch) {
+function mapDispatchToProps(dispatch, ownProps) {
   return {
     visitHome: () => {
-      dispatch({type: 'scene:change', scene: 'Home'})
+      ownProps.navigation.navigate('Membership')
     },
 
     createCode: (tier) => {

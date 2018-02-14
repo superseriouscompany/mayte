@@ -127,7 +127,7 @@ export default class MembershipView extends Component {
             <Slide style={style.goldSlide} bg={require('../images/fractal-bg-gold.jpg')}>
               <Text style={[style.slideText, style.slideBody]}>{`You are a founding member of Unicorn - congratulations! Please enjoy VIP treatment and the ability to invite users onto our platform.`}</Text>
               <ButtonBlack
-                onPress={() => props.navigate('VipCodeInvite')}
+                onPress={() => props.navigation.navigate('Invite Codes')}
                 style={[style.goldSlideBtn]}
                 styleText={style.goldSlideBtnText}
                 text='Invite' />

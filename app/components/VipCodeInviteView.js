@@ -1,12 +1,12 @@
 'use strict'
 
-import React, {Component} from 'react'
-import Text               from './Text'
-import {em, bottomBoost}  from '../constants/dimensions'
-import base               from '../constants/styles'
-import {mayteGold}        from '../constants/colors'
-import {ButtonBlack}      from './Button'
-import {ParticleSheet}    from './Particle'
+import React, {Component}      from 'react'
+import Text                    from './Text'
+import {em, bottomBoost}       from '../constants/dimensions'
+import base                    from '../constants/styles'
+import {mayteGold, mayteWhite} from '../constants/colors'
+import {ButtonBlack}           from './Button'
+import {ParticleSheet}         from './Particle'
 import {
   Image,
   StyleSheet,
@@ -49,6 +49,7 @@ export default function(props) {
 const style = StyleSheet.create({
   container: {
     flex: 1,
+    backgroundColor: mayteWhite(),
     justifyContent: 'center',
     alignItems: 'center',
   },
@@ -72,10 +73,11 @@ const style = StyleSheet.create({
   },
   secretButton: {
     backgroundColor: 'white',
+    backgroundColor: 'transparent',
     marginTop: em(1),
   },
   secretButtonText: {
-    color: 'white',
+    color: mayteWhite(),
     fontSize: em(0.9)
   },
   back: {

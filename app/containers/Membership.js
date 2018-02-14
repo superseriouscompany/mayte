@@ -1,12 +1,12 @@
 'use strict'
 
-import React, {Component} from 'react'
-import {connect}          from 'react-redux'
-import MembershipView     from '../components/MembershipView'
-import Wallet             from 'react-native-wallet'
-import {baseUrl}          from '../services/api'
-import log                from '../services/log'
-import request            from '../actions/request'
+import React, {Component}                from 'react'
+import {connect}                         from 'react-redux'
+import MembershipView                    from '../components/MembershipView'
+import Wallet                            from 'react-native-wallet'
+import {baseUrl}                         from '../services/api'
+import log                               from '../services/log'
+import request                           from '../actions/request'
 
 class Membership extends Component {
   constructor(props) {
@@ -40,6 +40,8 @@ class Membership extends Component {
 
   render() {
     return (
+      // <MembershipNav {...this.props} />
+
       <MembershipView {...this.props}
         addPass={this.addPass}
         loading={this.state.loading} />
