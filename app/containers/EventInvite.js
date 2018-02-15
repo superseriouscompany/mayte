@@ -5,6 +5,9 @@ import {connect}          from 'react-redux'
 import EventInviteView       from '../components/EventInviteView'
 
 class EventInvite extends Component {
+  constructor(props) {
+    super(props)
+  }
   render() {
     return (
       <EventInviteView {...this.props} />
@@ -18,7 +21,7 @@ function mapStateToProps(state) {
   }
 }
 
-function mapDispatchToProps(dispatch) {
+function mapDispatchToProps(dispatch, ownProps) {
   return {
 
   }

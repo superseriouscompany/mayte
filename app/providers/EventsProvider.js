@@ -1,5 +1,6 @@
 'use strict'
 
+import {get} from '../services/poop'
 import React, {Component} from 'react'
 import moment             from 'moment'
 import {connect}          from 'react-redux'
@@ -11,7 +12,8 @@ import {
 
 class EventsProvider extends Component {
   componentWillReceiveProps(props) {
-    if (props.invite && !this.props.invite) Alert.alert('RECEIVED INVITE!')
+    if (props.accessToken && !this.props.accessToken) {props.fetchEvents(props.accessToken)}
+    if (props.invite && !this.props.invite) {Alert.alert('RECEIVED INVITE!')}
   }
 
   componentDidMount() {
@@ -23,12 +25,13 @@ class EventsProvider extends Component {
   }
 
   inviteAlert(i) {
+    console.log(i)
     Alert.alert(
       "U R FUKIN INVOITED",
-      `${i.title}\n${moment(i.startTime).format('MM Do')} @ ${i.venue.name}`,
+      `${i.title}\n${moment(i.startTime).format('MMM Do')} @ ${i.venue.name}`,
       [
         {text: 'Ignore'},
-        {text: 'RSVP', onPress: () => this.props.viewInvite(i.id)}
+        {text: 'More Info', onPress: () => this.props.viewInvite(i.id)}
       ]
     )
   }
@@ -40,7 +43,6 @@ class EventsProvider extends Component {
 
 function mapStateToProps(state) {
   return {
-    isActive:    !!state.user.active && !!state.user.id,
     accessToken: state.user.accessToken,
     invite: state.events.filter(e => !!e.invites.find(u => u.id == state.user.id))[0]
   }
@@ -52,40 +54,43 @@ function mapDispatchToProps(dispatch, ownProps) {
       dispatch({type: 'scene:change', scene: `membership:event`, data: {id: id}})
     },
     fetchEvents: (accessToken) => {
-      return api(`graph`, {
-        method: 'POST',
-        accessToken: accessToken,
-        body: {
-          query: `
-          {
-            events{
-              id,
-              title,
-              venue{
-                name,
-                geo{lat,lng}
-              },
-              invites{
-                id
-              },
-              rsvps{
-                user{
-                  id
-                },
-                status
-              },
-              checkIns{
-                user{id},
-                time
-              }
-            }
-          }
-          `
-        }
-      }).then(r => {
-        const {events} = r.data
+      return get().then(events => {
         dispatch({type: 'events:set', events})
       })
+      // return api(`graph`, {
+      //   method: 'POST',
+      //   accessToken: accessToken,
+      //   body: {
+      //     query: `
+      //     {
+      //       events{
+      //         id,
+      //         title,
+      //         venue{
+      //           name,
+      //           geo{lat,lng}
+      //         },
+      //         invites{
+      //           id
+      //         },
+      //         rsvps{
+      //           user{
+      //             id
+      //           },
+      //           status
+      //         },
+      //         checkIns{
+      //           user{id},
+      //           time
+      //         }
+      //       }
+      //     }
+      //     `
+      //   }
+      // }).then(r => {
+      //   const {events} = r.data
+      //   dispatch({type: 'events:set', events})
+      // })
     }
   }
 }
