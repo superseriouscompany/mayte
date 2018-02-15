@@ -1,11 +1,11 @@
 'use strict'
 
-import React, {Component}                   from 'react'
-import {DrawerNavigator, NavigationActions} from 'react-navigation'
-import Text                                 from './Text'
-import {em}                                 from '../constants/dimensions'
-import Membership                           from '../containers/Membership'
-import VipCodeInvite                        from '../containers/VipCodeInvite'
+import React, {Component} from 'react'
+import {connect}          from 'react-redux'
+import Text               from './Text'
+import {em}               from '../constants/dimensions'
+import Membership         from '../containers/Membership'
+import VipCodeInvite      from '../containers/VipCodeInvite'
 import {
   mayteBlack,
   mayteWhite,
@@ -16,26 +16,25 @@ import {
   TouchableOpacity,
 } from 'react-native'
 
-
-const Screen1 = (props) => <View style={{backgroundColor:'olive',flex:1,alignItems:'center',justifyContent:'center'}}><Text>111</Text></View>
-const Screen2 = (props) => <View style={{backgroundColor:'orchid',flex:1,alignItems:'center',justifyContent:'center'}}><Text>222</Text></View>
-const Screen3 = (props) => <View style={{backgroundColor:'skyblue',flex:1,alignItems:'center',justifyContent:'center'}}><Text>333</Text></View>
-
 class DrawerContainer extends Component {
   render() {
     const {props} = this
+    console.log('pups', props.isGold)
     return (
       <View style={styles.container}>
         <TouchableOpacity style={styles.link} onPress={() => props.navigation.navigate('Membership')}>
           <Text style={styles.linkText}>Membership Card</Text>
         </TouchableOpacity>
 
-        <TouchableOpacity style={styles.link} onPress={() => props.navigation.navigate('Invite Codes')}>
-          <Text style={styles.linkText}>Invite Codes</Text>
-        </TouchableOpacity>
+        {
+          props.isAdmin || props.isGold ?
+          <TouchableOpacity style={styles.link} onPress={() => props.navigation.navigate('Invite Codes')}>
+            <Text style={styles.linkText}>Invite Codes</Text>
+          </TouchableOpacity> : null
+        }
 
-        <TouchableOpacity style={styles.link} onPress={() => props.navigation.navigate('Third Guy III')}>
-          <Text style={styles.linkText}>Other Fish</Text>
+        <TouchableOpacity style={styles.link} onPress={() => props.navigation.navigate('Upcoming Events')}>
+          <Text style={styles.linkText}>Upcoming Events</Text>
         </TouchableOpacity>
       </View>
     )
@@ -58,17 +57,17 @@ const styles = StyleSheet.create({
   }
 })
 
-export default DrawerNavigator({
-  'Membership': { screen: Membership },
-  'Invite Codes': { screen: VipCodeInvite },
-  'Third Guy III': { screen: Screen3 },
+const mapStateToProps = (state, ownProps) => {
+  return {
+    isGold: !!state.user.isGold,
+    isAdmin: !!state.user.isAdmin,
+  }
 }
-,{
-  contentComponent: DrawerContainer,
-  drawerWidth: 300,
-  // https://github.com/react-navigation/react-navigation/issues/3095#issuecomment-353371823
-  drawerOpenRoute: 'DrawerOpen',
-  drawerCloseRoute: 'DrawerClose',
-  drawerToggleRoute: 'DrawerToggle',
+
+const mapDispatchToProps = (dispatch) => {
+  return {
+
+  }
 }
-)
+
+export default connect(mapStateToProps, mapDispatchToProps)(DrawerContainer)
