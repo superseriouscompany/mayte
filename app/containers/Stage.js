@@ -24,6 +24,7 @@ import features               from '../constants/features'
 import {
   StyleSheet,
   View,
+  Alert,
 } from 'react-native'
 
 const useScratch = false
@@ -32,6 +33,7 @@ class Stage extends PureComponent {
   constructor(props) {
     super(props)
     this.showScene = this.showScene.bind(this)
+    props.purgeScene()
   }
 
   render() {
@@ -114,7 +116,7 @@ function mapStateToProps(state) {
 
 function mapDispatchToProps(dispatch) {
   return {
-
+    purgeScene: () => dispatch({type:'scene:change', scene: ''})
   }
 }
 

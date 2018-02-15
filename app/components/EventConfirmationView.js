@@ -7,13 +7,13 @@ import {
   View,
 } from 'react-native'
 
-export default class EventInviteView extends Component {
+export default class EventConfirmationView extends Component {
   render() {
     const {props} = this
 
     return (
       <View style={styles.container}>
-        <Text>Hello</Text>
+        <Text>You are confirmed for {props.event.title}</Text>
       </View>
     )
   }

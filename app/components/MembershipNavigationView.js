@@ -19,7 +19,6 @@ import {
 class DrawerContainer extends Component {
   render() {
     const {props} = this
-    console.log('pups', props.isGold)
     return (
       <View style={styles.container}>
         <TouchableOpacity style={styles.link} onPress={() => props.navigation.navigate('Membership')}>

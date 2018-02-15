@@ -1,6 +1,7 @@
 'use strict'
 
 import React, {Component}   from 'react'
+import {connect}            from 'react-redux'
 import { TabNavigator }     from 'react-navigation'
 import { em, tabNavHeight } from '../constants/dimensions'
 import Icon                 from 'react-native-vector-icons/Ionicons'
@@ -17,37 +18,49 @@ import {
   View,
 } from 'react-native'
 
-export default function(props) {
-  var scenes = {}
+class Navigation extends Component {
+  constructor(props) {
+    super(props)
 
-  React.Children.forEach(props.children, (child, i) => {
-    if (!child || !child.props.sceneName) return;
-    scenes[child.props.sceneName || `${child.type.displayName}${i}`] = {
-      screen: () => child,
-      navigationOptions: {
-        tabBarLabel: renderTabFn(child.props),
+    var scenes = {}
+
+    React.Children.forEach(props.children, (child, i) => {
+      if (!child || !child.props.sceneName) return;
+      scenes[child.props.sceneName || `${child.type.displayName}${i}`] = {
+        screen: () => child,
+        navigationOptions: {
+          tabBarLabel: renderTabFn(child.props),
+        }
       }
+    })
+
+    this.TabNav = TabNavigator(scenes, {
+      animationEnabled: true,
+      swipeEnabled: false,
+      tabBarPosition: 'bottom',
+      lazy: true,
+      tabBarOptions: {
+        activeTintColor:         'gainsboro',
+        inactiveTintColor:       mayteBlack(1),
+        activeBackgroundColor:   mayteBlack(1),
+        inactiveBackgroundColor: mayteBlack(0.1),
+        allowFontScaling:        false,
+      },
+      initialRouteName: props.initialSceneName,
+    })
+  }
+
+  componentWillUpdate(props) {
+    if (props.scene.name != this.props.scene.name && props.scene.name.match('membership:event')) {
+      this.navigator._navigation.navigate('Membership')
     }
-  })
+  }
 
-  const TabNav = TabNavigator(scenes, {
-    animationEnabled: true,
-    swipeEnabled: false,
-    tabBarPosition: 'bottom',
-    lazy: true,
-    tabBarOptions: {
-      activeTintColor:         'gainsboro',
-      inactiveTintColor:       mayteBlack(1),
-      activeBackgroundColor:   mayteBlack(1),
-      inactiveBackgroundColor: mayteBlack(0.1),
-      allowFontScaling:        false,
-    },
-    initialRouteName: props.initialSceneName,
-  })
-
-  return (
-    <TabNav />
-  )
+  render() {
+    return (
+      <this.TabNav ref={n => this.navigator = n} />
+    )
+  }
 }
 
 const renderTabFn = (props) => {
@@ -104,3 +117,17 @@ const style = StyleSheet.create({
   navTabGradient: {position: 'absolute', top: 0, left: 0, bottom: 0, right: 0},
   navTabLabel: {fontFamily: 'Gotham-Book', letterSpacing: em(0.1), fontSize: em(0.5), marginBottom: em(0.33), backgroundColor: 'transparent'},
 })
+
+function mapStateToProps(state, ownProps) {
+  return {
+    scene: state.scene
+  }
+}
+
+function mapDispatchToProps(dispatch) {
+  return {
+
+  }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(Navigation)
