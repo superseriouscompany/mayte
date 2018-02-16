@@ -4,8 +4,8 @@ import {get, rsvp} from '../services/poop'
 import React, {Component} from 'react'
 import {connect}          from 'react-redux'
 import EventInvite        from './EventInvite'
-import EventGuests        from './EventInvite'
-import EventConfirmation  from './EventInvite'
+import EventGuests        from './EventGuests'
+import EventConfirmation  from './EventConfirmation'
 import {
   View
 } from 'react-native'
