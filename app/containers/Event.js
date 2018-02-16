@@ -13,21 +13,10 @@ import {
 class Event extends Component {
   constructor(props) {
     super(props)
-    this.state = {
-      dirty: false
-    }
-    this.rsvp = this.rsvp.bind(this)
-  }
-
-  rsvp() {
-    this.setState({dirty: true})
-    this.props.confirm().then(() => {
-      this.setState({dirty: false})
-    })
   }
 
   render() {
-    const {event, user, rsvp} = this.props
+    const {event, user, willAttend} = this.props
 
     if (!event) {
       console.error(`No event with with id ${this.props.navigation.state.params.eventId} found in store`)
@@ -41,47 +30,34 @@ class Event extends Component {
 
     const checkIn = this.props.event.checkIns.find(c => c.user.id === user.id)
     // FEEDBACK ??
-    console.log("hola", event, this.props)
     return(
-      rsvp && rsvp.status ?
+      willAttend ?
       checkIn ?
       <EventGuests {...this.props} /> :
       <EventConfirmation {...this.props} /> :
-      <EventInvite {...this.props} rsvp={this.rsvp} />
+      <EventInvite {...this.props} />
     )
   }
 }
 
 function mapStateToProps(state, ownProps) {
-  console.log('mapping from store')
   const event = state.events.find(e => e.id === ownProps.navigation.state.params.eventId)
   return {
     user: state.user,
     event: event,
-    rsvp: event.rsvps.find(r => r.user.id === state.user.id)
+    willAttend: event.rsvp.yes.find(u => u.id === state.user.id)
   }
 }
 
 function mapDispatchToProps(dispatch, ownProps) {
   return {
-    confirm: (eid, u, s) => {
+    rsvp: (eid, u, s) => {
       return rsvp(eid, u, s).then(() => get()).then(events => {
-        dispatch({type:'events:set', events})
+        if (!s) ownProps.navigation.navigate('Membership')
+        return Promise.resolve(dispatch({type:'events:set', events}))
       })
-    },
-    decline: () => {
-      ownProps.navigation.navigate('Membership')
     }
   }
 }
 
-function mergeProps(stateProps, dispatchProps, ownProps) {
-  return {
-    ...ownProps,
-    ...stateProps,
-    ...dispatchProps,
-    confirm: () => dispatchProps.confirm(stateProps.event.id, stateProps.user, true),
-  }
-}
-
-export default connect(mapStateToProps, mapDispatchToProps, mergeProps)(Event)
+export default connect(mapStateToProps, mapDispatchToProps)(Event)

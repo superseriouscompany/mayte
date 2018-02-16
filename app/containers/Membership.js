@@ -1,5 +1,6 @@
 'use strict'
 
+import {get} from '../services/poop'
 import React, {Component}                from 'react'
 import {connect}                         from 'react-redux'
 import MembershipView                    from '../components/MembershipView'
@@ -35,10 +36,17 @@ class Membership extends Component {
   }
 
   render() {
+    const {props, state} = this
+
+    const myEvents = props.events.filter(
+      e => e.invites.find(u => u.id === props.user.id)
+    ).sort((a,b) => a.startTime - b.startTime)
+
     return (
-      <MembershipView {...this.props}
+      <MembershipView {...props}
+        myEvents={myEvents}
         addPass={this.addPass}
-        loading={this.state.loading} />
+        loading={state.loading} />
     )
   }
 }
@@ -62,6 +70,10 @@ function mapDispatchToProps(dispatch) {
     },
 
     loadEvents: (accessToken) => {
+      return get().then((events) => {
+        dispatch({type: 'events:set', events})
+      })
+
       return api(`graph`, {
         method: 'POST',
         accessToken: accessToken,

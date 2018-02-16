@@ -1,10 +1,12 @@
 'use strict'
 
 import React, {Component} from 'react'
+import {ButtonBlack} from './Button'
+import Text          from './Text'
 import {
   StyleSheet,
-  Text,
   View,
+  TouchableOpacity,
 } from 'react-native'
 
 export default class EventConfirmationView extends Component {
@@ -14,6 +16,11 @@ export default class EventConfirmationView extends Component {
     return (
       <View style={styles.container}>
         <Text>You are confirmed for {props.event.title}</Text>
+        <Text>Make sure you wear clothes</Text>
+        <ButtonBlack text="Home" onPress={() => props.navigation.navigate("Membership")} />
+        <TouchableOpacity onPress={() => props.rsvp(props.event.id, props.user, false)}>
+          <Text style={styles.cancel}>Cancel RSVP</Text>
+        </TouchableOpacity>
       </View>
     )
   }
@@ -21,6 +28,11 @@ export default class EventConfirmationView extends Component {
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1
+    flex: 1,
+    paddingTop: 40,
+    alignItems: 'center',
+  },
+  cancel: {
+    textDecorationLine: 'underline'
   }
 })

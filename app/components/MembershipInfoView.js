@@ -207,6 +207,14 @@ export default class MembershipInfoView extends Component {
         contentContainerStyle={style.content}
         {...(state.contPermission ? this._panResponder.panHandlers: {})}>
 
+        { !props.myEvents[0] ? null :
+          <View style={style.nextEvent}>
+            <Text style={[style.nextEventText]}>Next Event:</Text>
+            <TouchableOpacity onPress={() => props.navigation.navigate('Event', {eventId: props.myEvents[0].id})}>
+              <Text style={[style.nextEventText, style.nextEventTitle]}>{props.myEvents[0].title}</Text>
+            </TouchableOpacity>
+          </View> }
+
         <View style={style.header}>
           <View style={style.headerPri}>
             <Image resizeMove="cover" source={{uri: props.user.photos[0].url}} style={style.mugshot}/>
@@ -274,19 +282,20 @@ const style = StyleSheet.create({
     position: 'absolute',
     left: 0,
     width: '100%',
-    paddingTop: notchHeight,
+    paddingTop: notchHeight + em(2),
     paddingLeft: screenWidth * 0.08,
     paddingRight: screenWidth * 0.08,
     width: '100%',
     height: fullHeight, // TEMP: prevent awkward overflow on spring
   },
 
-  content: {
-    alignItems: 'center',
-  },
+  content: {alignItems: 'center',},
+
+  nextEvent: {marginBottom: em(2)},
+  nextEventText: {color: mayteWhite(),textAlign: 'center',},
+  nextEventTitle: {textDecorationLine: 'underline',},
 
   header: {
-    marginTop: em(2),
   },
   headerPri: {
     flexDirection: 'row',

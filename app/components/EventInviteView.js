@@ -30,8 +30,10 @@ export default class CalendarView extends Component {
             lat={event.venue.geo.lat}
             lng={event.venue.geo.lng} />
         </View>
-        <ButtonBlack style={styles.rsvp} text="RSVP" onPress={props.confirm} />
-        <Text style={styles.decline} onPress={props.decline}>No Thanks</Text>
+        <ButtonBlack style={styles.rsvp} text="RSVP" onPress={() => props.rsvp(event.id, props.user, true)} />
+        <TouchableOpacity onPress={() => props.rsvp(event.id, props.user, false)}>
+          <Text style={styles.decline}>No Thanks</Text>
+        </TouchableOpacity>
       </ScrollView>
     )
   }
