@@ -6,8 +6,8 @@ export const events = [
  {
    title: 'Unicorn Wowza',
    venue: {
-     name: "Jumbo's",
-     geo: {latitude: 33.9982585, longitude: -118.4471769},
+     name: "Unicorn HQ",
+     geo: {latitude: 34.0853097, longitude: -118.2538206},
    },
    startTime: moment().add(7, 'days'),
    endTime: moment().add(7, 'days').add(2, 'hours'),
@@ -99,10 +99,9 @@ export function checkIn(eid, user){
   const e = events.find(evt => evt.id == eid)
   return new Promise((resolve, reject) => {
     navigator.geolocation.getCurrentPosition(d => {
-      console.log('location derta', d)
       const {latitude, longitude} = d.coords
       const distance = haversine({latitude, longitude}, e.venue.geo, {unit: 'meter'})
-      if (distance <= 30) {
+      if (distance <= 100) {
         e.checkIns.push(user)
         return resolve()
       } else {

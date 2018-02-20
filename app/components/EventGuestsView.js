@@ -15,7 +15,7 @@ export default class EventGuests extends Component {
       <View style={styles.container}>
         <Text>There will be guests:</Text>
         {
-          props.event.rsvps.filter(r => r.willAttend).map(r => <Text>{r.user.fullName}</Text>)
+          props.event.rsvp.yes.map((u,i) => <View key={i}><Text>{u.fullName}</Text></View>)
         }
       </View>
     )
