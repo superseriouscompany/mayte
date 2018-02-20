@@ -122,6 +122,14 @@ export function checkIn(eid, user){
   })
 }
 
+export function forceEnd(eid, ms){
+  const e = events.find(evt => evt.id == eid)
+  e.endTime = moment().add(ms, 'ms')
+  return new Promise((resolve, reject) => {
+    setTimeout(resolve, ms+1000)
+  })
+}
+
 export function get(){
   return Promise.resolve(events.concat())
 }

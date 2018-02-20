@@ -13,7 +13,7 @@ import {
   TouchableOpacity,
 } from 'react-native'
 
-export default class CalendarView extends Component {
+export default class EventInviteView extends Component {
   render() {
     const {props, state} = this
     const {event} = props
@@ -27,8 +27,8 @@ export default class CalendarView extends Component {
         <View style={styles.mapCont}>
           <Map
             style={styles.map}
-            lat={event.venue.geo.lat}
-            lng={event.venue.geo.lng} />
+            lat={event.venue.geo.latitude}
+            lng={event.venue.geo.longitude} />
         </View>
         <ButtonBlack style={styles.rsvp} text="RSVP" onPress={() => props.rsvp(event.id, props.user, true)} />
         <TouchableOpacity onPress={() => props.rsvp(event.id, props.user, false)}>
