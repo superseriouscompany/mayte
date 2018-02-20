@@ -212,6 +212,7 @@ export default class MembershipInfoView extends Component {
             <Text style={[style.nextEventText]}>Next Event:</Text>
             <TouchableOpacity onPress={() => props.navigation.navigate('Event', {eventId: props.myEvents[0].id})}>
               <Text style={[style.nextEventText, style.nextEventTitle]}>{props.myEvents[0].title}</Text>
+              <Text style={[style.nextEventText]}>RSVP: {props.myEvents[0].willAttend ? 'Attending' : 'Not Attending'}</Text>
             </TouchableOpacity>
           </View> }
 

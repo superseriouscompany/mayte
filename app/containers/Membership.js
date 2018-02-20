@@ -38,9 +38,12 @@ class Membership extends Component {
   render() {
     const {props, state} = this
 
-    const myEvents = props.events.filter(
-      e => e.invites.find(u => u.id === props.user.id)
+    const myEvents = props.events.filter(e =>
+      e.invites.find(u => u.id === props.user.id)
     ).sort((a,b) => a.startTime - b.startTime)
+    myEvents.forEach(e => {
+      e.willAttend = !!e.rsvp.yes.find(u => u.id === props.user.id)
+    })
 
     return (
       <MembershipView {...props}
