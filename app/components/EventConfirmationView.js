@@ -17,9 +17,15 @@ export default class EventConfirmationView extends Component {
       <View style={styles.container}>
         <Text>You are confirmed for {props.event.title}</Text>
         <Text>Make sure you wear clothes</Text>
+
         <ButtonBlack text="Home" onPress={() => props.navigation.navigate("Membership")} />
+
         <TouchableOpacity onPress={() => props.rsvp(props.event.id, props.user, false)}>
           <Text style={styles.cancel}>Cancel RSVP</Text>
+        </TouchableOpacity>
+
+        <TouchableOpacity onPress={() => props.checkIn(props.event.id, props.user, false)}>
+          <Text style={styles.cancel}>Check In</Text>
         </TouchableOpacity>
       </View>
     )

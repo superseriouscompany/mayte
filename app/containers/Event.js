@@ -1,13 +1,14 @@
 'use strict'
 
-import {get, rsvp} from '../services/poop'
+import {get, rsvp, checkIn} from '../services/poop'
 import React, {Component} from 'react'
 import {connect}          from 'react-redux'
 import EventInvite        from './EventInvite'
 import EventGuests        from './EventGuests'
 import EventConfirmation  from './EventConfirmation'
 import {
-  View
+  View,
+  Alert,
 } from 'react-native'
 
 class Event extends Component {
@@ -54,6 +55,16 @@ function mapDispatchToProps(dispatch, ownProps) {
     rsvp: (eid, u, s) => {
       return rsvp(eid, u, s).then(() => get()).then(events => {
         if (!s) ownProps.navigation.navigate('Membership')
+        return Promise.resolve(dispatch({type:'events:set', events}))
+      })
+    },
+    checkIn: (eid, u) => {
+      return checkIn(eid, u).then(error => {
+        if (error) {
+          Alert.alert('Cannot Check-In', error, {text: 'OK'})
+        }
+        return get()
+      }).then(events => {
         return Promise.resolve(dispatch({type:'events:set', events}))
       })
     }

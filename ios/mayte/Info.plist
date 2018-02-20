@@ -61,7 +61,7 @@
 		</dict>
 	</dict>
 	<key>NSLocationWhenInUseUsageDescription</key>
-	<string>Lorem ipsum</string>
+	<string>Check in at official Unicorn events and filter recommendations by distance</string>
 	<key>NSPhotoLibraryUsageDescription</key>
 	<string>Select profile photos from Camera Roll</string>
 	<key>UIAppFonts</key>
