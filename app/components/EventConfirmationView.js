@@ -2,6 +2,7 @@
 
 import React, {Component} from 'react'
 import {ButtonBlack} from './Button'
+import {em}          from '../constants/dimensions'
 import Text          from './Text'
 import {
   StyleSheet,
@@ -18,27 +19,21 @@ export default class EventConfirmationView extends Component {
         <Text>You are confirmed for {props.event.title}</Text>
         <Text>Make sure you wear clothes</Text>
 
-        <ButtonBlack text="Home" onPress={() => props.navigation.navigate("Membership")} />
+        <ButtonBlack text="Home" style={styles.home} onPress={() => props.navigation.navigate("Membership")} />
+
+        <ButtonBlack text="Check In" style={styles.checkIn} onPress={() => props.checkIn(props.event.id, props.user)} />
 
         <TouchableOpacity onPress={() => props.rsvp(props.event.id, props.user, false)}>
           <Text style={styles.cancel}>Cancel RSVP</Text>
         </TouchableOpacity>
 
-        <TouchableOpacity onPress={() => props.checkIn(props.event.id, props.user, false)}>
-          <Text style={styles.cancel}>Check In</Text>
-        </TouchableOpacity>
       </View>
     )
   }
 }
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    paddingTop: 40,
-    alignItems: 'center',
-  },
-  cancel: {
-    textDecorationLine: 'underline'
-  }
+  container: {flex: 1, paddingTop: 40, alignItems: 'center',},
+  home: {marginVertical: em(1)},
+  cancel: {textDecorationLine: 'underline', marginTop: em(2)},
 })
