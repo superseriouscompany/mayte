@@ -97,7 +97,7 @@ function mapDispatchToProps(dispatch) {
     },
     like: (userId) => {
       return dispatch(request({
-        url: `/ratings/${userId}/pass`,
+        url: `/ratings/${userId}/like`,
         method: 'POST',
       }))
     },

@@ -116,7 +116,6 @@ export function checkIn(eid, user){
         return resolve('Please try within 100 meters of the venue.')
       }
     }, err => {
-      console.log("OOPS WHERES MY KIDS:", err)
       return resolve(err.message)
     })
   })
