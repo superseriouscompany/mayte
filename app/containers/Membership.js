@@ -77,35 +77,34 @@ function mapDispatchToProps(dispatch) {
         dispatch({type: 'events:set', events})
       })
 
+      // TODO: make a graph request thing
       return api(`graph`, {
         method: 'POST',
         accessToken: accessToken,
         body: {
-          query: `
-          {
-            events{
+          query: ` {
+            events {
               id,
               title,
-              venue{
+              venue {
                 name,
                 geo{lat,lng}
               },
-              invites{
+              invites {
                 id
               },
-              rsvps{
-                user{
+              rsvps {
+                user {
                   id
                 },
                 status
               },
-              checkIns{
+              checkIns {
                 user{id},
                 time
               }
             }
-          }
-          `
+          }`
         }
       }).then(r => {
         const {events} = r.data

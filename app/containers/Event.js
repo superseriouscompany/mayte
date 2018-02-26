@@ -33,7 +33,6 @@ class Event extends Component {
 
     if (checkedIn && over) {return <EventFeedback {...this.props} />}
 
-    // FEEDBACK ??
     return(
       willAttend ?
         checkedIn ?
@@ -46,7 +45,6 @@ class Event extends Component {
 
 function mapStateToProps(state, ownProps) {
   const event = state.events.find(e => e.id === ownProps.navigation.state.params.eventId)
-  console.log("bumbumbum")
   return {
     user: state.user,
     event: event,

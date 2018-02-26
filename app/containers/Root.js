@@ -6,7 +6,6 @@ import store                from '../reducers'
 import { Provider }         from 'react-redux'
 import HydratedView         from './HydratedView'
 import NotificationProvider from '../providers/NotificationProvider'
-import EventsProvider       from '../providers/EventsProvider'
 import MatchesProvider      from '../providers/MatchesProvider'
 import DeeplinkProvider     from '../providers/DeeplinkProvider'
 import KillswitchProvider   from '../providers/KillswitchProvider'
@@ -35,7 +34,6 @@ export default class Root extends Component {
         <HydratedView style={{flex: 1}}>
           <StatusBar hidden />
           <NotificationProvider />
-          <EventsProvider />
           <MatchesProvider />
           <DeeplinkProvider />
           <KillswitchProvider />
