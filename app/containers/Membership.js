@@ -1,6 +1,6 @@
 'use strict'
 
-import {get} from '../services/poop'
+import {get} from '../services/events'
 import React, {Component}                from 'react'
 import {connect}                         from 'react-redux'
 import MembershipView                    from '../components/MembershipView'
