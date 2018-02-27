@@ -9,6 +9,7 @@ import NotificationProvider from '../providers/NotificationProvider'
 import MatchesProvider      from '../providers/MatchesProvider'
 import DeeplinkProvider     from '../providers/DeeplinkProvider'
 import KillswitchProvider   from '../providers/KillswitchProvider'
+import EventsProvider       from '../providers/EventsProvider'
 import log                  from '../services/log'
 import {
   StatusBar,
@@ -31,14 +32,15 @@ export default class Root extends Component {
   render() {
     return (
       <Provider store={store}>
-        <HydratedView style={{flex: 1}}>
+        <View style={{flex: 1}}>
           <StatusBar hidden />
           <NotificationProvider />
           <MatchesProvider />
           <DeeplinkProvider />
+          <EventsProvider />
           <KillswitchProvider />
           <Stage />
-        </HydratedView>
+        </View>
       </Provider>
     )
   }

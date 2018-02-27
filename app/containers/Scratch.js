@@ -47,7 +47,6 @@ class Scratch extends Component {
   constructor(props) {
     super(props)
     this.state = { products: [] }
-    this.buy = this.buy.bind(this)
     this.crash = this.crash.bind(this)
   }
 

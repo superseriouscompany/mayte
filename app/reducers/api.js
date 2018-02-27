@@ -25,7 +25,7 @@ export default function(state=initialState, action) {
           responses: [{
             body: action.payload,
             time,
-          }].concat(state[action.key].responses || []).slice(0, 2),
+          }].concat((state[action.key] || {}).responses || []).slice(0, 2),
         }
       }
     case 'api:no':
@@ -41,7 +41,7 @@ export default function(state=initialState, action) {
           errors: [{
             error: action.error,
             time,
-          }].concat(state[action.key].errors || []).slice(0, 2),
+          }].concat((state[action.key] || {}).errors || []).slice(0, 2),
         }
       }
 

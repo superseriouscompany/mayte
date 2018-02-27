@@ -33,7 +33,7 @@ class Recs extends Component {
 
   decorate(recs) {
     recs.forEach(u => {
-      Image.prefetch(u.photos[0].url)
+      u.photos.length && Image.prefetch(u.photos[0].url)
     })
   }
 

@@ -28,11 +28,12 @@ import logout from '../actions/logout'
 
 export default function request(args, force) {
   return function(dispatch, getState) {
-    const accessToken = (getState().user || {}).accessToken
+    const state = getState()
+    const accessToken = (state.user || {}).accessToken
     // TODO: handle querystring order
     const method      = args.method || (!!args.upload ? 'POST' : 'GET')
-    const key         = `${method.toUpperCase()} ${args.url}`
-    const isLoading   = (getState().api[key] || {}).loading
+    const key         = args.key || `${method.toUpperCase()} ${args.url}`
+    const isLoading   = (state.api[key] || {}).loading
 
     if( isLoading && !force ) {
       var err = new Error(`Not going to load ${key} twice`)
@@ -59,4 +60,16 @@ export default function request(args, force) {
       throw err
     })
   }
+}
+
+export function graph(key, query, variables) {
+  return request({
+    url: '/graph',
+    method: 'POST',
+    key,
+    body: {
+      query,
+      variables,
+    }
+  })
 }

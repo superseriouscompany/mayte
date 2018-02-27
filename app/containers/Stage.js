@@ -14,6 +14,7 @@ import VipCodeInvite          from './VipCodeInvite'
 import GenderSelector         from './GenderSelector'
 import Paywall                from './Paywall'
 import MembershipNavigation   from './MembershipNavigation'
+import Event                  from './Event'
 import VipCodeEntry           from './VipCodeEntry'
 import Quiz                   from './Quiz'
 import WaitingRoom            from './WaitingRoom'
@@ -33,7 +34,6 @@ class Stage extends PureComponent {
   constructor(props) {
     super(props)
     this.showScene = this.showScene.bind(this)
-    props.purgeScene()
   }
 
   render() {
@@ -69,7 +69,7 @@ class Stage extends PureComponent {
       <Navigation initialSceneName="Membership">
         <Settings sceneName="Settings"
           label="Settings" iconFocused="ios-person" iconUnfocused="ios-person-outline" />
-        <MembershipNavigation sceneName="Membership"
+        <Event sceneName="Membership"
           label="Membership" iconFocused="ios-key" iconUnfocused="ios-key-outline" />
 
         { props.isAdmin ?
@@ -116,12 +116,11 @@ function mapStateToProps(state) {
 
 function mapDispatchToProps(dispatch) {
   return {
-    purgeScene: () => dispatch({type:'scene:change', scene: ''})
   }
 }
 
 const style = StyleSheet.create({
-  container: {flex: 1,},
+  container: {flex: 1},
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(Stage)
