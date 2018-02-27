@@ -22,13 +22,13 @@ export default class EventInviteView extends Component {
         <View style={styles.header}>
           <Text style={styles.title}>{event.title}</Text>
           <Text>{event.venue.name}</Text>
-          <Text>{moment(event.startTime).format('MMM Do YYYY, HH:MM')}</Text>
+          <Text>{moment(parseInt(event.startTime)).format('MMM Do YYYY, h:mma')}</Text>
         </View>
         <View style={styles.mapCont}>
           <Map
             style={styles.map}
-            lat={event.venue.geo.latitude}
-            lng={event.venue.geo.longitude} />
+            lat={event.venue.geo.lat}
+            lng={event.venue.geo.lng} />
         </View>
         <ButtonBlack style={styles.rsvp} text="RSVP" onPress={() => props.rsvp(event.id, props.user, true)} />
         <TouchableOpacity onPress={() => props.rsvp(event.id, props.user, false)}>

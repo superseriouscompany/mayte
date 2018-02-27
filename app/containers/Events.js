@@ -1,23 +1,12 @@
-import {get, rsvp, checkIn, forceEnd} from '../services/events'
-import moment             from 'moment'
 import React, {Component} from 'react'
 import {connect}          from 'react-redux'
+import EventsView         from '../components/EventsView'
 import {eventsKey}        from '../reducers/api'
-import EventView          from '../components/EventView'
-import {
-  View,
-  Alert,
-} from 'react-native'
 
-
-class Event extends Component {
-  constructor(props) {
-    super(props)
-  }
-
+class Events extends Component {
   render() {
     return (
-      <EventView {...this.props} />
+      <EventsView {...this.props} />
     )
   }
 }
@@ -37,4 +26,4 @@ function mapDispatchToProps(dispatch) {
   }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(Event)
+export default connect(mapStateToProps, mapDispatchToProps)(Events)

@@ -1,8 +1,7 @@
 import React, {Component} from 'react'
 import {connect}          from 'react-redux'
 import {graph}            from '../actions/request'
-
-const eventsKey = 'events'
+import {eventsKey}        from '../reducers/api'
 
 class EventsProvider extends Component {
   componentWillReceiveProps(props) {
@@ -32,6 +31,15 @@ function mapDispatchToProps(dispatch) {
         events {
           id
           title
+          description
+          startTime
+          venue {
+            name
+            geo {
+              lat
+              lng
+            }
+          }
         }
       }`))
     }

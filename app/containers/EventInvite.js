@@ -17,7 +17,7 @@ class EventInvite extends Component {
 
 function mapStateToProps(state) {
   return {
-
+    
   }
 }
 

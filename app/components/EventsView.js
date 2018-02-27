@@ -1,6 +1,4 @@
 import React, {Component} from 'react'
-import EventInvite        from '../containers/EventInvite'
-import moment             from 'moment'
 import {
   ActivityIndicator,
   StyleSheet,
@@ -22,20 +20,24 @@ export default function(props) {
           <Text>No events found.</Text>
         </View>
       :
-        <EventInvite event={props.events[0]}/>
+        <View style={styles.container}>
+          {props.events.map((e, key) => (
+            <Text key={key}>{e.title}</Text>
+          ))}
+        </View>
       }
-      <Text></Text>
     </View>
   )
 }
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
+    flex:    1,
+    padding: 20,
   },
   centered: {
     justifyContent: 'center',
     alignItems:     'center',
-    flex: 1,
-  },
+    flex:           1,
+  }
 })

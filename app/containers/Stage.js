@@ -14,6 +14,7 @@ import VipCodeInvite          from './VipCodeInvite'
 import GenderSelector         from './GenderSelector'
 import Paywall                from './Paywall'
 import MembershipNavigation   from './MembershipNavigation'
+import Events                 from './Events'
 import Event                  from './Event'
 import VipCodeEntry           from './VipCodeEntry'
 import Quiz                   from './Quiz'
@@ -39,18 +40,17 @@ class Stage extends PureComponent {
   render() {
     const {props} = this
 
-    return !props.isHydrated ?
-      null
-    : useScratch ?
+    return useScratch ?
       <Scratch />
     :
       <View style={[style.container]}>
-        { this.showScene(props.sceneName) }
+        { this.showScene() }
       </View>
   }
 
-  showScene(sceneName) {
-    const {props} = this
+  showScene() {
+    const {props}     = this
+    const {sceneName} = props
 
     if( sceneName == 'VipCodeInvite' ) {
       return <VipCodeInvite />
@@ -65,51 +65,22 @@ class Stage extends PureComponent {
     : !props.isApproved && features.approval ? <WaitingRoom />
     : !props.isActive      ? <Paywall />
     : !props.hasGender     ? <GenderSelector />
+    : sceneName == 'event' ?
+      <Event />
     :
-      <Navigation initialSceneName="Membership">
-        <Settings sceneName="Settings"
-          label="Settings" iconFocused="ios-person" iconUnfocused="ios-person-outline" />
-        <Event sceneName="Membership"
-          label="Membership" iconFocused="ios-key" iconUnfocused="ios-key-outline" />
-
-        { props.isAdmin ?
-          <Recs sceneName="Recs"
-            label="Suggestions" iconFocused="ios-heart" iconUnfocused="ios-heart-outline" />
-        :
-          <RecsPreview sceneName="Recs"
-            label="Suggestions" iconFocused="ios-heart" iconUnfocused="ios-heart-outline"/>
-        }
-        { !props.isAdmin ? null :
-          <MatchBridge sceneName="Matches"
-            label="Matches" iconFocused="ios-chatbubbles" iconUnfocused="ios-chatbubbles-outline" />
-        }
-
-      </Navigation>
+      <Events />
     )
   }
 }
 
 function mapStateToProps(state) {
-  // TODO: this hack is here bc changing the scene
-  // makes this re-render, and re-rendering resets to the `initialSceneName`
-  // of Navigation.
-  var sceneName = state.scene && state.scene.name
-  switch(sceneName) {
-    case 'VipCodeEntry': case 'VipCodeInvite': case 'Dead':
-      break;
-    default:
-      sceneName = 'Hack'
-  }
-
   return {
     authenticated: !!state.user.accessToken,
-    isActive:      !!state.user.active,
-    isHydrated:    !!state.hydrated,
-    isAdmin:       !!state.user.isAdmin,
     hasApplied:    !!state.user.appliedAt,
     isApproved:    !!state.user.approvedAt,
+    isActive:      !!state.user.active,
     hasGender:     !!(state.user.preferences || {}).gender,
-    sceneName:     sceneName,
+    sceneName:     state.scene && state.scene.name,
     vipCode:       state.vip.code,
   }
 }

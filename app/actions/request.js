@@ -48,7 +48,8 @@ export default function request(args, force) {
       api.upload({accessToken, path: args.url, ...args})
 
     return httpRequest.then((json) => {
-      dispatch({type: 'api:yes', payload: json, key})
+      const payload = json.data || json
+      dispatch({type: 'api:yes', payload, key})
       return json
     }).catch((err) => {
       dispatch({type: 'api:no', error: err, key})
