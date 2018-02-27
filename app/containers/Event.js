@@ -22,12 +22,13 @@ class Event extends Component {
   }
 }
 
-function mapStateToProps(state) {
+function mapStateToProps(state, props) {
   const apiCall = state.api[eventsKey] || {}
+  const events = apiCall.body && apiCall.body.events || []
+  const event = events.find(e => e.id == props.id)
 
   return {
-    loading: apiCall.loading,
-    events:  apiCall.body && apiCall.body.events
+    event,
   }
 }
 

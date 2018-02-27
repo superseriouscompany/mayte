@@ -22,7 +22,9 @@ function mapStateToProps(state) {
 
 function mapDispatchToProps(dispatch) {
   return {
-
+    showEvent: (event) => {
+      dispatch({type: 'scene:change', scene: { name: 'Event', id: event.id}})
+    }
   }
 }
 

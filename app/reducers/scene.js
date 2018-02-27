@@ -17,7 +17,6 @@ export default function(state=initialState, action) {
       return {
         ...state,
         ...(typeof scene === 'string' ? {name: action.scene} : action.scene),
-        data: action.data || {}
       }
     default:
       return state

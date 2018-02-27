@@ -3,6 +3,7 @@ import {
   ActivityIndicator,
   StyleSheet,
   Text,
+  TouchableOpacity,
   View,
 } from 'react-native'
 
@@ -22,7 +23,9 @@ export default function(props) {
       :
         <View style={styles.container}>
           {props.events.map((e, key) => (
-            <Text key={key}>{e.title}</Text>
+            <TouchableOpacity key={key} onPress={() => props.showEvent(e)}>
+              <Text>{e.title}</Text>
+            </TouchableOpacity>
           ))}
         </View>
       }

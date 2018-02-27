@@ -1,6 +1,6 @@
 'use strict'
 
-import React, {PureComponent} from 'react'
+import React, {Component} from 'react'
 import {connect}              from 'react-redux'
 import LinearGradient         from 'react-native-linear-gradient'
 import Login                  from './Login'
@@ -31,7 +31,7 @@ import {
 
 const useScratch = false
 
-class Stage extends PureComponent {
+class Stage extends Component {
   constructor(props) {
     super(props)
     this.showScene = this.showScene.bind(this)
@@ -39,8 +39,11 @@ class Stage extends PureComponent {
 
   render() {
     const {props} = this
+    console.log('rendering stage')
 
-    return useScratch ?
+    return !props.hydrated ?
+      null
+    : useScratch ?
       <Scratch />
     :
       <View style={[style.container]}>
@@ -49,13 +52,13 @@ class Stage extends PureComponent {
   }
 
   showScene() {
-    const {props}     = this
-    const {sceneName} = props
+    const {props} = this
+    const {scene} = props
 
-    if( sceneName == 'VipCodeInvite' ) {
+    if( scene.name == 'VipCodeInvite' ) {
       return <VipCodeInvite />
     }
-    if( sceneName == 'Dead' ) {
+    if( scene.name == 'Dead' ) {
       return <Dead />
     }
 
@@ -65,8 +68,8 @@ class Stage extends PureComponent {
     : !props.isApproved && features.approval ? <WaitingRoom />
     : !props.isActive      ? <Paywall />
     : !props.hasGender     ? <GenderSelector />
-    : sceneName == 'event' ?
-      <Event />
+    : scene.name == 'Event' ?
+      <Event id={scene.id}/>
     :
       <Events />
     )
@@ -80,8 +83,9 @@ function mapStateToProps(state) {
     isApproved:    !!state.user.approvedAt,
     isActive:      !!state.user.active,
     hasGender:     !!(state.user.preferences || {}).gender,
-    sceneName:     state.scene && state.scene.name,
+    scene:         state.scene,
     vipCode:       state.vip.code,
+    hydrated:      !!state.hydrated,
   }
 }
 

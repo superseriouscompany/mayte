@@ -11,18 +11,12 @@ import {
 export default function(props) {
   return (
     <View style={styles.container}>
-      { props.loading ?
+      { props.event ?
+        <EventInvite event={props.event}/>
+      :
         <View style={styles.centered}>
           <ActivityIndicator />
         </View>
-      : !props.events ?
-        null
-      : !props.events.length ?
-        <View style={styles.centered}>
-          <Text>No events found.</Text>
-        </View>
-      :
-        <EventInvite event={props.events[0]}/>
       }
       <Text></Text>
     </View>
