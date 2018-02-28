@@ -8,10 +8,6 @@ class EventsProvider extends Component {
     if( props.isActive && !this.props.isActive ) {
       this.props.fetch()
     }
-
-    if( props.dirty && !this.props.dirty ) {
-      this.props.fetch()
-    }
   }
 
   render() { return null }
@@ -19,8 +15,7 @@ class EventsProvider extends Component {
 
 function mapStateToProps(state) {
   return {
-    isActive:        !!state.user.active && !!state.user.id,
-    dirty:           state.matches.dirty,
+    isActive: !!state.user.active && !!state.user.id,
   }
 }
 

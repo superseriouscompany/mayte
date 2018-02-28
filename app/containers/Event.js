@@ -1,4 +1,3 @@
-import {get, rsvp, checkIn, forceEnd} from '../services/events'
 import moment             from 'moment'
 import React, {Component} from 'react'
 import {connect}          from 'react-redux'

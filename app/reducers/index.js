@@ -51,7 +51,7 @@ const persistence = persistStore(store, {storage: AsyncStorage, whitelist: [
   'user',
   'vip',
   'products',
-  // 'api',
+  'api',
   'quiz',
   'permissions',
   'events',
