@@ -2,7 +2,8 @@
 
 import React, {Component} from 'react'
 import {connect}          from 'react-redux'
-import EventInviteView       from '../components/EventInviteView'
+import EventInviteView    from '../components/EventInviteView'
+import {graph, rsvpKey}   from '../actions/request'
 
 class EventInvite extends Component {
   constructor(props) {
@@ -17,13 +18,19 @@ class EventInvite extends Component {
 
 function mapStateToProps(state) {
   return {
-    
+
   }
 }
 
 function mapDispatchToProps(dispatch, ownProps) {
   return {
-
+    rsvp: function(eventId, willAttend) {
+      return dispatch(graph(rsvpKey, `
+        mutation rsvp($eventId: ID!, $willAttend: Boolean) {
+          ok:rsvp(eventId: $eventId, willAttend: $willAttend)
+        }
+      `, { eventId, willAttend}))
+    }
   }
 }
 

@@ -30,8 +30,10 @@ export default class EventInviteView extends Component {
             lat={event.venue.geo.lat}
             lng={event.venue.geo.lng} />
         </View>
-        <ButtonBlack style={styles.rsvp} text="RSVP" onPress={() => props.rsvp(event.id, props.user, true)} />
-        <TouchableOpacity onPress={() => props.rsvp(event.id, props.user, false)}>
+
+        <Text>RSVP</Text>
+        <ButtonBlack style={styles.rsvp} text="Yes" onPress={() => props.rsvp(event.id, true)} />
+        <TouchableOpacity onPress={() => props.rsvp(event.id, false)}>
           <Text style={styles.decline}>No Thanks</Text>
         </TouchableOpacity>
       </ScrollView>

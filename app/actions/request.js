@@ -74,3 +74,5 @@ export function graph(key, query, variables) {
     }
   })
 }
+
+export const rsvpKey = 'rsvp'
