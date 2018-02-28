@@ -39,7 +39,6 @@ class Stage extends Component {
 
   render() {
     const {props} = this
-    console.log('rendering stage')
 
     return !props.hydrated ?
       null
