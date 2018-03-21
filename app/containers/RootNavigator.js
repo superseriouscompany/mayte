@@ -6,6 +6,9 @@ import MatchBridge from './MatchBridge'
 import RecsNavigator from './RecsNavigator'
 import RootNavigatorView from '../components/RootNavigatorView'
 import {
+  rootNav,
+} from '../constants/dimensions'
+import {
   DrawerNavigator,
   withNavigation,
 } from 'react-navigation'
@@ -29,7 +32,7 @@ class RootNavigator extends Component {
       }
     }, {
       contentComponent: RootNavigatorView,
-      drawerWidth: 300,
+      drawerWidth: rootNav.width,
       initialRouteName: 'Recs',
       // https://github.com/react-navigation/react-navigation/issues/3095#issuecomment-353371823
       drawerOpenRoute: 'DrawerOpen',
@@ -52,7 +55,6 @@ class RootNavigator extends Component {
         ref={n => this.navigator = n}
         screenProps={{
           rootNav: this.navigator ? this.navigator._navigation : null,
-          boop: 'beep',
         }} />
     )
   }

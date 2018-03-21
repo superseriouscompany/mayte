@@ -274,7 +274,7 @@ const style = StyleSheet.create({
     position: 'absolute',
     left: 0,
     width: '100%',
-    paddingTop: notchHeight,
+    // paddingTop: notchHeight,
     paddingLeft: screenWidth * 0.08,
     paddingRight: screenWidth * 0.08,
     width: '100%',
@@ -286,7 +286,7 @@ const style = StyleSheet.create({
   },
 
   header: {
-    marginTop: em(2),
+    // marginTop: em(2),
   },
   headerPri: {
     flexDirection: 'row',

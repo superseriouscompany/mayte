@@ -65,7 +65,7 @@ const styles = StyleSheet.create({
     marginBottom: em(1),
   },
   linkText: {
-    fontSize: em(1),
+    fontSize: em(1.33),
     color: mayteWhite()
   }
 })
