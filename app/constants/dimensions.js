@@ -3,6 +3,12 @@ import { Dimensions, Platform } from 'react-native'
 const dimensions = Dimensions.get('window')
 const emBase     = dimensions.width <= 320 ? 12.8 : 16
 
+export const rootNav = {
+  width: 300,
+  toggleWidth: 40,
+  toggleHeight: 40,
+}
+
 export const screenWidth       = dimensions.width
 export const screenHeight      = dimensions.height
 export const tabNavHeight      = 50 * (emBase/16)

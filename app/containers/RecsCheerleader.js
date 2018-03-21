@@ -1,8 +1,38 @@
 import React, {Component}  from 'react'
 import {connect}           from 'react-redux'
 import RecsCheerleaderView from '../components/RecsCheerleaderView'
+import request             from '../actions/request'
+import log                 from '../services/log'
+import {
+  Image
+} from 'react-native'
 
 class RecsCheerleader extends Component {
+  constructor(props) {
+    super(props)
+    this.decorate = this.decorate.bind(this)
+    this.state = {
+      viewHeight: 0,
+      index: 0,
+    }
+  }
+
+  componentDidMount() {
+    this.props.loadRecs()
+    this.decorate(this.props.recs)
+  }
+
+  componentWillReceiveProps(props) {
+    if( props.recs.length == this.props.recs.length ) { return }
+    this.decorate(props.recs)
+  }
+
+  decorate(recs) {
+    recs.forEach(u => {
+      Image.prefetch(u.photos[0].url)
+    })
+  }
+
   render() {
     return (
       <RecsCheerleaderView {...this.props} />

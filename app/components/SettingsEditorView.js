@@ -8,6 +8,7 @@ import OrbitLoader               from './OrbitLoader'
 import {SpaceSky, StarSystem} from './Environment'
 import {
   em,
+  rootNav,
   statusBarHeight,
   bottomBoost,
   tabNavHeight,
@@ -32,7 +33,7 @@ export default (props) => {
   const oldest   = moment().subtract(100, 'years')
   const youngest = moment().subtract(18, 'years')
   return(
-    <View style={style.container}>
+    <View style={[style.container, {paddingTop: rootNav.toggleHeight + statusBarHeight + em(2)}]}>
       <SpaceSky style={style.bg}>
         <StarSystem count={6} loopLength={240000} starProps={{size: 1, twinkle: true, style: {opacity: 1}}}></StarSystem>
         <StarSystem count={15} loopLength={120000} starProps={{size: 0.66, twinkle: false, style: {opacity: 0.66}}}></StarSystem>
@@ -41,19 +42,6 @@ export default (props) => {
 
       <KeyboardAwareScrollView style={[style.container]}
                   scrollEnabled={props.scrollEnabled}>
-        <View style={[style.header, style.padded]}>
-          <TouchableOpacity onPress={props.cancelEdit}>
-            <Text style={[style.text, style.headerBtn]}>CANCEL</Text>
-          </TouchableOpacity>
-
-          <TouchableOpacity onPress={props.saving ? null : props.save}>
-            <Text style={[style.text, style.headerBtn, {opacity: props.saving ? 0 : 1}]}>SAVE</Text>
-            { props.saving ?
-              <View style={{position: 'absolute', right: orbitLoaderRadius/2, top: -(orbitLoaderRadius/2)}}>
-                <OrbitLoader color='white' radius={orbitLoaderRadius} orbRadius={orbitLoaderRadius/4} />
-              </View> : null }
-          </TouchableOpacity>
-        </View>
 
         {/* PHOTOS */}
         <SettingsEditorPhotos {...props} />
@@ -124,6 +112,14 @@ export default (props) => {
         }
         </View>
       </KeyboardAwareScrollView>
+
+      <TouchableOpacity style={style.headerBtn} onPress={props.saving ? null : props.save}>
+        <Text style={[style.text, style.headerBtnText, {opacity: props.saving ? 0 : 1}]}>SAVE</Text>
+        { props.saving ?
+          <View style={{position: 'absolute', right: orbitLoaderRadius/2, top: -(orbitLoaderRadius/2)}}>
+            <OrbitLoader color='white' radius={orbitLoaderRadius} orbRadius={orbitLoaderRadius/4} />
+          </View> : null }
+      </TouchableOpacity>
     </View>
   )
 }
@@ -136,7 +132,7 @@ const style = StyleSheet.create({
     position: 'absolute',
     top: 0, left: 0,
     width: screenWidth,
-    height: screenHeight - tabNavHeight - bottomBoost,
+    height: screenHeight,
   },
   text: {
     color: 'white',
@@ -155,6 +151,11 @@ const style = StyleSheet.create({
     marginBottom: em(2),
   },
   headerBtn: {
+    position: 'absolute',
+    top: em(2) + statusBarHeight,
+    right: em(1),
+  },
+  headerBtnText: {
     fontSize: em(1),
     letterSpacing: em(0.1),
     fontFamily: 'Gotham-Book',

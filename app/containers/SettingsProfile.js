@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import ProfileView from '../components/ProfileView'
+import ProfileView from '../components/TempProfileView'
 import LinearGradient from 'react-native-linear-gradient'
 import {mayteWhite, mayteBlack} from '../constants/colors'
 import { em, matchHeaderHeight, statusBarHeight } from '../constants/dimensions'
@@ -21,26 +21,24 @@ export default class SettingsProfile extends Component {
     const { props, state } = this
     return(
       <View style={style.container}>
-        <View style={[style.header]}>
-          <TouchableOpacity onPress={() => props.viewSettingsPage('Preferences')}
-                            style={[style.headerBtn, {marginLeft: em(1)}]}>
-            <LinearGradient colors={[mayteWhite(0.9), mayteWhite()]} style={style.btnGrad} />
-            <Image source={require('../images/settings-black.png')}
-                   resizeMode='contain'
-                   style={[style.headerIcon]} />
-          </TouchableOpacity>
-          <TouchableOpacity onPress={() => props.viewSettingsPage('Editor')}
-                            style={[style.headerBtn, {marginRight: em(1)}]}>
-            <LinearGradient colors={[mayteWhite(0.9), mayteWhite()]} style={style.btnGrad} />
-            <Image source={require('../images/edit-black.png')}
-                   resizeMode='contain'
-                   style={[style.headerIcon]} />
-          </TouchableOpacity>
-        </View>
         <ProfileView {...props} {...state}
                      myProfile={true}
                      setHeight={(h) => this.setState({viewHeight: h})}
                      hideButtons={true} />
+       <TouchableOpacity onPress={() => props.viewSettingsPage('Preferences')}
+                         style={[style.headerBtn]}>
+         <LinearGradient colors={[mayteWhite(0.9), mayteWhite()]} style={style.btnGrad} />
+         <Image source={require('../images/settings-black.png')}
+                resizeMode='contain'
+                style={[style.headerIcon]} />
+       </TouchableOpacity>
+       <TouchableOpacity onPress={() => props.viewSettingsPage('Editor')}
+                         style={[style.headerBtn, {top:em(5)}]}>
+         <LinearGradient colors={[mayteWhite(0.9), mayteWhite()]} style={style.btnGrad} />
+         <Image source={require('../images/edit-black.png')}
+                resizeMode='contain'
+                style={[style.headerIcon]} />
+       </TouchableOpacity>
       </View>
     )
   }
@@ -50,21 +48,12 @@ const style = StyleSheet.create({
   container: {
     flex: 1,
   },
-  header: {
-    marginTop: em(1.33),
-    paddingTop: statusBarHeight,
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'space-between',
-    position: 'absolute',
-    width: '100%',
-    height: 40,
-    top: 0,
-    zIndex: 1,
-  },
   headerBtn: {
     width: em(3),
     height: em(3),
+    right: em(1),
+    top: statusBarHeight + em(1),
+    position: 'absolute',
     justifyContent: 'center',
     alignItems: 'center',
   },

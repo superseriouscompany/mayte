@@ -13,7 +13,7 @@ class Profile extends Component {
       <ProfileView
         {...this.props}
         setHeight={()=>null}
-        viewHeight={screenHeight-bottomBoost-tabNavHeight-10}
+        viewHeight={screenHeight}
         user={this.props.navigation.state.params.user} />
     )
   }

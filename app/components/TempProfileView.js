@@ -9,7 +9,6 @@ import log                from '../services/log'
 import {
   NavigationActions
 } from 'react-navigation'
-
 import {
   screenWidth,
   screenHeight,
@@ -134,10 +133,11 @@ export default class ProfileView extends Component {
               open: boo,
            })} />
 
-          <TouchableOpacity
-            onPress={() => props.navigation.dispatch(NavigationActions.back({key: null}))}
-            style={styles.backBtn}>
-          </TouchableOpacity>
+         { props.myProfile ? null :
+           <TouchableOpacity
+             onPress={() => props.navigation.dispatch(NavigationActions.back({key: null}))}
+             style={styles.backBtn}>
+           </TouchableOpacity> }
       </View>
     )
   }
@@ -148,5 +148,5 @@ const styles = StyleSheet.create({
   container: { flex: 1 },
   gradient: { position: 'relative', width: '100%', height: '100%', },
   mask: { position: 'absolute', top: 0, left: 0, width: screenWidth, height: screenHeight, backgroundColor: mayteBlack(0.9), },
-  backBtn: { position: 'absolute', top: 20, left: 20, width: 40, height: 40, backgroundColor: 'seagreen' }
+  backBtn: { position: 'absolute', top: em(1), right: em(1), width: 40, height: 40, backgroundColor: 'seagreen' }
 })
