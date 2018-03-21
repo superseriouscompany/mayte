@@ -5,6 +5,7 @@ import {connect}              from 'react-redux'
 import LinearGradient         from 'react-native-linear-gradient'
 import Login                  from './Login'
 import Recs                   from './Recs'
+import RecsNavigator          from './RecsNavigator'
 import RecsCheerleader        from './RecsCheerleader'
 import RecsPreview            from './RecsPreview'
 import Settings               from './Settings'
@@ -26,6 +27,7 @@ import {
   StyleSheet,
   View,
 } from 'react-native'
+
 
 const useScratch = false
 
@@ -72,7 +74,7 @@ class Stage extends PureComponent {
           label="Membership" iconFocused="ios-key" iconUnfocused="ios-key-outline"/>
 
         { props.isAdmin ?
-          <RecsCheerleader sceneName="Recs"
+          <RecsNavigator sceneName="Recs"
             label="Suggestions" iconFocused="ios-heart" iconUnfocused="ios-heart-outline" />
         :
           <RecsPreview sceneName="Recs"

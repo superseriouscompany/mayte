@@ -15,36 +15,36 @@ import {
   Text,
   View,
   Image,
+  TouchableOpacity,
   ScrollView,
 } from 'react-native'
 
-export default class RecsCheerleaderView extends Component {
-  render() {
-    const {props} = this
-
-    return (
-      <View style={styles.container}>
-        <ScrollView
-          style={styles.scroll}
-          contentContainerStyle={styles.scrollCnr}
-          showsVerticalScrollIndicator={false}>
-        { (props.recs.filter(u => u.photos[0].url)||[]).map((r,i) => {
-          return (
-            <View key={i} style={[styles.rec, {
-              marginLeft: i%2 ? em(0.25) : em(0.5),
-              marginRight: i%2 ? em(0.5) : em(0.25),
-              transform: [{translateY: i%2 ? tileOffset : 0}]
-            }]}>
-              <Image style={styles.recImg} source={{url: r.photos[0].url}} resizeMode={'cover'} />
-              <LinearGradient colors={[mayteBlack(0), mayteBlack(0.5)]} style={[styles.recGrad]} />
-              <Text style={styles.recName}>{r.fullName.split(' ')[0]}</Text>
-            </View>
-          )
-        }) }
-        </ScrollView>
-      </View>
-    )
-  }
+export default (props) => {
+  return (
+    <View style={styles.container}>
+      <ScrollView
+        style={styles.scroll}
+        contentContainerStyle={styles.scrollCnr}
+        showsVerticalScrollIndicator={false}>
+      { (props.recs.filter(u => u.photos[0].url)||[]).map((r,i) => {
+        return (
+          <TouchableOpacity
+            key={i}
+            onPress={() => props.navigation.navigate('Bloobs', {boop: 'beep'})}
+            style={[styles.rec, {
+            marginLeft: i%2 ? em(0.25) : em(0.5),
+            marginRight: i%2 ? em(0.5) : em(0.25),
+            transform: [{translateY: i%2 ? tileOffset : 0}]
+          }]}>
+            <Image style={styles.recImg} source={{url: r.photos[0].url}} resizeMode={'cover'} />
+            <LinearGradient colors={[mayteBlack(0), mayteBlack(0.5)]} style={[styles.recGrad]} />
+            <Text style={styles.recName}>{r.fullName.split(' ')[0]}</Text>
+          </TouchableOpacity>
+        )
+      }) }
+      </ScrollView>
+    </View>
+  )
 }
 
 const recDims = {
