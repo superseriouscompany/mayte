@@ -5,6 +5,7 @@ import {connect}              from 'react-redux'
 import LinearGradient         from 'react-native-linear-gradient'
 import Login                  from './Login'
 import Recs                   from './Recs'
+import RecsCheerleader        from './RecsCheerleader'
 import RecsPreview            from './RecsPreview'
 import Settings               from './Settings'
 import MatchBridge            from './MatchBridge'
@@ -64,14 +65,14 @@ class Stage extends PureComponent {
     : !props.isActive      ? <Paywall />
     : !props.hasGender     ? <GenderSelector />
     :
-      <Navigation initialSceneName="VelvetRope">
+      <Navigation initialSceneName="Recs">
         <Settings sceneName="Settings"
           label="Settings" iconFocused="ios-person" iconUnfocused="ios-person-outline" />
         <VelvetRope sceneName="VelvetRope"
           label="Membership" iconFocused="ios-key" iconUnfocused="ios-key-outline"/>
 
         { props.isAdmin ?
-          <Recs sceneName="Recs"
+          <RecsCheerleader sceneName="Recs"
             label="Suggestions" iconFocused="ios-heart" iconUnfocused="ios-heart-outline" />
         :
           <RecsPreview sceneName="Recs"
