@@ -30,7 +30,7 @@ export default (props) => {
         return (
           <TouchableOpacity
             key={i}
-            onPress={() => props.navigation.navigate('Bloobs', {boop: 'beep'})}
+            onPress={() => props.navigation.navigate('Rec', {user: r})}
             style={[styles.rec, {
             marginLeft: i%2 ? em(0.25) : em(0.5),
             marginRight: i%2 ? em(0.5) : em(0.25),

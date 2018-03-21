@@ -1,5 +1,6 @@
 import React, {Component} from 'react'
 import RecsCheerleader from './RecsCheerleader'
+import Profile from './Profile'
 import ProfileView from '../components/ProfileView'
 import type {
   NavigationScreenProp,
@@ -30,7 +31,7 @@ const RecsNavigator = StackNavigator({
 
   },
   Rec: {
-    screen: ProfileView,
+    screen: Profile,
   },
   Bloobs: {
     screen: Bloobs,
