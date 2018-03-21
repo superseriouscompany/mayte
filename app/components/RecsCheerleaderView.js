@@ -56,7 +56,7 @@ const tileOffset = em(3)
 
 const styles = StyleSheet.create({
   container: { flex: 1 },
-  scroll: { width: '100%', flex: 1, },
+  scroll: { width: '100%', flex: 1, backgroundColor: mayteWhite() },
   scrollCnr: { paddingTop: em(0.5) + notchHeight, paddingBottom: tileOffset, flexDirection: 'row', flexWrap: 'wrap', },
   rec: { ...recDims, marginBottom: em(0.5), justifyContent: 'flex-end', paddingBottom: em(1), alignItems: 'center', },
   recImg: { position: 'absolute', top: 0, left: 0, right: 0, bottom: 0 },

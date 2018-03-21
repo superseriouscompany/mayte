@@ -4,8 +4,11 @@ import LinearGradient     from 'react-native-linear-gradient'
 import Icon               from 'react-native-vector-icons/Ionicons'
 import {mayteBlack}       from '../constants/colors'
 // TODO: rename this to containers/ProfileInfo
-import ProfileInfoView    from '../containers/ProfileInfoView'
+import ProfileInfoView    from '../components/TempProfileInfoView'
 import log                from '../services/log'
+import {
+  NavigationActions
+} from 'react-navigation'
 
 import {
   screenWidth,
@@ -132,7 +135,7 @@ export default class ProfileView extends Component {
            })} />
 
           <TouchableOpacity
-            onPress={() => props.navigation.navigate('Recs')}
+            onPress={() => props.navigation.dispatch(NavigationActions.back({key: null}))}
             style={styles.backBtn}>
           </TouchableOpacity>
       </View>
