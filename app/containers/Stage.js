@@ -28,6 +28,8 @@ import {
   View,
 } from 'react-native'
 
+import RootNavigator from './RootNavigator'
+
 
 const useScratch = false
 
@@ -66,7 +68,7 @@ class Stage extends PureComponent {
     : !props.isApproved && features.approval ? <WaitingRoom />
     : !props.isActive      ? <Paywall />
     : !props.hasGender     ? <GenderSelector />
-    :
+    : true ? <RootNavigator /> :
       <Navigation initialSceneName="Recs">
         <Settings sceneName="Settings"
           label="Settings" iconFocused="ios-person" iconUnfocused="ios-person-outline" />
