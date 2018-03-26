@@ -88,7 +88,6 @@ export default class ProfileView extends Component {
 
   render() {
     const { props, state } = this
-
     return(
       <View style={[styles.container]}>
         <FlatList style={[styles.container, {backgroundColor: mayteBlack()}]}
@@ -148,5 +147,5 @@ const styles = StyleSheet.create({
   container: { flex: 1 },
   gradient: { position: 'relative', width: '100%', height: '100%', },
   mask: { position: 'absolute', top: 0, left: 0, width: screenWidth, height: screenHeight, backgroundColor: mayteBlack(0.9), },
-  backBtn: { position: 'absolute', top: em(1), right: em(1), width: 40, height: 40, backgroundColor: 'seagreen' }
+  backBtn: { opacity: 0, position: 'absolute', top: em(1), right: em(1), width: 40, height: 40, backgroundColor: 'seagreen' }
 })

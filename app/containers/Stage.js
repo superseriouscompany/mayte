@@ -9,7 +9,7 @@ import RecsNavigator          from './RecsNavigator'
 import RecsCheerleader        from './RecsCheerleader'
 import RecsPreview            from './RecsPreview'
 import Settings               from './Settings'
-import MatchBridge            from './MatchBridge'
+import MatchesNavigator            from './MatchesNavigator'
 import Navigation             from './Navigation'
 import Scratch                from './Scratch'
 import VipCodeInvite          from './VipCodeInvite'
@@ -83,7 +83,7 @@ class Stage extends PureComponent {
             label="Suggestions" iconFocused="ios-heart" iconUnfocused="ios-heart-outline"/>
         }
         { !props.isAdmin ? null :
-          <MatchBridge sceneName="Matches"
+          <MatchesNavigator sceneName="Matches"
             label="Matches" iconFocused="ios-chatbubbles" iconUnfocused="ios-chatbubbles-outline" />
         }
 

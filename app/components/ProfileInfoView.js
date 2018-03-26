@@ -233,7 +233,7 @@ export default class ProfileInfoView extends Component {
         </View>
         { props.hideButtons ? null :
           <View style={[style.tray]}>
-            <TouchableOpacity>
+            <TouchableOpacity onPress={() => props.screenProps.rootNav.navigate('Chat', {user: props.user})}>
               <Image
                 style={style.bubble}
                 resizeMode='contain'

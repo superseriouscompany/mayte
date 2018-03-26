@@ -14,26 +14,12 @@ import {
   Text,
 } from 'react-native'
 
-class Bloobs extends Component {
-  render() {
-    return(
-      <View style={{backgroundColor: 'navajowhite',flex:1,alignItems:'center',justifyContent:'center'}}>
-        <Text>BLOOBS</Text>
-      </View>
-    )
-  }
-}
-
 const RecsNavigator = StackNavigator({
   Recs: {
     screen: RecsCheerleader,
-
   },
   Rec: {
     screen: Profile,
-  },
-  Bloobs: {
-    screen: Bloobs,
   }
 }, {
   headerMode: 'none',

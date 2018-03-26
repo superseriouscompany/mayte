@@ -2,7 +2,8 @@ import React, {Component} from 'react'
 import {connect} from 'react-redux'
 import Settings from './Settings'
 import VelvetRope from './VelvetRope'
-import MatchBridge from './MatchBridge'
+import MatchesNavigator from './MatchesNavigator'
+import Match from './Match'
 import RecsNavigator from './RecsNavigator'
 import RootNavigatorView from '../components/RootNavigatorView'
 import {
@@ -28,8 +29,11 @@ class RootNavigator extends Component {
         screen: RecsNavigator,
       },
       Connections: {
-        screen: MatchBridge
-      }
+        screen: MatchesNavigator
+      },
+      Chat: {
+        screen: Match
+      },
     }, {
       contentComponent: RootNavigatorView,
       drawerWidth: rootNav.width,

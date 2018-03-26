@@ -16,7 +16,7 @@ export default function(props) {
   return (
     <View style={style.container}>
       <View style={[style.centered, style.header]}>
-        <Text style={style.headerLabel}>MATCHES</Text>
+        <Text style={style.headerLabel}>CONNECTIONS</Text>
       </View>
       { props.loading  ?
         <View style={[style.container, style.centered]}>
@@ -30,7 +30,7 @@ export default function(props) {
         </View>
       : !props.matches.length ?
         <View style={[style.container, style.centered]}>
-          <Text style={style.text}>You have no matches.</Text>
+          <Text style={style.text}>You have no conversations.</Text>
         </View>
       :
         <ScrollView style={{flex: 1}}>

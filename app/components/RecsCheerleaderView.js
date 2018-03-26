@@ -21,7 +21,6 @@ import {
 } from 'react-native'
 
 export default (props) => {
-  console.log("waddap BOOOOIIIII")
   return (
     <View style={styles.container}>
       <ScrollView

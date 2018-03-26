@@ -63,8 +63,8 @@ class Chat extends Component {
   }
 }
 
-function mapStateToProps(state) {
-  const response = state.api[`GET /matches/${state.scene.user.id}/messages`] || {}
+function mapStateToProps(state, ownProps) {
+  const response = state.api[`GET /matches/${ownProps.user.id}/messages`] || {}
 
   console.log('response is', response)
 

@@ -102,7 +102,7 @@ const style = StyleSheet.create({
   container: {
     position: 'absolute',
     width: '100%',
-    height: screenHeight - matchHeaderHeight - tabNavHeight - notchHeight,
+    height: screenHeight - matchHeaderHeight,
     backgroundColor: 'rgba(255,255,255,0.9)',
   },
   blur: {

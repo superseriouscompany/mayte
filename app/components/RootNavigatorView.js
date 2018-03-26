@@ -30,6 +30,7 @@ class DrawerContainer extends Component {
             width: rootNav.toggleWidth,
             height: rootNav.toggleHeight,
             backgroundColor: 'navajowhite',
+            opacity: 0,
             right: -rootNav.toggleWidth + em(-1),
             top: em(1),
             position: 'absolute', }}/>
