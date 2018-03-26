@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import ProfileView from '../components/TempProfileView'
+import ProfileView from '../components/ProfileView'
 import LinearGradient from 'react-native-linear-gradient'
 import {mayteWhite, mayteBlack} from '../constants/colors'
 import { em, matchHeaderHeight, statusBarHeight } from '../constants/dimensions'

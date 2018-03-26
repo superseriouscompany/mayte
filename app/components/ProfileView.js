@@ -4,9 +4,11 @@ import LinearGradient     from 'react-native-linear-gradient'
 import Icon               from 'react-native-vector-icons/Ionicons'
 import {mayteBlack}       from '../constants/colors'
 // TODO: rename this to containers/ProfileInfo
-import ProfileInfoView    from '../containers/ProfileInfoView'
+import ProfileInfoView    from '../components/ProfileInfoView'
 import log                from '../services/log'
-
+import {
+  NavigationActions
+} from 'react-navigation'
 import {
   screenWidth,
   screenHeight,
@@ -88,8 +90,8 @@ export default class ProfileView extends Component {
     const { props, state } = this
 
     return(
-      <View style={[style.container]}>
-        <FlatList style={[style.container, {backgroundColor: mayteBlack()}]}
+      <View style={[styles.container]}>
+        <FlatList style={[styles.container, {backgroundColor: mayteBlack()}]}
                   onLayout={(e) => {
                     const {height} = e.nativeEvent.layout
                     return props.viewHeight ? null : props.setHeight(height)
@@ -114,13 +116,13 @@ export default class ProfileView extends Component {
           { state.mask ?
               <Animated.View
                 style={[
-                  style.mask,
+                  styles.mask,
                   {opacity: this._maskOp}
                 ]} /> : null }
           <ProfileInfoView
             ref={i => this.info = i}
             {...props} {...state}
-            style={[style.infoCont]}
+            style={[styles.infoCont]}
             incrementMask={this.incrementMask}
             fadeInMask={this.fadeInMask}
             fadeOutMask={this.fadeOutMask}
@@ -130,28 +132,21 @@ export default class ProfileView extends Component {
             setOpen={(boo) => this.setState({
               open: boo,
            })} />
+
+         { props.myProfile ? null :
+           <TouchableOpacity
+             onPress={() => props.navigation.dispatch(NavigationActions.back({key: null}))}
+             style={styles.backBtn}>
+           </TouchableOpacity> }
       </View>
     )
   }
 }
 
 
-const style = StyleSheet.create({
-  container: {
-    flex: 1
-  },
-
-  gradient: {
-    position: 'relative',
-    width: '100%',
-    height: '100%',
-  },
-
-  mask: {
-    position: 'absolute',
-    top: 0, left: 0,
-    width: screenWidth,
-    height: screenHeight,
-    backgroundColor: mayteBlack(0.9),
-  }
+const styles = StyleSheet.create({
+  container: { flex: 1 },
+  gradient: { position: 'relative', width: '100%', height: '100%', },
+  mask: { position: 'absolute', top: 0, left: 0, width: screenWidth, height: screenHeight, backgroundColor: mayteBlack(0.9), },
+  backBtn: { position: 'absolute', top: em(1), right: em(1), width: 40, height: 40, backgroundColor: 'seagreen' }
 })

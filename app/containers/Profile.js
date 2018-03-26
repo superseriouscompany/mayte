@@ -1,6 +1,6 @@
 import React, {Component} from 'react'
 import {connect}          from 'react-redux'
-import ProfileView       from '../components/TempProfileView'
+import ProfileView       from '../components/ProfileView'
 import {
   screenHeight,
   bottomBoost,

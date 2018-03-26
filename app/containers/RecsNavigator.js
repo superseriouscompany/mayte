@@ -16,7 +16,6 @@ import {
 
 class Bloobs extends Component {
   render() {
-    console.log('BLOOBS', this.props)
     return(
       <View style={{backgroundColor: 'navajowhite',flex:1,alignItems:'center',justifyContent:'center'}}>
         <Text>BLOOBS</Text>
