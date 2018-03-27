@@ -32,7 +32,7 @@ const namePadding = em(2.5)
 const ageSize = em(1.25)
 const trayPadding = em(1)
 const trayHeight = em(3)
-const previewSize = nameSize + namePadding * 2 + ageSize + trayPadding - notchHeight
+const previewSize = nameSize + namePadding * 2 + ageSize + trayPadding
 
 export default class ProfileInfoView extends Component {
   constructor(props) {
@@ -257,6 +257,8 @@ export default class ProfileInfoView extends Component {
               {props.user.distance || 1}
             </Text>
           }
+          { !showAge && !showLocation && props.hideButtons ? // spacing
+            <Text style={style.location}> </Text> : null }
         </View>
         { props.hideButtons ? null :
           <View style={[style.tray]}>
