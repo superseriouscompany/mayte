@@ -26,9 +26,10 @@ function mapStateToProps(state) {
   }
 }
 
-function mapDispatchToProps(dispatch) {
+function mapDispatchToProps(dispatch, ownProps) {
   return {
     viewChat: function(user) {
+      ownProps.navigation.navigate('Match', {user})
       dispatch({type: 'scene:change', scene: {
         name: 'Match',
         view: 'Chat',

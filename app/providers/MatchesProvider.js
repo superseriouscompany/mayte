@@ -14,6 +14,10 @@ class MatchesProvider extends Component {
     }
   }
 
+  componentDidMount() {
+    if (this.props.isActive) { this.props.loadMatches(this.props.accessToken) }
+  }
+
   render() { return null }
 }
 

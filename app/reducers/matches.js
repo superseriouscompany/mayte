@@ -1,4 +1,4 @@
-const initialState = {data: []}
+const initialState = {data: [], dirty: true}
 export default (state=initialState, action) => {
   switch (action.type) {
     case 'matches:load':

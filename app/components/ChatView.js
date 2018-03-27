@@ -1,14 +1,25 @@
 'use strict'
 
-import React, {Component}                  from 'react'
-import { GiftedChat, Bubble }              from 'react-native-gifted-chat'
-import { BlurView }                        from 'react-native-blur'
-import timing                              from '../constants/timing'
+import React, {Component}                   from 'react'
+import { BlurView }                         from 'react-native-blur'
+import timing                               from '../constants/timing'
 import {
+  GiftedChat,
+  Bubble,
+  InputToolbar,
+  Composer,
+  Send,
+} from 'react-native-gifted-chat'
+import {
+  mayteWhite,
+} from '../constants/colors'
+import {
+  em,
   screenHeight,
   matchHeaderHeight,
   notchHeight,
   tabNavHeight,
+  bottomBoost,
 } from '../constants/dimensions'
 import {
   Animated,
@@ -23,7 +34,7 @@ export default class extends Component {
     super(props)
 
     this.state = {
-      topValue: new Animated.Value(matchHeaderHeight),
+      yValue: new Animated.Value(0),
       opacity: new Animated.Value(1)
     }
   }
@@ -38,35 +49,69 @@ export default class extends Component {
 
   animateOpen() {
     Animated.parallel([
-      Animated.timing(this.state.topValue, {
-        toValue: matchHeaderHeight,
+      Animated.timing(this.state.yValue, {
+        toValue: 0,
         duration: timing.chatOpen,
+        useNativeDriver: true,
       }),
       Animated.timing(this.state.opacity, {
         toValue: 1,
         duration: timing.chatOpen,
+        useNativeDriver: true,
       })
     ]).start()
   }
 
   animateClosed() {
     Animated.parallel([
-      Animated.timing(this.state.topValue, {
+      Animated.timing(this.state.yValue, {
         toValue: screenHeight,
         duration: timing.chatClose,
+        useNativeDriver: true,
       }),
       Animated.timing(this.state.opacity, {
         toValue: 0,
         duration: timing.chatClose,
+        useNativeDriver: true,
       })
     ]).start()
+  }
+
+  renderInputToolbar(props) {
+    // the render props aren't executing...
+    return <InputToolbar
+      {...props}
+      beep="boop"
+      renderComposer={this.renderComposer}
+      renderSend={this.renderSend}
+      containerStyle={{paddingBottom: bottomBoost, backgroundColor: mayteWhite(),}} />
+  }
+
+  renderSend(props) {
+    return <Send
+      {...props}
+      textStyle={{color: 'pink'}} />
+  }
+
+  renderComposer(props) {
+    return <Composer
+      {...props}
+      composerHeight={em(4)}
+      textInputStyle={{
+        fontFamily: 'Futura',
+        color: 'indianred'
+      }}
+      containerStyle={{
+        paddingBottom: bottomBoost,
+        backgroundColor: 'lightblue',
+      }} />
   }
 
   render() {
     const {props, state} = this
 
     return (
-      <Animated.View style={[{top: state.topValue, opacity: state.opacity}, style.container]}>
+      <Animated.View style={[{transform: [{translateY: state.yValue}], opacity: state.opacity}, style.container]}>
         <BlurView style={style.blur}
                   blurType="light"
                   blurAmount={3}
@@ -85,6 +130,7 @@ export default class extends Component {
           <GiftedChat
             messages={props.messages}
             onSend={(messages) => props.onSend(messages)}
+            renderInputToolbar={/*this.renderInputToolbar SEE COMMENT IN FUNC*/ null}
             user={{_id: props.myId}}
             renderBubble={(props) => (
               <Bubble
@@ -102,8 +148,10 @@ const style = StyleSheet.create({
   container: {
     position: 'absolute',
     width: '100%',
-    height: screenHeight - matchHeaderHeight,
+    height: screenHeight - matchHeaderHeight - notchHeight,
     backgroundColor: 'rgba(255,255,255,0.9)',
+    top: matchHeaderHeight + notchHeight,
+    paddingBottom: bottomBoost,
   },
   blur: {
     position: 'absolute',
