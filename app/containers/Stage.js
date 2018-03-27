@@ -1,15 +1,10 @@
-'use strict'
-
 import React, {PureComponent} from 'react'
 import {connect}              from 'react-redux'
 import LinearGradient         from 'react-native-linear-gradient'
 import Login                  from './Login'
 import Recs                   from './Recs'
-import RecsNavigator          from './RecsNavigator'
-import RecsCheerleader        from './RecsCheerleader'
 import RecsPreview            from './RecsPreview'
 import Settings               from './Settings'
-import MatchesNavigator            from './MatchesNavigator'
 import Navigation             from './Navigation'
 import Scratch                from './Scratch'
 import VipCodeInvite          from './VipCodeInvite'
@@ -68,26 +63,7 @@ class Stage extends PureComponent {
     : !props.isApproved && features.approval ? <WaitingRoom />
     : !props.isActive      ? <Paywall />
     : !props.hasGender     ? <GenderSelector />
-    : true ? <RootNavigator /> :
-      <Navigation initialSceneName="Recs">
-        <Settings sceneName="Settings"
-          label="Settings" iconFocused="ios-person" iconUnfocused="ios-person-outline" />
-        <VelvetRope sceneName="VelvetRope"
-          label="Membership" iconFocused="ios-key" iconUnfocused="ios-key-outline"/>
-
-        { props.isAdmin ?
-          <RecsNavigator sceneName="Recs"
-            label="Suggestions" iconFocused="ios-heart" iconUnfocused="ios-heart-outline" />
-        :
-          <RecsPreview sceneName="Recs"
-            label="Suggestions" iconFocused="ios-heart" iconUnfocused="ios-heart-outline"/>
-        }
-        { !props.isAdmin ? null :
-          <MatchesNavigator sceneName="Matches"
-            label="Matches" iconFocused="ios-chatbubbles" iconUnfocused="ios-chatbubbles-outline" />
-        }
-
-      </Navigation>
+    : <RootNavigator />
     )
   }
 }

@@ -1,69 +1,66 @@
-'use strict'
-
 import React, {Component} from 'react'
-import RecView            from './RecView'
-import IssaMatchView      from './IssaMatchView'
-import Text               from './Text'
-import {mayteBlack}       from '../constants/colors'
+import LinearGradient from 'react-native-linear-gradient'
 import {
-  ActivityIndicator,
-  Image,
-  View,
+  screenHeight,
+  screenWidth,
+  em,
+  notchHeight,
+  bottomBoost,
+} from '../constants/dimensions'
+import {
+  mayteWhite,
+  mayteBlack,
+} from '../constants/colors'
+import {
   StyleSheet,
+  Text,
+  View,
+  Image,
+  TouchableOpacity,
+  ScrollView,
 } from 'react-native'
 
-export default function(props) {
+export default (props) => {
   return (
     <View style={styles.container}>
-      { props.loading ?
-        <View style={[styles.container, styles.centered]}>
-          <ActivityIndicator size="large"/>
-        </View>
-      : props.error ?
-        <View style={[styles.container, styles.centered]}>
-          <Text style={styles.error}>{props.error}</Text>
-        </View>
-      : !props.recs[props.index] ?
-        <View style={[styles.container, styles.centered]}>
-          <Text style={{color: mayteBlack()}}>{"There's no one new around you."}</Text>
-          <Text style={{color: mayteBlack()}}>{"Check back later!"}</Text>
-        </View>
-      :
-        <View style={styles.container}>
-          { !props.recs[props.index + 1] ? null :
-            <RecView key={props.recs[props.index + 1].id}
-                     rec={props.recs[props.index + 1]}
-                     viewHeight={props.viewHeight}
-                     setHeight={props.setHeight}
-                     like={props.like}
-                     pass={props.pass} />
-          }
-          <RecView key={props.recs[props.index].id}
-                   rec={props.recs[props.index]}
-                   viewHeight={props.viewHeight}
-                   setHeight={props.setHeight}
-                   like={props.like}
-                   pass={props.pass} />
-          { !props.match ? null :
-            <IssaMatchView viewHeight={props.viewHeight}
-                           otherUser={props.match}
-                           dismiss={props.dismiss}/>
-          }
-        </View>
-      }
+      <ScrollView
+        style={styles.scroll}
+        contentContainerStyle={styles.scrollCnr}
+        showsVerticalScrollIndicator={false}>
+      { (props.recs.filter(u => u.photos[0].url)||[]).map((r,i) => {
+        return (
+          <TouchableOpacity
+            key={i}
+            onPress={() => props.navigation.navigate('Rec', {user: r})}
+            style={[styles.rec, {
+            marginLeft: i%2 ? em(0.25) : em(0.5),
+            marginRight: i%2 ? em(0.5) : em(0.25),
+            transform: [{translateY: i%2 ? tileOffset : 0}]
+          }]}>
+            <Image style={styles.recImg} source={{url: r.photos[0].url}} resizeMode={'cover'} />
+            <LinearGradient colors={[mayteBlack(0), mayteBlack(0.5)]} style={[styles.recGrad]} />
+            <Text style={styles.recName}>{r.fullName.split(' ')[0]}</Text>
+          </TouchableOpacity>
+        )
+      }) }
+      </ScrollView>
     </View>
   )
 }
 
+const recDims = {
+  width: screenWidth / 2 - em(0.75),
+  height: screenHeight / 2.5 - em(0.75),
+}
+
+const tileOffset = em(3)
+
 const styles = StyleSheet.create({
-  container: {
-    flex: 1
-  },
-  centered: {
-    justifyContent: 'center',
-    alignItems:     'center',
-  },
-  error: {
-    color: 'red',
-  },
+  container: { flex: 1 },
+  scroll: { width: '100%', flex: 1, backgroundColor: mayteWhite() },
+  scrollCnr: { paddingTop: em(0.5) + notchHeight, paddingBottom: tileOffset+bottomBoost, flexDirection: 'row', flexWrap: 'wrap', },
+  rec: { ...recDims, marginBottom: em(0.5), justifyContent: 'flex-end', paddingBottom: em(1), alignItems: 'center', },
+  recImg: { position: 'absolute', top: 0, left: 0, right: 0, bottom: 0 },
+  recGrad: { position: 'absolute', top: 0, left: 0, right: 0, bottom: 0 },
+  recName: { fontFamily: 'futura', fontSize: em(1), color: mayteWhite(), backgroundColor: 'transparent', },
 })

@@ -34,7 +34,7 @@ const style = StyleSheet.create({
     alignItems:        'center',
   },
   name: {
-    fontFamily: 'Gotham-Medium',
+    fontFamily: 'Futura',
     fontSize: em(1.2),
     color: mayteBlack(),
   },

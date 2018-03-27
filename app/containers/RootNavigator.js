@@ -2,9 +2,10 @@ import React, {Component} from 'react'
 import {connect} from 'react-redux'
 import Settings from './Settings'
 import VelvetRope from './VelvetRope'
-import MatchesNavigator from './MatchesNavigator'
 import Match from './Match'
-import RecsNavigator from './RecsNavigator'
+import Matches from './Matches'
+import Recs from './Recs'
+import Profile from './Profile'
 import RootNavigatorView from '../components/RootNavigatorView'
 import {
   rootNav,
@@ -26,10 +27,13 @@ class RootNavigator extends Component {
         screen: VelvetRope,
       },
       Recs: {
-        screen: RecsNavigator,
+        screen: Recs
+      },
+      Rec: {
+        screen: Profile
       },
       Connections: {
-        screen: MatchesNavigator
+        screen: Matches
       },
       Chat: {
         screen: Match
