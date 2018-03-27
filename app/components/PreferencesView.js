@@ -16,6 +16,7 @@ import {
   em,
   tabNavHeight,
   screenHeight,
+  rootNav,
   notchHeight
 } from '../constants/dimensions'
 import {
@@ -54,7 +55,7 @@ export default class PreferencesView extends Component {
                   blurType="light"
                   blurAmount={10}
                   viewRef={null/* required for Android */} />
-        <ScrollView contentContainerStyle={[style.container, props.hasNotifPerms ? {} : {paddingTop: em(2) + notchHeight}]} showsVerticalScrollIndicator={false} scrollEnabled={state.scrollEnabled}>
+                <ScrollView contentContainerStyle={[style.container, props.hasNotifPerms ? {} : {paddingTop: rootNav.toggleHeight + em(2) + notchHeight}]} showsVerticalScrollIndicator={false} scrollEnabled={state.scrollEnabled}>
           { props.hasNotifPerms ? null :
             <View style={style.notifPerms}>
               <TouchableOpacity onPress={props.enableNotifications}>
