@@ -4,7 +4,7 @@ import LinearGradient     from 'react-native-linear-gradient'
 import Icon               from 'react-native-vector-icons/Ionicons'
 import {mayteBlack}       from '../constants/colors'
 // TODO: rename this to containers/ProfileInfo
-import ProfileInfoView    from '../components/ProfileInfoView'
+import ProfileInfo        from '../containers/ProfileInfo'
 import log                from '../services/log'
 import {
   NavigationActions
@@ -117,8 +117,8 @@ export default class ProfileView extends Component {
                   styles.mask,
                   {opacity: this._maskOp}
                 ]} /> : null }
-          <ProfileInfoView
-            ref={i => this.info = i}
+          <ProfileInfo
+            setRef={i => this.info = i}
             {...props} {...state}
             style={[styles.infoCont]}
             opacity={this._infoOp}
