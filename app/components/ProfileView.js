@@ -35,7 +35,6 @@ import {
 export default class ProfileView extends Component {
   constructor(props) {
     super(props)
-
     this._maskOp = new Animated.Value(0)
     this.state = {
       open: false,
@@ -122,6 +121,7 @@ export default class ProfileView extends Component {
             ref={i => this.info = i}
             {...props} {...state}
             style={[styles.infoCont]}
+            opacity={this._infoOp}
             incrementMask={this.incrementMask}
             fadeInMask={this.fadeInMask}
             fadeOutMask={this.fadeOutMask}

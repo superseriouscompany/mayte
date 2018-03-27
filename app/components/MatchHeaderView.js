@@ -73,10 +73,10 @@ const style = StyleSheet.create({
   },
   name: {
     color: mayteBlack(),
-    marginLeft: 5,
+    marginLeft: em(0.5),
     fontSize: 18,
     letterSpacing: 0.1,
-    fontFamily: 'Gotham-Medium',
+    fontFamily: 'Futura',
   },
   chat: {
     height: matchHeaderHeight * 0.4,

@@ -24,21 +24,27 @@ import {
 } from 'react-native'
 
 const fullHeight = screenHeight - tabNavHeight - bottomBoost
+const nameSize = em(1.5)
+const namePadding = em(2.5)
+const ageSize = em(1.25)
+const trayPadding = em(1)
+const trayHeight = em(3)
+const previewSize = nameSize + namePadding * 2 + ageSize + trayPadding
 
 export default class ProfileInfoView extends Component {
   constructor(props) {
     super(props)
-
+    this.isMatch = props.hideButtons && !props.myProfile
     this.infoOpenTop   = 0
     this.infoClosedTop = screenHeight - notchHeight*2 -
                        ( props.hideButtons ?
                            props.myProfile ?
-                             em(1) * 7 : em(1) * 11.25 + matchHeaderHeight + notchHeight :
-                           em(9) )
+                             previewSize : previewSize + matchHeaderHeight + notchHeight :
+                           previewSize + trayPadding*2 )
 
     this._y = new Animated.Value(this.infoClosedTop)
     this._height = new Animated.Value(this.computeHeight(this.infoClosedTop))
-    this._opacity = new Animated.Value(1),
+    this._opacity = new Animated.Value(this.isMatch ? 0 : 1),
     this.state = {
       interacting: false,
       contPermission: true,
@@ -112,6 +118,24 @@ export default class ProfileInfoView extends Component {
       velocity: 200,
       useNativeDriver: true,
     }).start()
+  }
+
+  animateFade(to) {
+    Animated.timing(this._opacity, {
+      toValue: to,
+      duration: 200,
+      useNativeDriver: true,
+    }).start()
+  }
+
+  componentWillReceiveProps(props) {
+    if (this.isMatch && props.view === 'Profile' && this.props.view !== 'Profile') {
+      this.animateFade(1)
+    }
+    if (this.isMatch && props.view !== 'Profile' && this.props.view === 'Profile') {
+      this.animateFade(0)
+      this.animateClosed()
+    }
   }
 
   componentWillMount() {
@@ -209,7 +233,7 @@ export default class ProfileInfoView extends Component {
         style={[
           style.container,
           style.content,
-          {backgroundColor: 'transparent', overflow: 'visible'},
+          {backgroundColor: 'transparent', overflow: 'visible', opacity: this._opacity},
           {transform: [{translateY: this._y}]}
         ]}
         {...(state.contPermission ? this._panResponder.panHandlers: {})}>
@@ -324,11 +348,11 @@ const style = StyleSheet.create({
     top: 0, left: 0, right: 0,
     color: 'rgba(255,255,255,1)',
     textAlign: 'center',
-    fontSize: em(1.5),
+    fontSize: nameSize,
     fontFamily: 'Futura',
     fontWeight: '700',
     letterSpacing: em(0.1),
-    paddingTop: 40,
+    paddingTop: namePadding,
   },
 
   stats: {
@@ -338,7 +362,7 @@ const style = StyleSheet.create({
 
   age: {
     textAlign: 'center',
-    fontSize: em(1.25),
+    fontSize: ageSize,
     backgroundColor: 'transparent',
     color: 'rgba(255,255,255,1)',
   },
@@ -351,15 +375,15 @@ const style = StyleSheet.create({
 
   location: {
     textAlign: 'center',
-    fontSize: em(1.25),
+    fontSize: ageSize,
     backgroundColor: 'transparent',
     color: 'rgba(255,255,255,1)',
   },
 
   tray: {
     width: '100%',
-    paddingTop: em(1),
-    paddingBottom: em(1),
+    paddingTop: trayPadding,
+    paddingBottom: trayPadding,
     flexDirection: 'row',
     justifyContent: 'space-around',
     alignItems: 'center',
@@ -367,8 +391,8 @@ const style = StyleSheet.create({
   },
 
   bubble: {
-    width: em(3),
-    height: em(3),
+    width: trayHeight,
+    height: trayHeight,
     opacity: 0.9,
     zIndex: 1,
   },
