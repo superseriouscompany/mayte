@@ -14,6 +14,7 @@ import {
   tabNavHeight,
   screenWidth,
   screenHeight,
+  notchHeight,
 } from '../constants/dimensions'
 import {
   TouchableOpacity,
@@ -33,7 +34,7 @@ export default (props) => {
   const oldest   = moment().subtract(100, 'years')
   const youngest = moment().subtract(18, 'years')
   return(
-    <View style={[style.container, {paddingTop: rootNav.toggleHeight + statusBarHeight + em(2)}]}>
+    <View style={[style.container, {paddingTop: statusBarHeight + em(2) + notchHeight + rootNav.toggleHeight}]}>
       <SpaceSky style={style.bg}>
         <StarSystem count={6} loopLength={240000} starProps={{size: 1, twinkle: true, style: {opacity: 1}}}></StarSystem>
         <StarSystem count={15} loopLength={120000} starProps={{size: 0.66, twinkle: false, style: {opacity: 0.66}}}></StarSystem>
@@ -152,7 +153,7 @@ const style = StyleSheet.create({
   },
   headerBtn: {
     position: 'absolute',
-    top: em(2) + statusBarHeight,
+    top: em(2) + statusBarHeight + notchHeight,
     right: em(1),
   },
   headerBtnText: {

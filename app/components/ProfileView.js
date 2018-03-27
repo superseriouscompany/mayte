@@ -155,7 +155,7 @@ const styles = StyleSheet.create({
   mask: { position: 'absolute', top: 0, left: 0, width: screenWidth, height: screenHeight, backgroundColor: mayteBlack(0.9), },
   backBtn: {
     position: 'absolute',
-    top: em(1),
+    top: em(1) + notchHeight,
     width: rootNav.toggleWidth,
     height: rootNav.toggleHeight,
     right: em(1),

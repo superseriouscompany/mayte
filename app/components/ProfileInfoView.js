@@ -32,7 +32,7 @@ const namePadding = em(2.5)
 const ageSize = em(1.25)
 const trayPadding = em(1)
 const trayHeight = em(3)
-const previewSize = nameSize + namePadding * 2 + ageSize + trayPadding
+const previewSize = nameSize + namePadding * 2 + ageSize + trayPadding - notchHeight
 
 export default class ProfileInfoView extends Component {
   constructor(props) {

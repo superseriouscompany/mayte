@@ -7,6 +7,7 @@ import VipCodeInvite      from '../containers/VipCodeInvite'
 import {
   em,
   rootNav,
+  notchHeight,
 } from '../constants/dimensions'
 import {
   mayteBlack,
@@ -55,8 +56,8 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: mayteBlack(),
-    paddingTop: 40,
-    paddingHorizontal: 20,
+    paddingTop: em(2.5),
+    paddingHorizontal: em(1.25),
   },
   link: {
     marginBottom: em(1),
@@ -69,7 +70,7 @@ const styles = StyleSheet.create({
     width: rootNav.toggleWidth,
     height: rootNav.toggleHeight,
     right: -rootNav.toggleWidth + em(-1),
-    top: em(1),
+    top: em(1) + notchHeight,
     position: 'absolute',
     justifyContent: 'center',
     alignItems: 'center',

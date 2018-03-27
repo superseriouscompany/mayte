@@ -2,7 +2,12 @@ import React, { Component } from 'react'
 import ProfileView from '../components/ProfileView'
 import LinearGradient from 'react-native-linear-gradient'
 import {mayteWhite, mayteBlack} from '../constants/colors'
-import { em, matchHeaderHeight, statusBarHeight } from '../constants/dimensions'
+import {
+  em,
+  matchHeaderHeight,
+  statusBarHeight,
+  notchHeight,
+} from '../constants/dimensions'
 import {
   TouchableOpacity,
   StyleSheet,
@@ -33,7 +38,7 @@ export default class SettingsProfile extends Component {
                 style={[style.headerIcon]} />
        </TouchableOpacity>
        <TouchableOpacity onPress={() => props.viewSettingsPage('Editor')}
-                         style={[style.headerBtn, {top:em(5)}]}>
+                         style={[style.headerBtn, {top:em(5)+notchHeight}]}>
          <LinearGradient colors={[mayteWhite(0.9), mayteWhite()]} style={style.btnGrad} />
          <Image source={require('../images/edit-black.png')}
                 resizeMode='contain'
@@ -56,7 +61,7 @@ const style = StyleSheet.create({
   headerBtn: {
     ...btnDims,
     right: em(1),
-    top: statusBarHeight + em(1),
+    top: statusBarHeight + em(1) + notchHeight,
     borderRadius: btnDims.width/2,
     position: 'absolute',
     justifyContent: 'center',
