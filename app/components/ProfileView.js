@@ -136,7 +136,7 @@ export default class ProfileView extends Component {
               open: boo,
            })} />
 
-         { props.myProfile ? null :
+         { props.myProfile || props.hideButtons ? null :
            <TouchableOpacity
              onPress={() => props.navigation.dispatch(NavigationActions.back({key: null}))}
              style={styles.backBtn}>
