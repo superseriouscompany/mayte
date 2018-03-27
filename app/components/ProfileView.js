@@ -2,7 +2,6 @@ import React, {Component} from 'react'
 import moment             from 'moment'
 import LinearGradient     from 'react-native-linear-gradient'
 import Icon               from 'react-native-vector-icons/Ionicons'
-import {mayteBlack}       from '../constants/colors'
 // TODO: rename this to containers/ProfileInfo
 import ProfileInfo        from '../containers/ProfileInfo'
 import log                from '../services/log'
@@ -10,12 +9,17 @@ import {
   NavigationActions
 } from 'react-navigation'
 import {
+  mayteBlack,
+  mayteWhite,
+} from '../constants/colors'
+import {
   screenWidth,
   screenHeight,
   tabNavHeight,
   bottomBoost,
   matchHeaderHeight,
   notchHeight,
+  rootNav,
   em,
 } from '../constants/dimensions'
 import {
@@ -136,6 +140,8 @@ export default class ProfileView extends Component {
            <TouchableOpacity
              onPress={() => props.navigation.dispatch(NavigationActions.back({key: null}))}
              style={styles.backBtn}>
+             <LinearGradient colors={[mayteWhite(0.9), mayteWhite()]} style={styles.backBtnGrad} />
+             <Image style={styles.backBtnImg} resizeMode='contain' source={require('../images/x-black.png')} />
            </TouchableOpacity> }
       </View>
     )
@@ -147,5 +153,29 @@ const styles = StyleSheet.create({
   container: { flex: 1 },
   gradient: { position: 'relative', width: '100%', height: '100%', },
   mask: { position: 'absolute', top: 0, left: 0, width: screenWidth, height: screenHeight, backgroundColor: mayteBlack(0.9), },
-  backBtn: { opacity: 0, position: 'absolute', top: em(1), right: em(1), width: 40, height: 40, backgroundColor: 'seagreen' }
+  backBtn: {
+    position: 'absolute',
+    top: em(1),
+    width: rootNav.toggleWidth,
+    height: rootNav.toggleHeight,
+    right: em(1),
+    justifyContent: 'center',
+    alignItems: 'center',
+    overflow: 'hidden',
+    borderRadius: rootNav.toggleWidth/2,
+  },
+  backBtnGrad: {
+    position: 'absolute',
+    top: 0, left: 0,
+    width: rootNav.toggleWidth,
+    height: rootNav.toggleHeight,
+    borderRadius: rootNav.toggleWidth / 2,
+    borderWidth: 1,
+    borderColor: mayteBlack(0.1),
+    backgroundColor: 'transparent',
+  },
+  backBtnImg: {
+    width: '40%',
+    height: '40%',
+  },
 })

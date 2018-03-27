@@ -1,8 +1,11 @@
 import React, {Component} from 'react'
 import LinearGradient     from 'react-native-linear-gradient'
 import transformUtil      from '../util/transform'
-import {mayteBlack}       from '../constants/colors'
 import moment             from 'moment'
+import {
+  mayteBlack,
+  mayteWhite,
+} from '../constants/colors'
 import {
   em,
   screenWidth,
@@ -257,11 +260,11 @@ export default class ProfileInfoView extends Component {
         </View>
         { props.hideButtons ? null :
           <View style={[style.tray]}>
-            <TouchableOpacity onPress={props.visitChat}>
-              <Image
-                style={style.bubble}
-                resizeMode='contain'
-                source={require('../images/chat-white.png')} />
+            <TouchableOpacity
+              onPress={props.visitChat}
+              style={style.bubble}>
+              <LinearGradient colors={[mayteWhite(0.9), mayteWhite()]} style={style.bubbleGrad} />
+              <Image style={style.bubbleImg} resizeMode='contain' source={require('../images/chat-black.png')} />
             </TouchableOpacity>
           </View>
         }
@@ -393,8 +396,28 @@ const style = StyleSheet.create({
   bubble: {
     width: trayHeight,
     height: trayHeight,
-    opacity: 0.9,
+    // opacity: 0.9,
     zIndex: 1,
+    borderRadius: trayHeight / 2,
+    overflow: 'hidden',
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+
+  bubbleGrad: {
+    position: 'absolute',
+    top: 0, left: 0,
+    width: trayHeight,
+    height: trayHeight,
+    borderRadius: trayHeight / 2,
+    borderWidth: 1,
+    borderColor: mayteBlack(0.1),
+    backgroundColor: 'transparent',
+  },
+
+  bubbleImg: {
+    width: '50%',
+    height: '50%',
   },
 
   button: {
