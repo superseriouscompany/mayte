@@ -44,18 +44,24 @@ export default class SettingsProfile extends Component {
   }
 }
 
+const btnDims = {
+  width: em(3),
+  height: em(3),
+}
+
 const style = StyleSheet.create({
   container: {
     flex: 1,
   },
   headerBtn: {
-    width: em(3),
-    height: em(3),
+    ...btnDims,
     right: em(1),
     top: statusBarHeight + em(1),
+    borderRadius: btnDims.width/2,
     position: 'absolute',
     justifyContent: 'center',
     alignItems: 'center',
+    overflow: 'hidden',
   },
   headerIcon: {
     width: '50%',
@@ -67,10 +73,12 @@ const style = StyleSheet.create({
     justifyContent: 'center',
   },
   btnGrad: {
+    ...btnDims,
     position: 'absolute',
-    top: 0, bottom: 0,
-    left: 0, right: 0,
-    borderRadius: em(1.5),
-    backgroundColor: mayteBlack(),
+    top: 0, left: 0,
+    borderRadius: btnDims.width / 2,
+    borderWidth: 1,
+    borderColor: mayteBlack(0.1),
+    backgroundColor: 'transparent',
   },
 })
