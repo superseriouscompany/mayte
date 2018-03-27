@@ -1,7 +1,6 @@
-'use strict'
-
 import React, {Component} from 'react'
 import {connect}          from 'react-redux'
+import LinearGradient     from 'react-native-linear-gradient'
 import Text               from './Text'
 import Membership         from '../containers/Membership'
 import VipCodeInvite      from '../containers/VipCodeInvite'
@@ -15,6 +14,7 @@ import {
 } from '../constants/colors'
 import {
   View,
+  Image,
   StyleSheet,
   TouchableOpacity,
 } from 'react-native'
@@ -25,14 +25,11 @@ class DrawerContainer extends Component {
     return (
       <View style={styles.container}>
         <TouchableOpacity
-          onPress={() => props.navigation.navigate('DrawerOpen')}
-          style={{
-            width: rootNav.toggleWidth,
-            height: rootNav.toggleHeight,
-            backgroundColor: 'navajowhite',
-            right: -rootNav.toggleWidth + em(-1),
-            top: em(1),
-            position: 'absolute', }}/>
+          onPress={() => props.navigation.navigate('DrawerToggle')}
+          style={styles.toggler}>
+          <LinearGradient colors={[mayteWhite(0.9), mayteWhite()]} style={styles.togglerGrad} />
+          <Image style={styles.togglerIcon} resizeMode='contain' source={require('../images/nav-black.png')} />
+        </TouchableOpacity>
 
         <TouchableOpacity style={styles.link} onPress={() => props.navigation.navigate('Settings')}>
           <Text style={styles.linkText}>Settings</Text>
@@ -67,6 +64,31 @@ const styles = StyleSheet.create({
   linkText: {
     fontSize: em(1.33),
     color: mayteWhite()
+  },
+  toggler: {
+    width: rootNav.toggleWidth,
+    height: rootNav.toggleHeight,
+    right: -rootNav.toggleWidth + em(-1),
+    top: em(1),
+    position: 'absolute',
+    justifyContent: 'center',
+    alignItems: 'center',
+    overflow: 'hidden',
+    borderRadius: rootNav.toggleWidth/2,
+  },
+  togglerGrad: {
+    position: 'absolute',
+    top: 0, left: 0,
+    width: rootNav.toggleWidth,
+    height: rootNav.toggleHeight,
+    borderRadius: rootNav.toggleWidth / 2,
+    borderWidth: 1,
+    borderColor: mayteBlack(0.1),
+    backgroundColor: 'transparent',
+  },
+  togglerIcon: {
+    width: '50%',
+    height: '50%',
   }
 })
 

@@ -1,9 +1,12 @@
-'use strict'
-
-import React, { Component }                       from 'react'
-import LinearGradient                             from 'react-native-linear-gradient'
-import { matchHeaderHeight, notchHeight, em }     from '../constants/dimensions'
-import { mayteBlack }                             from '../constants/colors'
+import React, { Component }                   from 'react'
+import LinearGradient                         from 'react-native-linear-gradient'
+import { mayteBlack, mayteWhite }             from '../constants/colors'
+import {
+  matchHeaderHeight,
+  notchHeight,
+  em,
+  rootNav,
+} from '../constants/dimensions'
 import {
   StyleSheet,
   Text,
@@ -15,8 +18,9 @@ import {
 export default function(props) {
   return (
     <View style={style.container}>
-      <TouchableOpacity onPress={props.showMatches}>
-        <Image style={style.ban}
+      <LinearGradient style={style.grad} colors={[mayteWhite(0), mayteWhite(1)]} />
+      <TouchableOpacity onPress={() => null}>
+        <Image style={[style.ban, {opacity: 0}]}
                resizeMode='contain'
                source={require('../images/back-black.png')} />
       </TouchableOpacity>
@@ -37,10 +41,11 @@ export default function(props) {
         }
       </TouchableOpacity>
 
-      <TouchableOpacity onPress={props.showBlock}>
-        <Image style={style.ban}
-               resizeMode='contain'
-               source={require('../images/ban-black.png')} />
+      <TouchableOpacity
+        onPress={props.showBlock}
+        style={style.ban}>
+        <LinearGradient colors={[mayteWhite(0.9), mayteWhite()]} style={style.banGrad} />
+        <Image style={style.banIcon} resizeMode='contain' source={require('../images/ban-black.png')} />
       </TouchableOpacity>
     </View>
   )
@@ -82,12 +87,34 @@ const style = StyleSheet.create({
     height: matchHeaderHeight * 0.4,
     width: matchHeaderHeight * 0.4,
   },
-  ban: {
-    height: matchHeaderHeight * 0.38,
-    width: matchHeaderHeight * 0.38,
-  },
   back: {
     height: matchHeaderHeight * 0.38,
     width: matchHeaderHeight * 0.38,
+  },
+  grad: {
+    position: 'absolute',
+    top: 0, left: 0, bottom: 0, right: 0,
+  },
+  ban: {
+    width: rootNav.toggleWidth,
+    height: rootNav.toggleHeight,
+    justifyContent: 'center',
+    alignItems: 'center',
+    overflow: 'hidden',
+    borderRadius: rootNav.toggleWidth/2,
+  },
+  banGrad: {
+    position: 'absolute',
+    top: 0, left: 0,
+    width: rootNav.toggleWidth,
+    height: rootNav.toggleHeight,
+    borderRadius: rootNav.toggleWidth / 2,
+    borderWidth: 1,
+    borderColor: mayteBlack(0.1),
+    backgroundColor: 'transparent',
+  },
+  banIcon: {
+    width: '50%',
+    height: '50%',
   },
 })
