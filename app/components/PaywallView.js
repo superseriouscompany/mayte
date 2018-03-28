@@ -149,8 +149,8 @@ export default class PaywallView extends Component {
                   <View style={style.term}><Text style={[style.termText, style.termBullet]}>{`•`}</Text>
                     <Text style={style.termText}>
                       {`All personal data is handled under the terms and conditions of Unicorn's privacy policy. More details can be found here:`}{`\n`}
-                      <Text style={[style.termText, style.termLink]} onPress={() => Linking.openURL('https://dateunicorn.com/privacy')}>{`https://dateunicorn.com/privacy`}</Text>{`\n`}
-                      <Text style={[style.termText, style.termLink]} onPress={() => Linking.openURL('https://dateunicorn.com/terms')}>{`https://dateunicorn.com/terms`}</Text>
+                      <Text style={[style.termText, style.termLink]} onPress={() => Linking.openURL('https://joinunicorn.com/privacy')}>{`https://joinunicorn.com/privacy`}</Text>{`\n`}
+                      <Text style={[style.termText, style.termLink]} onPress={() => Linking.openURL('https://joinunicorn.com/terms')}>{`https://joinunicorn.com/terms`}</Text>
                     </Text>
                   </View>
                 </Animated.View>

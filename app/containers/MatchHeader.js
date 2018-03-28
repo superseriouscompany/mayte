@@ -1,6 +1,7 @@
 'use strict'
 
 import React, {Component} from 'react'
+import request            from '../actions/request'
 import {connect}          from 'react-redux'
 import MatchHeaderView    from '../components/MatchHeaderView'
 
@@ -20,8 +21,15 @@ function mapStateToProps(state) {
 
 function mapDispatchToProps(dispatch, ownProps) {
   return {
-    showBlock: function() {
-      alert('Are you sure?')
+    block: function(user) {
+      dispatch(request({
+        method: 'DELETE',
+        url: `/matches/${user.id}`,
+      })).then(() => {
+        return dispatch({type: 'matches:invalidate'})
+      }).then(() => {
+        ownProps.screenProps.rootNav.navigate('Connections')
+      })
     },
 
     showMatches: function() {

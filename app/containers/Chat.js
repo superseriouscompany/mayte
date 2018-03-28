@@ -45,10 +45,7 @@ class Chat extends Component {
   }
 
   onSend(messages = []) {
-    this.props.like(this.props.user.id)
-    .then(() => {
-      this.props.sendMessage(this.props.user.id, messages[0].text)
-    })
+    this.props.sendMessage(this.props.user.id, messages[0].text)
     .then(() => {
       this.setState((previousState) => ({
         messages: GiftedChat.append(previousState.messages, messages),
@@ -83,19 +80,14 @@ function mapStateToProps(state, ownProps) {
 
 function mapDispatchToProps(dispatch) {
   return {
-    like: (userId) => {
-      return dispatch(request({
-        url: `/ratings/${userId}/like`,
-        method: 'POST',
-      })).then(() => dispatch({type:'matches:invalidate'}))
-    },
-
     sendMessage: function(userId, text) {
       return dispatch(request({
         url: `/matches/${userId}/messages`,
         method: 'POST',
         body: { text }
-      }))
+      })).then(() => {
+        return dispatch({type: 'matches:invalidate'})
+      })
     },
 
     loadMessages: function(userId) {

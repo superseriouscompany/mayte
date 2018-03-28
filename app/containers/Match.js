@@ -17,7 +17,7 @@ class Match extends Component {
     const {user} = this.props.navigation.state.params
     return (
       <View style={{flex: 1}}>
-        <MatchHeader match={user} />
+        <MatchHeader {...props} match={user} />
         <MatchView {...state} {...props} user={user}
                    setHeight={(h) => this.setState({viewHeight: h})}
                    showInfo={() => this.setState({infoOpen: true})}

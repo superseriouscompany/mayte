@@ -12,6 +12,7 @@ import {
   Text,
   TouchableOpacity,
   View,
+  Alert,
   Image,
 } from 'react-native'
 
@@ -42,7 +43,16 @@ export default function(props) {
       </TouchableOpacity>
 
       <TouchableOpacity
-        onPress={props.showBlock}
+        onPress={() => {
+          Alert.alert(
+            `Block ${props.match.fullName.split(' ')[0]}?`,
+            "They won't appear in your Suggestions feed nor be able to message you.",
+            [
+              {text: 'Cancel'},
+              {text: 'Confirm', onPress: () => props.block(props.match)}
+            ]
+          )
+        }}
         style={style.ban}>
         <LinearGradient colors={[mayteWhite(0.9), mayteWhite()]} style={style.banGrad} />
         <Image style={style.banIcon} resizeMode='contain' source={require('../images/ban-black.png')} />

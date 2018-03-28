@@ -195,12 +195,12 @@ export default class PreferencesView extends Component {
               </TouchableOpacity>
 
               <TouchableOpacity style={[style.footerBtn, style.legalBtn]}
-                onPress={() => Linking.openURL('https://dateunicorn.com/privacy-policy')}>
+                onPress={() => Linking.openURL('https://joinunicorn.com/privacy')}>
                 <Text style={[style.footerBtnText, style.legalText]}>PRIVACY POLICY</Text>
               </TouchableOpacity>
 
               <TouchableOpacity style={[style.footerBtn, style.legalBtn]}
-                onPress={() => Linking.openURL('https://dateunicorn.com/terms')}>
+                onPress={() => Linking.openURL('https://joinunicorn.com/terms')}>
                 <Text style={[style.footerBtnText, style.legalText]}>TERMS OF SERVICE</Text>
               </TouchableOpacity>
 

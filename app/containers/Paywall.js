@@ -27,7 +27,7 @@ class Paywall extends Component {
       return this.props.activate(stripeToken)
     }).catch((err) => {
       log(err)
-      alert(`${err.message || JSON.stringify(err)}. Please try again or contact support@dateunicorn.com`)
+      alert(`${err.message || JSON.stringify(err)}. Please try again or contact support@joinunicorn.com`)
     })
   }
 
