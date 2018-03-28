@@ -32,6 +32,7 @@ const style = StyleSheet.create({
     borderColor:       mayteBlack(0.1),
     flexDirection:     'row',
     alignItems:        'center',
+    backgroundColor: 'rgba(255,255,255,0.9)',
   },
   name: {
     fontFamily: 'Futura',
