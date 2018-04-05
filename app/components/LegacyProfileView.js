@@ -2,16 +2,11 @@ import React, {Component} from 'react'
 import moment             from 'moment'
 import LinearGradient     from 'react-native-linear-gradient'
 import Icon               from 'react-native-vector-icons/Ionicons'
+import {mayteBlack}       from '../constants/colors'
 // TODO: rename this to containers/ProfileInfo
-import ProfileInfo        from '../containers/ProfileInfo'
+import ProfileInfoView    from '../containers/ProfileInfoView'
 import log                from '../services/log'
-import {
-  NavigationActions
-} from 'react-navigation'
-import {
-  mayteBlack,
-  mayteWhite,
-} from '../constants/colors'
+
 import {
   screenWidth,
   screenHeight,
@@ -19,7 +14,6 @@ import {
   bottomBoost,
   matchHeaderHeight,
   notchHeight,
-  rootNav,
   em,
 } from '../constants/dimensions'
 import {
@@ -39,6 +33,7 @@ import {
 export default class ProfileView extends Component {
   constructor(props) {
     super(props)
+
     this._maskOp = new Animated.Value(0)
     this.state = {
       open: false,
@@ -91,9 +86,10 @@ export default class ProfileView extends Component {
 
   render() {
     const { props, state } = this
+
     return(
-      <View style={[styles.container]}>
-        <FlatList style={[styles.container, {backgroundColor: mayteBlack()}]}
+      <View style={[style.container]}>
+        <FlatList style={[style.container, {backgroundColor: mayteBlack()}]}
                   onLayout={(e) => {
                     const {height} = e.nativeEvent.layout
                     return props.viewHeight ? null : props.setHeight(height)
@@ -118,14 +114,13 @@ export default class ProfileView extends Component {
           { state.mask ?
               <Animated.View
                 style={[
-                  styles.mask,
+                  style.mask,
                   {opacity: this._maskOp}
                 ]} /> : null }
-          <ProfileInfo
-            setRef={i => this.info = i}
+          <ProfileInfoView
+            ref={i => this.info = i}
             {...props} {...state}
-            style={[styles.infoCont]}
-            opacity={this._infoOp}
+            style={[style.infoCont]}
             incrementMask={this.incrementMask}
             fadeInMask={this.fadeInMask}
             fadeOutMask={this.fadeOutMask}
@@ -135,47 +130,28 @@ export default class ProfileView extends Component {
             setOpen={(boo) => this.setState({
               open: boo,
            })} />
-
-         { props.myProfile || props.hideButtons ? null :
-           <TouchableOpacity
-             onPress={() => props.navigation.dispatch(NavigationActions.back({key: null}))}
-             style={styles.backBtn}>
-             <LinearGradient colors={[mayteWhite(0.9), mayteWhite()]} style={styles.backBtnGrad} />
-             <Image style={styles.backBtnImg} resizeMode='contain' source={require('../images/x-black.png')} />
-           </TouchableOpacity> }
       </View>
     )
   }
 }
 
 
-const styles = StyleSheet.create({
-  container: { flex: 1 },
-  gradient: { position: 'relative', width: '100%', height: '100%', },
-  mask: { position: 'absolute', top: 0, left: 0, width: screenWidth, height: screenHeight, backgroundColor: mayteBlack(0.9), },
-  backBtn: {
-    position: 'absolute',
-    top: em(1) + notchHeight,
-    width: rootNav.toggleWidth,
-    height: rootNav.toggleHeight,
-    right: em(1),
-    justifyContent: 'center',
-    alignItems: 'center',
-    overflow: 'hidden',
-    borderRadius: rootNav.toggleWidth/2,
+const style = StyleSheet.create({
+  container: {
+    flex: 1
   },
-  backBtnGrad: {
+
+  gradient: {
+    position: 'relative',
+    width: '100%',
+    height: '100%',
+  },
+
+  mask: {
     position: 'absolute',
     top: 0, left: 0,
-    width: rootNav.toggleWidth,
-    height: rootNav.toggleHeight,
-    borderRadius: rootNav.toggleWidth / 2,
-    borderWidth: 1,
-    borderColor: mayteBlack(0.1),
-    backgroundColor: 'transparent',
-  },
-  backBtnImg: {
-    width: '40%',
-    height: '40%',
-  },
+    width: screenWidth,
+    height: screenHeight,
+    backgroundColor: mayteBlack(0.9),
+  }
 })

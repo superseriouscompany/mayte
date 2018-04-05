@@ -1,5 +1,3 @@
-'use strict'
-
 import React, {Component} from 'react'
 import {connect}          from 'react-redux'
 import RecsView           from '../components/RecsView'
@@ -12,8 +10,6 @@ import {
 class Recs extends Component {
   constructor(props) {
     super(props)
-    this.like     = this.like.bind(this)
-    this.pass     = this.pass.bind(this)
     this.decorate = this.decorate.bind(this)
     this.state = {
       viewHeight: 0,
@@ -37,41 +33,9 @@ class Recs extends Component {
     })
   }
 
-  like(u) {
-    this.props.like(u.id).then((r) => {
-      if ( r.match ) {
-        this.props.itsAMatch()
-        this.setState({match: u})
-      }
-      this.setState({index: this.state.index + 1})
-    }).catch((err) => {
-      // TODO: retry likes on queue without interrupting user flow
-      log(err)
-      alert(err.message || err)
-    })
-  }
-
-  pass(u) {
-    this.props.pass(u.id).then((r) => {
-      this.setState({index: this.state.index + 1})
-    }).catch((err) => {
-      // TODO: retry failed passes on queue without interrupting user flow
-      log(err)
-      alert(err.message || err)
-    })
-  }
-
   render() {
     return (
-      <RecsView {...this.props}
-        like={this.like}
-        pass={this.pass}
-        setHeight={(h) => this.setState({viewHeight: h})}
-        viewHeight={this.state.viewHeight}
-        index={this.state.index}
-        match={this.state.match}
-        dismiss={() => this.setState({match: null})}
-        />
+      <RecsView {...this.props} />
     )
   }
 }

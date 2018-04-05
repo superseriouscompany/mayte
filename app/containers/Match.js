@@ -14,15 +14,15 @@ class Match extends Component {
 
   render() {
     const {props, state} = this
-
+    const {user} = this.props.navigation.state.params
     return (
       <View style={{flex: 1}}>
-        <MatchHeader match={props.user} />
-        <MatchView {...state} {...props}
+        <MatchHeader {...props} match={user} />
+        <MatchView {...state} {...props} user={user}
                    setHeight={(h) => this.setState({viewHeight: h})}
                    showInfo={() => this.setState({infoOpen: true})}
                    hideInfo={() => this.setState({infoOpen: false})} />
-        <Chat user={props.user}/>
+        <Chat user={user} />
       </View>
     )
   }

@@ -26,7 +26,7 @@ export default function(props) {
       <Text style={[style.text, style.header]}>{`Please Upgrade`}</Text>
       <Text style={[style.text, style.body]}>{`At Unicorn, we strive to deliver a consistent, quality experience for all of our users; unfortunately, this sometimes requires us to deprecate older versions of the app. We apologize for any inconvenience.`}</Text>
       <ButtonBlack text="Upgrade Now"
-        onPress={() => Linking.openURL('https://dateunicorn.com/download')}/>
+        onPress={() => Linking.openURL('https://joinunicorn.com/download')}/>
 
       <Image style={[style.icon]}
              source={require('../images/unicorn-icon-black.png')}

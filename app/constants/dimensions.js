@@ -16,4 +16,9 @@ export const isIphoneX         = (() => {
 })()
 export const notchHeight       = isIphoneX ? 30 : 0
 export const bottomBoost       = isIphoneX ? 20 : 0
-export const matchHeaderHeight = 65 * (emBase/16)
+export const rootNav = {
+  width: em(18.75),
+  toggleWidth: em(2.5),
+  toggleHeight: em(2.5),
+}
+export const matchHeaderHeight = rootNav.toggleHeight * 1.75

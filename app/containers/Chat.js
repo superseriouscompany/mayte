@@ -45,7 +45,8 @@ class Chat extends Component {
   }
 
   onSend(messages = []) {
-    this.props.sendMessage(this.props.user.id, messages[0].text).then(() => {
+    this.props.sendMessage(this.props.user.id, messages[0].text)
+    .then(() => {
       this.setState((previousState) => ({
         messages: GiftedChat.append(previousState.messages, messages),
       }))
@@ -63,8 +64,8 @@ class Chat extends Component {
   }
 }
 
-function mapStateToProps(state) {
-  const response = state.api[`GET /matches/${state.scene.user.id}/messages`] || {}
+function mapStateToProps(state, ownProps) {
+  const response = state.api[`GET /matches/${ownProps.user.id}/messages`] || {}
 
   console.log('response is', response)
 
@@ -84,7 +85,9 @@ function mapDispatchToProps(dispatch) {
         url: `/matches/${userId}/messages`,
         method: 'POST',
         body: { text }
-      }))
+      })).then(() => {
+        return dispatch({type: 'matches:invalidate'})
+      })
     },
 
     loadMessages: function(userId) {

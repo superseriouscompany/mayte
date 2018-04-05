@@ -131,7 +131,7 @@ export default class QuizReviewView extends Component {
               rightTextView={
                 <Text style={[style.text, style.valueText, style.tosText]}>
                   I accept the{" "}
-                  <TouchableOpacity onPress={() => Linking.openURL('https://dateunicorn.com/terms')} style={style.tosLinkCnr}>
+                  <TouchableOpacity onPress={() => Linking.openURL('https://joinunicorn.com/terms')} style={style.tosLinkCnr}>
                     <Text style={[style.text, style.valueText, style.tosLink]}>Terms of Service</Text>
                   </TouchableOpacity>
                 </Text>

@@ -32,9 +32,10 @@ const style = StyleSheet.create({
     borderColor:       mayteBlack(0.1),
     flexDirection:     'row',
     alignItems:        'center',
+    backgroundColor: 'rgba(255,255,255,0.9)',
   },
   name: {
-    fontFamily: 'Gotham-Medium',
+    fontFamily: 'Futura',
     fontSize: em(1.2),
     color: mayteBlack(),
   },

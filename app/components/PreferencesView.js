@@ -16,6 +16,7 @@ import {
   em,
   tabNavHeight,
   screenHeight,
+  rootNav,
   notchHeight
 } from '../constants/dimensions'
 import {
@@ -54,7 +55,7 @@ export default class PreferencesView extends Component {
                   blurType="light"
                   blurAmount={10}
                   viewRef={null/* required for Android */} />
-        <ScrollView contentContainerStyle={[style.container, props.hasNotifPerms ? {} : {paddingTop: em(2) + notchHeight}]} showsVerticalScrollIndicator={false} scrollEnabled={state.scrollEnabled}>
+                <ScrollView contentContainerStyle={[style.container, props.hasNotifPerms ? {} : {paddingTop: rootNav.toggleHeight + em(2) + notchHeight}]} showsVerticalScrollIndicator={false} scrollEnabled={state.scrollEnabled}>
           { props.hasNotifPerms ? null :
             <View style={style.notifPerms}>
               <TouchableOpacity onPress={props.enableNotifications}>
@@ -194,12 +195,12 @@ export default class PreferencesView extends Component {
               </TouchableOpacity>
 
               <TouchableOpacity style={[style.footerBtn, style.legalBtn]}
-                onPress={() => Linking.openURL('https://dateunicorn.com/privacy-policy')}>
+                onPress={() => Linking.openURL('https://joinunicorn.com/privacy')}>
                 <Text style={[style.footerBtnText, style.legalText]}>PRIVACY POLICY</Text>
               </TouchableOpacity>
 
               <TouchableOpacity style={[style.footerBtn, style.legalBtn]}
-                onPress={() => Linking.openURL('https://dateunicorn.com/terms')}>
+                onPress={() => Linking.openURL('https://joinunicorn.com/terms')}>
                 <Text style={[style.footerBtnText, style.legalText]}>TERMS OF SERVICE</Text>
               </TouchableOpacity>
 

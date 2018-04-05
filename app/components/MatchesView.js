@@ -1,9 +1,10 @@
 'use strict'
 
 import React, {Component}                         from 'react'
+import { ParticleSheet }                          from './Particle'
 import MatchPreview                               from './MatchPreview'
 import { notchHeight, matchHeaderHeight, em }     from '../constants/dimensions'
-import { mayteBlack }                             from '../constants/colors'
+import { mayteBlack, mayteWhite, }                from '../constants/colors'
 import {
   ActivityIndicator,
   StyleSheet,
@@ -15,8 +16,12 @@ import {
 export default function(props) {
   return (
     <View style={style.container}>
+      <ParticleSheet count={6} loopLength={10000} scale={0.4} particleStyle={{opacity: 0.4}} />
+      <ParticleSheet count={6} loopLength={15000} scale={0.8} particleStyle={{opacity: 0.8}} />
+      <ParticleSheet count={6} loopLength={20000} scale={1} />
+      
       <View style={[style.centered, style.header]}>
-        <Text style={style.headerLabel}>MATCHES</Text>
+        <Text style={style.headerLabel}>Connections</Text>
       </View>
       { props.loading  ?
         <View style={[style.container, style.centered]}>
@@ -30,7 +35,7 @@ export default function(props) {
         </View>
       : !props.matches.length ?
         <View style={[style.container, style.centered]}>
-          <Text style={style.text}>You have no matches.</Text>
+          <Text style={style.text}>You have no conversations.</Text>
         </View>
       :
         <ScrollView style={{flex: 1}}>
@@ -59,11 +64,12 @@ const style = StyleSheet.create({
     paddingTop: notchHeight,
     borderBottomWidth: 1,
     borderBottomColor: mayteBlack(0.5),
+    backgroundColor: 'rgba(255,255,255,0.9)',
   },
   headerLabel: {
-    fontSize: em(1.33),
-    letterSpacing: em(0.1),
-    fontFamily: 'Gotham-Bold',
+    fontSize: em(1.5),
+    letterSpacing: em(0.05),
+    fontFamily: 'Futura',
   },
   text: {
     fontFamily: 'Futura',

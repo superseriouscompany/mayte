@@ -2,13 +2,13 @@ import { Linking } from 'react-native'
 import SafariView  from 'react-native-safari-view'
 import log         from '../services/log'
 
-export const baseUrl = false && __DEV__ ?
+export const baseUrl = __DEV__ ?
   'https://mayte.ngrok.io' :
-  'https://api.dateunicorn.com';
+  'https://api.joinunicorn.com';
 
 export const webUrl = __DEV__ ?
   'https://mayte.ngrok.io/webview' :
-  'https://dateunicorn.com'
+  'https://joinunicorn.com'
 
 function request(path, options = {}) {
   if( path[0] != '/' ) path = `/${path}`;
