@@ -35,7 +35,7 @@ function mapDispatchToProps(dispatch) {
       // TODO: replace this with standard api requests
       dispatch({type: 'matches:load'})
       api('/matches', {accessToken: accessToken}).then((r) => {
-        dispatch({type: 'matches:load:yes', matches: r.matches})
+        dispatch({type: 'matches:load:yes', matches: r.matches.filter(m => m.user)})
       }).catch((err) => {
         dispatch({type: 'matches:load:no', error: err.message || err})
       })
